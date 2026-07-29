@@ -187,8 +187,8 @@ const byId = {}; SCHOOLS.forEach(s=>byId[s.id]=s);
 // One-time setup: create a free Supabase project, run supabase-schema.sql,
 // enable the providers, host this file, then paste your two values here.
 // Full walkthrough: SETUP-AUTH.md
-const SUPABASE_URL = "";       // e.g. "https://abcdefgh.supabase.co"
-const SUPABASE_ANON_KEY = "";  // the "anon public" API key
+const SUPABASE_URL = "https://akktntuteharoczygfku.supabase.co";       // e.g. "https://abcdefgh.supabase.co"
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3RudHV0ZWhhcm9jenlnZmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODEwNjAsImV4cCI6MjEwMDg1NzA2MH0.OyEPZQKGsf9tl73sNabNec-mH21i3SweYBNhPy0LXJA";  // the "anon public" API key
 const cloudConfigured = () => SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
 let sb = null, cloudUser = null, cloudData = null, cloudTimer = null;
 
