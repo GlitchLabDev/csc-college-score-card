@@ -47,6 +47,13 @@ main{flex:1;position:relative;overflow:hidden}
 #filters .row{display:flex;gap:8px}
 .chip{display:inline-block;padding:5px 10px;margin:3px 3px 0 0;border:1px solid var(--line);border-radius:999px;font-size:12px;cursor:pointer;color:var(--dim)}
 .chip.on{background:var(--acc);color:#0f172a;border-color:var(--acc);font-weight:700}
+details.sportdd{border:1px solid var(--line);border-radius:10px;margin:6px 0;background:var(--panel2)}
+details.sportdd summary{padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.sportdd summary::-webkit-details-marker{display:none}
+details.sportdd summary:after{content:'▾';color:var(--dim);transition:transform .15s}
+details.sportdd[open] summary:after{transform:rotate(180deg)}
+details.sportdd summary .cnt{color:var(--acc);font-size:11px;font-weight:700;margin-left:auto;padding-right:8px}
+details.sportdd > div{padding:0 10px 10px}
 .btn{display:inline-block;padding:9px 14px;border:none;border-radius:10px;background:var(--acc);color:#0f172a;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;text-align:center}
 .btn.sec{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
 .btn.danger{background:var(--red);color:#fff}
@@ -107,6 +114,8 @@ a.schoollink:hover{color:var(--acc)}
 .autherr{color:var(--red);font-size:12px;min-height:16px;margin-top:6px}
 .profform label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-top:8px;display:block}
 .homechip{background:var(--panel2);border:1px dashed var(--acc);border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:13px}
+.homechip .row{display:flex;gap:6px}
+.homechip input{flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13px;min-width:0}
 #userbadge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
 .ordivider{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin:14px 0 10px}
 .ordivider:before,.ordivider:after{content:'';flex:1;height:1px;background:var(--line)}
@@ -114,6 +123,22 @@ a.schoollink:hover{color:var(--acc)}
 .oauthbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:#fff;color:#1f2937;font-size:13px;font-weight:600;cursor:pointer}
 .oauthbtn:active{transform:scale(.97)}
 @media(min-width:760px){nav{max-width:640px}nav button{font-size:14px}}
+@media print{
+  body{background:#fff;color:#000}
+  header,nav,footer.note,#authwrap,.noprint{display:none!important}
+  main,.view{position:static!important;overflow:visible!important}
+  .view{display:none!important}
+  #view-score{display:block!important}
+  .scwrap{padding:0;overflow:visible}
+  table.sc{font-size:9px;width:100%}
+  table.sc th,table.sc td{border:1px solid #999;color:#000;background:#fff!important;position:static!important}
+  table.sc td.metric,table.sc th{background:#eee!important;font-weight:700}
+  table.sc td.best{outline:2px solid #16a34a}
+  table.sc input[type=range]{display:none}
+  table.sc .total{color:#000}
+  textarea.notes{border:none;background:#fff;color:#000}
+  h2.pagetitle{color:#000}
+}
 </style>
 </head>
 <body>
@@ -136,11 +161,11 @@ a.schoollink:hover{color:var(--acc)}
     <div id="count"></div>
     <button id="filterBtn">⚙︎ Filters</button>
     <div id="legend">
-      <div><i style="background:var(--d1)"></i>NCAA D-I softball</div>
-      <div><i style="background:var(--d2)"></i>NCAA D-II softball</div>
-      <div><i style="background:var(--d3)"></i>NCAA D-III softball</div>
+      <div><i style="background:var(--d1)"></i>NCAA D-I</div>
+      <div><i style="background:var(--d2)"></i>NCAA D-II</div>
+      <div><i style="background:var(--d3)"></i>NCAA D-III</div>
       <div><i style="background:#a855f7"></i>NCAA (div. unlisted)</div>
-      <div><i style="background:var(--none)"></i>No NCAA softball</div>
+      <div><i style="background:var(--none)"></i>No NCAA data on file</div>
     </div>
     <div id="filters"></div>
     <div id="sheet"></div>
@@ -162,13 +187,13 @@ a.schoollink:hover{color:var(--acc)}
     <button class="btn sec" onclick="doSignup()">Create account</button>
     <div class="ordivider"><span>or continue with</span></div>
     <div class="oauthrow">
-      <button class="oauthbtn" onclick="oauth('google')" title="Google">
+      <button class="oauthbtn" data-p="google" onclick="oauth('google')" title="Google">
         <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6C44.1 38 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.6-5.7l-7.7-6c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
         Google</button>
-      <button class="oauthbtn" onclick="oauth('azure')" title="Microsoft / Outlook">
+      <button class="oauthbtn" data-p="azure" onclick="oauth('azure')" title="Microsoft / Outlook">
         <svg width="16" height="16" viewBox="0 0 23 23"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
         Outlook</button>
-      <button class="oauthbtn" onclick="oauth('apple')" title="Apple">
+      <button class="oauthbtn" data-p="apple" onclick="oauth('apple')" title="Apple">
         <svg width="16" height="18" viewBox="0 0 384 512"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
         Apple</button>
     </div>
@@ -187,8 +212,9 @@ const byId = {}; SCHOOLS.forEach(s=>byId[s.id]=s);
 // One-time setup: create a free Supabase project, run supabase-schema.sql,
 // enable the providers, host this file, then paste your two values here.
 // Full walkthrough: SETUP-AUTH.md
-const SUPABASE_URL = "https://akktntuteharoczygfku.supabase.co";       // e.g. "https://abcdefgh.supabase.co"
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3RudHV0ZWhhcm9jenlnZmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODEwNjAsImV4cCI6MjEwMDg1NzA2MH0.OyEPZQKGsf9tl73sNabNec-mH21i3SweYBNhPy0LXJA";  // the "anon public" API key
+const SUPABASE_URL = "https://akktntuteharoczygfku.supabase.co";
+   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3RudHV0ZWhhcm9jenlnZmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODEwNjAsImV4cCI6MjEwMDg1NzA2MH0.OyEPZQKGsf9tl73sNabNec-mH21i3SweYBNhPy0LXJA";
+const OAUTH_PROVIDERS = ['google'];  // show these sign-in buttons: 'google', 'azure' (Outlook), 'apple'
 const cloudConfigured = () => SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
 let sb = null, cloudUser = null, cloudData = null, cloudTimer = null;
 
@@ -317,18 +343,21 @@ function useHome(){ return store.get('useHome', true) && profile() && profile().
 
 // ---------- profile / account ----------
 let geocodeResult = null;
+async function geocode(a){
+  try{
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q='+encodeURIComponent(a));
+    const j = await r.json();
+    return j[0] ? {lat:+j[0].lat, lon:+j[0].lon, label:j[0].display_name} : null;
+  }catch(e){ return null; }
+}
 async function geocodeAddress(){
   const a = document.getElementById('p-address').value.trim();
   const out = document.getElementById('geo-out');
   if(!a){ out.textContent='Enter an address first.'; return; }
   out.textContent='Looking up…';
-  try{
-    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q='+encodeURIComponent(a));
-    const j = await r.json();
-    if(j[0]){ geocodeResult={lat:+j[0].lat, lon:+j[0].lon, label:j[0].display_name};
-      out.textContent='📍 '+j[0].display_name; }
-    else{ geocodeResult=null; out.textContent='Address not found — try adding city & state.'; }
-  }catch(e){ geocodeResult=null; out.textContent='Lookup failed (offline?). You can still save; verify later.'; }
+  const r = await geocode(a);
+  geocodeResult = r;
+  out.textContent = r ? '📍 '+r.label : 'Address not found — try adding city & state (or check connection).';
 }
 async function saveProfile(){
   const g = id=>document.getElementById(id).value.trim();
@@ -341,6 +370,9 @@ async function saveProfile(){
     lon: geocodeResult?geocodeResult.lon:(keepGeo?old.lon:null),
     label: geocodeResult?geocodeResult.label:(keepGeo?old.label:null) });
   renderAccount(); renderUserBadge();
+  const btn = [...document.querySelectorAll('#accwrap .btn')].find(b=>b.textContent.includes('Save'));
+  if(btn){ btn.textContent='✓ Profile saved'; btn.style.background='#22c55e';
+    setTimeout(()=>{ btn.textContent='Save profile'; btn.style.background=''; }, 2000); }
 }
 function renderAccount(){
   const w = document.getElementById('accwrap');
@@ -384,7 +416,7 @@ function divColor(s){
 function divBadge(s){
   if(!s.sb) return '';
   const d = s.sb.div || 'NCAA';
-  return `<span class="badge b${d}">${d==='NCAA'?'NCAA':d+' Softball'}</span>`;
+  return `<span class="badge b${d}">${d==='NCAA'?'NCAA':'NCAA '+d}</span>`;
 }
 function esc(t){return String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
@@ -405,9 +437,82 @@ function nameLink(s,cls){
   return u ? `<a class="${cls||''}" href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(s.n)}</a>` : esc(s.n);
 }
 
+// ---------- sports catalog ----------
+const SPORTS=[
+ {k:'m-baseball',l:"Baseball",g:'M',e:'⚾',n:'baseball'},
+ {k:'m-basketball',l:"Basketball",g:'M',e:'🏀',n:'mens-basketball'},
+ {k:'m-xc',l:"Cross Country",g:'M',e:'🏃',n:'mens-track-and-field'},
+ {k:'m-football',l:"Football",g:'M',e:'🏈',n:'football'},
+ {k:'m-golf',l:"Golf",g:'M',e:'⛳',n:'mens-golf'},
+ {k:'m-hockey',l:"Ice Hockey",g:'M',e:'🏒',n:'mens-hockey'},
+ {k:'m-lax',l:"Lacrosse",g:'M',e:'🥍',n:'mens-lacrosse'},
+ {k:'m-soccer',l:"Soccer",g:'M',e:'⚽',n:'mens-soccer'},
+ {k:'m-swim',l:"Swimming & Diving",g:'M',e:'🏊',n:'mens-swimming'},
+ {k:'m-tennis',l:"Tennis",g:'M',e:'🎾',n:'mens-tennis'},
+ {k:'m-track',l:"Track & Field",g:'M',e:'🏃',n:'mens-track-and-field'},
+ {k:'m-wrestling',l:"Wrestling",g:'M',e:'🤼',n:'mens-wrestling'},
+ {k:'w-basketball',l:"Basketball",g:'W',e:'🏀',n:'womens-basketball'},
+ {k:'w-beachvb',l:"Beach Volleyball",g:'W',e:'🏐',n:'beach-volleyball'},
+ {k:'w-xc',l:"Cross Country",g:'W',e:'🏃',n:'womens-track-and-field'},
+ {k:'w-fieldhockey',l:"Field Hockey",g:'W',e:'🏑',n:'field-hockey'},
+ {k:'w-golf',l:"Golf",g:'W',e:'⛳',n:'womens-golf'},
+ {k:'w-gym',l:"Gymnastics",g:'W',e:'🤸',n:null},
+ {k:'w-hockey',l:"Ice Hockey",g:'W',e:'🏒',n:'womens-hockey'},
+ {k:'w-lax',l:"Lacrosse",g:'W',e:'🥍',n:'womens-lacrosse'},
+ {k:'w-rowing',l:"Rowing",g:'W',e:'🚣',n:'womens-rowing'},
+ {k:'w-softball',l:"Softball",g:'W',e:'🥎',n:'softball'},
+ {k:'w-soccer',l:"Soccer",g:'W',e:'⚽',n:'womens-soccer'},
+ {k:'w-swim',l:"Swimming & Diving",g:'W',e:'🏊',n:'womens-swimming'},
+ {k:'w-tennis',l:"Tennis",g:'W',e:'🎾',n:'womens-tennis'},
+ {k:'w-track',l:"Track & Field",g:'W',e:'🏃',n:'womens-track-and-field'},
+ {k:'w-vb',l:"Volleyball",g:'W',e:'🏐',n:'womens-volleyball'},
+ {k:'c-bowling',l:"Bowling",g:'C',e:'🎳',n:null},
+ {k:'c-fencing',l:"Fencing",g:'C',e:'🤺',n:null},
+ {k:'c-rifle',l:"Rifle",g:'C',e:'🎯',n:null},
+ {k:'c-skiing',l:"Skiing",g:'C',e:'⛷️',n:null},
+ {k:'c-waterpolo',l:"Water Polo",g:'C',e:'🤽',n:'womens-water-polo'},
+ {k:'e-acro',l:"Acrobatics & Tumbling",g:'E',e:'🤸',n:null},
+ {k:'e-equestrian',l:"Equestrian",g:'E',e:'🏇',n:null},
+ {k:'e-stunt',l:"STUNT",g:'E',e:'📣',n:null},
+ {k:'e-tri',l:"Triathlon",g:'E',e:'🚴',n:null},
+];
+const SPORT_GROUPS={M:"Men's Sports",W:"Women's Sports",C:"Coed & Combined",E:"Emerging Sports (Women)"};
+function sportPhrase(sp){ return (sp.g==='M'?"men's ":sp.g==='W'&&sp.l!=='Softball'?"women's ":'')+sp.l; }
+function ncsaSportUrl(s,sp){
+  const st = STATE_NAMES[s.s];
+  if(!sp.n || !st) return lucky('ncsasports.org athletic scholarships '+sportPhrase(sp)+' '+s.n);
+  const slug = s.n.toLowerCase().replace(/&/g,'').replace(/[.,'()]/g,'').replace(/\s*-\s*/g,'--').replace(/\s+/g,'-');
+  return `https://www.ncsasports.org/athletic-scholarships/${sp.n}/${st}/${slug}`;
+}
+function sportCard(s,sp){
+  if(sp.k==='w-softball') return softballCard(s);
+  const q = sportPhrase(sp);
+  return `<div class="sbcard"><h4>${sp.e} ${esc(q.toUpperCase())}</h4>
+    <div class="actions">
+      <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+q+' recruiting questionnaire')}">Recruiting form</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+q+' camps clinics')}">Camps</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' athletics '+q+' roster')}">Team page</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${ncsaSportUrl(s,sp)}">NCSA ${esc(sp.l)}</a>
+    </div></div>`;
+}
+function softballCard(s){
+  if(!s.sb) return sportCard(s,{...SPORTS.find(x=>x.k==='w-softball'),k:'_generic'});
+  return `<div class="sbcard"><h4>🥎 SOFTBALL — ${esc(s.sb.div||'NCAA')}</h4>
+      <div><b>${esc(s.sb.team)}</b>${s.sb.conf?' · '+esc(s.sb.conf)+' Conference':''}</div>
+      ${s.sb.coach?`<div class="muted">Head coach: ${esc(s.sb.coach)}</div>`:''}
+      ${s.sb.w+s.sb.l>0?`<div class="muted">Record: ${s.sb.w}–${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}</div>`:''}
+      <div class="actions">
+        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball recruiting questionnaire')}">Recruiting form</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball camps clinics')}">Camps</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' athletics softball roster')}">Team page</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${ncsaUrl(s)}">NCSA softball</a>
+        ${ncaaUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${ncaaUrl(s)}">NCAA stats</a>`:''}
+      </div></div>`;
+}
+
 // ---------- filters ----------
 const STATES = [...new Set(SCHOOLS.map(s=>s.s))].sort();
-let F = { q:'', states:[], ctrl:'', softball:'', divs:[], setting:'', lvl:'', admMax:'', tuitMax:'', tuitType:'tout', enMin:'', enMax:'' };
+let F = { q:'', states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', admMax:'', tuitMax:'', tuitType:'tout', enMin:'', enMax:'' };
 
 function renderFilters(){
   const el = document.getElementById('filters');
@@ -416,11 +521,9 @@ function renderFilters(){
       <h3 style="margin:0">Filters</h3>
       <button class="btn sec" onclick="toggleFilters(false)">Done</button>
     </div>
-    <h3>Softball</h3>
-    <label><input type="radio" name="sb" value="" ${F.softball===''?'checked':''}> All schools</label>
-    <label><input type="radio" name="sb" value="yes" ${F.softball==='yes'?'checked':''}> Has NCAA softball</label>
-    <label><input type="radio" name="sb" value="no" ${F.softball==='no'?'checked':''}> No NCAA softball</label>
-    <div id="divchips" style="margin-top:4px">${['D-I','D-II','D-III'].map(d=>`<span class="chip ${F.divs.includes(d)?'on':''}" data-div="${d}">${d}</span>`).join('')}</div>
+    <h3>Division</h3>
+    <div id="divchips">${['D-I','D-II','D-III'].map(d=>`<span class="chip ${F.divs.includes(d)?'on':''}" data-div="${d}">${d}</span>`).join('')}</div>
+    <div class="muted" style="font-size:11px;margin-top:3px">None selected = all schools. Division from NCAA team data.</div>
     <h3>Type</h3>
     <select id="f-ctrl"><option value="">Public & Private</option><option value="Public" ${F.ctrl==='Public'?'selected':''}>Public</option><option value="Private nonprofit" ${F.ctrl==='Private nonprofit'?'selected':''}>Private nonprofit</option><option value="Private for-profit" ${F.ctrl==='Private for-profit'?'selected':''}>Private for-profit</option></select>
     <select id="f-lvl" style="margin-top:6px"><option value="">2-year & 4-year</option><option value="4-year" ${F.lvl==='4-year'?'selected':''}>4-year</option><option value="2-year" ${F.lvl==='2-year'?'selected':''}>2-year</option></select>
@@ -437,16 +540,31 @@ function renderFilters(){
     </div>
     <h3>Undergrad enrollment</h3>
     <div class="row"><input type="number" id="f-enmin" placeholder="min" value="${F.enMin}"><input type="number" id="f-enmax" placeholder="max" value="${F.enMax}"></div>
+    <h3>Athletics</h3>
+    ${['M','W','C','E'].map(g=>{
+      const cnt = F.sports.filter(k=>k.startsWith(g.toLowerCase()+'-')).length;
+      return `<details class="sportdd" ${cnt?'open':''}>
+        <summary>${SPORT_GROUPS[g]}<span class="cnt">${cnt?cnt+' selected':''}</span></summary>
+        <div>${SPORTS.filter(x=>x.g===g).map(sp=>`<span class="chip ${F.sports.includes(sp.k)?'on':''}" data-sp="${sp.k}">${sp.e} ${sp.l}</span>`).join('')}</div>
+      </details>`;
+    }).join('')}
+    <div class="muted" style="font-size:11px;margin-top:6px">Selected sports appear on every school's card with that program's recruiting links. Softball selections also filter the map.</div>
     <div style="margin-top:16px;display:flex;gap:8px">
       <button class="btn" onclick="applyFilters()">Apply</button>
       <button class="btn sec" onclick="clearFilters()">Clear all</button>
     </div>`;
   el.querySelectorAll('[data-st]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
   el.querySelectorAll('[data-div]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
+  el.querySelectorAll('[data-sp]').forEach(c=>c.onclick=()=>{
+    c.classList.toggle('on');
+    const dd = c.closest('details.sportdd');
+    const n = dd.querySelectorAll('[data-sp].on').length;
+    dd.querySelector('.cnt').textContent = n ? n+' selected' : '';
+  });
 }
 function applyFilters(){
   const el = document.getElementById('filters');
-  F.softball = el.querySelector('input[name=sb]:checked').value;
+  F.sports = [...el.querySelectorAll('[data-sp].on')].map(c=>c.dataset.sp);
   F.divs = [...el.querySelectorAll('[data-div].on')].map(c=>c.dataset.div);
   F.ctrl = el.querySelector('#f-ctrl').value;
   F.lvl = el.querySelector('#f-lvl').value;
@@ -459,7 +577,7 @@ function applyFilters(){
   F.enMax = el.querySelector('#f-enmax').value;
   toggleFilters(false); refresh();
 }
-function clearFilters(){ F = { q:F.q, states:[], ctrl:'', softball:'', divs:[], setting:'', lvl:'', admMax:'', tuitMax:'', tuitType:'tout', enMin:'', enMax:'' }; renderFilters(); refresh(); }
+function clearFilters(){ F = { q:F.q, states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', admMax:'', tuitMax:'', tuitType:'tout', enMin:'', enMax:'' }; renderFilters(); refresh(); }
 function toggleFilters(open){ document.getElementById('filters').classList.toggle('open', open); }
 document.getElementById('filterBtn').onclick = ()=>toggleFilters(true);
 
@@ -467,9 +585,8 @@ function filtered(){
   const q = F.q.toLowerCase();
   return SCHOOLS.filter(s=>{
     if(q && !(s.n.toLowerCase().includes(q) || s.c.toLowerCase().includes(q))) return false;
-    if(F.softball==='yes' && !s.sb) return false;
-    if(F.softball==='no' && s.sb) return false;
     if(F.divs.length && !(s.sb && F.divs.includes(s.sb.div))) return false;
+    if(F.sports.includes('w-softball') && !s.sb) return false;
     if(F.ctrl && s.ctrl!==F.ctrl) return false;
     if(F.lvl && s.lvl!==F.lvl) return false;
     if(F.setting && !(s.loc||'').startsWith(F.setting)) return false;
@@ -519,18 +636,10 @@ function openSheet(id){
       <div class="stat"><div class="k">Avg SAT</div><div class="v">${fmt.num(s.sat)}</div></div>
       <div class="stat"><div class="k">ACT midpoint</div><div class="v">${fmt.num(s.act)}</div></div>
     </div>
-    ${s.sb?`<div class="sbcard"><h4>🥎 Softball — ${esc(s.sb.div||'NCAA')}</h4>
-      <div><b>${esc(s.sb.team)}</b>${s.sb.conf?' · '+esc(s.sb.conf)+' Conference':''}</div>
-      ${s.sb.coach?`<div class="muted">Head coach: ${esc(s.sb.coach)}</div>`:''}
-      ${s.sb.w+s.sb.l>0?`<div class="muted">Record: ${s.sb.w}–${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}</div>`:''}
-      <div class="actions">
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball recruiting questionnaire')}">Recruiting form</a>
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball camps clinics')}">Camps</a>
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' athletics softball roster')}">Team page</a>
-        <a class="btn sec" target="_blank" rel="noopener" href="${ncsaUrl(s)}">NCSA softball</a>
-        ${ncaaUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${ncaaUrl(s)}">NCAA stats</a>`:''}
-      </div></div>`
-    :'<div class="muted" style="margin:8px 0">No NCAA softball program on record.</div>'}
+    ${(()=>{
+      const sel = F.sports.map(k=>SPORTS.find(x=>x.k===k)).filter(Boolean);
+      return sel.length ? sel.map(sp=>sportCard(s,sp)).join('') : '';
+    })()}
     <div class="actions">
       <button class="btn ${isFav?'danger':''}" onclick="toggleFav(${id});openSheet(${id})">${isFav?'★ Remove favorite':'☆ Save favorite'}</button>
       <button class="btn sec" onclick="toggleTrip(${id});openSheet(${id})">${inTrip?'🚗 Remove from trip':'🚗 Add to road trip'}</button>
@@ -614,8 +723,12 @@ function renderScore(){
     const v = favs[s.id].ratings[cat]??0;
     return `<td><input type="range" min="0" max="5" step="1" value="${v}" oninput="setRating(${s.id},'${cat}',this.value)"> <b id="rv-${s.id}-${cat.replace(/[^a-z]/gi,'')}">${v}</b>/5</td>`;
   }).join('')}</tr>`;
-  w.innerHTML = `<h2 class="pagetitle">🏆 Scorecard — ${ss.length} school${ss.length>1?'s':''}</h2>
-  <div class="muted" style="margin-bottom:8px">Green outline = best value in row. Rate each category 0–5; totals update live.</div>
+  w.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <h2 class="pagetitle" style="padding:0;flex:1">🏆 Scorecard — ${ss.length} school${ss.length>1?'s':''}</h2>
+    <button class="btn sec noprint" onclick="exportExcel()">⬇ Excel</button>
+    <button class="btn sec noprint" onclick="exportPDF()">🖨 PDF</button>
+  </div>
+  <div class="muted noprint" style="margin:6px 0 8px">Green outline = best value in row. Rate each category 0–5; totals update live. PDF uses your browser's print dialog — choose "Save as PDF".</div>
   <table class="sc">
     <tr><th class="metric">Metric</th>${ss.map(s=>`<th>${nameLink(s,'schoollink')}</th>`).join('')}</tr>
     ${row('Location', s=>`${esc(s.c)}, ${s.s}<br><span class="muted">${s.loc||''}</span>`)}
@@ -632,6 +745,39 @@ function renderScore(){
   </table>`;
 }
 function totalFor(id){ return Object.values(favs[id].ratings).reduce((a,b)=>a+(+b),0) + ' / ' + RATE_CATS.length*5; }
+function scorecardRows(){
+  const ids = Object.keys(favs).map(Number).filter(id=>byId[id]);
+  const ss = ids.map(id=>byId[id]);
+  const rows = [['Metric', ...ss.map(s=>s.n)]];
+  rows.push(['Location', ...ss.map(s=>s.c+', '+s.s+(s.loc?' ('+s.loc+')':''))]);
+  rows.push(['Type', ...ss.map(s=>s.ctrl+' · '+s.lvl)]);
+  rows.push(['Acceptance rate', ...ss.map(s=>s.adm!=null?Math.round(s.adm*1000)/10+'%':'—')]);
+  rows.push(['Avg SAT', ...ss.map(s=>s.sat??'—')]);
+  rows.push(['ACT midpoint', ...ss.map(s=>s.act??'—')]);
+  rows.push(['Undergrad enrollment', ...ss.map(s=>s.en??'—')]);
+  rows.push(['In-state tuition', ...ss.map(s=>s.tin??'—')]);
+  rows.push(['Out-of-state tuition', ...ss.map(s=>s.tout??'—')]);
+  rows.push(['Softball', ...ss.map(s=>s.sb?`${s.sb.div||'NCAA'}${s.sb.conf?' · '+s.sb.conf:''}${s.sb.coach?' · Coach '+s.sb.coach:''}${s.sb.w+s.sb.l>0?` · ${s.sb.w}-${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}`:''}`:'—')]);
+  RATE_CATS.forEach(c=>rows.push([c+' (my rating, 0-5)', ...ss.map(s=>favs[s.id].ratings[c]??0)]));
+  rows.push(['MY TOTAL', ...ss.map(s=>totalFor(s.id))]);
+  rows.push(['Notes', ...ss.map(s=>favs[s.id].notes||'')]);
+  return rows;
+}
+async function exportExcel(){
+  if(!window.XLSX){
+    await new Promise(res=>{ const t=document.createElement('script');
+      t.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      t.onload=res; t.onerror=res; document.head.appendChild(t); });
+  }
+  if(!window.XLSX){ alert('Could not load the Excel library — check your connection.'); return; }
+  const rows = scorecardRows();
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:26}, ...rows[0].slice(1).map(()=>({wch:32}))];
+  XLSX.utils.book_append_sheet(wb, ws, 'Scorecard');
+  XLSX.writeFile(wb, 'CSC-Scorecard.xlsx');
+}
+function exportPDF(){ window.print(); }
 function setRating(id,cat,v){
   favs[id].ratings[cat]=+v; store.set('favs',favs);
   document.getElementById('rv-'+id+'-'+cat.replace(/[^a-z]/gi,'')).textContent=v;
@@ -646,13 +792,13 @@ function hav(a,b){
   return 2*R*Math.asin(Math.sqrt(x));
 }
 function optimizeTrip(){
-  if(trip.length<3 && !useHome()) return renderTrip();
+  const {st} = endpointPts();
+  if(trip.length<3 && !st) return renderTrip();
   const pts = trip.map(id=>byId[id]);
-  const p = profile();
-  // when home is set, order stops nearest-neighbor starting from home
-  const start = useHome() ? {lat:p.lat,lon:p.lon} : pts[0];
-  const rest = useHome() ? pts.slice() : pts.slice(1);
-  const order = useHome() ? [] : [pts[0]];
+  // order stops nearest-neighbor from the start point (custom, home, or first stop)
+  const start = st || pts[0];
+  const rest = st ? pts.slice() : pts.slice(1);
+  const order = st ? [] : [pts[0]];
   let cur = start;
   while(rest.length){
     let bi=0,bd=Infinity;
@@ -665,15 +811,27 @@ function moveStop(i,d){
   const j=i+d; if(j<0||j>=trip.length) return;
   [trip[i],trip[j]]=[trip[j],trip[i]]; store.set('trip',trip); renderTrip();
 }
+function endpointPts(){
+  const p = profile();
+  const home = (useHome() && p && p.lat!=null) ? {lat:p.lat, lon:p.lon, n:'🏠 Home', c:(p.address||'').split(',')[0], s:'', home:true} : null;
+  const mk = (r,ic)=> r ? {lat:r.lat, lon:r.lon, n:ic+' '+r.label.split(',')[0], c:r.label.split(',').slice(1,3).join(',').trim(), s:'', home:true} : null;
+  return { st: mk(store.get('tripStart',null),'📍') || home, en: mk(store.get('tripEnd',null),'🏁') || home };
+}
 function tripPoints(){
   const pts = trip.map(id=>byId[id]);
-  const p = profile();
-  if(useHome() && pts.length){
-    const home = {lat:p.lat, lon:p.lon, n:'🏠 Home', c:(p.address||'').split(',')[0], s:'', home:true};
-    return [home, ...pts, home];
-  }
-  return pts;
+  if(!pts.length) return pts;
+  const {st,en} = endpointPts();
+  return [...(st?[st]:[]), ...pts, ...(en?[en]:[])];
 }
+async function setTripPoint(which){
+  const inp = document.getElementById(which==='start'?'t-start':'t-end');
+  const a = inp.value.trim(); if(!a) return;
+  inp.placeholder='Looking up…'; inp.value='';
+  const r = await geocode(a);
+  if(!r){ inp.value=a; inp.placeholder=''; alert('Address not found — try adding city & state.'); return; }
+  store.set(which==='start'?'tripStart':'tripEnd', r); renderTrip();
+}
+function clearTripPoint(w){ store.set(w==='start'?'tripStart':'tripEnd', null); renderTrip(); }
 function gmapsUrl(){
   const pts = tripPoints();
   const c = p=>p.lat+','+p.lon;
@@ -683,8 +841,8 @@ function gmapsUrl(){
 }
 async function drawRoute(){
   if(routeLayer){map.removeLayer(routeLayer); routeLayer=null;}
-  if(trip.length<2 && !(useHome()&&trip.length)) return;
   const pts = tripPoints();
+  if(pts.length<2) return;
   try{
     const coords = pts.map(p=>p.lon+','+p.lat).join(';');
     const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`);
@@ -707,19 +865,33 @@ function renderTrip(){
   const w = document.getElementById('tripwrap');
   if(!trip.length){ w.innerHTML = `<div class="empty">No stops yet.<br>Tap 🚗 on any school to build a campus-visit road trip.</div>`; return; }
   const p = profile(), hasHome = p && p.lat!=null;
+  const {st,en} = endpointPts();
+  const stC = store.get('tripStart',null), enC = store.get('tripEnd',null);
   const all = tripPoints();
   let mi=0; for(let i=1;i<all.length;i++) mi+=hav(all[i-1],all[i]);
-  const homeRow = txt=>`<div class="tripstop" style="border-style:dashed"><b>🏠</b><span class="n">${txt}<br><span class="muted">${esc(p&&p.address||'')}</span></span></div>`;
+  const epRow = (pt,lbl)=>`<div class="tripstop" style="border-style:dashed"><b>${lbl==='Start'?'📍':'🏁'}</b><span class="n">${lbl}: ${esc(pt.n.replace(/^..\s*/,''))}<br><span class="muted">${esc(pt.home&&pt.n.includes('Home')?(p&&p.address||''):pt.c)}</span></span></div>`;
   w.innerHTML = `<h2 class="pagetitle">🚗 Road trip — ${trip.length} stop${trip.length>1?'s':''}</h2>
-    ${hasHome
-      ? `<div class="homechip"><label style="margin:0;cursor:pointer"><input type="checkbox" ${useHome()?'checked':''} onchange="store.set('useHome',this.checked);renderTrip()"> Start & end at home</label></div>`
-      : `<div class="homechip">Add your home address in <a href="#" onclick="switchView('account');return false" style="color:var(--acc)">👤 Account</a> to make trips start and end at your door.</div>`}
+    <div class="homechip">
+      <div class="row" style="margin-bottom:6px">
+        <input id="t-start" placeholder="${stC?'':'Start address (optional)'}" value="">
+        <button class="btn sec" onclick="setTripPoint('start')">Set start</button>
+        ${stC?`<button class="btn sec" onclick="clearTripPoint('start')">✕</button>`:''}
+      </div>
+      <div class="row" style="margin-bottom:6px">
+        <input id="t-end" placeholder="${enC?'':'End address (optional)'}" value="">
+        <button class="btn sec" onclick="setTripPoint('end')">Set end</button>
+        ${enC?`<button class="btn sec" onclick="clearTripPoint('end')">✕</button>`:''}
+      </div>
+      ${hasHome
+        ? `<label style="margin:0;cursor:pointer;font-size:13px"><input type="checkbox" ${useHome()?'checked':''} onchange="store.set('useHome',this.checked);renderTrip()"> Use 🏠 Home when no custom start/end is set</label>`
+        : `<span class="muted" style="font-size:12px">Tip: add your home address in <a href="#" onclick="switchView('account');return false" style="color:var(--acc)">👤 Account</a> to default trips to your door.</span>`}
+    </div>
     <div class="muted" id="tripstats" style="margin-bottom:10px">${all.length>1?`~${Math.round(mi).toLocaleString()} mi round the route (straight-line)`:''}</div>
-    ${useHome()?homeRow('Start: Home'):''}
+    ${st?epRow(st,'Start'):''}
     ${trip.map(id=>byId[id]).map((pt,i)=>`<div class="tripstop"><b>${i+1}.</b><span class="n">${esc(pt.n)}<br><span class="muted">${esc(pt.c)}, ${pt.s}</span></span>
       <button onclick="moveStop(${i},-1)">↑</button><button onclick="moveStop(${i},1)">↓</button>
       <button onclick="toggleTrip(${pt.id})">✕</button></div>`).join('')}
-    ${useHome()?homeRow('Finish: Home'):''}
+    ${en?epRow(en,'Finish'):''}
     <div class="actions">
       <button class="btn" onclick="switchView('map');setTimeout(drawRoute,80)">Show route on map</button>
       <button class="btn sec" onclick="optimizeTrip()">Optimize order</button>
@@ -766,6 +938,8 @@ function refreshLists(){
 function refresh(){ refreshMap(filtered()); refreshLists(); }
 
 renderFilters();
+document.querySelectorAll('.oauthbtn').forEach(b=>{ if(!OAUTH_PROVIDERS.includes(b.dataset.p)) b.style.display='none'; });
+document.querySelector('.ordivider').style.display = OAUTH_PROVIDERS.length ? '' : 'none';
 renderAuthGate();
 renderUserBadge();
 refresh();
