@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Sources — My University View</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🎓</text></svg>'>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--line:#334155;--text:#e2e8f0;--dim:#94a3b8;--acc:#facc15}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:6vh 6vw}
+.logo{font-weight:800;font-size:18px;margin-bottom:30px}
+.logo span{color:var(--acc)}
+.logo a{color:var(--text);text-decoration:none}
+h1{font-size:30px;margin-bottom:4px}
+.date{color:var(--dim);font-size:13px;margin-bottom:30px}
+h3{font-size:16px;margin:24px 0 4px}
+p{color:var(--text);font-size:15px;margin-bottom:8px}
+.src{color:var(--dim);font-size:14px;margin-bottom:14px}
+a{color:var(--acc)}
+footer{color:var(--dim);font-size:12px;margin-top:50px;border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--panel2:#eef2f7;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><a href="./">🎓 My <span>University View</span></a></div>
+
+  <h1>Data Sources</h1>
+  <div class="date">Glitch Labs · Updated July 2026</div>
+
+  <p>My University View is built on official, primarily governmental data. These are the sources powering the App. Figures are historical by nature — always verify details with each institution (see our <a href="disclaimer.html">Disclaimer</a>).</p>
+
+  <h3><a href="https://collegescorecard.ed.gov/" target="_blank" rel="noopener">College Scorecard</a> — US Department of Education</h3>
+  <div class="src">Our primary source: the list of accredited colleges and their tuition, acceptance rates, enrollment, test scores, campus settings, and fields of study.</div>
+
+  <h3><a href="https://nces.ed.gov/ipeds/" target="_blank" rel="noopener">Integrated Postsecondary Education Data System (IPEDS)</a> — National Center for Education Statistics (NCES)</h3>
+  <div class="src">The federal survey system underlying College Scorecard's institution-level data.</div>
+
+  <h3>NCAA athletics data</h3>
+  <div class="src">Softball programs, conferences, coaches, and records compiled from NCAA public statistics (via the sportsdataverse open-data project); division listings cross-referenced with <a href="https://www.ncsasports.org/division-1-colleges" target="_blank" rel="noopener">NCSA College Recruiting's</a> published D-I/D-II/D-III/NAIA college lists.</div>
+
+  <h3><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> &amp; <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a></h3>
+  <div class="src">Base maps, geocoding (Nominatim), and driving routes (OSRM) for the map and road-trip features.</div>
+
+  <h3><a href="https://www.nacubo.org/" target="_blank" rel="noopener">NACUBO Tuition Discounting Study</a></h3>
+  <div class="src">Context for our tuition guidance: average institutional discount rates at private colleges.</div>
+
+  <p style="margin-top:26px">Spot an error in our data? <a href="contact.html">Tell us</a> — corrections make the App better for every family.</p>
+
+  <footer>© <span id="yr"></span> Glitch Labs · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="disclaimer.html">Disclaimer</a> · <a href="contact.html">Contact</a> · <a href="./">Back to My University View</a></footer>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
