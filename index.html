@@ -384,7 +384,7 @@ const OAUTH_PROVIDERS = ['google'];
 // "Auto-find emails" (temporarily shelved — autoFind() + find-emails Edge Function stay ready; re-add the button in Communicate to restore)
 const AUTOFIND_ENABLED = () => false;
 // ---------- subscription (Stripe) — dormant until enabled; see SETUP-STRIPE.md ----------
-const PREMIUM_ENABLED = true;         // paywall LIVE (set false to make everything free again)
+const PREMIUM_ENABLED = false;        // paywall OFF while Stripe links are down — flip to true to re-enable
 const STRIPE_LINK_MONTHLY = "https://buy.stripe.com/00w7sEbdh30gf6xfqL6AM00";   // $4.99/month
 const STRIPE_LINK_ANNUAL  = "https://buy.stripe.com/eVq28kbdh30g9Md5Qb6AM01";   // $29.99/year
 const STRIPE_PORTAL_LINK  = "https://billing.stripe.com/p/login/00w7sEbdh3Ogf6xfqL6AM00"; // manage/cancel
