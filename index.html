@@ -27,9 +27,9 @@
 </script>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🎓</text></svg>'>
 <link rel="apple-touch-icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%230f172a"/><text x="50" y="72" font-size="60" text-anchor="middle">🎓</text></svg>'>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<link rel="stylesheet" href="libs/leaflet.css">
+<link rel="stylesheet" href="libs/MarkerCluster.css">
+<link rel="stylesheet" href="libs/MarkerCluster.Default.css">
 <style>
 :root{--bg:#0f172a;--panel:#1e293b;--panel2:#273449;--line:#334155;--text:#e2e8f0;--dim:#94a3b8;--acc:#facc15;--d1:#eab308;--d2:#3b82f6;--d3:#22c55e;--none:#64748b;--red:#ef4444;
 --glass:rgba(30,41,59,.92);--overlay:rgba(15,23,42,.96)}
@@ -365,8 +365,8 @@ a.schoollink:hover{color:var(--acc)}
 </div>
 <footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · NCAA softball 2024-25 · Verify details with each school<br>
 <span class="credit">Created by Glitch Labs © <span id="yr"></span></span> · <a href="#" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="terms.html" style="color:var(--dim)">Terms</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="contact.html" style="color:var(--dim)">Contact</a></footer>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="libs/leaflet.js"></script>
+<script src="libs/leaflet.markercluster.js"></script>
 <script src="db.js"></script>
 <script>
 const DB = window.__DBDATA;   // college database — loaded from db.js (see build); keeps this page small & fast
@@ -384,7 +384,7 @@ const OAUTH_PROVIDERS = ['google'];
 // "Auto-find emails" (temporarily shelved — autoFind() + find-emails Edge Function stay ready; re-add the button in Communicate to restore)
 const AUTOFIND_ENABLED = () => false;
 // ---------- subscription (Stripe) — dormant until enabled; see SETUP-STRIPE.md ----------
-const PREMIUM_ENABLED = false;        // paywall OFF while Stripe links are down — flip to true to re-enable
+const PREMIUM_ENABLED = true;         // paywall LIVE (set false to make everything free again)
 const STRIPE_LINK_MONTHLY = "https://buy.stripe.com/00w7sEbdh30gf6xfqL6AM00";   // $4.99/month
 const STRIPE_LINK_ANNUAL  = "https://buy.stripe.com/eVq28kbdh30g9Md5Qb6AM01";   // $29.99/year
 const STRIPE_PORTAL_LINK  = "https://billing.stripe.com/p/login/00w7sEbdh3Ogf6xfqL6AM00"; // manage/cancel
@@ -469,7 +469,7 @@ async function initCloud(){
   if(!cloudConfigured() || sb) return;
   if(!window.supabase){
     await new Promise((res)=>{ const t=document.createElement('script');
-      t.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'; t.onload=res; t.onerror=res;
+      t.src='libs/supabase.js'; t.onload=res; t.onerror=res;
       document.head.appendChild(t); });
   }
   if(!window.supabase) return;
@@ -1405,7 +1405,7 @@ async function exportExcel(){
   if(!gate('export')) return;
   if(!window.XLSX){
     await new Promise(res=>{ const t=document.createElement('script');
-      t.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      t.src='libs/xlsx.full.min.js';
       t.onload=res; t.onerror=res; document.head.appendChild(t); });
   }
   if(!window.XLSX){ alert('Could not load the Excel library — check your connection.'); return; }
