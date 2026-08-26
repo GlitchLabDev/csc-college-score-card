@@ -211,6 +211,10 @@ a.schoollink:hover{color:var(--acc)}
 .authbox h2{margin-bottom:4px}.authbox .muted{margin-bottom:14px;display:block}
 .authbox input, .profform input, .profform select{width:100%;padding:10px;margin:5px 0;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px}
 .authbox .btn{width:100%;margin-top:8px}
+/* access-code row: input takes the space, Apply stays its natural size (overrides .authbox .btn) */
+.coderow{display:flex;gap:8px;align-items:stretch;margin-top:4px}
+.coderow input{flex:1 1 auto;min-width:0;width:auto;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:15px;letter-spacing:.5px}
+.coderow .btn{width:auto;flex:0 0 auto;margin-top:0;padding:11px 20px;white-space:nowrap}
 .autherr{color:var(--red);font-size:12px;min-height:16px;margin-top:6px}
 .profform label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-top:8px;display:block}
 .homechip{background:var(--panel2);border:1px dashed var(--acc);border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:13px}
@@ -449,7 +453,10 @@ function showPaywall(){
     ${STRIPE_LINK_ANNUAL?`<a class="btn" style="width:100%;margin-top:8px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_ANNUAL}">$29.99 / year — save 50%</a>`:''}
     ${STRIPE_LINK_MONTHLY?`<div class="muted" style="font-size:11px;margin-top:8px">At checkout, use the same email you sign in with here — Premium unlocks automatically right after payment. Cancel anytime from Account → Manage subscription.</div>`:''}
     <div class="ordivider"><span>have an access code?</span></div>
-    <div style="display:flex;gap:6px"><input id="pw-code" placeholder="Access code" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)"><button class="btn sec" onclick="redeemCode()">Apply</button></div>
+    <div class="coderow">
+      <input id="pw-code" placeholder="Enter access code" autocapitalize="characters" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')redeemCode()">
+      <button class="btn sec" onclick="redeemCode()">Apply</button>
+    </div>
     <div class="autherr" id="pw-err"></div>
   </div>`;
   o.style.display='flex';
