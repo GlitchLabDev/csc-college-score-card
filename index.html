@@ -58,6 +58,9 @@ main{flex:1;position:relative;overflow:hidden}
 #view-map{overflow:hidden}
 #map{position:absolute;inset:0;background:var(--bg)}
 #filterBtn{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+/* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
+   because the filter is scoped to the tile pane. Keeps one keyless tile source for both themes. */
+body:not(.light) .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) saturate(.75)}
 #legend{position:absolute;bottom:24px;left:12px;z-index:1000;background:var(--glass);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:11px;line-height:1.9}
 #legendToggle{display:none;background:none;border:none;color:var(--text);font:inherit;font-weight:700;cursor:pointer;padding:0}
 @media(max-width:640px){
@@ -381,6 +384,9 @@ const byId = {}; SCHOOLS.forEach(s=>byId[s.id]=s);
 const SUPABASE_URL = "https://akktntuteharoczygfku.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3RudHV0ZWhhcm9jenlnZmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODEwNjAsImV4cCI6MjEwMDg1NzA2MH0.OyEPZQKGsf9tl73sNabNec-mH21i3SweYBNhPy0LXJA";
 const OAUTH_PROVIDERS = ['google'];
+// Map tiles. OpenStreetMap standard needs no API key. To switch to CARTO/Stadia later,
+// sign up for a free key and paste their URL template here (must include {z}/{x}/{y}).
+const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 // "Auto-find emails" (temporarily shelved — autoFind() + find-emails Edge Function stay ready; re-add the button in Communicate to restore)
 const AUTOFIND_ENABLED = () => false;
 // ---------- subscription (Stripe) — dormant until enabled; see SETUP-STRIPE.md ----------
@@ -1700,7 +1706,9 @@ function applyTheme(t){
   const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content', t==='light'?'#f6f8fb':'#0f172a');
   const b=document.getElementById('themebtn'); if(b) b.textContent = t==='light'?'☀️':'🌙';
   if(tileLayerRef) map.removeLayer(tileLayerRef);
-  tileLayerRef = L.tileLayer('https://{s}.basemaps.cartocdn.com/'+(t==='light'?'light_all':'dark_all')+'/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(map);
+  // OpenStreetMap standard tiles — no API key required. Dark mode is applied by CSS filter
+  // on .leaflet-tile-pane (see stylesheet), so one tile source serves both themes.
+  tileLayerRef = L.tileLayer(TILE_URL,{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(map);
 }
 function toggleTheme(){
   const t = currentTheme()==='light' ? 'dark' : 'light';
