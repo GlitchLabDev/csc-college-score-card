@@ -398,6 +398,12 @@ const PREMIUM_ENABLED = true;         // paywall LIVE (set false to make everyth
 const STRIPE_LINK_MONTHLY = "https://buy.stripe.com/00w7sEbdh3Ogf6xfqL6AM00";   // $4.99/month
 const STRIPE_LINK_ANNUAL  = "https://buy.stripe.com/eVq28kbdh3Og9Md5Qb6AM01";   // $29.99/year
 const STRIPE_PORTAL_LINK  = "https://billing.stripe.com/p/login/00w7sEbdh3Ogf6xfqL6AM00"; // manage/cancel
+// ---------- iOS in-app purchase (RevenueCat → StoreKit); see SETUP-REVENUECAT.md ----------
+// Public SDK key from RevenueCat → Project settings → API keys → "Public app-specific" (appl_...).
+// Safe to ship in client code — it can only read offerings and start purchases.
+// Empty string = IAP off (web builds ignore this entirely).
+const REVENUECAT_IOS_KEY = "";
+const RC_ENTITLEMENT = "premium";   // must match the entitlement identifier in RevenueCat
 // FREE: map, filters, College List, full school pages. PREMIUM (everything interactive):
 const PREMIUM_FEATURES = ['favorites','top5','picks','trips','export','attachments'];
 // access codes unlock full Premium free (hashed; plaintexts in ACCESS-CODES.md)
@@ -411,9 +417,74 @@ const ACCESS_CODE_HASHES = [
  '0979df7280ecd2c0a1c07dcbe4335869dbb07ba91d472edb225236bdaf418436',
 ];
 
+// ---------- platform ----------
+const isNativeApp = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const isIOSApp    = () => isNativeApp() && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios';
+// On iOS, Apple requires purchases go through StoreKit — the Stripe buttons must not appear.
+const useIAP      = () => isIOSApp() && !!REVENUECAT_IOS_KEY;
+
+// ---------- in-app purchase (RevenueCat) ----------
+let rcActive = false;      // true when StoreKit reports an active "premium" entitlement
+let rcOffering = null;     // the current RevenueCat offering (its packages become the buy buttons)
+const RCPlugin = () => (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Purchases) || null;
+
+async function initIAP(){
+  if(!useIAP()) return;
+  const P = RCPlugin();
+  if(!P){ console.warn('RevenueCat plugin missing — run: npm i @revenuecat/purchases-capacitor && npx cap sync'); return; }
+  try{
+    await P.configure({ apiKey: REVENUECAT_IOS_KEY });
+    // Tie StoreKit purchases to the Supabase account so Premium follows the person to the website.
+    if(cloudUser && cloudUser.id) { try{ await P.logIn({ appUserID: cloudUser.id }); }catch(e){} }
+    try{ const o = await P.getOfferings(); rcOffering = (o && o.current) || null; }catch(e){}
+    await rcRefresh();
+  }catch(e){ console.warn('RevenueCat init failed', e); }
+}
+// Ask StoreKit whether this person currently owns Premium.
+async function rcRefresh(){
+  if(!useIAP()) return false;
+  const P = RCPlugin(); if(!P) return false;
+  const was = rcActive;
+  try{
+    const r = await P.getCustomerInfo();
+    const ent = r && r.customerInfo && r.customerInfo.entitlements && r.customerInfo.entitlements.active;
+    rcActive = !!(ent && ent[RC_ENTITLEMENT]);
+  }catch(e){ rcActive = false; }
+  if(rcActive !== was) refreshLists();
+  return rcActive;
+}
+async function buyPackage(i){
+  const P = RCPlugin();
+  const pkgs = (rcOffering && rcOffering.availablePackages) || [];
+  const pkg = pkgs[i];
+  if(!P || !pkg){ alert('The App Store is unavailable right now. Please try again in a moment.'); return; }
+  try{
+    await P.purchasePackage({ aPackage: pkg });
+    await rcRefresh();
+    closePaywall();
+    alert('🎉 Premium is active — the full suite is unlocked. Welcome aboard!');
+  }catch(e){
+    // Apple reports a user-initiated cancel as an error; that is not a failure worth alerting about.
+    if(e && (e.code === '1' || e.userCancelled || /cancel/i.test(e.message||''))) return;
+    const el = document.getElementById('pw-err');
+    if(el) el.textContent = 'That purchase did not go through. No charge was made.';
+  }
+}
+// Apple requires a visible Restore option for anyone reinstalling or on a second device.
+async function restorePurchases(){
+  const P = RCPlugin(); if(!P) return;
+  try{
+    await P.restorePurchases();
+    if(await rcRefresh()){ closePaywall(); alert('✅ Your subscription has been restored.'); }
+    else { const el=document.getElementById('pw-err'); if(el) el.textContent = 'No previous purchase found on this Apple ID.'; }
+  }catch(e){
+    const el=document.getElementById('pw-err'); if(el) el.textContent = 'Could not reach the App Store. Please try again.';
+  }
+}
+
 // ---------- premium gating ----------
 let subActive = false;   // true when the signed-in email has an active Stripe subscription (set by checkSub)
-function isPremium(){ return !PREMIUM_ENABLED || subActive || !!store.get('comp', null); }
+function isPremium(){ return !PREMIUM_ENABLED || subActive || rcActive || !!store.get('comp', null); }
 async function checkSub(){
   const was = subActive;
   subActive = false;
@@ -444,6 +515,36 @@ function gate(feature){
   if(!PREMIUM_ENABLED || !PREMIUM_FEATURES.includes(feature) || isPremium()) return true;
   showPaywall(); return false;
 }
+// The buy section differs by platform: StoreKit inside the iOS app (App Store rule 3.1.1),
+// Stripe links on the web. Prices on iOS come from Apple so they are always correct per storefront.
+function paywallBuyOptions(){
+  // NOTE: the branch is on isIOSApp(), not useIAP(). If the RevenueCat key were ever missing from
+  // an iOS build we must still never fall through to the Stripe buttons — that is a 3.1.1 rejection.
+  if(isIOSApp()){
+    const pkgs = (rcOffering && rcOffering.availablePackages) || [];
+    if(!pkgs.length) return `<div class="muted" style="font-size:12px;margin-top:14px">Connecting to the App Store…</div>`;
+    const btns = pkgs.map((p,i)=>{
+      const sp = (p.product && (p.product.priceString || p.product.price_string)) || '';
+      const yr = /ANNUAL|YEAR/i.test(p.packageType||p.identifier||'');
+      const per = yr ? ' / year' : /MONTH/i.test(p.packageType||p.identifier||'') ? ' / month' : '';
+      return `<button class="btn" style="width:100%;margin-top:${i?8:14}px;text-align:center" onclick="buyPackage(${i})">${esc(sp)}${per}</button>`;
+    }).join('');
+    // Guideline 3.1.2 requires the paywall itself to state the subscription name, its length,
+    // the price per period, and to carry working Terms of Use + Privacy Policy links.
+    return btns + `<div class="actions" style="margin-top:8px"><button class="btn sec" style="width:100%" onclick="restorePurchases()">Restore purchases</button></div>
+    <div class="muted" style="font-size:11px;margin-top:10px;line-height:1.5">
+      <b>My University View Premium</b> is an auto-renewing subscription, offered monthly (1 month) and yearly (1 year) at the prices shown above.
+      Payment is charged to your Apple ID at confirmation of purchase. It renews automatically unless auto-renew is turned off at least 24 hours
+      before the end of the current period; your account is charged for renewal within 24 hours before the period ends.
+      Manage or cancel anytime in Settings → Apple ID → Subscriptions.
+      <br><a href="https://www.myuniview.com/terms.html" target="_blank" rel="noopener">Terms of Use</a>
+      · <a href="https://www.myuniview.com/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+    </div>`;
+  }
+  return `${STRIPE_LINK_MONTHLY?`<a class="btn" style="width:100%;margin-top:14px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_MONTHLY}">$4.99 / month</a>`:''}
+    ${STRIPE_LINK_ANNUAL?`<a class="btn" style="width:100%;margin-top:8px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_ANNUAL}">$29.99 / year — save 50%</a>`:''}
+    ${STRIPE_LINK_MONTHLY?`<div class="muted" style="font-size:11px;margin-top:8px">At checkout, use the same email you sign in with here — Premium unlocks automatically right after payment. Cancel anytime from Account → Manage subscription.</div>`:''}`;
+}
 function showPaywall(){
   let o = document.getElementById('paywall');
   if(!o){ o=document.createElement('div'); o.id='paywall'; document.body.appendChild(o); }
@@ -452,21 +553,30 @@ function showPaywall(){
     <h2>⭐ Premium</h2>
     <span class="muted" style="display:block;margin:6px 0 12px">The map and every school's full profile are free. Premium unlocks your personal college workflow:</span>
     <div style="font-size:14px;line-height:2">⭐ Save unlimited favorites<br>✉️ Communicate — coach &amp; admissions outreach + 📒 communication log<br>🛣️ Road-trip planner with routes from home<br>🏆 Scorecard comparisons + ⬇ Excel &amp; PDF exports<br>👍 Top Picks — ranked final decisions<br>📷 Photos &amp; documents on your Scorecard</div>
-    ${STRIPE_LINK_MONTHLY?`<a class="btn" style="width:100%;margin-top:14px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_MONTHLY}">$4.99 / month</a>`:''}
-    ${STRIPE_LINK_ANNUAL?`<a class="btn" style="width:100%;margin-top:8px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_ANNUAL}">$29.99 / year — save 50%</a>`:''}
-    ${STRIPE_LINK_MONTHLY?`<div class="muted" style="font-size:11px;margin-top:8px">At checkout, use the same email you sign in with here — Premium unlocks automatically right after payment. Cancel anytime from Account → Manage subscription.</div>`:''}
-    <div class="ordivider"><span>have an access code?</span></div>
+    ${paywallBuyOptions()}
+    ${isIOSApp() ? '' : `<div class="ordivider"><span>have an access code?</span></div>
     <div class="coderow">
       <input id="pw-code" placeholder="Enter access code" autocapitalize="characters" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')redeemCode()">
       <button class="btn sec" onclick="redeemCode()">Apply</button>
-    </div>
+    </div>`}
     <div class="autherr" id="pw-err"></div>
   </div>`;
   o.style.display='flex';
+  // Offerings may not have loaded yet on a cold start — fetch, then redraw the buttons in place.
+  if(useIAP() && !rcOffering){
+    const P = RCPlugin();
+    if(P) P.getOfferings().then(r=>{
+      rcOffering = (r && r.current) || null;
+      const open = document.getElementById('paywall');
+      if(rcOffering && open && open.style.display !== 'none') showPaywall();
+    }).catch(()=>{});
+  }
 }
 function closePaywall(){ const o=document.getElementById('paywall'); if(o) o.style.display='none'; }
 async function redeemCode(){
-  const v = (document.getElementById('pw-code').value||'').trim().toUpperCase();
+  if(isIOSApp()) return;   // no code path inside the iOS app — App Store purchases only
+  const el = document.getElementById('pw-code');
+  const v = ((el && el.value)||'').trim().toUpperCase();
   if(!v) return;
   const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
   const h = [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
@@ -522,6 +632,11 @@ async function onCloudLogin(user){
   sessionStorage.removeItem('csc_guest');
   afterAuth();
   checkSub().then(()=>handleUpgradeReturn());
+  // Bind StoreKit purchases to this account so Premium bought on iPhone also works on the website.
+  if(useIAP()){
+    const P = RCPlugin();
+    if(P && user && user.id) P.logIn({appUserID:user.id}).then(rcRefresh).catch(()=>{});
+  }
 }
 function scheduleCloudSave(){
   clearTimeout(cloudTimer);
@@ -730,15 +845,27 @@ async function deleteAccount(){
     location.reload();
   }
 }
+// An App Store subscription can only be cancelled in iOS Settings — Apple rejects builds
+// that send subscribers to an external billing page instead.
+function manageSubHTML(){
+  if(rcActive || isIOSApp()){
+    return `<div class="actions"><a class="btn sec" href="itms-apps://apps.apple.com/account/subscriptions">Manage subscription</a></div>
+      <div class="muted" style="font-size:11px;margin-top:6px">Opens Settings → Apple ID → Subscriptions.</div>`;
+  }
+  if(STRIPE_PORTAL_LINK && (subActive || !store.get('comp',null))){
+    return `<div class="actions"><a class="btn sec" target="_blank" rel="noopener" href="${STRIPE_PORTAL_LINK}">Manage subscription</a></div>`;
+  }
+  return '';
+}
 function premiumCardHTML(){
   if(!PREMIUM_ENABLED) return '';
   return `<div class="card" style="cursor:default">
-    <h3 style="padding:0">⭐ Premium — ${isPremium() ? (subActive?'active (subscription)':(store.get('comp',null)?'active (access code)':'active')) : 'not active'}</h3>
+    <h3 style="padding:0">⭐ Premium — ${isPremium() ? (rcActive?'active (App Store)':(subActive?'active (subscription)':(store.get('comp',null)?'active (access code)':'active'))) : 'not active'}</h3>
     ${isPremium()
       ? `<div class="muted" style="margin:6px 0">Full suite unlocked: favorites, Communicate, road trips, Scorecard exports, Top Picks, photos &amp; files.</div>
-         ${STRIPE_PORTAL_LINK && (subActive || !store.get('comp',null))?`<div class="actions"><a class="btn sec" target="_blank" rel="noopener" href="${STRIPE_PORTAL_LINK}">Manage subscription</a></div>`:''}`
-      : `<div class="muted" style="margin:6px 0">Unlock favorites, Communicate outreach, road trips, Scorecard exports, Top Picks, and photos &amp; files — $4.99/mo or $29.99/yr.</div>
-         <div class="actions"><button class="btn" onclick="showPaywall()">See Premium / enter code</button></div>`}
+         ${manageSubHTML()}`
+      : `<div class="muted" style="margin:6px 0">Unlock favorites, Communicate outreach, road trips, Scorecard exports, Top Picks, and photos &amp; files${isIOSApp()?'':' — $4.99/mo or $29.99/yr'}.</div>
+         <div class="actions"><button class="btn" onclick="showPaywall()">${isIOSApp()?'See Premium':'See Premium / enter code'}</button></div>`}
   </div>`;
 }
 function renderAccount(){
@@ -900,9 +1027,9 @@ function sportCard(s,sp){
   const q = sportPhrase(sp);
   return `<div class="sbcard"><h4>${sp.e} ${esc(q.toUpperCase())}</h4>
     <div class="actions">
-      <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+q+' recruiting questionnaire')}">Recruiting form</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,q)}">Recruiting form</a>
       <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+q+' camps clinics')}">Camps</a>
-      <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' athletics '+q+' roster')}">Team page</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,q)}">Team page</a>
       <a class="btn sec" target="_blank" rel="noopener" href="${ncsaSportUrl(s,sp)}">NCSA ${esc(sp.l)}</a>
     </div></div>`;
 }
@@ -913,9 +1040,9 @@ function softballCard(s){
       ${s.sb.coach?`<div class="muted">Head coach: ${esc(s.sb.coach)}</div>`:''}
       ${s.sb.w+s.sb.l>0?`<div class="muted">Record: ${s.sb.w}–${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}</div>`:''}
       <div class="actions">
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball recruiting questionnaire')}">Recruiting form</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,'softball')}">Recruiting form</a>
         <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball camps clinics')}">Camps</a>
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' athletics softball roster')}">Team page</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,'softball')}">Team page</a>
         <a class="btn sec" target="_blank" rel="noopener" href="${ncsaUrl(s)}">NCSA softball</a>
         ${ncaaUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${ncaaUrl(s)}">NCAA stats</a>`:''}
       </div></div>`;
@@ -1170,15 +1297,56 @@ function scoreIds(){
   const p = picks.filter(id=>fav.includes(id));
   return p.concat(fav.filter(id=>!p.includes(id)));
 }
-// Schedule Campus Visit/Tour: land on the school's OWN Visit/Admissions page (site-restricted search → top result)
+// The school's own hostname, e.g. "rutgers.edu" — the anchor for every site-restricted lookup.
+function schoolHost(s){
+  if(!s.url) return null;
+  try{ return new URL(/^https?:\/\//i.test(s.url) ? s.url : 'https://'+s.url).hostname.replace(/^www\./i,''); }
+  catch(e){ return null; }
+}
+// Direct URLs resolved once by resolve_links.py and stored on each school:
+//   au = admissions page · vu = visit/tour page · hu = athletics home · su = sport page · qu = questionnaire
+// When one is present we link straight to it. The search fallbacks below only run for schools
+// the resolver couldn't crack, so no link is ever dead — it just costs an extra click.
+function direct(u){ if(!u) return null; return /^https?:/i.test(u) ? u : 'https://'+u; }
+
+// Schedule Campus Visit/Tour → the school's own visit page, else admissions, else search.
 function visitUrl(s){
-  if(s.url){
-    try{
-      const h = new URL(/^https?:\/\//i.test(s.url) ? s.url : 'https://'+s.url).hostname;
-      return lucky('site:'+h+' visit campus tour admissions');
-    }catch(e){}
-  }
-  return lucky(s.n+' schedule campus visit admissions');
+  const d = direct(s.vu) || direct(s.au);
+  if(d) return d;
+  const h = schoolHost(s);
+  return h ? lucky('site:'+h+' visit campus tour schedule admissions')
+           : lucky(s.n+' schedule campus visit admissions');
+}
+// Find admissions email → the admissions office page itself, else a domain-restricted search.
+function findAdmUrl(s){
+  const d = direct(s.au);
+  if(d) return d;
+  const h = schoolHost(s);
+  return h ? lucky('site:'+h+' admissions office contact email address')
+           : lucky(s.n+' undergraduate admissions office contact email');
+}
+// Find coach email → the sport's own page (roster/coaches), else the athletics site home.
+// Athletics lives on a separate domain (arcadiaknights.com, not arcadia.edu), so a site:
+// search on the academic host would exclude the very page we want.
+function findCoachUrl(s){
+  const d = direct(s.su) || direct(s.hu);
+  if(d) return d;
+  const sp = primarySport();
+  const named = (F.sports.includes('w-softball') && s.sb && s.sb.coach) ? String(s.sb.coach).trim() : '';
+  return named ? lucky('"'+named+'" '+s.n+' '+sp+' coach email staff directory')
+               : lucky(s.n+' athletics '+sp+' coaching staff directory email');
+}
+// Recruiting questionnaire → the form itself, else the sport page, else the athletics site.
+function recruitUrl(s, sportName){
+  const d = direct(s.qu) || direct(s.su) || direct(s.hu);
+  if(d) return d;
+  return lucky(s.n+' '+(sportName||'softball')+' recruiting questionnaire');
+}
+// Team/roster page → the sport page, else athletics home, else search.
+function teamUrl(s, sportName){
+  const d = direct(s.su) || direct(s.hu);
+  if(d) return d;
+  return lucky(s.n+' athletics '+(sportName||'softball')+' roster');
 }
 function setContact(id,k,v){ favs[id]=favs[id]||{notes:'',ratings:{}}; (favs[id].contacts=favs[id].contacts||{})[k]=v.trim(); store.set('favs',favs); }
 function primarySport(){ const sp = F.sports.length ? SPORTS.find(x=>x.k===F.sports[0]) : null; return sp ? sportPhrase(sp) : 'softball'; }
@@ -1243,8 +1411,8 @@ function renderTop5(){
           <a class="btn" target="_blank" rel="noopener" href="${visitUrl(s)}" onclick="addComm(${id},'admissions','out','Opened campus visit/tour page',true)">📅 Schedule Campus Visit/Tour</a>
           <a class="btn" href="${mailAdmissions(id)}" onclick="addComm(${id},'admissions','out','Email drafted',true)">✉️ Email admissions</a>
           ${hasSport?`<a class="btn" href="${mailCoach(id)}" onclick="addComm(${id},'coach','out','Email drafted',true)">✉️ Email coach</a>`:''}
-          <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' undergraduate admissions office contact email')}">Find admissions email</a>
-          ${hasSport?`<a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+primarySport()+' coaching staff email')}">Find coach email</a>`:''}
+          <a class="btn sec" target="_blank" rel="noopener" href="${findAdmUrl(s)}">Find admissions email</a>
+          ${hasSport?`<a class="btn sec" target="_blank" rel="noopener" href="${findCoachUrl(s)}">Find coach email</a>`:''}
         </div>
         <div class="commlog">
           <div class="k" style="margin-top:8px;display:block">📒 COMMUNICATION LOG${cl.length?' — '+cl.length:''}</div>
@@ -1736,6 +1904,7 @@ renderAuthGate();
 renderUserBadge();
 refresh();
 if(cloudConfigured()) initCloud();   // restores cloud session / completes OAuth redirect
+initIAP();                           // iOS only: connect StoreKit, load prices, restore entitlement
 </script>
 </body>
 </html>
