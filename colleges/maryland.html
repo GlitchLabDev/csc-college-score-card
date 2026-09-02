@@ -22,87 +22,98 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Maryland — all 73 schools</h1>
-<p class="sub">34 four-year colleges, 18 community colleges, and 20 NCAA/NAIA athletic programs in Maryland, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">34 four-year colleges, 18 community colleges, and 35 NCAA/NAIA athletic programs in Maryland, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.allstatecareer.edu/" rel="noopener nofollow">All-State Career-Baltimore</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,277</td><td>—</td></tr>
-<tr><td><a href="https://www.allegany.edu/" rel="noopener nofollow">Allegany College of Maryland</a></td><td>Cumberland</td><td>Public · 2-year</td><td>$4,730</td><td>$10,899</td><td>—</td></tr>
-<tr><td><a href="https://www.aacc.edu/" rel="noopener nofollow">Anne Arundel Community College</a></td><td>Arnold</td><td>Public · 2-year</td><td>$4,970</td><td>$14,438</td><td>—</td></tr>
-<tr><td><a href="https://www.aspenlaurel.edu/" rel="noopener nofollow">Aspen Beauty Academy of Laurel</a></td><td>Laurel</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$9,774</td><td>—</td></tr>
-<tr><td><a href="https://avedainstitutemd.edu/" rel="noopener nofollow">Aveda Institute-Maryland</a></td><td>Bel Air</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,268</td><td>—</td></tr>
-<tr><td><a href="https://www.awardbeautyschool.com/" rel="noopener nofollow">Award Beauty School</a></td><td>Hagerstown</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,583</td><td>—</td></tr>
-<tr><td><a href="https://www.bhmb.edu/" rel="noopener nofollow">Bais HaMedrash and Mesivta of Baltimore</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$13,100</td><td>$10,415</td><td>—</td></tr>
-<tr><td><a href="https://www.bccc.edu/" rel="noopener nofollow">Baltimore City Community College</a></td><td>Baltimore</td><td>Public · 2-year</td><td>$3,314</td><td>$6,608</td><td>—</td></tr>
-<tr><td><a href="https://www.baltimorestudio.com/" rel="noopener nofollow">Baltimore Studio of Hair Design</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,380</td><td>—</td></tr>
-<tr><td><a href="https://www.bowiestate.edu/" rel="noopener nofollow">Bowie State University</a></td><td>Bowie</td><td>Public · 4-year</td><td>$8,748</td><td>$15,213</td><td>NCAA</td></tr>
-<tr><td><a href="https://www.captechu.edu/" rel="noopener nofollow">Capitol Technology University</a></td><td>Laurel</td><td>Private nonprofit · 4-year</td><td>$27,004</td><td>$24,240</td><td>—</td></tr>
-<tr><td><a href="https://www.carrollcc.edu/" rel="noopener nofollow">Carroll Community College</a></td><td>Westminster</td><td>Public · 2-year</td><td>$4,128</td><td>$3,292</td><td>—</td></tr>
-<tr><td><a href="https://www.cecil.edu/" rel="noopener nofollow">Cecil College</a></td><td>North East</td><td>Public · 2-year</td><td>$4,920</td><td>$9,283</td><td>—</td></tr>
-<tr><td><a href="https://www.chesapeake.edu/" rel="noopener nofollow">Chesapeake College</a></td><td>Wye Mills</td><td>Public · 2-year</td><td>$4,010</td><td>$4,147</td><td>—</td></tr>
-<tr><td><a href="https://www.csmd.edu/" rel="noopener nofollow">College of Southern Maryland</a></td><td>La Plata</td><td>Public · 2-year</td><td>$4,110</td><td>$8,028</td><td>—</td></tr>
-<tr><td><a href="https://www.ccbcmd.edu/" rel="noopener nofollow">Community College of Baltimore County</a></td><td>Baltimore</td><td>Public · 2-year</td><td>$4,380</td><td>$6,793</td><td>—</td></tr>
-<tr><td><a href="https://www.coppin.edu/" rel="noopener nofollow">Coppin State University</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$6,904</td><td>$7,865</td><td>D-I</td></tr>
-<tr><td><a href="https://www.cortiva.edu/" rel="noopener nofollow">Cortiva Institute</a></td><td>Linthicum</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$29,080</td><td>—</td></tr>
-<tr><td><a href="https://www.delmarvabeautyacademy.com/" rel="noopener nofollow">Del-Mar-Va Beauty Academy</a></td><td>Salisbury</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$23,325</td><td>—</td></tr>
-<tr><td><a href="https://www.empire.edu/" rel="noopener nofollow">Empire Beauty School-Glen Burnie</a></td><td>Glen Burnie</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,335</td><td>—</td></tr>
-<tr><td><a href="https://www.empire.edu/" rel="noopener nofollow">Empire Beauty School-Owings Mills</a></td><td>Owings Mills</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,075</td><td>—</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis College-Landover</a></td><td>Landover</td><td>Private for-profit · 2-year</td><td>$15,667</td><td>$28,411</td><td>—</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis Institute-Towson</a></td><td>Towson</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$24,940</td><td>—</td></tr>
-<tr><td><a href="https://www.frederick.edu/" rel="noopener nofollow">Frederick Community College</a></td><td>Frederick</td><td>Public · 2-year</td><td>$3,772</td><td>$3,201</td><td>—</td></tr>
-<tr><td><a href="https://www.frostburg.edu/" rel="noopener nofollow">Frostburg State University</a></td><td>Frostburg</td><td>Public · 4-year</td><td>$9,804</td><td>$16,581</td><td>D-II</td></tr>
-<tr><td><a href="https://www.garrettcollege.edu/index.php" rel="noopener nofollow">Garrett College</a></td><td>McHenry</td><td>Public · 2-year</td><td>$3,976</td><td>$5,229</td><td>—</td></tr>
-<tr><td><a href="https://www.goucher.edu/" rel="noopener nofollow">Goucher College</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$49,220</td><td>$27,204</td><td>D-III</td></tr>
-<tr><td><a href="https://www.hagerstowncc.edu/" rel="noopener nofollow">Hagerstown Community College</a></td><td>Hagerstown</td><td>Public · 2-year</td><td>$4,320</td><td>$6,468</td><td>—</td></tr>
-<tr><td><a href="https://www.hairacademymd.com/" rel="noopener nofollow">Hair Academy</a></td><td>New Carrollton</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,637</td><td>—</td></tr>
-<tr><td><a href="https://hairacademy2.com/" rel="noopener nofollow">Hair Academy II</a></td><td>Hillcrest Heights</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$21,637</td><td>—</td></tr>
-<tr><td><a href="https://www.harford.edu/" rel="noopener nofollow">Harford Community College</a></td><td>Bel Air</td><td>Public · 2-year</td><td>$3,888</td><td>$8,387</td><td>—</td></tr>
-<tr><td><a href="https://www.massagetrainingbaltimore.com/" rel="noopener nofollow">Holistic Massage Training Institute</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,773</td><td>—</td></tr>
-<tr><td><a href="https://www.hood.edu/" rel="noopener nofollow">Hood College</a></td><td>Frederick</td><td>Private nonprofit · 4-year</td><td>$44,500</td><td>$18,777</td><td>D-III</td></tr>
-<tr><td><a href="https://www.howardcc.edu/" rel="noopener nofollow">Howard Community College</a></td><td>Columbia</td><td>Public · 2-year</td><td>$4,088</td><td>$9,086</td><td>—</td></tr>
-<tr><td><a href="https://www.iohs.org/" rel="noopener nofollow">Institute of Health Sciences</a></td><td>Hunt Valley</td><td>Private for-profit · Certificate/trade</td><td>$15,100</td><td>$23,013</td><td>—</td></tr>
-<tr><td><a href="https://www.jhu.edu/" rel="noopener nofollow">Johns Hopkins University</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$60,480</td><td>$20,820</td><td>D-III</td></tr>
-<tr><td><a href="https://www.lincolntech.edu/campus/columbia-md" rel="noopener nofollow">Lincoln College of Technology-Columbia</a></td><td>Columbia</td><td>Private for-profit · 2-year</td><td>—</td><td>$34,686</td><td>—</td></tr>
-<tr><td><a href="https://www.loyola.edu/" rel="noopener nofollow">Loyola University Maryland</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$53,430</td><td>$31,503</td><td>D-I</td></tr>
-<tr><td><a href="https://www.baltimorestudio.com/" rel="noopener nofollow">Maryland Beauty Academy of Essex</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,515</td><td>—</td></tr>
-<tr><td><a href="https://www.mica.edu/" rel="noopener nofollow">Maryland Institute College of Art</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$53,815</td><td>$39,073</td><td>—</td></tr>
-<tr><td><a href="https://www.muih.edu/" rel="noopener nofollow">Maryland University of Integrative Health</a></td><td>Laurel</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.mcdaniel.edu/" rel="noopener nofollow">McDaniel College</a></td><td>Westminster</td><td>Private nonprofit · 4-year</td><td>$46,800</td><td>$22,106</td><td>D-III</td></tr>
-<tr><td><a href="https://www.montgomerybeautyschool.com/" rel="noopener nofollow">Montgomery Beauty School</a></td><td>Silver Spring</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,960</td><td>—</td></tr>
-<tr><td><a href="https://www.https//www.baltimorebeautybarberschool.com" rel="noopener nofollow">Montgomery Beauty School-Baltimore Beauty &amp; Barber School</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,674</td><td>—</td></tr>
-<tr><td><a href="https://www.montgomerycollege.edu/" rel="noopener nofollow">Montgomery College</a></td><td>Rockville</td><td>Public · 2-year</td><td>$5,322</td><td>$8,052</td><td>—</td></tr>
-<tr><td><a href="https://www.morgan.edu/" rel="noopener nofollow">Morgan State University</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$8,008</td><td>$13,669</td><td>D-I</td></tr>
-<tr><td><a href="https://msmary.edu/" rel="noopener nofollow">Mount St. Mary&#x27;s University</a></td><td>Emmitsburg</td><td>Private nonprofit · 4-year</td><td>$45,870</td><td>$22,614</td><td>D-I</td></tr>
-<tr><td><a href="https://nirc.edu/" rel="noopener nofollow">Ner Israel Rabbinical College</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$13,700</td><td>$4,494</td><td>—</td></tr>
-<tr><td><a href="https://natradeschools.edu/" rel="noopener nofollow">North American Trade Schools</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$11,294</td><td>—</td></tr>
-<tr><td><a href="https://www.ndm.edu/" rel="noopener nofollow">Notre Dame of Maryland University</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$40,730</td><td>$22,211</td><td>D-III</td></tr>
-<tr><td><a href="https://www.omegastudios.com/" rel="noopener nofollow">Omega Studios&#x27; School of Applied Recording Arts &amp; Sciences</a></td><td>Rockville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.pgcc.edu/" rel="noopener nofollow">Prince George&#x27;s Community College</a></td><td>Largo</td><td>Public · 2-year</td><td>$3,914</td><td>$14,878</td><td>—</td></tr>
-<tr><td><a href="https://www.sans.edu/" rel="noopener nofollow">SANS Technology Institute</a></td><td>North Bethesda</td><td>Private for-profit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.salisbury.edu/" rel="noopener nofollow">Salisbury University</a></td><td>Salisbury</td><td>Public · 4-year</td><td>$10,396</td><td>$18,212</td><td>D-III</td></tr>
-<tr><td><a href="https://www.sjc.edu/" rel="noopener nofollow">St. John&#x27;s College</a></td><td>Annapolis</td><td>Private nonprofit · 4-year</td><td>$37,260</td><td>$26,243</td><td>—</td></tr>
-<tr><td><a href="https://www.smcm.edu/" rel="noopener nofollow">St. Mary&#x27;s College of Maryland</a></td><td>St. Mary&#x27;s City</td><td>Public · 4-year</td><td>$15,184</td><td>$18,736</td><td>D-III</td></tr>
-<tr><td><a href="https://www.stevenson.edu/" rel="noopener nofollow">Stevenson University</a></td><td>Owings Mills</td><td>Private nonprofit · 4-year</td><td>$38,738</td><td>$25,963</td><td>D-III</td></tr>
-<tr><td><a href="https://www.strayer.edu/campus-locations/maryland/prince-georges" rel="noopener nofollow">Strayer University-Maryland</a></td><td>Suitland</td><td>Private for-profit · 4-year</td><td>$13,515</td><td>$21,488</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/annapolis" rel="noopener nofollow">The Temple Annapolis-A Paul Mitchell Partner School</a></td><td>Annapolis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$30,358</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/frederick" rel="noopener nofollow">The Temple-A Paul Mitchell Partner School</a></td><td>Frederick</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$29,330</td><td>—</td></tr>
-<tr><td><a href="https://www.towson.edu/" rel="noopener nofollow">Towson University</a></td><td>Towson</td><td>Public · 4-year</td><td>$10,818</td><td>$14,151</td><td>D-I</td></tr>
-<tr><td><a href="https://www.usna.edu/" rel="noopener nofollow">United States Naval Academy</a></td><td>Annapolis</td><td>Public · 4-year</td><td>—</td><td>—</td><td>D-I</td></tr>
-<tr><td><a href="https://www.ubalt.edu/" rel="noopener nofollow">University of Baltimore</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$9,506</td><td>$17,593</td><td>—</td></tr>
-<tr><td><a href="https://www.umaryland.edu/" rel="noopener nofollow">University of Maryland Baltimore</a></td><td>Baltimore</td><td>Public · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://wwwcp.umes.edu/" rel="noopener nofollow">University of Maryland Eastern Shore</a></td><td>Princess Anne</td><td>Public · 4-year</td><td>$8,898</td><td>$11,934</td><td>D-I</td></tr>
-<tr><td><a href="https://www.umgc.edu/" rel="noopener nofollow">University of Maryland Global Campus</a></td><td>Adelphi</td><td>Public · 4-year</td><td>$7,848</td><td>$16,805</td><td>—</td></tr>
-<tr><td><a href="https://umbc.edu/" rel="noopener nofollow">University of Maryland-Baltimore County</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$12,606</td><td>$19,319</td><td>D-I</td></tr>
-<tr><td><a href="https://www.umd.edu/" rel="noopener nofollow">University of Maryland-College Park</a></td><td>College Park</td><td>Public · 4-year</td><td>$11,233</td><td>$16,590</td><td>D-I</td></tr>
-<tr><td><a href="https://www.wau.edu/" rel="noopener nofollow">Washington Adventist University</a></td><td>Takoma Park</td><td>Private nonprofit · 4-year</td><td>$25,200</td><td>$17,410</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.washcoll.edu/" rel="noopener nofollow">Washington College</a></td><td>Chestertown</td><td>Private nonprofit · 4-year</td><td>$52,481</td><td>$12,606</td><td>D-III</td></tr>
-<tr><td><a href="https://www.wits.edu/" rel="noopener nofollow">Women&#x27;s Institute of Torah Seminary and College</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$9,010</td><td>$18,081</td><td>—</td></tr>
-<tr><td><a href="https://www.worwic.edu/" rel="noopener nofollow">Wor-Wic Community College</a></td><td>Salisbury</td><td>Public · 2-year</td><td>$3,624</td><td>$7,882</td><td>—</td></tr>
-<tr><td><a href="https://ycnc.org/" rel="noopener nofollow">Yeshiva College of the Nations Capital</a></td><td>Silver  Spring</td><td>Private nonprofit · 4-year</td><td>$10,600</td><td>$8,126</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/all-state-career-baltimore.html">All-State Career-Baltimore</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,277</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/allegany-college-of-maryland.html">Allegany College of Maryland</a></td><td>Cumberland</td><td>Public · 2-year</td><td>$4,730</td><td>$10,899</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/anne-arundel-community-college.html">Anne Arundel Community College</a></td><td>Arnold</td><td>Public · 2-year</td><td>$4,970</td><td>$14,438</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/aspen-beauty-academy-of-laurel.html">Aspen Beauty Academy of Laurel</a></td><td>Laurel</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$9,774</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/aveda-institute-maryland.html">Aveda Institute-Maryland</a></td><td>Bel Air</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,268</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/award-beauty-school.html">Award Beauty School</a></td><td>Hagerstown</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,583</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/bais-hamedrash-and-mesivta-of-baltimore.html">Bais HaMedrash and Mesivta of Baltimore</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$13,100</td><td>$10,415</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/baltimore-city-community-college.html">Baltimore City Community College</a></td><td>Baltimore</td><td>Public · 2-year</td><td>$3,314</td><td>$6,608</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/baltimore-studio-of-hair-design.html">Baltimore Studio of Hair Design</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,380</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/bowie-state-university.html">Bowie State University</a></td><td>Bowie</td><td>Public · 4-year</td><td>$8,748</td><td>$15,213</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/capitol-technology-university.html">Capitol Technology University</a></td><td>Laurel</td><td>Private nonprofit · 4-year</td><td>$27,004</td><td>$24,240</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/carroll-community-college.html">Carroll Community College</a></td><td>Westminster</td><td>Public · 2-year</td><td>$4,128</td><td>$3,292</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/cecil-college.html">Cecil College</a></td><td>North East</td><td>Public · 2-year</td><td>$4,920</td><td>$9,283</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/chesapeake-college.html">Chesapeake College</a></td><td>Wye Mills</td><td>Public · 2-year</td><td>$4,010</td><td>$4,147</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/college-of-southern-maryland.html">College of Southern Maryland</a></td><td>La Plata</td><td>Public · 2-year</td><td>$4,110</td><td>$8,028</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/community-college-of-baltimore-county.html">Community College of Baltimore County</a></td><td>Baltimore</td><td>Public · 2-year</td><td>$4,380</td><td>$6,793</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/coppin-state-university.html">Coppin State University</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$6,904</td><td>$7,865</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/cortiva-institute.html">Cortiva Institute</a></td><td>Linthicum</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$29,080</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/del-mar-va-beauty-academy.html">Del-Mar-Va Beauty Academy</a></td><td>Salisbury</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$23,325</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/empire-beauty-school-glen-burnie.html">Empire Beauty School-Glen Burnie</a></td><td>Glen Burnie</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,335</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/empire-beauty-school-owings-mills.html">Empire Beauty School-Owings Mills</a></td><td>Owings Mills</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,075</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/fortis-college-landover.html">Fortis College-Landover</a></td><td>Landover</td><td>Private for-profit · 2-year</td><td>$15,667</td><td>$28,411</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/fortis-institute-towson.html">Fortis Institute-Towson</a></td><td>Towson</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$24,940</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/frederick-community-college.html">Frederick Community College</a></td><td>Frederick</td><td>Public · 2-year</td><td>$3,772</td><td>$3,201</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/frostburg-state-university.html">Frostburg State University</a></td><td>Frostburg</td><td>Public · 4-year</td><td>$9,804</td><td>$16,581</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/maryland/garrett-college.html">Garrett College</a></td><td>McHenry</td><td>Public · 2-year</td><td>$3,976</td><td>$5,229</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/goucher-college.html">Goucher College</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$49,220</td><td>$27,204</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/hagerstown-community-college.html">Hagerstown Community College</a></td><td>Hagerstown</td><td>Public · 2-year</td><td>$4,320</td><td>$6,468</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/hair-academy.html">Hair Academy</a></td><td>New Carrollton</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,637</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/hair-academy-ii.html">Hair Academy II</a></td><td>Hillcrest Heights</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$21,637</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/harford-community-college.html">Harford Community College</a></td><td>Bel Air</td><td>Public · 2-year</td><td>$3,888</td><td>$8,387</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/holistic-massage-training-institute.html">Holistic Massage Training Institute</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,773</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/hood-college.html">Hood College</a></td><td>Frederick</td><td>Private nonprofit · 4-year</td><td>$44,500</td><td>$18,777</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/howard-community-college.html">Howard Community College</a></td><td>Columbia</td><td>Public · 2-year</td><td>$4,088</td><td>$9,086</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/institute-of-health-sciences.html">Institute of Health Sciences</a></td><td>Hunt Valley</td><td>Private for-profit · Certificate/trade</td><td>$15,100</td><td>$23,013</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/johns-hopkins-university.html">Johns Hopkins University</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$60,480</td><td>$20,820</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/lincoln-college-of-technology-columbia.html">Lincoln College of Technology-Columbia</a></td><td>Columbia</td><td>Private for-profit · 2-year</td><td>None</td><td>$34,686</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/loyola-university-maryland.html">Loyola University Maryland</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$53,430</td><td>$31,503</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/maryland-beauty-academy-of-essex.html">Maryland Beauty Academy of Essex</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,515</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/maryland-institute-college-of-art.html">Maryland Institute College of Art</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$53,815</td><td>$39,073</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/maryland-university-of-integrative-health.html">Maryland University of Integrative Health</a></td><td>Laurel</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/mcdaniel-college.html">McDaniel College</a></td><td>Westminster</td><td>Private nonprofit · 4-year</td><td>$46,800</td><td>$22,106</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/montgomery-beauty-school.html">Montgomery Beauty School</a></td><td>Silver Spring</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,960</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/montgomery-beauty-school-baltimore-beauty-barber-school.html">Montgomery Beauty School-Baltimore Beauty &amp; Barber School</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,674</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/montgomery-college.html">Montgomery College</a></td><td>Rockville</td><td>Public · 2-year</td><td>$5,322</td><td>$8,052</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/morgan-state-university.html">Morgan State University</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$8,008</td><td>$13,669</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/mount-st-mary-s-university.html">Mount St. Mary&#x27;s University</a></td><td>Emmitsburg</td><td>Private nonprofit · 4-year</td><td>$45,870</td><td>$22,614</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/ner-israel-rabbinical-college.html">Ner Israel Rabbinical College</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$13,700</td><td>$4,494</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/north-american-trade-schools.html">North American Trade Schools</a></td><td>Baltimore</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$11,294</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/notre-dame-of-maryland-university.html">Notre Dame of Maryland University</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$40,730</td><td>$22,211</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/omega-studios-school-of-applied-recording-arts-sciences.html">Omega Studios&#x27; School of Applied Recording Arts &amp; Sciences</a></td><td>Rockville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/prince-george-s-community-college.html">Prince George&#x27;s Community College</a></td><td>Largo</td><td>Public · 2-year</td><td>$3,914</td><td>$14,878</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/maryland/sans-technology-institute.html">SANS Technology Institute</a></td><td>North Bethesda</td><td>Private for-profit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/salisbury-university.html">Salisbury University</a></td><td>Salisbury</td><td>Public · 4-year</td><td>$10,396</td><td>$18,212</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/st-john-s-college.html">St. John&#x27;s College</a></td><td>Annapolis</td><td>Private nonprofit · 4-year</td><td>$37,260</td><td>$26,243</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/st-mary-s-college-of-maryland.html">St. Mary&#x27;s College of Maryland</a></td><td>St. Mary&#x27;s City</td><td>Public · 4-year</td><td>$15,184</td><td>$18,736</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/stevenson-university.html">Stevenson University</a></td><td>Owings Mills</td><td>Private nonprofit · 4-year</td><td>$38,738</td><td>$25,963</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/strayer-university-maryland.html">Strayer University-Maryland</a></td><td>Suitland</td><td>Private for-profit · 4-year</td><td>$13,515</td><td>$21,488</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/the-temple-annapolis-a-paul-mitchell-partner-school.html">The Temple Annapolis-A Paul Mitchell Partner School</a></td><td>Annapolis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$30,358</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/the-temple-a-paul-mitchell-partner-school.html">The Temple-A Paul Mitchell Partner School</a></td><td>Frederick</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$29,330</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/towson-university.html">Towson University</a></td><td>Towson</td><td>Public · 4-year</td><td>$10,818</td><td>$14,151</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/united-states-naval-academy.html">United States Naval Academy</a></td><td>Annapolis</td><td>Public · 4-year</td><td>None</td><td>None</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/university-of-baltimore.html">University of Baltimore</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$9,506</td><td>$17,593</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/university-of-maryland-baltimore.html">University of Maryland Baltimore</a></td><td>Baltimore</td><td>Public · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/university-of-maryland-eastern-shore.html">University of Maryland Eastern Shore</a></td><td>Princess Anne</td><td>Public · 4-year</td><td>$8,898</td><td>$11,934</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/university-of-maryland-global-campus.html">University of Maryland Global Campus</a></td><td>Adelphi</td><td>Public · 4-year</td><td>$7,848</td><td>$16,805</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/university-of-maryland-baltimore-county.html">University of Maryland-Baltimore County</a></td><td>Baltimore</td><td>Public · 4-year</td><td>$12,606</td><td>$19,319</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/university-of-maryland-college-park.html">University of Maryland-College Park</a></td><td>College Park</td><td>Public · 4-year</td><td>$11,233</td><td>$16,590</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maryland/washington-adventist-university.html">Washington Adventist University</a></td><td>Takoma Park</td><td>Private nonprofit · 4-year</td><td>$25,200</td><td>$17,410</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/maryland/washington-college.html">Washington College</a></td><td>Chestertown</td><td>Private nonprofit · 4-year</td><td>$52,481</td><td>$12,606</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maryland/women-s-institute-of-torah-seminary-and-college.html">Women&#x27;s Institute of Torah Seminary and College</a></td><td>Baltimore</td><td>Private nonprofit · 4-year</td><td>$9,010</td><td>$18,081</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/wor-wic-community-college.html">Wor-Wic Community College</a></td><td>Salisbury</td><td>Public · 2-year</td><td>$3,624</td><td>$7,882</td><td>—</td></tr>
+<tr><td><a href="/colleges/maryland/yeshiva-college-of-the-nations-capital.html">Yeshiva College of the Nations Capital</a></td><td>Silver  Spring</td><td>Private nonprofit · 4-year</td><td>$10,600</td><td>$8,126</td><td>—</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

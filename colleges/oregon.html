@@ -22,84 +22,95 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Oregon — all 70 schools</h1>
-<p class="sub">29 four-year colleges, 19 community colleges, and 16 NCAA/NAIA athletic programs in Oregon, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">29 four-year colleges, 19 community colleges, and 26 NCAA/NAIA athletic programs in Oregon, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.achs.edu/" rel="noopener nofollow">American College of Healthcare Sciences</a></td><td>Portland</td><td>Private for-profit · 4-year</td><td>$10,928</td><td>$24,605</td><td>—</td></tr>
-<tr><td><a href="https://avedapdx.com/" rel="noopener nofollow">Aveda Institute-Portland</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$22,317</td><td>—</td></tr>
-<tr><td><a href="https://www.beaumondeacademy.com/" rel="noopener nofollow">Beau Monde Academy of Barbering and Cosmetology</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$23,283</td><td>—</td></tr>
-<tr><td><a href="https://www.bluecc.edu/" rel="noopener nofollow">Blue Mountain Community College</a></td><td>Pendleton</td><td>Public · 2-year</td><td>$6,851</td><td>$10,579</td><td>—</td></tr>
-<tr><td><a href="https://www.bushnell.edu/" rel="noopener nofollow">Bushnell University</a></td><td>Eugene</td><td>Private nonprofit · 4-year</td><td>$33,220</td><td>$24,835</td><td>NAIA</td></tr>
-<tr><td><a href="https://carrington.edu/" rel="noopener nofollow">Carrington College-Portland</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$28,771</td><td>—</td></tr>
-<tr><td><a href="https://www.cocc.edu/" rel="noopener nofollow">Central Oregon Community College</a></td><td>Bend</td><td>Public · 2-year</td><td>$4,761</td><td>$8,807</td><td>—</td></tr>
-<tr><td><a href="https://www.chemeketa.edu/" rel="noopener nofollow">Chemeketa Community College</a></td><td>Salem</td><td>Public · 2-year</td><td>$6,120</td><td>$7,530</td><td>—</td></tr>
-<tr><td><a href="https://www.christianculinary.org/" rel="noopener nofollow">Christian Culinary Academy</a></td><td>Cannon Beach</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.clackamas.edu/" rel="noopener nofollow">Clackamas Community College</a></td><td>Oregon City</td><td>Public · 2-year</td><td>$5,850</td><td>$6,862</td><td>—</td></tr>
-<tr><td><a href="https://www.clatsopcc.edu/" rel="noopener nofollow">Clatsop Community College</a></td><td>Astoria</td><td>Public · 2-year</td><td>$4,230</td><td>$9,079</td><td>—</td></tr>
-<tr><td><a href="https://www.collegeofhairdesigncareers.com/" rel="noopener nofollow">College of Hair Design Careers</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$11,290</td><td>—</td></tr>
-<tr><td><a href="https://www.cgcc.edu/" rel="noopener nofollow">Columbia Gorge Community College</a></td><td>The Dalles</td><td>Public · 2-year</td><td>$5,472</td><td>$11,056</td><td>—</td></tr>
-<tr><td><a href="https://www.concorde.edu/campus/portland-oregon" rel="noopener nofollow">Concorde Career College-Portland</a></td><td>Portland</td><td>Private for-profit · 2-year</td><td>—</td><td>$22,178</td><td>—</td></tr>
-<tr><td><a href="https://www.corban.edu/" rel="noopener nofollow">Corban University</a></td><td>Salem</td><td>Private nonprofit · 4-year</td><td>$35,767</td><td>$20,565</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.eastwestcollege.edu/" rel="noopener nofollow">East West College of the Healing Arts</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.eou.edu/" rel="noopener nofollow">Eastern Oregon University</a></td><td>La Grande</td><td>Public · 4-year</td><td>$10,041</td><td>$14,532</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.georgefox.edu/" rel="noopener nofollow">George Fox University</a></td><td>Newberg</td><td>Private nonprofit · 4-year</td><td>$39,540</td><td>$27,773</td><td>D-III</td></tr>
-<tr><td><a href="https://www.iot.edu/" rel="noopener nofollow">Institute of Technology</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$42,459</td><td>—</td></tr>
-<tr><td><a href="https://www.johnnymatthews.com/" rel="noopener nofollow">Johnny Matthew&#x27;s Hairdressing Training School</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,919</td><td>—</td></tr>
-<tr><td><a href="https://www.klamathcc.edu/" rel="noopener nofollow">Klamath Community College</a></td><td>Klamath Falls</td><td>Public · 2-year</td><td>$4,713</td><td>$12,444</td><td>—</td></tr>
-<tr><td><a href="https://www.lanecc.edu/" rel="noopener nofollow">Lane Community College</a></td><td>Eugene</td><td>Public · 2-year</td><td>$5,720</td><td>$7,414</td><td>—</td></tr>
-<tr><td><a href="https://www.lclark.edu/" rel="noopener nofollow">Lewis &amp; Clark College</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$59,684</td><td>$33,819</td><td>D-III</td></tr>
-<tr><td><a href="https://www.linfield.edu/" rel="noopener nofollow">Linfield University</a></td><td>McMinnville</td><td>Private nonprofit · 4-year</td><td>$47,415</td><td>$29,934</td><td>D-III</td></tr>
-<tr><td><a href="https://www.linnbenton.edu/" rel="noopener nofollow">Linn-Benton Community College</a></td><td>Albany</td><td>Public · 2-year</td><td>$5,949</td><td>$12,446</td><td>—</td></tr>
-<tr><td><a href="https://www.mountangelabbey.org/seminary" rel="noopener nofollow">Mount Angel Seminary</a></td><td>Saint Benedict</td><td>Private nonprofit · 4-year</td><td>$27,832</td><td>$43,251</td><td>—</td></tr>
-<tr><td><a href="https://www.mhcc.edu/" rel="noopener nofollow">Mt Hood Community College</a></td><td>Gresham</td><td>Public · 2-year</td><td>$5,094</td><td>$7,748</td><td>—</td></tr>
-<tr><td><a href="https://www.nunm.edu/" rel="noopener nofollow">National University of Natural Medicine</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.newhope.edu/" rel="noopener nofollow">New Hope Christian College-Eugene</a></td><td>Eugene</td><td>Private nonprofit · 4-year</td><td>$15,700</td><td>$15,863</td><td>—</td></tr>
-<tr><td><a href="https://www.nwcollege.edu/" rel="noopener nofollow">Northwest College-Beaverton</a></td><td>Beaverton</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,489</td><td>—</td></tr>
-<tr><td><a href="https://www.nwcollege.edu/" rel="noopener nofollow">Northwest College-Clackamas</a></td><td>Happy Valley</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$21,124</td><td>—</td></tr>
-<tr><td><a href="https://www.nwcollege.edu/" rel="noopener nofollow">Northwest College-Eugene</a></td><td>Springfield</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$21,494</td><td>—</td></tr>
-<tr><td><a href="https://www.nwcollege.edu/" rel="noopener nofollow">Northwest College-Medford</a></td><td>Medford</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,093</td><td>—</td></tr>
-<tr><td><a href="https://www.nwcollege.edu/" rel="noopener nofollow">Northwest College-Tualatin</a></td><td>Tualatin</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,122</td><td>—</td></tr>
-<tr><td><a href="https://www.oregoncoastcc.org/" rel="noopener nofollow">Oregon Coast Community College</a></td><td>Newport</td><td>Public · 2-year</td><td>$5,148</td><td>$13,445</td><td>—</td></tr>
-<tr><td><a href="https://ocom.edu/" rel="noopener nofollow">Oregon College of Oriental Medicine</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.ohsu.edu/" rel="noopener nofollow">Oregon Health &amp; Science University</a></td><td>Portland</td><td>Public · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.oit.edu/" rel="noopener nofollow">Oregon Institute of Technology</a></td><td>Klamath Falls</td><td>Public · 4-year</td><td>$12,122</td><td>$15,974</td><td>NAIA</td></tr>
-<tr><td><a href="https://oregonstate.edu/" rel="noopener nofollow">Oregon State University</a></td><td>Corvallis</td><td>Public · 4-year</td><td>$12,664</td><td>$18,894</td><td>D-I</td></tr>
-<tr><td><a href="https://osucascades.edu/" rel="noopener nofollow">Oregon State University-Cascades Campus</a></td><td>Bend</td><td>Public · 4-year</td><td>$11,628</td><td>$16,836</td><td>—</td></tr>
-<tr><td><a href="https://pacificbible.edu/" rel="noopener nofollow">Pacific Bible College</a></td><td>Medford</td><td>Private nonprofit · 2-year</td><td>$5,148</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://willamette.edu/pnca/index.html" rel="noopener nofollow">Pacific Northwest College of Art</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$45,100</td><td>$37,969</td><td>—</td></tr>
-<tr><td><a href="https://www.pacificu.edu/" rel="noopener nofollow">Pacific University</a></td><td>Forest Grove</td><td>Private nonprofit · 4-year</td><td>$52,072</td><td>$33,930</td><td>D-III</td></tr>
-<tr><td><a href="https://www.phagans-schools.com/" rel="noopener nofollow">Phagans Beauty College</a></td><td>Corvallis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$8,391</td><td>—</td></tr>
-<tr><td><a href="https://www.phagans-schools.com/" rel="noopener nofollow">Phagans Central Oregon Beauty College</a></td><td>Bend</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$9,815</td><td>—</td></tr>
-<tr><td><a href="https://www.phagans-schools.com/" rel="noopener nofollow">Phagans Grants Pass College of Beauty</a></td><td>Grants Pass</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,280</td><td>—</td></tr>
-<tr><td><a href="https://www.phagans-schools.com/" rel="noopener nofollow">Phagans Medford Beauty School</a></td><td>Medford</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,328</td><td>—</td></tr>
-<tr><td><a href="https://www.phagans-schools.com/" rel="noopener nofollow">Phagans School of Beauty</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,410</td><td>—</td></tr>
-<tr><td><a href="https://www.phagans.com/" rel="noopener nofollow">Phagans School of Hair Design</a></td><td>Happy Valley</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$13,622</td><td>—</td></tr>
-<tr><td><a href="https://pac.edu/" rel="noopener nofollow">Portland Actors Conservatory</a></td><td>Portland</td><td>Private nonprofit · Certificate/trade</td><td>$12,115</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.pcc.edu/" rel="noopener nofollow">Portland Community College</a></td><td>Portland</td><td>Public · 2-year</td><td>$4,810</td><td>$10,251</td><td>—</td></tr>
-<tr><td><a href="https://www.pdx.edu/" rel="noopener nofollow">Portland State University</a></td><td>Portland</td><td>Public · 4-year</td><td>$10,806</td><td>$16,281</td><td>D-I</td></tr>
-<tr><td><a href="https://www.premiereaestheticsinstitute.com/" rel="noopener nofollow">Premiere Aesthetics Institute</a></td><td>Bend</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,978</td><td>—</td></tr>
-<tr><td><a href="https://www.reed.edu/" rel="noopener nofollow">Reed College</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$64,760</td><td>$32,966</td><td>—</td></tr>
-<tr><td><a href="https://www.roguecc.edu/" rel="noopener nofollow">Rogue Community College</a></td><td>Grants Pass</td><td>Public · 2-year</td><td>$5,184</td><td>$8,765</td><td>—</td></tr>
-<tr><td><a href="https://www.sou.edu/" rel="noopener nofollow">Southern Oregon University</a></td><td>Ashland</td><td>Public · 4-year</td><td>$11,691</td><td>$16,577</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.socc.edu/" rel="noopener nofollow">Southwestern Oregon Community College</a></td><td>Coos Bay</td><td>Public · 2-year</td><td>$6,558</td><td>$7,798</td><td>—</td></tr>
-<tr><td><a href="https://www.summitsalonacademyportland.com/" rel="noopener nofollow">Summit Salon Academy-Portland</a></td><td>Tigard</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,796</td><td>—</td></tr>
-<tr><td><a href="https://sumnercollege.edu/" rel="noopener nofollow">Sumner College</a></td><td>Portland</td><td>Private for-profit · 4-year</td><td>—</td><td>$21,785</td><td>—</td></tr>
-<tr><td><a href="https://tillamookbaycc.edu/" rel="noopener nofollow">Tillamook Bay Community College</a></td><td>Tillamook</td><td>Public · 2-year</td><td>$4,536</td><td>$3,796</td><td>—</td></tr>
-<tr><td><a href="https://www.tvcc.cc/" rel="noopener nofollow">Treasure Valley Community College</a></td><td>Ontario</td><td>Public · 2-year</td><td>$6,030</td><td>$3,248</td><td>—</td></tr>
-<tr><td><a href="https://www.umpqua.edu/" rel="noopener nofollow">Umpqua Community College</a></td><td>Roseburg</td><td>Public · 2-year</td><td>$5,477</td><td>$9,231</td><td>—</td></tr>
-<tr><td><a href="https://www.uoregon.edu/" rel="noopener nofollow">University of Oregon</a></td><td>Eugene</td><td>Public · 4-year</td><td>$15,054</td><td>$20,543</td><td>D-I</td></tr>
-<tr><td><a href="https://www.up.edu/" rel="noopener nofollow">University of Portland</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$51,812</td><td>$33,248</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uws.edu/" rel="noopener nofollow">University of Western States</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.warnerpacific.edu/" rel="noopener nofollow">Warner Pacific University</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$20,240</td><td>$23,982</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.warnerpacific.edu/" rel="noopener nofollow">Warner Pacific University Professional and Graduate Studies</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$6,240</td><td>$17,343</td><td>—</td></tr>
-<tr><td><a href="https://wou.edu/" rel="noopener nofollow">Western Oregon University</a></td><td>Monmouth</td><td>Public · 4-year</td><td>$10,602</td><td>$19,577</td><td>D-II</td></tr>
-<tr><td><a href="https://www.westernseminary.edu/" rel="noopener nofollow">Western Seminary</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.willamette.edu/" rel="noopener nofollow">Willamette University</a></td><td>Salem</td><td>Private nonprofit · 4-year</td><td>$45,260</td><td>$28,978</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/oregon/american-college-of-healthcare-sciences.html">American College of Healthcare Sciences</a></td><td>Portland</td><td>Private for-profit · 4-year</td><td>$10,928</td><td>$24,605</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/aveda-institute-portland.html">Aveda Institute-Portland</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$22,317</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/beau-monde-academy-of-barbering-and-cosmetology.html">Beau Monde Academy of Barbering and Cosmetology</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$23,283</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/blue-mountain-community-college.html">Blue Mountain Community College</a></td><td>Pendleton</td><td>Public · 2-year</td><td>$6,851</td><td>$10,579</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/bushnell-university.html">Bushnell University</a></td><td>Eugene</td><td>Private nonprofit · 4-year</td><td>$33,220</td><td>$24,835</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/oregon/carrington-college-portland.html">Carrington College-Portland</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$28,771</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/central-oregon-community-college.html">Central Oregon Community College</a></td><td>Bend</td><td>Public · 2-year</td><td>$4,761</td><td>$8,807</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/chemeketa-community-college.html">Chemeketa Community College</a></td><td>Salem</td><td>Public · 2-year</td><td>$6,120</td><td>$7,530</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/christian-culinary-academy.html">Christian Culinary Academy</a></td><td>Cannon Beach</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/clackamas-community-college.html">Clackamas Community College</a></td><td>Oregon City</td><td>Public · 2-year</td><td>$5,850</td><td>$6,862</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/clatsop-community-college.html">Clatsop Community College</a></td><td>Astoria</td><td>Public · 2-year</td><td>$4,230</td><td>$9,079</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/college-of-hair-design-careers.html">College of Hair Design Careers</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$11,290</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/columbia-gorge-community-college.html">Columbia Gorge Community College</a></td><td>The Dalles</td><td>Public · 2-year</td><td>$5,472</td><td>$11,056</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/concorde-career-college-portland.html">Concorde Career College-Portland</a></td><td>Portland</td><td>Private for-profit · 2-year</td><td>None</td><td>$22,178</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/corban-university.html">Corban University</a></td><td>Salem</td><td>Private nonprofit · 4-year</td><td>$35,767</td><td>$20,565</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/oregon/east-west-college-of-the-healing-arts.html">East West College of the Healing Arts</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/eastern-oregon-university.html">Eastern Oregon University</a></td><td>La Grande</td><td>Public · 4-year</td><td>$10,041</td><td>$14,532</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/oregon/george-fox-university.html">George Fox University</a></td><td>Newberg</td><td>Private nonprofit · 4-year</td><td>$39,540</td><td>$27,773</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/oregon/institute-of-technology.html">Institute of Technology</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$42,459</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/johnny-matthew-s-hairdressing-training-school.html">Johnny Matthew&#x27;s Hairdressing Training School</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,919</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/klamath-community-college.html">Klamath Community College</a></td><td>Klamath Falls</td><td>Public · 2-year</td><td>$4,713</td><td>$12,444</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/lane-community-college.html">Lane Community College</a></td><td>Eugene</td><td>Public · 2-year</td><td>$5,720</td><td>$7,414</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/lewis-clark-college.html">Lewis &amp; Clark College</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$59,684</td><td>$33,819</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/oregon/linfield-university.html">Linfield University</a></td><td>McMinnville</td><td>Private nonprofit · 4-year</td><td>$47,415</td><td>$29,934</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/oregon/linn-benton-community-college.html">Linn-Benton Community College</a></td><td>Albany</td><td>Public · 2-year</td><td>$5,949</td><td>$12,446</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/mount-angel-seminary.html">Mount Angel Seminary</a></td><td>Saint Benedict</td><td>Private nonprofit · 4-year</td><td>$27,832</td><td>$43,251</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/mt-hood-community-college.html">Mt Hood Community College</a></td><td>Gresham</td><td>Public · 2-year</td><td>$5,094</td><td>$7,748</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/national-university-of-natural-medicine.html">National University of Natural Medicine</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/new-hope-christian-college-eugene.html">New Hope Christian College-Eugene</a></td><td>Eugene</td><td>Private nonprofit · 4-year</td><td>$15,700</td><td>$15,863</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/northwest-college-beaverton.html">Northwest College-Beaverton</a></td><td>Beaverton</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,489</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/northwest-college-clackamas.html">Northwest College-Clackamas</a></td><td>Happy Valley</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$21,124</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/northwest-college-eugene.html">Northwest College-Eugene</a></td><td>Springfield</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$21,494</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/northwest-college-medford.html">Northwest College-Medford</a></td><td>Medford</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,093</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/northwest-college-tualatin.html">Northwest College-Tualatin</a></td><td>Tualatin</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,122</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/oregon-coast-community-college.html">Oregon Coast Community College</a></td><td>Newport</td><td>Public · 2-year</td><td>$5,148</td><td>$13,445</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/oregon-college-of-oriental-medicine.html">Oregon College of Oriental Medicine</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/oregon-health-science-university.html">Oregon Health &amp; Science University</a></td><td>Portland</td><td>Public · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/oregon-institute-of-technology.html">Oregon Institute of Technology</a></td><td>Klamath Falls</td><td>Public · 4-year</td><td>$12,122</td><td>$15,974</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/oregon/oregon-state-university.html">Oregon State University</a></td><td>Corvallis</td><td>Public · 4-year</td><td>$12,664</td><td>$18,894</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/oregon/oregon-state-university-cascades-campus.html">Oregon State University-Cascades Campus</a></td><td>Bend</td><td>Public · 4-year</td><td>$11,628</td><td>$16,836</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/pacific-bible-college.html">Pacific Bible College</a></td><td>Medford</td><td>Private nonprofit · 2-year</td><td>$5,148</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/pacific-northwest-college-of-art.html">Pacific Northwest College of Art</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$45,100</td><td>$37,969</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/pacific-university.html">Pacific University</a></td><td>Forest Grove</td><td>Private nonprofit · 4-year</td><td>$52,072</td><td>$33,930</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/oregon/phagans-beauty-college.html">Phagans Beauty College</a></td><td>Corvallis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$8,391</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/phagans-central-oregon-beauty-college.html">Phagans Central Oregon Beauty College</a></td><td>Bend</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$9,815</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/phagans-grants-pass-college-of-beauty.html">Phagans Grants Pass College of Beauty</a></td><td>Grants Pass</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,280</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/phagans-medford-beauty-school.html">Phagans Medford Beauty School</a></td><td>Medford</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,328</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/phagans-school-of-beauty.html">Phagans School of Beauty</a></td><td>Salem</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,410</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/phagans-school-of-hair-design.html">Phagans School of Hair Design</a></td><td>Happy Valley</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$13,622</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/portland-actors-conservatory.html">Portland Actors Conservatory</a></td><td>Portland</td><td>Private nonprofit · Certificate/trade</td><td>$12,115</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/portland-community-college.html">Portland Community College</a></td><td>Portland</td><td>Public · 2-year</td><td>$4,810</td><td>$10,251</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/portland-state-university.html">Portland State University</a></td><td>Portland</td><td>Public · 4-year</td><td>$10,806</td><td>$16,281</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/oregon/premiere-aesthetics-institute.html">Premiere Aesthetics Institute</a></td><td>Bend</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,978</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/reed-college.html">Reed College</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$64,760</td><td>$32,966</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/rogue-community-college.html">Rogue Community College</a></td><td>Grants Pass</td><td>Public · 2-year</td><td>$5,184</td><td>$8,765</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/southern-oregon-university.html">Southern Oregon University</a></td><td>Ashland</td><td>Public · 4-year</td><td>$11,691</td><td>$16,577</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/oregon/southwestern-oregon-community-college.html">Southwestern Oregon Community College</a></td><td>Coos Bay</td><td>Public · 2-year</td><td>$6,558</td><td>$7,798</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/summit-salon-academy-portland.html">Summit Salon Academy-Portland</a></td><td>Tigard</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,796</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/sumner-college.html">Sumner College</a></td><td>Portland</td><td>Private for-profit · 4-year</td><td>None</td><td>$21,785</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/tillamook-bay-community-college.html">Tillamook Bay Community College</a></td><td>Tillamook</td><td>Public · 2-year</td><td>$4,536</td><td>$3,796</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/treasure-valley-community-college.html">Treasure Valley Community College</a></td><td>Ontario</td><td>Public · 2-year</td><td>$6,030</td><td>$3,248</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/umpqua-community-college.html">Umpqua Community College</a></td><td>Roseburg</td><td>Public · 2-year</td><td>$5,477</td><td>$9,231</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/oregon/university-of-oregon.html">University of Oregon</a></td><td>Eugene</td><td>Public · 4-year</td><td>$15,054</td><td>$20,543</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/oregon/university-of-portland.html">University of Portland</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$51,812</td><td>$33,248</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/oregon/university-of-western-states.html">University of Western States</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/warner-pacific-university.html">Warner Pacific University</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$20,240</td><td>$23,982</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/oregon/warner-pacific-university-professional-and-graduate-studies.html">Warner Pacific University Professional and Graduate Studies</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$6,240</td><td>$17,343</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/western-oregon-university.html">Western Oregon University</a></td><td>Monmouth</td><td>Public · 4-year</td><td>$10,602</td><td>$19,577</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/oregon/western-seminary.html">Western Seminary</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/oregon/willamette-university.html">Willamette University</a></td><td>Salem</td><td>Private nonprofit · 4-year</td><td>$45,260</td><td>$28,978</td><td>D-III</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

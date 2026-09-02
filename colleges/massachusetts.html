@@ -22,155 +22,166 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Massachusetts — all 141 schools</h1>
-<p class="sub">85 four-year colleges, 19 community colleges, and 53 NCAA/NAIA athletic programs in Massachusetts, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">85 four-year colleges, 19 community colleges, and 63 NCAA/NAIA athletic programs in Massachusetts, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.alexanderacademy.com/" rel="noopener nofollow">Alexander Academy</a></td><td>Lunenburg</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$24,908</td><td>—</td></tr>
-<tr><td><a href="https://www.aic.edu/" rel="noopener nofollow">American International College</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>$40,550</td><td>$23,595</td><td>D-II</td></tr>
-<tr><td><a href="https://www.amherst.edu/" rel="noopener nofollow">Amherst College</a></td><td>Amherst</td><td>Private nonprofit · 4-year</td><td>$64,100</td><td>$25,035</td><td>D-III</td></tr>
-<tr><td><a href="https://www.annamaria.edu/" rel="noopener nofollow">Anna Maria College</a></td><td>Paxton</td><td>Private nonprofit · 4-year</td><td>$41,010</td><td>$24,126</td><td>D-III</td></tr>
-<tr><td><a href="https://www.assabet.org/" rel="noopener nofollow">Assabet Valley Regional Technical School</a></td><td>Marlborough</td><td>Public · Certificate/trade</td><td>—</td><td>$40,380</td><td>—</td></tr>
-<tr><td><a href="https://www.assumption.edu/" rel="noopener nofollow">Assumption University</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$47,508</td><td>$28,821</td><td>D-II</td></tr>
-<tr><td><a href="https://www.babson.edu/" rel="noopener nofollow">Babson College</a></td><td>Wellesley</td><td>Private nonprofit · 4-year</td><td>$54,944</td><td>$34,994</td><td>D-III</td></tr>
-<tr><td><a href="https://www.bancroftsmt.com/" rel="noopener nofollow">Bancroft School of Massage Therapy</a></td><td>Worcester</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.simons-rock.edu/" rel="noopener nofollow">Bard College at Simon&#x27;s Rock</a></td><td>Great Barrington</td><td>Private nonprofit · 4-year</td><td>$64,951</td><td>$34,180</td><td>—</td></tr>
-<tr><td><a href="https://www.baypath.edu/" rel="noopener nofollow">Bay Path University</a></td><td>Longmeadow</td><td>Private nonprofit · 4-year</td><td>$35,781</td><td>$17,183</td><td>NCAA</td></tr>
-<tr><td><a href="https://www.bfit.edu/" rel="noopener nofollow">Benjamin Franklin Cummings Institute of Technology</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$18,228</td><td>$17,547</td><td>—</td></tr>
-<tr><td><a href="https://www.bentley.edu/" rel="noopener nofollow">Bentley University</a></td><td>Waltham</td><td>Private nonprofit · 4-year</td><td>$56,500</td><td>$39,699</td><td>D-II</td></tr>
-<tr><td><a href="https://www.berklee.edu/" rel="noopener nofollow">Berklee College of Music</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$48,330</td><td>$49,230</td><td>—</td></tr>
-<tr><td><a href="https://www.berkshirecc.edu/" rel="noopener nofollow">Berkshire Community College</a></td><td>Pittsfield</td><td>Public · 2-year</td><td>$5,492</td><td>$6,204</td><td>—</td></tr>
-<tr><td><a href="https://www.valleytech.k12.ma.us/" rel="noopener nofollow">Blackstone Valley Vocational Regional School District</a></td><td>Upton</td><td>Public · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.bluehills.org/practical-nursing/overview" rel="noopener nofollow">Blue Hills Regional Technical School</a></td><td>Canton</td><td>Public · Certificate/trade</td><td>—</td><td>$47,627</td><td>—</td></tr>
-<tr><td><a href="https://www.the-bac.edu/" rel="noopener nofollow">Boston Architectural College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$22,144</td><td>$31,065</td><td>—</td></tr>
-<tr><td><a href="https://www.boston.edu/" rel="noopener nofollow">Boston Baptist College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$12,600</td><td>$13,549</td><td>—</td></tr>
-<tr><td><a href="https://www.bc.edu/" rel="noopener nofollow">Boston College</a></td><td>Chestnut Hill</td><td>Private nonprofit · 4-year</td><td>$64,176</td><td>$39,090</td><td>D-I</td></tr>
-<tr><td><a href="https://www.bgsp.edu/" rel="noopener nofollow">Boston Graduate School of Psychoanalysis Inc</a></td><td>Brookline</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.bu.edu/" rel="noopener nofollow">Boston University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$62,360</td><td>$27,779</td><td>D-I</td></tr>
-<tr><td><a href="https://www.brandeis.edu/" rel="noopener nofollow">Brandeis University</a></td><td>Waltham</td><td>Private nonprofit · 4-year</td><td>$62,322</td><td>$35,439</td><td>D-III</td></tr>
-<tr><td><a href="https://www.bridgew.edu/" rel="noopener nofollow">Bridgewater State University</a></td><td>Bridgewater</td><td>Public · 4-year</td><td>$11,051</td><td>$18,707</td><td>D-III</td></tr>
-<tr><td><a href="https://www.bristolcc.edu/" rel="noopener nofollow">Bristol Community College</a></td><td>Fall River</td><td>Public · 2-year</td><td>$5,280</td><td>$6,686</td><td>—</td></tr>
-<tr><td><a href="https://www.bhcc.edu/" rel="noopener nofollow">Bunker Hill Community College</a></td><td>Boston</td><td>Public · 2-year</td><td>$5,280</td><td>$8,466</td><td>—</td></tr>
-<tr><td><a href="https://www.cambridgecollege.edu/" rel="noopener nofollow">Cambridge College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$17,190</td><td>$21,178</td><td>—</td></tr>
-<tr><td><a href="https://www.capecod.edu/" rel="noopener nofollow">Cape Cod Community College</a></td><td>West Barnstable</td><td>Public · 2-year</td><td>$5,592</td><td>$8,503</td><td>—</td></tr>
-<tr><td><a href="https://www.catherinehinds.edu/" rel="noopener nofollow">Catherine Hinds Institute of Esthetics</a></td><td>Woburn</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,580</td><td>—</td></tr>
-<tr><td><a href="https://www.mccanntech.org/" rel="noopener nofollow">Charles H McCann Technical School</a></td><td>North Adams</td><td>Public · Certificate/trade</td><td>—</td><td>$5,342</td><td>—</td></tr>
-<tr><td><a href="https://www.clarku.edu/" rel="noopener nofollow">Clark University</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$52,352</td><td>$29,264</td><td>D-III</td></tr>
-<tr><td><a href="https://www.elms.edu/" rel="noopener nofollow">College of Our Lady of the Elms</a></td><td>Chicopee</td><td>Private nonprofit · 4-year</td><td>$40,635</td><td>$21,757</td><td>D-III</td></tr>
-<tr><td><a href="https://www.holycross.edu/" rel="noopener nofollow">College of the Holy Cross</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$58,360</td><td>$39,310</td><td>D-I</td></tr>
-<tr><td><a href="https://www.csld.edu/" rel="noopener nofollow">Conway School of Landscape Design</a></td><td>Northampton</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.curry.edu/" rel="noopener nofollow">Curry College</a></td><td>Milton</td><td>Private nonprofit · 4-year</td><td>$44,920</td><td>$29,646</td><td>D-III</td></tr>
-<tr><td><a href="https://www.dean.edu/" rel="noopener nofollow">Dean College</a></td><td>Franklin</td><td>Private nonprofit · 4-year</td><td>$43,400</td><td>$30,992</td><td>D-III</td></tr>
-<tr><td><a href="https://www.digrigoli.com/school" rel="noopener nofollow">DiGrigoli School of Cosmetology</a></td><td>West Springfield</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,222</td><td>—</td></tr>
-<tr><td><a href="https://www.dimanregional.org/lpn" rel="noopener nofollow">Diman Regional Technical Institute</a></td><td>Fall River</td><td>Public · Certificate/trade</td><td>—</td><td>$22,473</td><td>—</td></tr>
-<tr><td><a href="https://electrologyinstitute.com/" rel="noopener nofollow">EINE Inc</a></td><td>Tewksbury</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$30,799</td><td>—</td></tr>
-<tr><td><a href="https://www.enc.edu/" rel="noopener nofollow">Eastern Nazarene College</a></td><td>Quincy</td><td>Private nonprofit · 4-year</td><td>$27,990</td><td>$19,690</td><td>D-III</td></tr>
-<tr><td><a href="https://www.emerson.edu/" rel="noopener nofollow">Emerson College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$53,232</td><td>$49,466</td><td>D-III</td></tr>
-<tr><td><a href="https://www.emmanuel.edu/" rel="noopener nofollow">Emmanuel College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$44,908</td><td>$30,487</td><td>D-III</td></tr>
-<tr><td><a href="https://www.empire.edu/" rel="noopener nofollow">Empire Beauty School-Malden</a></td><td>Malden</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,858</td><td>—</td></tr>
-<tr><td><a href="https://www.endicott.edu/" rel="noopener nofollow">Endicott College</a></td><td>Beverly</td><td>Private nonprofit · 4-year</td><td>$37,776</td><td>$36,959</td><td>D-III</td></tr>
-<tr><td><a href="https://www.fmc.edu/" rel="noopener nofollow">FINE Mortuary College</a></td><td>Norwood</td><td>Private for-profit · 2-year</td><td>$20,795</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.fisher.edu/" rel="noopener nofollow">Fisher College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$34,150</td><td>$25,829</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.fitchburgstate.edu/" rel="noopener nofollow">Fitchburg State University</a></td><td>Fitchburg</td><td>Public · 4-year</td><td>$10,921</td><td>$16,266</td><td>D-III</td></tr>
-<tr><td><a href="https://www.framingham.edu/" rel="noopener nofollow">Framingham State University</a></td><td>Framingham</td><td>Public · 4-year</td><td>$11,380</td><td>$17,874</td><td>D-III</td></tr>
-<tr><td><a href="https://www.olin.edu/" rel="noopener nofollow">Franklin W Olin College of Engineering</a></td><td>Needham</td><td>Private nonprofit · 4-year</td><td>$60,766</td><td>$25,924</td><td>—</td></tr>
-<tr><td><a href="https://www.gordon.edu/" rel="noopener nofollow">Gordon College</a></td><td>Wenham</td><td>Private nonprofit · 4-year</td><td>$27,040</td><td>$21,043</td><td>D-III</td></tr>
-<tr><td><a href="https://www.gordonconwell.edu/" rel="noopener nofollow">Gordon-Conwell Theological Seminary</a></td><td>South Hamilton</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.gltech.org/" rel="noopener nofollow">Greater Lowell Technical School</a></td><td>Tyngsboro</td><td>Public · Certificate/trade</td><td>—</td><td>$26,600</td><td>—</td></tr>
-<tr><td><a href="https://www.gcc.mass.edu/" rel="noopener nofollow">Greenfield Community College</a></td><td>Greenfield</td><td>Public · 2-year</td><td>$5,642</td><td>$10,651</td><td>—</td></tr>
-<tr><td><a href="https://www.hampshire.edu/" rel="noopener nofollow">Hampshire College</a></td><td>Amherst</td><td>Private nonprofit · 4-year</td><td>$54,452</td><td>$21,835</td><td>—</td></tr>
-<tr><td><a href="https://www.harvard.edu/" rel="noopener nofollow">Harvard University</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$57,261</td><td>$19,500</td><td>D-I</td></tr>
-<tr><td><a href="https://www.hebrewcollege.edu/" rel="noopener nofollow">Hebrew College</a></td><td>Newton</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.hchc.edu/" rel="noopener nofollow">Hellenic College-Holy Cross Greek Orthodox School of Theology</a></td><td>Brookline</td><td>Private nonprofit · 4-year</td><td>$22,490</td><td>$29,312</td><td>—</td></tr>
-<tr><td><a href="https://www.hcc.edu/" rel="noopener nofollow">Holyoke Community College</a></td><td>Holyoke</td><td>Public · 2-year</td><td>$5,570</td><td>$8,120</td><td>—</td></tr>
-<tr><td><a href="https://www.hult.edu/" rel="noopener nofollow">Hult International Business School</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$50,825</td><td>$49,047</td><td>—</td></tr>
-<tr><td><a href="https://www.jba.edu/" rel="noopener nofollow">Jupiter Beauty Academy</a></td><td>Boston</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.laboure.edu/" rel="noopener nofollow">Laboure College of Healthcare</a></td><td>Milton</td><td>Private nonprofit · 4-year</td><td>$32,813</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.lasell.edu/" rel="noopener nofollow">Lasell University</a></td><td>Newton</td><td>Private nonprofit · 4-year</td><td>$42,630</td><td>$28,558</td><td>D-III</td></tr>
-<tr><td><a href="https://www.lmregis.org/" rel="noopener nofollow">Lawrence Memorial Hospital School of Nursing</a></td><td>Medford</td><td>Private nonprofit · 2-year</td><td>$27,587</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.lesley.edu/" rel="noopener nofollow">Lesley University</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$31,364</td><td>$31,187</td><td>D-III</td></tr>
-<tr><td><a href="https://longy.edu/" rel="noopener nofollow">Longy School of Music of Bard College</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$50,675</td><td>$28,505</td><td>—</td></tr>
-<tr><td><a href="https://www.lowellacademy.com/" rel="noopener nofollow">Lowell Academy Hairstyling Institute</a></td><td>Lowell</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,216</td><td>—</td></tr>
-<tr><td><a href="https://www.mcphs.edu/" rel="noopener nofollow">MCPHS University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$37,230</td><td>$37,351</td><td>—</td></tr>
-<tr><td><a href="https://www.mghihp.edu/" rel="noopener nofollow">MGH Institute of Health Professions</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.massbay.edu/" rel="noopener nofollow">Massachusetts Bay Community College</a></td><td>Wellesley Hills</td><td>Public · 2-year</td><td>$5,376</td><td>$7,306</td><td>—</td></tr>
-<tr><td><a href="https://massart.edu/" rel="noopener nofollow">Massachusetts College of Art and Design</a></td><td>Boston</td><td>Public · 4-year</td><td>$14,570</td><td>$22,147</td><td>—</td></tr>
-<tr><td><a href="https://www.mcla.edu/" rel="noopener nofollow">Massachusetts College of Liberal Arts</a></td><td>North Adams</td><td>Public · 4-year</td><td>$11,590</td><td>$17,630</td><td>D-III</td></tr>
-<tr><td><a href="https://web.mit.edu/" rel="noopener nofollow">Massachusetts Institute of Technology</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$57,986</td><td>$20,338</td><td>D-III</td></tr>
-<tr><td><a href="https://www.maritime.edu/" rel="noopener nofollow">Massachusetts Maritime Academy</a></td><td>Buzzards Bay</td><td>Public · 4-year</td><td>$10,634</td><td>$25,294</td><td>D-III</td></tr>
-<tr><td><a href="https://massschoolofbarbering.com/" rel="noopener nofollow">Massachusetts School of Barbering</a></td><td>Quincy</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$12,726</td><td>—</td></tr>
-<tr><td><a href="https://www.mslaw.edu/" rel="noopener nofollow">Massachusetts School of Law</a></td><td>Andover</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.massasoit.edu/" rel="noopener nofollow">Massasoit Community College</a></td><td>Brockton</td><td>Public · 2-year</td><td>$5,376</td><td>$8,563</td><td>—</td></tr>
-<tr><td><a href="https://www.merrimack.edu/" rel="noopener nofollow">Merrimack College</a></td><td>North Andover</td><td>Private nonprofit · 4-year</td><td>$49,196</td><td>$36,195</td><td>D-I</td></tr>
-<tr><td><a href="https://www.middlesex.mass.edu/" rel="noopener nofollow">Middlesex Community College</a></td><td>Bedford</td><td>Public · 2-year</td><td>$6,048</td><td>$3,033</td><td>—</td></tr>
-<tr><td><a href="https://www.mildred-elley.edu/" rel="noopener nofollow">Mildred Elley-Pittsfield Campus</a></td><td>Pittsfield</td><td>Private for-profit · Certificate/trade</td><td>$16,052</td><td>$25,850</td><td>—</td></tr>
-<tr><td><a href="https://www.montserrat.edu/" rel="noopener nofollow">Montserrat College of Art</a></td><td>Beverly</td><td>Private nonprofit · 4-year</td><td>$37,850</td><td>$32,988</td><td>—</td></tr>
-<tr><td><a href="https://www.montytech.net/" rel="noopener nofollow">Monty Tech</a></td><td>Fitchburg</td><td>Public · Certificate/trade</td><td>—</td><td>$14,887</td><td>—</td></tr>
-<tr><td><a href="https://www.mtti.edu/" rel="noopener nofollow">Motoring Technical Training Institute</a></td><td>Seekonk</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,691</td><td>—</td></tr>
-<tr><td><a href="https://www.mtholyoke.edu/" rel="noopener nofollow">Mount Holyoke College</a></td><td>South Hadley</td><td>Private nonprofit · 4-year</td><td>$58,498</td><td>$31,444</td><td>D-III</td></tr>
-<tr><td><a href="https://mwcc.edu/" rel="noopener nofollow">Mount Wachusett Community College</a></td><td>Gardner</td><td>Public · 2-year</td><td>$5,760</td><td>$8,797</td><td>—</td></tr>
-<tr><td><a href="https://www.naa.edu/" rel="noopener nofollow">National Aviation Academy of New England</a></td><td>Concord</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$34,408</td><td>—</td></tr>
-<tr><td><a href="https://www.neco.edu/" rel="noopener nofollow">New England College of Optometry</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.newenglandhairacademy.com/" rel="noopener nofollow">New England Hair Academy</a></td><td>Malden</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$23,289</td><td>—</td></tr>
-<tr><td><a href="https://www.nesl.edu/" rel="noopener nofollow">New England Law-Boston</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.nettts.com/" rel="noopener nofollow">New England Tractor Trailer Training School of Massachusetts</a></td><td>North Andover</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,066</td><td>—</td></tr>
-<tr><td><a href="https://www.nichols.edu/" rel="noopener nofollow">Nichols College</a></td><td>Dudley</td><td>Private nonprofit · 4-year</td><td>$38,800</td><td>$29,795</td><td>D-III</td></tr>
-<tr><td><a href="https://www.nbss.edu/" rel="noopener nofollow">North Bennet Street School</a></td><td>Boston</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>$33,290</td><td>—</td></tr>
-<tr><td><a href="https://www.northshore.edu/" rel="noopener nofollow">North Shore Community College</a></td><td>Danvers</td><td>Public · 2-year</td><td>$5,352</td><td>$8,651</td><td>—</td></tr>
-<tr><td><a href="https://www.northeastern.edu/" rel="noopener nofollow">Northeastern University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$60,192</td><td>$28,521</td><td>D-I</td></tr>
-<tr><td><a href="https://www.northeastern.edu/" rel="noopener nofollow">Northeastern University Professional Programs</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.necc.mass.edu/" rel="noopener nofollow">Northern Essex Community College</a></td><td>Haverhill</td><td>Public · 2-year</td><td>$5,688</td><td>$7,354</td><td>—</td></tr>
-<tr><td><a href="https://www.northpoint.edu/" rel="noopener nofollow">Northpoint Bible College</a></td><td>Haverhill</td><td>Private nonprofit · 4-year</td><td>$14,160</td><td>$27,668</td><td>—</td></tr>
-<tr><td><a href="https://www.psjs.edu/" rel="noopener nofollow">Pope St John XXIII National Seminary</a></td><td>Weston</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.quincycollege.edu/" rel="noopener nofollow">Quincy College</a></td><td>Quincy</td><td>Public · 2-year</td><td>$7,344</td><td>$14,574</td><td>—</td></tr>
-<tr><td><a href="https://www.qcc.edu/" rel="noopener nofollow">Quinsigamond Community College</a></td><td>Worcester</td><td>Public · 2-year</td><td>$5,830</td><td>$8,303</td><td>—</td></tr>
-<tr><td><a href="https://www.regiscollege.edu/" rel="noopener nofollow">Regis College</a></td><td>Weston</td><td>Private nonprofit · 4-year</td><td>$46,150</td><td>$29,482</td><td>D-III</td></tr>
-<tr><td><a href="https://www.rob-roy.com/" rel="noopener nofollow">Rob Roy Academy-Fall River</a></td><td>Fall River</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,447</td><td>—</td></tr>
-<tr><td><a href="https://www.rob-roy.com/" rel="noopener nofollow">Rob Roy Academy-New Bedford</a></td><td>New Bedford</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$24,196</td><td>—</td></tr>
-<tr><td><a href="https://www.rob-roy.com/" rel="noopener nofollow">Rob Roy Academy-Taunton</a></td><td>Taunton</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$25,605</td><td>—</td></tr>
-<tr><td><a href="https://www.rob-roy.com/" rel="noopener nofollow">Rob Roy Academy-Worcester</a></td><td>Worcester</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$24,841</td><td>—</td></tr>
-<tr><td><a href="https://www.rcc.mass.edu/" rel="noopener nofollow">Roxbury Community College</a></td><td>Roxbury Crossing</td><td>Public · 2-year</td><td>$5,784</td><td>$9,468</td><td>—</td></tr>
-<tr><td><a href="https://www.sjs.edu/" rel="noopener nofollow">Saint John&#x27;s Seminary</a></td><td>Brighton</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.salemstate.edu/" rel="noopener nofollow">Salem State University</a></td><td>Salem</td><td>Public · 4-year</td><td>$11,978</td><td>$18,359</td><td>D-III</td></tr>
-<tr><td><a href="https://www.shawsheenpracticalnursing.com/" rel="noopener nofollow">Shawsheen Valley School of Practical Nursing</a></td><td>Billerica</td><td>Public · Certificate/trade</td><td>—</td><td>$21,272</td><td>—</td></tr>
-<tr><td><a href="https://www.bhson.org/" rel="noopener nofollow">Signature Healthcare Brockton Hospital School of Nursing</a></td><td>Brockton</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>$24,120</td><td>—</td></tr>
-<tr><td><a href="https://www.simmons.edu/" rel="noopener nofollow">Simmons University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$44,350</td><td>$21,661</td><td>D-III</td></tr>
-<tr><td><a href="https://www.smith.edu/" rel="noopener nofollow">Smith College</a></td><td>Northampton</td><td>Private nonprofit · 4-year</td><td>$58,768</td><td>$31,087</td><td>D-III</td></tr>
-<tr><td><a href="https://www.stitech.edu/" rel="noopener nofollow">Southeastern Technical Institute</a></td><td>South Easton</td><td>Public · Certificate/trade</td><td>—</td><td>$8,583</td><td>—</td></tr>
-<tr><td><a href="https://www.baypath.net/evening-programs-division/practical-nursing/" rel="noopener nofollow">Southern Worcester County Regional Vocational School District</a></td><td>Charlton</td><td>Public · Certificate/trade</td><td>—</td><td>$34,005</td><td>—</td></tr>
-<tr><td><a href="https://www.spatech.edu/" rel="noopener nofollow">Spa Tech Institute-North Andover</a></td><td>North Andover</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$28,856</td><td>—</td></tr>
-<tr><td><a href="https://www.spatech.edu/" rel="noopener nofollow">Spa Tech Institute-Plymouth</a></td><td>Plymouth</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$21,924</td><td>—</td></tr>
-<tr><td><a href="https://www.spatech.edu/" rel="noopener nofollow">Spa Tech Institute-Westboro</a></td><td>Westborough</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,454</td><td>—</td></tr>
-<tr><td><a href="https://www.springfield.edu/" rel="noopener nofollow">Springfield College</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>$41,694</td><td>$27,201</td><td>D-III</td></tr>
-<tr><td><a href="https://springfield.edu/regional-and-online" rel="noopener nofollow">Springfield College-Regional Online and Continuing Education</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.stcc.edu/" rel="noopener nofollow">Springfield Technical Community College</a></td><td>Springfield</td><td>Public · 2-year</td><td>$5,520</td><td>$9,753</td><td>—</td></tr>
-<tr><td><a href="https://www.stonehill.edu/" rel="noopener nofollow">Stonehill College</a></td><td>Easton</td><td>Private nonprofit · 4-year</td><td>$52,000</td><td>$29,952</td><td>D-I</td></tr>
-<tr><td><a href="https://www.suffolk.edu/" rel="noopener nofollow">Suffolk University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$43,332</td><td>$27,882</td><td>D-III</td></tr>
-<tr><td><a href="https://tlcedu.com/" rel="noopener nofollow">Technology Learning Center</a></td><td>Oxford</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://necmusic.edu/" rel="noopener nofollow">The New England Conservatory of Music</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$55,910</td><td>$32,148</td><td>—</td></tr>
-<tr><td><a href="https://worcester.toniguy.edu/" rel="noopener nofollow">Toni &amp; Guy Hairdressing Academy-Worcester</a></td><td>Worcester</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$25,704</td><td>—</td></tr>
-<tr><td><a href="https://www.tri-county.us/" rel="noopener nofollow">Tri County Regional Vocational Technical High School</a></td><td>Franklin</td><td>Public · Certificate/trade</td><td>—</td><td>$21,597</td><td>—</td></tr>
-<tr><td><a href="https://www.tufts.edu/" rel="noopener nofollow">Tufts University</a></td><td>Medford</td><td>Private nonprofit · 4-year</td><td>$65,222</td><td>$35,123</td><td>D-III</td></tr>
-<tr><td><a href="https://www.umassmed.edu/" rel="noopener nofollow">University of Massachusetts Chan Medical School</a></td><td>Worcester</td><td>Public · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.umass.edu/" rel="noopener nofollow">University of Massachusetts-Amherst</a></td><td>Amherst</td><td>Public · 4-year</td><td>$16,952</td><td>$21,846</td><td>D-I</td></tr>
-<tr><td><a href="https://www.umb.edu/" rel="noopener nofollow">University of Massachusetts-Boston</a></td><td>Boston</td><td>Public · 4-year</td><td>$15,132</td><td>$17,642</td><td>D-III</td></tr>
-<tr><td><a href="https://www.umassd.edu/" rel="noopener nofollow">University of Massachusetts-Dartmouth</a></td><td>North Dartmouth</td><td>Public · 4-year</td><td>$14,854</td><td>$19,444</td><td>D-III</td></tr>
-<tr><td><a href="https://www.uml.edu/" rel="noopener nofollow">University of Massachusetts-Lowell</a></td><td>Lowell</td><td>Public · 4-year</td><td>$16,182</td><td>$18,281</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uctpracticalnursing.com/" rel="noopener nofollow">Upper Cape Cod Regional Technical School</a></td><td>Bourne</td><td>Public · Certificate/trade</td><td>—</td><td>$19,897</td><td>—</td></tr>
-<tr><td><a href="https://www.urbancollege.edu/" rel="noopener nofollow">Urban College of Boston</a></td><td>Boston</td><td>Private nonprofit · 2-year</td><td>$7,104</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.wellesley.edu/" rel="noopener nofollow">Wellesley College</a></td><td>Wellesley</td><td>Private nonprofit · 4-year</td><td>$61,920</td><td>$23,052</td><td>D-III</td></tr>
-<tr><td><a href="https://wit.edu/" rel="noopener nofollow">Wentworth Institute of Technology</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$38,760</td><td>$36,750</td><td>D-III</td></tr>
-<tr><td><a href="https://wne.edu/" rel="noopener nofollow">Western New England University</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>$44,500</td><td>$30,137</td><td>D-III</td></tr>
-<tr><td><a href="https://www.westfield.ma.edu/" rel="noopener nofollow">Westfield State University</a></td><td>Westfield</td><td>Public · 4-year</td><td>$11,500</td><td>$18,278</td><td>D-III</td></tr>
-<tr><td><a href="https://www.wheatoncollege.edu/" rel="noopener nofollow">Wheaton College (Massachusetts)</a></td><td>Norton</td><td>Private nonprofit · 4-year</td><td>$60,230</td><td>$32,248</td><td>D-III</td></tr>
-<tr><td><a href="https://www.williamjames.edu/" rel="noopener nofollow">William James College</a></td><td>Newton</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.williams.edu/" rel="noopener nofollow">Williams College</a></td><td>Williamstown</td><td>Private nonprofit · 4-year</td><td>$61,770</td><td>$26,775</td><td>D-III</td></tr>
-<tr><td><a href="https://www.wpi.edu/" rel="noopener nofollow">Worcester Polytechnic Institute</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$57,096</td><td>$44,100</td><td>D-III</td></tr>
-<tr><td><a href="https://www.worcester.edu/" rel="noopener nofollow">Worcester State University</a></td><td>Worcester</td><td>Public · 4-year</td><td>$10,786</td><td>$15,325</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/alexander-academy.html">Alexander Academy</a></td><td>Lunenburg</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$24,908</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/american-international-college.html">American International College</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>$40,550</td><td>$23,595</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/massachusetts/amherst-college.html">Amherst College</a></td><td>Amherst</td><td>Private nonprofit · 4-year</td><td>$64,100</td><td>$25,035</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/anna-maria-college.html">Anna Maria College</a></td><td>Paxton</td><td>Private nonprofit · 4-year</td><td>$41,010</td><td>$24,126</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/assabet-valley-regional-technical-school.html">Assabet Valley Regional Technical School</a></td><td>Marlborough</td><td>Public · Certificate/trade</td><td>None</td><td>$40,380</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/assumption-university.html">Assumption University</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$47,508</td><td>$28,821</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/massachusetts/babson-college.html">Babson College</a></td><td>Wellesley</td><td>Private nonprofit · 4-year</td><td>$54,944</td><td>$34,994</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/bancroft-school-of-massage-therapy.html">Bancroft School of Massage Therapy</a></td><td>Worcester</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/bard-college-at-simon-s-rock.html">Bard College at Simon&#x27;s Rock</a></td><td>Great Barrington</td><td>Private nonprofit · 4-year</td><td>$64,951</td><td>$34,180</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/bay-path-university.html">Bay Path University</a></td><td>Longmeadow</td><td>Private nonprofit · 4-year</td><td>$35,781</td><td>$17,183</td><td>NCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/benjamin-franklin-cummings-institute-of-technology.html">Benjamin Franklin Cummings Institute of Technology</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$18,228</td><td>$17,547</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/bentley-university.html">Bentley University</a></td><td>Waltham</td><td>Private nonprofit · 4-year</td><td>$56,500</td><td>$39,699</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/massachusetts/berklee-college-of-music.html">Berklee College of Music</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$48,330</td><td>$49,230</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/berkshire-community-college.html">Berkshire Community College</a></td><td>Pittsfield</td><td>Public · 2-year</td><td>$5,492</td><td>$6,204</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/blackstone-valley-vocational-regional-school-district.html">Blackstone Valley Vocational Regional School District</a></td><td>Upton</td><td>Public · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/blue-hills-regional-technical-school.html">Blue Hills Regional Technical School</a></td><td>Canton</td><td>Public · Certificate/trade</td><td>None</td><td>$47,627</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/boston-architectural-college.html">Boston Architectural College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$22,144</td><td>$31,065</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/boston-baptist-college.html">Boston Baptist College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$12,600</td><td>$13,549</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/boston-college.html">Boston College</a></td><td>Chestnut Hill</td><td>Private nonprofit · 4-year</td><td>$64,176</td><td>$39,090</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/boston-graduate-school-of-psychoanalysis-inc.html">Boston Graduate School of Psychoanalysis Inc</a></td><td>Brookline</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/boston-university.html">Boston University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$62,360</td><td>$27,779</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/brandeis-university.html">Brandeis University</a></td><td>Waltham</td><td>Private nonprofit · 4-year</td><td>$62,322</td><td>$35,439</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/bridgewater-state-university.html">Bridgewater State University</a></td><td>Bridgewater</td><td>Public · 4-year</td><td>$11,051</td><td>$18,707</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/bristol-community-college.html">Bristol Community College</a></td><td>Fall River</td><td>Public · 2-year</td><td>$5,280</td><td>$6,686</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/bunker-hill-community-college.html">Bunker Hill Community College</a></td><td>Boston</td><td>Public · 2-year</td><td>$5,280</td><td>$8,466</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/cambridge-college.html">Cambridge College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$17,190</td><td>$21,178</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/cape-cod-community-college.html">Cape Cod Community College</a></td><td>West Barnstable</td><td>Public · 2-year</td><td>$5,592</td><td>$8,503</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/catherine-hinds-institute-of-esthetics.html">Catherine Hinds Institute of Esthetics</a></td><td>Woburn</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,580</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/charles-h-mccann-technical-school.html">Charles H McCann Technical School</a></td><td>North Adams</td><td>Public · Certificate/trade</td><td>None</td><td>$5,342</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/clark-university.html">Clark University</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$52,352</td><td>$29,264</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/college-of-our-lady-of-the-elms.html">College of Our Lady of the Elms</a></td><td>Chicopee</td><td>Private nonprofit · 4-year</td><td>$40,635</td><td>$21,757</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/college-of-the-holy-cross.html">College of the Holy Cross</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$58,360</td><td>$39,310</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/conway-school-of-landscape-design.html">Conway School of Landscape Design</a></td><td>Northampton</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/curry-college.html">Curry College</a></td><td>Milton</td><td>Private nonprofit · 4-year</td><td>$44,920</td><td>$29,646</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/dean-college.html">Dean College</a></td><td>Franklin</td><td>Private nonprofit · 4-year</td><td>$43,400</td><td>$30,992</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/digrigoli-school-of-cosmetology.html">DiGrigoli School of Cosmetology</a></td><td>West Springfield</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,222</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/diman-regional-technical-institute.html">Diman Regional Technical Institute</a></td><td>Fall River</td><td>Public · Certificate/trade</td><td>None</td><td>$22,473</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/eine-inc.html">EINE Inc</a></td><td>Tewksbury</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$30,799</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/eastern-nazarene-college.html">Eastern Nazarene College</a></td><td>Quincy</td><td>Private nonprofit · 4-year</td><td>$27,990</td><td>$19,690</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/emerson-college.html">Emerson College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$53,232</td><td>$49,466</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/emmanuel-college.html">Emmanuel College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$44,908</td><td>$30,487</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/empire-beauty-school-malden.html">Empire Beauty School-Malden</a></td><td>Malden</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,858</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/endicott-college.html">Endicott College</a></td><td>Beverly</td><td>Private nonprofit · 4-year</td><td>$37,776</td><td>$36,959</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/fine-mortuary-college.html">FINE Mortuary College</a></td><td>Norwood</td><td>Private for-profit · 2-year</td><td>$20,795</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/fisher-college.html">Fisher College</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$34,150</td><td>$25,829</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/massachusetts/fitchburg-state-university.html">Fitchburg State University</a></td><td>Fitchburg</td><td>Public · 4-year</td><td>$10,921</td><td>$16,266</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/framingham-state-university.html">Framingham State University</a></td><td>Framingham</td><td>Public · 4-year</td><td>$11,380</td><td>$17,874</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/franklin-w-olin-college-of-engineering.html">Franklin W Olin College of Engineering</a></td><td>Needham</td><td>Private nonprofit · 4-year</td><td>$60,766</td><td>$25,924</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/gordon-college.html">Gordon College</a></td><td>Wenham</td><td>Private nonprofit · 4-year</td><td>$27,040</td><td>$21,043</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/gordon-conwell-theological-seminary.html">Gordon-Conwell Theological Seminary</a></td><td>South Hamilton</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/greater-lowell-technical-school.html">Greater Lowell Technical School</a></td><td>Tyngsboro</td><td>Public · Certificate/trade</td><td>None</td><td>$26,600</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/greenfield-community-college.html">Greenfield Community College</a></td><td>Greenfield</td><td>Public · 2-year</td><td>$5,642</td><td>$10,651</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/hampshire-college.html">Hampshire College</a></td><td>Amherst</td><td>Private nonprofit · 4-year</td><td>$54,452</td><td>$21,835</td><td>Other</td></tr>
+<tr><td><a href="/colleges/massachusetts/harvard-university.html">Harvard University</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$57,261</td><td>$19,500</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/hebrew-college.html">Hebrew College</a></td><td>Newton</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/hellenic-college-holy-cross-greek-orthodox-school-of-theology.html">Hellenic College-Holy Cross Greek Orthodox School of Theology</a></td><td>Brookline</td><td>Private nonprofit · 4-year</td><td>$22,490</td><td>$29,312</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/holyoke-community-college.html">Holyoke Community College</a></td><td>Holyoke</td><td>Public · 2-year</td><td>$5,570</td><td>$8,120</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/hult-international-business-school.html">Hult International Business School</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$50,825</td><td>$49,047</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/jupiter-beauty-academy.html">Jupiter Beauty Academy</a></td><td>Boston</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/laboure-college-of-healthcare.html">Laboure College of Healthcare</a></td><td>Milton</td><td>Private nonprofit · 4-year</td><td>$32,813</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/lasell-university.html">Lasell University</a></td><td>Newton</td><td>Private nonprofit · 4-year</td><td>$42,630</td><td>$28,558</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/lawrence-memorial-hospital-school-of-nursing.html">Lawrence Memorial Hospital School of Nursing</a></td><td>Medford</td><td>Private nonprofit · 2-year</td><td>$27,587</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/lesley-university.html">Lesley University</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$31,364</td><td>$31,187</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/longy-school-of-music-of-bard-college.html">Longy School of Music of Bard College</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$50,675</td><td>$28,505</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/lowell-academy-hairstyling-institute.html">Lowell Academy Hairstyling Institute</a></td><td>Lowell</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,216</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/mcphs-university.html">MCPHS University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$37,230</td><td>$37,351</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/mgh-institute-of-health-professions.html">MGH Institute of Health Professions</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-bay-community-college.html">Massachusetts Bay Community College</a></td><td>Wellesley Hills</td><td>Public · 2-year</td><td>$5,376</td><td>$7,306</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-college-of-art-and-design.html">Massachusetts College of Art and Design</a></td><td>Boston</td><td>Public · 4-year</td><td>$14,570</td><td>$22,147</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-college-of-liberal-arts.html">Massachusetts College of Liberal Arts</a></td><td>North Adams</td><td>Public · 4-year</td><td>$11,590</td><td>$17,630</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-institute-of-technology.html">Massachusetts Institute of Technology</a></td><td>Cambridge</td><td>Private nonprofit · 4-year</td><td>$57,986</td><td>$20,338</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-maritime-academy.html">Massachusetts Maritime Academy</a></td><td>Buzzards Bay</td><td>Public · 4-year</td><td>$10,634</td><td>$25,294</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-school-of-barbering.html">Massachusetts School of Barbering</a></td><td>Quincy</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$12,726</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/massachusetts-school-of-law.html">Massachusetts School of Law</a></td><td>Andover</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/massasoit-community-college.html">Massasoit Community College</a></td><td>Brockton</td><td>Public · 2-year</td><td>$5,376</td><td>$8,563</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/merrimack-college.html">Merrimack College</a></td><td>North Andover</td><td>Private nonprofit · 4-year</td><td>$49,196</td><td>$36,195</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/middlesex-community-college.html">Middlesex Community College</a></td><td>Bedford</td><td>Public · 2-year</td><td>$6,048</td><td>$3,033</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/mildred-elley-pittsfield-campus.html">Mildred Elley-Pittsfield Campus</a></td><td>Pittsfield</td><td>Private for-profit · Certificate/trade</td><td>$16,052</td><td>$25,850</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/montserrat-college-of-art.html">Montserrat College of Art</a></td><td>Beverly</td><td>Private nonprofit · 4-year</td><td>$37,850</td><td>$32,988</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/monty-tech.html">Monty Tech</a></td><td>Fitchburg</td><td>Public · Certificate/trade</td><td>None</td><td>$14,887</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/motoring-technical-training-institute.html">Motoring Technical Training Institute</a></td><td>Seekonk</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,691</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/mount-holyoke-college.html">Mount Holyoke College</a></td><td>South Hadley</td><td>Private nonprofit · 4-year</td><td>$58,498</td><td>$31,444</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/mount-wachusett-community-college.html">Mount Wachusett Community College</a></td><td>Gardner</td><td>Public · 2-year</td><td>$5,760</td><td>$8,797</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/national-aviation-academy-of-new-england.html">National Aviation Academy of New England</a></td><td>Concord</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$34,408</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/new-england-college-of-optometry.html">New England College of Optometry</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/new-england-hair-academy.html">New England Hair Academy</a></td><td>Malden</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$23,289</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/new-england-law-boston.html">New England Law-Boston</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/new-england-tractor-trailer-training-school-of-massachusetts.html">New England Tractor Trailer Training School of Massachusetts</a></td><td>North Andover</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,066</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/nichols-college.html">Nichols College</a></td><td>Dudley</td><td>Private nonprofit · 4-year</td><td>$38,800</td><td>$29,795</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/north-bennet-street-school.html">North Bennet Street School</a></td><td>Boston</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>$33,290</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/north-shore-community-college.html">North Shore Community College</a></td><td>Danvers</td><td>Public · 2-year</td><td>$5,352</td><td>$8,651</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/northeastern-university.html">Northeastern University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$60,192</td><td>$28,521</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/northeastern-university-professional-programs.html">Northeastern University Professional Programs</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/northern-essex-community-college.html">Northern Essex Community College</a></td><td>Haverhill</td><td>Public · 2-year</td><td>$5,688</td><td>$7,354</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/northpoint-bible-college.html">Northpoint Bible College</a></td><td>Haverhill</td><td>Private nonprofit · 4-year</td><td>$14,160</td><td>$27,668</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/pope-st-john-xxiii-national-seminary.html">Pope St John XXIII National Seminary</a></td><td>Weston</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/quincy-college.html">Quincy College</a></td><td>Quincy</td><td>Public · 2-year</td><td>$7,344</td><td>$14,574</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/quinsigamond-community-college.html">Quinsigamond Community College</a></td><td>Worcester</td><td>Public · 2-year</td><td>$5,830</td><td>$8,303</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/regis-college.html">Regis College</a></td><td>Weston</td><td>Private nonprofit · 4-year</td><td>$46,150</td><td>$29,482</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/rob-roy-academy-fall-river.html">Rob Roy Academy-Fall River</a></td><td>Fall River</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,447</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/rob-roy-academy-new-bedford.html">Rob Roy Academy-New Bedford</a></td><td>New Bedford</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$24,196</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/rob-roy-academy-taunton.html">Rob Roy Academy-Taunton</a></td><td>Taunton</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$25,605</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/rob-roy-academy-worcester.html">Rob Roy Academy-Worcester</a></td><td>Worcester</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$24,841</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/roxbury-community-college.html">Roxbury Community College</a></td><td>Roxbury Crossing</td><td>Public · 2-year</td><td>$5,784</td><td>$9,468</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/saint-john-s-seminary.html">Saint John&#x27;s Seminary</a></td><td>Brighton</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/salem-state-university.html">Salem State University</a></td><td>Salem</td><td>Public · 4-year</td><td>$11,978</td><td>$18,359</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/shawsheen-valley-school-of-practical-nursing.html">Shawsheen Valley School of Practical Nursing</a></td><td>Billerica</td><td>Public · Certificate/trade</td><td>None</td><td>$21,272</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/signature-healthcare-brockton-hospital-school-of-nursing.html">Signature Healthcare Brockton Hospital School of Nursing</a></td><td>Brockton</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>$24,120</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/simmons-university.html">Simmons University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$44,350</td><td>$21,661</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/smith-college.html">Smith College</a></td><td>Northampton</td><td>Private nonprofit · 4-year</td><td>$58,768</td><td>$31,087</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/southeastern-technical-institute.html">Southeastern Technical Institute</a></td><td>South Easton</td><td>Public · Certificate/trade</td><td>None</td><td>$8,583</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/southern-worcester-county-regional-vocational-school-district.html">Southern Worcester County Regional Vocational School District</a></td><td>Charlton</td><td>Public · Certificate/trade</td><td>None</td><td>$34,005</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/spa-tech-institute-north-andover.html">Spa Tech Institute-North Andover</a></td><td>North Andover</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$28,856</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/spa-tech-institute-plymouth.html">Spa Tech Institute-Plymouth</a></td><td>Plymouth</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$21,924</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/spa-tech-institute-westboro.html">Spa Tech Institute-Westboro</a></td><td>Westborough</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,454</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/springfield-college.html">Springfield College</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>$41,694</td><td>$27,201</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/springfield-college-regional-online-and-continuing-education.html">Springfield College-Regional Online and Continuing Education</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/springfield-technical-community-college.html">Springfield Technical Community College</a></td><td>Springfield</td><td>Public · 2-year</td><td>$5,520</td><td>$9,753</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/massachusetts/stonehill-college.html">Stonehill College</a></td><td>Easton</td><td>Private nonprofit · 4-year</td><td>$52,000</td><td>$29,952</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/suffolk-university.html">Suffolk University</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$43,332</td><td>$27,882</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/technology-learning-center.html">Technology Learning Center</a></td><td>Oxford</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/the-new-england-conservatory-of-music.html">The New England Conservatory of Music</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$55,910</td><td>$32,148</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/toni-guy-hairdressing-academy-worcester.html">Toni &amp; Guy Hairdressing Academy-Worcester</a></td><td>Worcester</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$25,704</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/tri-county-regional-vocational-technical-high-school.html">Tri County Regional Vocational Technical High School</a></td><td>Franklin</td><td>Public · Certificate/trade</td><td>None</td><td>$21,597</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/tufts-university.html">Tufts University</a></td><td>Medford</td><td>Private nonprofit · 4-year</td><td>$65,222</td><td>$35,123</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/university-of-massachusetts-chan-medical-school.html">University of Massachusetts Chan Medical School</a></td><td>Worcester</td><td>Public · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/university-of-massachusetts-amherst.html">University of Massachusetts-Amherst</a></td><td>Amherst</td><td>Public · 4-year</td><td>$16,952</td><td>$21,846</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/university-of-massachusetts-boston.html">University of Massachusetts-Boston</a></td><td>Boston</td><td>Public · 4-year</td><td>$15,132</td><td>$17,642</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/university-of-massachusetts-dartmouth.html">University of Massachusetts-Dartmouth</a></td><td>North Dartmouth</td><td>Public · 4-year</td><td>$14,854</td><td>$19,444</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/university-of-massachusetts-lowell.html">University of Massachusetts-Lowell</a></td><td>Lowell</td><td>Public · 4-year</td><td>$16,182</td><td>$18,281</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/massachusetts/upper-cape-cod-regional-technical-school.html">Upper Cape Cod Regional Technical School</a></td><td>Bourne</td><td>Public · Certificate/trade</td><td>None</td><td>$19,897</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/urban-college-of-boston.html">Urban College of Boston</a></td><td>Boston</td><td>Private nonprofit · 2-year</td><td>$7,104</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/wellesley-college.html">Wellesley College</a></td><td>Wellesley</td><td>Private nonprofit · 4-year</td><td>$61,920</td><td>$23,052</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/wentworth-institute-of-technology.html">Wentworth Institute of Technology</a></td><td>Boston</td><td>Private nonprofit · 4-year</td><td>$38,760</td><td>$36,750</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/western-new-england-university.html">Western New England University</a></td><td>Springfield</td><td>Private nonprofit · 4-year</td><td>$44,500</td><td>$30,137</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/westfield-state-university.html">Westfield State University</a></td><td>Westfield</td><td>Public · 4-year</td><td>$11,500</td><td>$18,278</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/wheaton-college-massachusetts.html">Wheaton College (Massachusetts)</a></td><td>Norton</td><td>Private nonprofit · 4-year</td><td>$60,230</td><td>$32,248</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/william-james-college.html">William James College</a></td><td>Newton</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/massachusetts/williams-college.html">Williams College</a></td><td>Williamstown</td><td>Private nonprofit · 4-year</td><td>$61,770</td><td>$26,775</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/worcester-polytechnic-institute.html">Worcester Polytechnic Institute</a></td><td>Worcester</td><td>Private nonprofit · 4-year</td><td>$57,096</td><td>$44,100</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/massachusetts/worcester-state-university.html">Worcester State University</a></td><td>Worcester</td><td>Public · 4-year</td><td>$10,786</td><td>$15,325</td><td>D-III</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

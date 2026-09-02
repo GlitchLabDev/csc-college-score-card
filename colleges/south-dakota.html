@@ -22,40 +22,51 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in South Dakota — all 26 schools</h1>
-<p class="sub">15 four-year colleges, 5 community colleges, and 10 NCAA/NAIA athletic programs in South Dakota, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">15 four-year colleges, 5 community colleges, and 11 NCAA/NAIA athletic programs in South Dakota, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.augie.edu/" rel="noopener nofollow">Augustana University</a></td><td>Sioux Falls</td><td>Private nonprofit · 4-year</td><td>$37,342</td><td>$24,113</td><td>D-II</td></tr>
-<tr><td><a href="https://www.avera.org/" rel="noopener nofollow">Avera McKennan Hospital School of Radiologic Technology</a></td><td>Sioux Falls</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.averasacredheart.org/" rel="noopener nofollow">Avera Sacred Heart Hospital</a></td><td>Yankton</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.bhsu.edu/" rel="noopener nofollow">Black Hills State University</a></td><td>Spearfish</td><td>Public · 4-year</td><td>$9,000</td><td>$17,111</td><td>D-II</td></tr>
-<tr><td><a href="https://www.caluniversity.edu/" rel="noopener nofollow">California Intercontinental University</a></td><td>Sioux Falls</td><td>Private for-profit · 4-year</td><td>$9,054</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://dsu.edu/" rel="noopener nofollow">Dakota State University</a></td><td>Madison</td><td>Public · 4-year</td><td>$9,633</td><td>$18,356</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.dwu.edu/" rel="noopener nofollow">Dakota Wesleyan University</a></td><td>Mitchell</td><td>Private nonprofit · 4-year</td><td>$31,890</td><td>$22,931</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.kairos.edu/" rel="noopener nofollow">Kairos University</a></td><td>Sioux Falls</td><td>Private nonprofit · 4-year</td><td>$3,600</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.lakeareatech.edu/" rel="noopener nofollow">Lake Area Technical College</a></td><td>Watertown</td><td>Public · 2-year</td><td>$6,718</td><td>$14,454</td><td>—</td></tr>
-<tr><td><a href="https://mitchelltech.edu/" rel="noopener nofollow">Mitchell Technical College</a></td><td>Mitchell</td><td>Public · 2-year</td><td>$7,524</td><td>$13,368</td><td>—</td></tr>
-<tr><td><a href="https://www.mountmarty.edu/" rel="noopener nofollow">Mount Marty University</a></td><td>Yankton</td><td>Private nonprofit · 4-year</td><td>$31,500</td><td>$21,611</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.national.edu/locations/campuses/rapid-city/" rel="noopener nofollow">National American University-Rapid City</a></td><td>Rapid City</td><td>Private for-profit · 4-year</td><td>$16,065</td><td>$23,855</td><td>—</td></tr>
-<tr><td><a href="https://www.northern.edu/" rel="noopener nofollow">Northern State University</a></td><td>Aberdeen</td><td>Public · 4-year</td><td>$8,845</td><td>$17,523</td><td>D-II</td></tr>
-<tr><td><a href="https://www.olc.edu/" rel="noopener nofollow">Oglala Lakota College</a></td><td>Kyle</td><td>Public · 4-year</td><td>$2,684</td><td>$4,027</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/rapidcity" rel="noopener nofollow">Paul Mitchell the School-Rapid City</a></td><td>Rapid City</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,704</td><td>—</td></tr>
-<tr><td><a href="https://www.sanfordhealth.org/" rel="noopener nofollow">Sanford Medical Center</a></td><td>Sioux Falls</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.sintegleska.edu/" rel="noopener nofollow">Sinte Gleska University</a></td><td>Mission</td><td>Public · 4-year</td><td>$4,714</td><td>$16,641</td><td>—</td></tr>
-<tr><td><a href="https://www.swcollege.edu/" rel="noopener nofollow">Sisseton Wahpeton College</a></td><td>Sisseton</td><td>Public · 2-year</td><td>$4,330</td><td>$4,689</td><td>—</td></tr>
-<tr><td><a href="https://www.sdsmt.edu/" rel="noopener nofollow">South Dakota School of Mines and Technology</a></td><td>Rapid City</td><td>Public · 4-year</td><td>$10,440</td><td>$21,282</td><td>D-II</td></tr>
-<tr><td><a href="https://www.sdstate.edu/" rel="noopener nofollow">South Dakota State University</a></td><td>Brookings</td><td>Public · 4-year</td><td>$9,299</td><td>$18,125</td><td>D-I</td></tr>
-<tr><td><a href="https://www.southeasttech.edu/" rel="noopener nofollow">Southeast Technical College</a></td><td>Sioux Falls</td><td>Public · 2-year</td><td>$7,650</td><td>$17,044</td><td>—</td></tr>
-<tr><td><a href="https://www.stewartschool.com/" rel="noopener nofollow">Stewart School</a></td><td>Sioux Falls</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,220</td><td>—</td></tr>
-<tr><td><a href="https://www.tsparapidcity.com/" rel="noopener nofollow">The Salon Professional Academy</a></td><td>Rapid City</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,019</td><td>—</td></tr>
-<tr><td><a href="https://www.usiouxfalls.edu/" rel="noopener nofollow">University of Sioux Falls</a></td><td>Sioux Falls</td><td>Private nonprofit · 4-year</td><td>$20,290</td><td>$20,959</td><td>D-II</td></tr>
-<tr><td><a href="https://www.usd.edu/" rel="noopener nofollow">University of South Dakota</a></td><td>Vermillion</td><td>Public · 4-year</td><td>$9,432</td><td>$19,499</td><td>D-I</td></tr>
-<tr><td><a href="https://www.wdt.edu/" rel="noopener nofollow">Western Dakota Technical College</a></td><td>Rapid City</td><td>Public · 2-year</td><td>$8,286</td><td>$14,341</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/augustana-university.html">Augustana University</a></td><td>Sioux Falls</td><td>Private nonprofit · 4-year</td><td>$37,342</td><td>$24,113</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/south-dakota/avera-mckennan-hospital-school-of-radiologic-technology.html">Avera McKennan Hospital School of Radiologic Technology</a></td><td>Sioux Falls</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/avera-sacred-heart-hospital.html">Avera Sacred Heart Hospital</a></td><td>Yankton</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/black-hills-state-university.html">Black Hills State University</a></td><td>Spearfish</td><td>Public · 4-year</td><td>$9,000</td><td>$17,111</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/south-dakota/california-intercontinental-university.html">California Intercontinental University</a></td><td>Sioux Falls</td><td>Private for-profit · 4-year</td><td>$9,054</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/dakota-state-university.html">Dakota State University</a></td><td>Madison</td><td>Public · 4-year</td><td>$9,633</td><td>$18,356</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/south-dakota/dakota-wesleyan-university.html">Dakota Wesleyan University</a></td><td>Mitchell</td><td>Private nonprofit · 4-year</td><td>$31,890</td><td>$22,931</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/south-dakota/kairos-university.html">Kairos University</a></td><td>Sioux Falls</td><td>Private nonprofit · 4-year</td><td>$3,600</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/lake-area-technical-college.html">Lake Area Technical College</a></td><td>Watertown</td><td>Public · 2-year</td><td>$6,718</td><td>$14,454</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/south-dakota/mitchell-technical-college.html">Mitchell Technical College</a></td><td>Mitchell</td><td>Public · 2-year</td><td>$7,524</td><td>$13,368</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/mount-marty-university.html">Mount Marty University</a></td><td>Yankton</td><td>Private nonprofit · 4-year</td><td>$31,500</td><td>$21,611</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/south-dakota/national-american-university-rapid-city.html">National American University-Rapid City</a></td><td>Rapid City</td><td>Private for-profit · 4-year</td><td>$16,065</td><td>$23,855</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/northern-state-university.html">Northern State University</a></td><td>Aberdeen</td><td>Public · 4-year</td><td>$8,845</td><td>$17,523</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/south-dakota/oglala-lakota-college.html">Oglala Lakota College</a></td><td>Kyle</td><td>Public · 4-year</td><td>$2,684</td><td>$4,027</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/paul-mitchell-the-school-rapid-city.html">Paul Mitchell the School-Rapid City</a></td><td>Rapid City</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,704</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/sanford-medical-center.html">Sanford Medical Center</a></td><td>Sioux Falls</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/sinte-gleska-university.html">Sinte Gleska University</a></td><td>Mission</td><td>Public · 4-year</td><td>$4,714</td><td>$16,641</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/sisseton-wahpeton-college.html">Sisseton Wahpeton College</a></td><td>Sisseton</td><td>Public · 2-year</td><td>$4,330</td><td>$4,689</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/south-dakota-school-of-mines-and-technology.html">South Dakota School of Mines and Technology</a></td><td>Rapid City</td><td>Public · 4-year</td><td>$10,440</td><td>$21,282</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/south-dakota/south-dakota-state-university.html">South Dakota State University</a></td><td>Brookings</td><td>Public · 4-year</td><td>$9,299</td><td>$18,125</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/south-dakota/southeast-technical-college.html">Southeast Technical College</a></td><td>Sioux Falls</td><td>Public · 2-year</td><td>$7,650</td><td>$17,044</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/stewart-school.html">Stewart School</a></td><td>Sioux Falls</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,220</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/the-salon-professional-academy.html">The Salon Professional Academy</a></td><td>Rapid City</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,019</td><td>—</td></tr>
+<tr><td><a href="/colleges/south-dakota/university-of-sioux-falls.html">University of Sioux Falls</a></td><td>Sioux Falls</td><td>Private nonprofit · 4-year</td><td>$20,290</td><td>$20,959</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/south-dakota/university-of-south-dakota.html">University of South Dakota</a></td><td>Vermillion</td><td>Public · 4-year</td><td>$9,432</td><td>$19,499</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/south-dakota/western-dakota-technical-college.html">Western Dakota Technical College</a></td><td>Rapid City</td><td>Public · 2-year</td><td>$8,286</td><td>$14,341</td><td>—</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

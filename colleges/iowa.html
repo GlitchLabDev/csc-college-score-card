@@ -22,89 +22,100 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Iowa — all 75 schools</h1>
-<p class="sub">37 four-year colleges, 17 community colleges, and 26 NCAA/NAIA athletic programs in Iowa, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">37 four-year colleges, 17 community colleges, and 42 NCAA/NAIA athletic programs in Iowa, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.allencollege.edu/" rel="noopener nofollow">Allen College</a></td><td>Waterloo</td><td>Private nonprofit · 4-year</td><td>$20,008</td><td>$31,509</td><td>—</td></tr>
-<tr><td><a href="https://americanhairacademy.com/" rel="noopener nofollow">American Hair Academy</a></td><td>Mt. Pleasant</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$11,664</td><td>—</td></tr>
-<tr><td><a href="https://avedainstitutedesmoines.com/" rel="noopener nofollow">Aveda Institute-Des Moines</a></td><td>West Des Moines</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,098</td><td>—</td></tr>
-<tr><td><a href="https://www.bodywisdomschool.com/" rel="noopener nofollow">Body Wisdom Massage Therapy School</a></td><td>Urbandale</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$44,778</td><td>—</td></tr>
-<tr><td><a href="https://www.briarcliff.edu/" rel="noopener nofollow">Briar Cliff University</a></td><td>Sioux City</td><td>Private nonprofit · 4-year</td><td>$34,498</td><td>$20,554</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.bvu.edu/" rel="noopener nofollow">Buena Vista University</a></td><td>Storm Lake</td><td>Private nonprofit · 4-year</td><td>$38,644</td><td>$18,475</td><td>D-III</td></tr>
-<tr><td><a href="https://www.capricollege.edu/" rel="noopener nofollow">Capri College-Cedar Rapids</a></td><td>Cedar Rapids</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$11,144</td><td>—</td></tr>
-<tr><td><a href="https://www.capricollege.edu/" rel="noopener nofollow">Capri College-Davenport</a></td><td>Davenport</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,524</td><td>—</td></tr>
-<tr><td><a href="https://www.capricollege.edu/" rel="noopener nofollow">Capri College-Dubuque</a></td><td>Dubuque</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,820</td><td>—</td></tr>
-<tr><td><a href="https://www.carlsoncollege.com/" rel="noopener nofollow">Carlson College of Massage Therapy</a></td><td>Anamosa</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$13,747</td><td>—</td></tr>
-<tr><td><a href="https://www.central.edu/" rel="noopener nofollow">Central College</a></td><td>Pella</td><td>Private nonprofit · 4-year</td><td>$19,800</td><td>$22,578</td><td>D-III</td></tr>
-<tr><td><a href="https://www.clarke.edu/" rel="noopener nofollow">Clarke University</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$38,060</td><td>$27,275</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.coe.edu/" rel="noopener nofollow">Coe College</a></td><td>Cedar Rapids</td><td>Private nonprofit · 4-year</td><td>$50,664</td><td>$18,673</td><td>D-III</td></tr>
-<tr><td><a href="https://www.cornellcollege.edu/" rel="noopener nofollow">Cornell College</a></td><td>Mount Vernon</td><td>Private nonprofit · 4-year</td><td>$49,158</td><td>$24,164</td><td>D-III</td></tr>
-<tr><td><a href="https://www.dmacc.edu/" rel="noopener nofollow">Des Moines Area Community College</a></td><td>Ankeny</td><td>Public · 2-year</td><td>$5,340</td><td>$10,487</td><td>—</td></tr>
-<tr><td><a href="https://www.dmu.edu/" rel="noopener nofollow">Des Moines University-Osteopathic Medical Center</a></td><td>West Des Moines</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.dwci.edu/" rel="noopener nofollow">Divine Word College</a></td><td>Epworth</td><td>Private nonprofit · 4-year</td><td>$14,620</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.dordt.edu/" rel="noopener nofollow">Dordt University</a></td><td>Sioux Center</td><td>Private nonprofit · 4-year</td><td>$34,600</td><td>$25,737</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.drake.edu/" rel="noopener nofollow">Drake University</a></td><td>Des Moines</td><td>Private nonprofit · 4-year</td><td>$47,912</td><td>$30,176</td><td>D-I</td></tr>
-<tr><td><a href="https://www.eicc.edu/" rel="noopener nofollow">Eastern Iowa Community College District</a></td><td>Davenport</td><td>Public · 2-year</td><td>$4,488</td><td>$8,774</td><td>—</td></tr>
-<tr><td><a href="https://ecc.iavalley.edu/" rel="noopener nofollow">Ellsworth Community College</a></td><td>Iowa Falls</td><td>Public · 2-year</td><td>$5,184</td><td>$10,022</td><td>—</td></tr>
-<tr><td><a href="https://www.emmaus.edu/" rel="noopener nofollow">Emmaus Bible College</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$19,800</td><td>$12,899</td><td>—</td></tr>
-<tr><td><a href="https://faith.edu/" rel="noopener nofollow">Faith Baptist Bible College and Theological Seminary</a></td><td>Ankeny</td><td>Private nonprofit · 4-year</td><td>$18,740</td><td>$15,504</td><td>—</td></tr>
-<tr><td><a href="https://www.faustinstitute.com/" rel="noopener nofollow">Faust Institute of Cosmetology-Spirit Lake</a></td><td>Spirit Lake</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$5,456</td><td>—</td></tr>
-<tr><td><a href="https://www.graceland.edu/" rel="noopener nofollow">Graceland University-Lamoni</a></td><td>Lamoni</td><td>Private nonprofit · 4-year</td><td>$31,970</td><td>$16,325</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.grandview.edu/" rel="noopener nofollow">Grand View University</a></td><td>Des Moines</td><td>Private nonprofit · 4-year</td><td>$32,068</td><td>$20,754</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.grinnell.edu/" rel="noopener nofollow">Grinnell College</a></td><td>Grinnell</td><td>Private nonprofit · 4-year</td><td>$61,480</td><td>$17,772</td><td>D-III</td></tr>
-<tr><td><a href="https://www.hawkeyecollege.edu/" rel="noopener nofollow">Hawkeye Community College</a></td><td>Waterloo</td><td>Public · 2-year</td><td>$6,090</td><td>$12,123</td><td>—</td></tr>
-<tr><td><a href="https://www.indianhills.edu/" rel="noopener nofollow">Indian Hills Community College</a></td><td>Ottumwa</td><td>Public · 2-year</td><td>$4,680</td><td>$6,945</td><td>—</td></tr>
-<tr><td><a href="https://www.iowacentral.edu/" rel="noopener nofollow">Iowa Central Community College</a></td><td>Fort Dodge</td><td>Public · 2-year</td><td>$5,196</td><td>$9,612</td><td>—</td></tr>
-<tr><td><a href="https://www.iowalakes.edu/" rel="noopener nofollow">Iowa Lakes Community College</a></td><td>Estherville</td><td>Public · 2-year</td><td>$7,004</td><td>$12,168</td><td>—</td></tr>
-<tr><td><a href="https://iowaschoolofbeauty.com/" rel="noopener nofollow">Iowa School of Beauty-Des Moines</a></td><td>Des Moines</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$12,982</td><td>—</td></tr>
-<tr><td><a href="https://iowaschoolofbeauty.com/" rel="noopener nofollow">Iowa School of Beauty-Sioux City</a></td><td>Sioux City</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$12,652</td><td>—</td></tr>
-<tr><td><a href="https://www.iastate.edu/" rel="noopener nofollow">Iowa State University</a></td><td>Ames</td><td>Public · 4-year</td><td>$10,133</td><td>$15,494</td><td>D-I</td></tr>
-<tr><td><a href="https://www.iwcc.edu/" rel="noopener nofollow">Iowa Western Community College</a></td><td>Council Bluffs</td><td>Public · 2-year</td><td>$6,540</td><td>$12,079</td><td>—</td></tr>
-<tr><td><a href="https://www.kirkwood.edu/" rel="noopener nofollow">Kirkwood Community College</a></td><td>Cedar Rapids</td><td>Public · 2-year</td><td>$5,700</td><td>$9,422</td><td>—</td></tr>
-<tr><td><a href="https://www.lajames.edu/" rel="noopener nofollow">La James College of Hairstyling and Cosmetology</a></td><td>Mason City</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$8,008</td><td>—</td></tr>
-<tr><td><a href="https://ljic.edu/" rel="noopener nofollow">La James International College-Cedar Falls</a></td><td>Cedar Falls</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,214</td><td>—</td></tr>
-<tr><td><a href="https://ljic.edu/" rel="noopener nofollow">La James International College-Davenport</a></td><td>Davenport</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,672</td><td>—</td></tr>
-<tr><td><a href="https://ljic.edu/" rel="noopener nofollow">La James International College-Ft Dodge</a></td><td>Fort Dodge</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,015</td><td>—</td></tr>
-<tr><td><a href="https://ljic.edu/" rel="noopener nofollow">La James International College-Johnston</a></td><td>Johnston</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,767</td><td>—</td></tr>
-<tr><td><a href="https://www.loras.edu/" rel="noopener nofollow">Loras College</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$36,570</td><td>$21,343</td><td>D-III</td></tr>
-<tr><td><a href="https://www.luther.edu/" rel="noopener nofollow">Luther College</a></td><td>Decorah</td><td>Private nonprofit · 4-year</td><td>$48,160</td><td>$26,138</td><td>D-III</td></tr>
-<tr><td><a href="https://www.miu.edu/" rel="noopener nofollow">Maharishi International University</a></td><td>Fairfield</td><td>Private nonprofit · 4-year</td><td>$16,530</td><td>$17,818</td><td>—</td></tr>
-<tr><td><a href="https://mcc.iavalley.edu/" rel="noopener nofollow">Marshalltown Community College</a></td><td>Marshalltown</td><td>Public · 2-year</td><td>$5,184</td><td>$6,924</td><td>—</td></tr>
-<tr><td><a href="https://www.mchs.edu/" rel="noopener nofollow">Mercy College of Health Sciences</a></td><td>Des Moines</td><td>Private nonprofit · 4-year</td><td>$16,632</td><td>$24,354</td><td>—</td></tr>
-<tr><td><a href="https://www.mercycare.org/employment/students/school-of-radiologic-technology/" rel="noopener nofollow">Mercy-St Luke&#x27;s School of Radiologic Technology</a></td><td>Cedar Rapids</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.morningside.edu/" rel="noopener nofollow">Morningside University</a></td><td>Sioux City</td><td>Private nonprofit · 4-year</td><td>$36,610</td><td>$23,776</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.mtmercy.edu/" rel="noopener nofollow">Mount Mercy University</a></td><td>Cedar Rapids</td><td>Private nonprofit · 4-year</td><td>$37,606</td><td>$23,298</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.niacc.edu/" rel="noopener nofollow">North Iowa Area Community College</a></td><td>Mason City</td><td>Public · 2-year</td><td>$6,196</td><td>$6,111</td><td>—</td></tr>
-<tr><td><a href="https://www.nicc.edu/" rel="noopener nofollow">Northeast Iowa Community College</a></td><td>Calmar</td><td>Public · 2-year</td><td>$6,270</td><td>$8,212</td><td>—</td></tr>
-<tr><td><a href="https://www.nwicc.edu/" rel="noopener nofollow">Northwest Iowa Community College</a></td><td>Sheldon</td><td>Public · 2-year</td><td>$6,870</td><td>$12,399</td><td>—</td></tr>
-<tr><td><a href="https://www.nwciowa.edu/" rel="noopener nofollow">Northwestern College</a></td><td>Orange City</td><td>Private nonprofit · 4-year</td><td>$34,250</td><td>$22,849</td><td>NAIA</td></tr>
-<tr><td><a href="https://orion.edu/iowa" rel="noopener nofollow">Orion Technical College</a></td><td>Davenport</td><td>Private for-profit · 4-year</td><td>$15,600</td><td>$18,819</td><td>—</td></tr>
-<tr><td><a href="https://www.pci-academy.com/" rel="noopener nofollow">PCI Academy-Ames</a></td><td>Ames</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,565</td><td>—</td></tr>
-<tr><td><a href="https://www.pci-academy.com/" rel="noopener nofollow">PCI Academy-Iowa City</a></td><td>Iowa City</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$13,161</td><td>—</td></tr>
-<tr><td><a href="https://www.palmer.edu/" rel="noopener nofollow">Palmer College of Chiropractic</a></td><td>Davenport</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross College-Davenport</a></td><td>Davenport</td><td>Private for-profit · 2-year</td><td>—</td><td>$19,535</td><td>—</td></tr>
-<tr><td><a href="https://www.sohohairacademy.com/" rel="noopener nofollow">SOHO Hair Academy</a></td><td>Council Bluffs</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$9,207</td><td>—</td></tr>
-<tr><td><a href="https://www.sau.edu/" rel="noopener nofollow">Saint Ambrose University</a></td><td>Davenport</td><td>Private nonprofit · 4-year</td><td>$34,570</td><td>$23,799</td><td>NAIA</td></tr>
-<tr><td><a href="https://simpson.edu/" rel="noopener nofollow">Simpson College</a></td><td>Indianola</td><td>Private nonprofit · 4-year</td><td>$45,108</td><td>$22,925</td><td>D-III</td></tr>
-<tr><td><a href="https://www.scciowa.edu/" rel="noopener nofollow">Southeastern Community College</a></td><td>West Burlington</td><td>Public · 2-year</td><td>$6,210</td><td>$10,321</td><td>—</td></tr>
-<tr><td><a href="https://www.swcciowa.edu/" rel="noopener nofollow">Southwestern Community College</a></td><td>Creston</td><td>Public · 2-year</td><td>$6,784</td><td>$8,872</td><td>—</td></tr>
-<tr><td><a href="https://www.stlukescollege.edu/" rel="noopener nofollow">St Luke&#x27;s College</a></td><td>Sioux City</td><td>Private nonprofit · 4-year</td><td>$20,940</td><td>$20,391</td><td>—</td></tr>
-<tr><td><a href="https://tspacedarfalls.com/" rel="noopener nofollow">The Salon Professional Academy-Cedar Falls</a></td><td>Cedar Falls</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$9,652</td><td>—</td></tr>
-<tr><td><a href="https://www.unitypoint.org/join-our-team/medical-education-and-career-growth/school-of-radiologic-technology---des-moines-area-hospitals" rel="noopener nofollow">UnityPoint Health-Des Moines School of Radiologic Technology</a></td><td>Des Moines</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.dbq.edu/" rel="noopener nofollow">University of Dubuque</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$38,526</td><td>$21,560</td><td>D-III</td></tr>
-<tr><td><a href="https://uiowa.edu/" rel="noopener nofollow">University of Iowa</a></td><td>Iowa City</td><td>Public · 4-year</td><td>$10,353</td><td>$20,426</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uni.edu/" rel="noopener nofollow">University of Northern Iowa</a></td><td>Cedar Falls</td><td>Public · 4-year</td><td>$9,411</td><td>$14,414</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uiu.edu/" rel="noopener nofollow">Upper Iowa University</a></td><td>Fayette</td><td>Private nonprofit · 4-year</td><td>$33,639</td><td>$25,219</td><td>D-II</td></tr>
-<tr><td><a href="https://www.waldorf.edu/" rel="noopener nofollow">Waldorf University</a></td><td>Forest City</td><td>Private for-profit · 4-year</td><td>$24,526</td><td>$18,493</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.wartburg.edu/" rel="noopener nofollow">Wartburg College</a></td><td>Waverly</td><td>Private nonprofit · 4-year</td><td>$49,190</td><td>$22,869</td><td>D-III</td></tr>
-<tr><td><a href="https://www.wartburgseminary.edu/" rel="noopener nofollow">Wartburg Theological Seminary</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.witcc.edu/" rel="noopener nofollow">Western Iowa Tech Community College</a></td><td>Sioux City</td><td>Public · 2-year</td><td>$4,922</td><td>$8,991</td><td>—</td></tr>
-<tr><td><a href="https://www.wmpenn.edu/" rel="noopener nofollow">William Penn University</a></td><td>Oskaloosa</td><td>Private nonprofit · 4-year</td><td>$27,800</td><td>$22,311</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/allen-college.html">Allen College</a></td><td>Waterloo</td><td>Private nonprofit · 4-year</td><td>$20,008</td><td>$31,509</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/american-hair-academy.html">American Hair Academy</a></td><td>Mt. Pleasant</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$11,664</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/aveda-institute-des-moines.html">Aveda Institute-Des Moines</a></td><td>West Des Moines</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,098</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/body-wisdom-massage-therapy-school.html">Body Wisdom Massage Therapy School</a></td><td>Urbandale</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$44,778</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/briar-cliff-university.html">Briar Cliff University</a></td><td>Sioux City</td><td>Private nonprofit · 4-year</td><td>$34,498</td><td>$20,554</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/buena-vista-university.html">Buena Vista University</a></td><td>Storm Lake</td><td>Private nonprofit · 4-year</td><td>$38,644</td><td>$18,475</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/capri-college-cedar-rapids.html">Capri College-Cedar Rapids</a></td><td>Cedar Rapids</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$11,144</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/capri-college-davenport.html">Capri College-Davenport</a></td><td>Davenport</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,524</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/capri-college-dubuque.html">Capri College-Dubuque</a></td><td>Dubuque</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,820</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/carlson-college-of-massage-therapy.html">Carlson College of Massage Therapy</a></td><td>Anamosa</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$13,747</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/central-college.html">Central College</a></td><td>Pella</td><td>Private nonprofit · 4-year</td><td>$19,800</td><td>$22,578</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/clarke-university.html">Clarke University</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$38,060</td><td>$27,275</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/coe-college.html">Coe College</a></td><td>Cedar Rapids</td><td>Private nonprofit · 4-year</td><td>$50,664</td><td>$18,673</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/cornell-college.html">Cornell College</a></td><td>Mount Vernon</td><td>Private nonprofit · 4-year</td><td>$49,158</td><td>$24,164</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/des-moines-area-community-college.html">Des Moines Area Community College</a></td><td>Ankeny</td><td>Public · 2-year</td><td>$5,340</td><td>$10,487</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/des-moines-university-osteopathic-medical-center.html">Des Moines University-Osteopathic Medical Center</a></td><td>West Des Moines</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/divine-word-college.html">Divine Word College</a></td><td>Epworth</td><td>Private nonprofit · 4-year</td><td>$14,620</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/dordt-university.html">Dordt University</a></td><td>Sioux Center</td><td>Private nonprofit · 4-year</td><td>$34,600</td><td>$25,737</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/drake-university.html">Drake University</a></td><td>Des Moines</td><td>Private nonprofit · 4-year</td><td>$47,912</td><td>$30,176</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/iowa/eastern-iowa-community-college-district.html">Eastern Iowa Community College District</a></td><td>Davenport</td><td>Public · 2-year</td><td>$4,488</td><td>$8,774</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/ellsworth-community-college.html">Ellsworth Community College</a></td><td>Iowa Falls</td><td>Public · 2-year</td><td>$5,184</td><td>$10,022</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/emmaus-bible-college.html">Emmaus Bible College</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$19,800</td><td>$12,899</td><td>Other</td></tr>
+<tr><td><a href="/colleges/iowa/faith-baptist-bible-college-and-theological-seminary.html">Faith Baptist Bible College and Theological Seminary</a></td><td>Ankeny</td><td>Private nonprofit · 4-year</td><td>$18,740</td><td>$15,504</td><td>Other</td></tr>
+<tr><td><a href="/colleges/iowa/faust-institute-of-cosmetology-spirit-lake.html">Faust Institute of Cosmetology-Spirit Lake</a></td><td>Spirit Lake</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$5,456</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/graceland-university-lamoni.html">Graceland University-Lamoni</a></td><td>Lamoni</td><td>Private nonprofit · 4-year</td><td>$31,970</td><td>$16,325</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/grand-view-university.html">Grand View University</a></td><td>Des Moines</td><td>Private nonprofit · 4-year</td><td>$32,068</td><td>$20,754</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/grinnell-college.html">Grinnell College</a></td><td>Grinnell</td><td>Private nonprofit · 4-year</td><td>$61,480</td><td>$17,772</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/hawkeye-community-college.html">Hawkeye Community College</a></td><td>Waterloo</td><td>Public · 2-year</td><td>$6,090</td><td>$12,123</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/indian-hills-community-college.html">Indian Hills Community College</a></td><td>Ottumwa</td><td>Public · 2-year</td><td>$4,680</td><td>$6,945</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/iowa-central-community-college.html">Iowa Central Community College</a></td><td>Fort Dodge</td><td>Public · 2-year</td><td>$5,196</td><td>$9,612</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/iowa-lakes-community-college.html">Iowa Lakes Community College</a></td><td>Estherville</td><td>Public · 2-year</td><td>$7,004</td><td>$12,168</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/iowa-school-of-beauty-des-moines.html">Iowa School of Beauty-Des Moines</a></td><td>Des Moines</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$12,982</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/iowa-school-of-beauty-sioux-city.html">Iowa School of Beauty-Sioux City</a></td><td>Sioux City</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$12,652</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/iowa-state-university.html">Iowa State University</a></td><td>Ames</td><td>Public · 4-year</td><td>$10,133</td><td>$15,494</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/iowa/iowa-western-community-college.html">Iowa Western Community College</a></td><td>Council Bluffs</td><td>Public · 2-year</td><td>$6,540</td><td>$12,079</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/kirkwood-community-college.html">Kirkwood Community College</a></td><td>Cedar Rapids</td><td>Public · 2-year</td><td>$5,700</td><td>$9,422</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/la-james-college-of-hairstyling-and-cosmetology.html">La James College of Hairstyling and Cosmetology</a></td><td>Mason City</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$8,008</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/la-james-international-college-cedar-falls.html">La James International College-Cedar Falls</a></td><td>Cedar Falls</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,214</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/la-james-international-college-davenport.html">La James International College-Davenport</a></td><td>Davenport</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,672</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/la-james-international-college-ft-dodge.html">La James International College-Ft Dodge</a></td><td>Fort Dodge</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,015</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/la-james-international-college-johnston.html">La James International College-Johnston</a></td><td>Johnston</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,767</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/loras-college.html">Loras College</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$36,570</td><td>$21,343</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/luther-college.html">Luther College</a></td><td>Decorah</td><td>Private nonprofit · 4-year</td><td>$48,160</td><td>$26,138</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/maharishi-international-university.html">Maharishi International University</a></td><td>Fairfield</td><td>Private nonprofit · 4-year</td><td>$16,530</td><td>$17,818</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/marshalltown-community-college.html">Marshalltown Community College</a></td><td>Marshalltown</td><td>Public · 2-year</td><td>$5,184</td><td>$6,924</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/mercy-college-of-health-sciences.html">Mercy College of Health Sciences</a></td><td>Des Moines</td><td>Private nonprofit · 4-year</td><td>$16,632</td><td>$24,354</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/mercy-st-luke-s-school-of-radiologic-technology.html">Mercy-St Luke&#x27;s School of Radiologic Technology</a></td><td>Cedar Rapids</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/morningside-university.html">Morningside University</a></td><td>Sioux City</td><td>Private nonprofit · 4-year</td><td>$36,610</td><td>$23,776</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/mount-mercy-university.html">Mount Mercy University</a></td><td>Cedar Rapids</td><td>Private nonprofit · 4-year</td><td>$37,606</td><td>$23,298</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/north-iowa-area-community-college.html">North Iowa Area Community College</a></td><td>Mason City</td><td>Public · 2-year</td><td>$6,196</td><td>$6,111</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/northeast-iowa-community-college.html">Northeast Iowa Community College</a></td><td>Calmar</td><td>Public · 2-year</td><td>$6,270</td><td>$8,212</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/northwest-iowa-community-college.html">Northwest Iowa Community College</a></td><td>Sheldon</td><td>Public · 2-year</td><td>$6,870</td><td>$12,399</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/northwestern-college.html">Northwestern College</a></td><td>Orange City</td><td>Private nonprofit · 4-year</td><td>$34,250</td><td>$22,849</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/orion-technical-college.html">Orion Technical College</a></td><td>Davenport</td><td>Private for-profit · 4-year</td><td>$15,600</td><td>$18,819</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/pci-academy-ames.html">PCI Academy-Ames</a></td><td>Ames</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,565</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/pci-academy-iowa-city.html">PCI Academy-Iowa City</a></td><td>Iowa City</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$13,161</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/palmer-college-of-chiropractic.html">Palmer College of Chiropractic</a></td><td>Davenport</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/ross-college-davenport.html">Ross College-Davenport</a></td><td>Davenport</td><td>Private for-profit · 2-year</td><td>None</td><td>$19,535</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/soho-hair-academy.html">SOHO Hair Academy</a></td><td>Council Bluffs</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$9,207</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/saint-ambrose-university.html">Saint Ambrose University</a></td><td>Davenport</td><td>Private nonprofit · 4-year</td><td>$34,570</td><td>$23,799</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/simpson-college.html">Simpson College</a></td><td>Indianola</td><td>Private nonprofit · 4-year</td><td>$45,108</td><td>$22,925</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/southeastern-community-college.html">Southeastern Community College</a></td><td>West Burlington</td><td>Public · 2-year</td><td>$6,210</td><td>$10,321</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/southwestern-community-college.html">Southwestern Community College</a></td><td>Creston</td><td>Public · 2-year</td><td>$6,784</td><td>$8,872</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/st-luke-s-college.html">St Luke&#x27;s College</a></td><td>Sioux City</td><td>Private nonprofit · 4-year</td><td>$20,940</td><td>$20,391</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/the-salon-professional-academy-cedar-falls.html">The Salon Professional Academy-Cedar Falls</a></td><td>Cedar Falls</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$9,652</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/unitypoint-health-des-moines-school-of-radiologic-technology.html">UnityPoint Health-Des Moines School of Radiologic Technology</a></td><td>Des Moines</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/university-of-dubuque.html">University of Dubuque</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>$38,526</td><td>$21,560</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/university-of-iowa.html">University of Iowa</a></td><td>Iowa City</td><td>Public · 4-year</td><td>$10,353</td><td>$20,426</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/iowa/university-of-northern-iowa.html">University of Northern Iowa</a></td><td>Cedar Falls</td><td>Public · 4-year</td><td>$9,411</td><td>$14,414</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/iowa/upper-iowa-university.html">Upper Iowa University</a></td><td>Fayette</td><td>Private nonprofit · 4-year</td><td>$33,639</td><td>$25,219</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/iowa/waldorf-university.html">Waldorf University</a></td><td>Forest City</td><td>Private for-profit · 4-year</td><td>$24,526</td><td>$18,493</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/iowa/wartburg-college.html">Wartburg College</a></td><td>Waverly</td><td>Private nonprofit · 4-year</td><td>$49,190</td><td>$22,869</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/iowa/wartburg-theological-seminary.html">Wartburg Theological Seminary</a></td><td>Dubuque</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/iowa/western-iowa-tech-community-college.html">Western Iowa Tech Community College</a></td><td>Sioux City</td><td>Public · 2-year</td><td>$4,922</td><td>$8,991</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/iowa/william-penn-university.html">William Penn University</a></td><td>Oskaloosa</td><td>Private nonprofit · 4-year</td><td>$27,800</td><td>$22,311</td><td>NAIA</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

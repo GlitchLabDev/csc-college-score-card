@@ -22,89 +22,100 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Alabama — all 75 schools</h1>
-<p class="sub">34 four-year colleges, 25 community colleges, and 23 NCAA/NAIA athletic programs in Alabama, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">34 four-year colleges, 25 community colleges, and 43 NCAA/NAIA athletic programs in Alabama, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.aamu.edu/" rel="noopener nofollow">Alabama A &amp; M University</a></td><td>Normal</td><td>Public · 4-year</td><td>$10,024</td><td>$14,982</td><td>D-I</td></tr>
-<tr><td><a href="https://www.acom.edu/" rel="noopener nofollow">Alabama College of Osteopathic Medicine</a></td><td>Dothan</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.asntc.edu/" rel="noopener nofollow">Alabama School of Nail Technology &amp; Cosmetology</a></td><td>Jackson</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$21,685</td><td>—</td></tr>
-<tr><td><a href="https://www.alasu.edu/" rel="noopener nofollow">Alabama State University</a></td><td>Montgomery</td><td>Public · 4-year</td><td>$11,068</td><td>$13,527</td><td>D-I</td></tr>
-<tr><td><a href="https://www.amridgeuniversity.edu/" rel="noopener nofollow">Amridge University</a></td><td>Montgomery</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.athens.edu/" rel="noopener nofollow">Athens State University</a></td><td>Athens</td><td>Public · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.auburn.edu/" rel="noopener nofollow">Auburn University</a></td><td>Auburn</td><td>Public · 4-year</td><td>$12,176</td><td>$24,297</td><td>D-I</td></tr>
-<tr><td><a href="https://www.aum.edu/" rel="noopener nofollow">Auburn University at Montgomery</a></td><td>Montgomery</td><td>Public · 4-year</td><td>$9,100</td><td>$12,630</td><td>D-II</td></tr>
-<tr><td><a href="https://www.bscc.edu/" rel="noopener nofollow">Bevill State Community College</a></td><td>Jasper</td><td>Public · 2-year</td><td>$5,278</td><td>$7,495</td><td>—</td></tr>
-<tr><td><a href="https://www.bsc.edu/" rel="noopener nofollow">Birmingham-Southern College</a></td><td>Birmingham</td><td>Private nonprofit · 4-year</td><td>$21,250</td><td>$19,723</td><td>NCAA</td></tr>
-<tr><td><a href="https://www.bishop.edu/" rel="noopener nofollow">Bishop State Community College</a></td><td>Mobile</td><td>Public · 2-year</td><td>$4,920</td><td>$2,084</td><td>—</td></tr>
-<tr><td><a href="https://www.blue.edu/" rel="noopener nofollow">Blue Cliff Career College</a></td><td>Mobile</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,529</td><td>—</td></tr>
-<tr><td><a href="https://brownbeautybarberschool.edu/" rel="noopener nofollow">Brown Beauty Barber School</a></td><td>Bessemer</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,202</td><td>—</td></tr>
-<tr><td><a href="https://www.ultrasound.edu/" rel="noopener nofollow">Cardiac and Vascular Institute of Ultrasound</a></td><td>Mobile</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.cacc.edu/" rel="noopener nofollow">Central Alabama Community College</a></td><td>Alexander City</td><td>Public · 2-year</td><td>$4,990</td><td>$8,227</td><td>—</td></tr>
-<tr><td><a href="https://www.cv.edu/" rel="noopener nofollow">Chattahoochee Valley Community College</a></td><td>Phenix City</td><td>Public · 2-year</td><td>$4,980</td><td>$3,542</td><td>—</td></tr>
-<tr><td><a href="https://www.coastalalabama.edu/" rel="noopener nofollow">Coastal Alabama Community College</a></td><td>Bay Minette</td><td>Public · 2-year</td><td>$4,920</td><td>$7,306</td><td>—</td></tr>
-<tr><td><a href="https://www.columbiasouthern.edu/" rel="noopener nofollow">Columbia Southern University</a></td><td>Orange Beach</td><td>Private for-profit · 4-year</td><td>$6,015</td><td>$12,366</td><td>—</td></tr>
-<tr><td><a href="https://www.escc.edu/" rel="noopener nofollow">Enterprise State Community College</a></td><td>Enterprise</td><td>Public · 2-year</td><td>$4,920</td><td>$3,337</td><td>—</td></tr>
-<tr><td><a href="https://www.faulkner.edu/" rel="noopener nofollow">Faulkner University</a></td><td>Montgomery</td><td>Private nonprofit · 4-year</td><td>$23,920</td><td>$19,478</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis College</a></td><td>Mobile</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$24,393</td><td>—</td></tr>
-<tr><td><a href="https://www.fortiscollege.edu/" rel="noopener nofollow">Fortis College-Dothan</a></td><td>Dothan</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,670</td><td>—</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis College-Foley</a></td><td>Foley</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$22,566</td><td>—</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis College-Montgomery</a></td><td>Montgomery</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$21,402</td><td>—</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis Institute-Birmingham</a></td><td>Birmingham</td><td>Private for-profit · 2-year</td><td>$14,979</td><td>$28,374</td><td>—</td></tr>
-<tr><td><a href="https://www.gadsdenstate.edu/" rel="noopener nofollow">Gadsden State Community College</a></td><td>Gadsden</td><td>Public · 2-year</td><td>$3,984</td><td>$3,920</td><td>—</td></tr>
-<tr><td><a href="https://www.wallace.edu/" rel="noopener nofollow">George C Wallace Community College-Dothan</a></td><td>Dothan</td><td>Public · 2-year</td><td>$4,860</td><td>$1,493</td><td>—</td></tr>
-<tr><td><a href="https://www.wallacestate.edu/" rel="noopener nofollow">George C Wallace State Community College-Hanceville</a></td><td>Hanceville</td><td>Public · 2-year</td><td>$4,920</td><td>$10,971</td><td>—</td></tr>
-<tr><td><a href="https://www.wccs.edu/" rel="noopener nofollow">George C Wallace State Community College-Selma</a></td><td>Selma</td><td>Public · 2-year</td><td>$4,620</td><td>$1,582</td><td>—</td></tr>
-<tr><td><a href="https://www.trenholmstate.edu/" rel="noopener nofollow">H Councill Trenholm State Community College</a></td><td>Montgomery</td><td>Public · 2-year</td><td>$4,830</td><td>$6,599</td><td>—</td></tr>
-<tr><td><a href="https://www.hcu.edu/" rel="noopener nofollow">Heritage Christian University</a></td><td>Florence</td><td>Private nonprofit · 4-year</td><td>$11,632</td><td>$5,020</td><td>—</td></tr>
-<tr><td><a href="https://www.herzing.edu/" rel="noopener nofollow">Herzing University-Birmingham</a></td><td>Birmingham</td><td>Private nonprofit · 4-year</td><td>$12,750</td><td>$21,275</td><td>—</td></tr>
-<tr><td><a href="https://www.huntingdon.edu/" rel="noopener nofollow">Huntingdon College</a></td><td>Montgomery</td><td>Private nonprofit · 4-year</td><td>$28,350</td><td>$23,610</td><td>D-III</td></tr>
-<tr><td><a href="https://www.huntsvillebiblecollege.org/" rel="noopener nofollow">Huntsville Bible College</a></td><td>Huntsville</td><td>Private nonprofit · 4-year</td><td>$4,730</td><td>$11,831</td><td>—</td></tr>
-<tr><td><a href="https://drakestate.edu/" rel="noopener nofollow">J. F. Drake State Community and Technical College</a></td><td>Huntsville</td><td>Public · 2-year</td><td>$4,890</td><td>$5,138</td><td>—</td></tr>
-<tr><td><a href="https://www.jsu.edu/" rel="noopener nofollow">Jacksonville State University</a></td><td>Jacksonville</td><td>Public · 4-year</td><td>$11,952</td><td>$17,979</td><td>D-I</td></tr>
-<tr><td><a href="https://www.jeffersonstate.edu/" rel="noopener nofollow">Jefferson State Community College</a></td><td>Birmingham</td><td>Public · 2-year</td><td>$5,220</td><td>$7,346</td><td>—</td></tr>
-<tr><td><a href="https://calhoun.edu/" rel="noopener nofollow">John C Calhoun State Community College</a></td><td>Tanner</td><td>Public · 2-year</td><td>$5,000</td><td>$6,548</td><td>—</td></tr>
-<tr><td><a href="https://www.lawsonstate.edu/" rel="noopener nofollow">Lawson State Community College</a></td><td>Birmingham</td><td>Public · 2-year</td><td>$4,920</td><td>$3,842</td><td>—</td></tr>
-<tr><td><a href="https://www.lbwcc.edu/" rel="noopener nofollow">Lurleen B Wallace Community College</a></td><td>Andalusia</td><td>Public · 2-year</td><td>$4,920</td><td>$2,992</td><td>—</td></tr>
-<tr><td><a href="https://www.marionmilitary.edu/" rel="noopener nofollow">Marion Military Institute</a></td><td>Marion</td><td>Public · 2-year</td><td>$9,538</td><td>$9,589</td><td>—</td></tr>
-<tr><td><a href="https://midfieldic.edu/" rel="noopener nofollow">Midfield Institute of Cosmetology</a></td><td>Midfield</td><td>Private nonprofit · Certificate/trade</td><td>—</td><td>$6,619</td><td>—</td></tr>
-<tr><td><a href="https://www.miles.edu/" rel="noopener nofollow">Miles College</a></td><td>Fairfield</td><td>Private nonprofit · 4-year</td><td>$12,714</td><td>$13,259</td><td>D-II</td></tr>
-<tr><td><a href="https://www.nbccosmetology.com/" rel="noopener nofollow">New Beginning College of Cosmetology</a></td><td>Albertville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$13,408</td><td>—</td></tr>
-<tr><td><a href="https://www.nacc.edu/" rel="noopener nofollow">Northeast Alabama Community College</a></td><td>Rainsville</td><td>Public · 2-year</td><td>$4,920</td><td>$1,379</td><td>—</td></tr>
-<tr><td><a href="https://www.nwscc.edu/" rel="noopener nofollow">Northwest Shoals Community College</a></td><td>Muscle Shoals</td><td>Public · 2-year</td><td>$5,011</td><td>$2,459</td><td>—</td></tr>
-<tr><td><a href="https://www2.oakwood.edu/" rel="noopener nofollow">Oakwood University</a></td><td>Huntsville</td><td>Private nonprofit · 4-year</td><td>$20,040</td><td>$19,686</td><td>NAIA</td></tr>
-<tr><td><a href="https://paulmitchell.edu/birmingham" rel="noopener nofollow">Paul Mitchell the School-Birmingham</a></td><td>Hoover</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,199</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/huntsville" rel="noopener nofollow">Paul Mitchell the School-Huntsville</a></td><td>Madison</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,321</td><td>—</td></tr>
-<tr><td><a href="https://www.rstc.edu/" rel="noopener nofollow">Reid State Technical College</a></td><td>Evergreen</td><td>Public · 2-year</td><td>$4,950</td><td>$1,602</td><td>—</td></tr>
-<tr><td><a href="https://www.remingtoncollege.edu/locations/mobile/" rel="noopener nofollow">Remington College-Mobile Campus</a></td><td>Mobile</td><td>Private nonprofit · 2-year</td><td>$20,393</td><td>$25,510</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Huntsville</a></td><td>Huntsville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,835</td><td>—</td></tr>
-<tr><td><a href="https://www.samford.edu/" rel="noopener nofollow">Samford University</a></td><td>Birmingham</td><td>Private nonprofit · 4-year</td><td>$36,725</td><td>$30,689</td><td>D-I</td></tr>
-<tr><td><a href="https://selmau.edu/" rel="noopener nofollow">Selma University</a></td><td>Selma</td><td>Private nonprofit · 4-year</td><td>$4,800</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.sheltonstate.edu/" rel="noopener nofollow">Shelton State Community College</a></td><td>Tuscaloosa</td><td>Public · 2-year</td><td>$4,980</td><td>$8,745</td><td>—</td></tr>
-<tr><td><a href="https://www.snead.edu/" rel="noopener nofollow">Snead State Community College</a></td><td>Boaz</td><td>Public · 2-year</td><td>$5,408</td><td>$7,181</td><td>—</td></tr>
-<tr><td><a href="https://www.southuniversity.edu/" rel="noopener nofollow">South University-Montgomery</a></td><td>Montgomery</td><td>Private for-profit · 4-year</td><td>$17,014</td><td>$27,195</td><td>—</td></tr>
-<tr><td><a href="https://www.suscc.edu/" rel="noopener nofollow">Southern Union State Community College</a></td><td>Wadley</td><td>Public · 2-year</td><td>$4,920</td><td>$8,840</td><td>—</td></tr>
-<tr><td><a href="https://www.shc.edu/" rel="noopener nofollow">Spring Hill College</a></td><td>Mobile</td><td>Private nonprofit · 4-year</td><td>$21,732</td><td>$19,449</td><td>D-II</td></tr>
-<tr><td><a href="https://stillman.edu/" rel="noopener nofollow">Stillman College</a></td><td>Tuscaloosa</td><td>Private nonprofit · 4-year</td><td>$11,392</td><td>$16,085</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.talladega.edu/" rel="noopener nofollow">Talladega College</a></td><td>Talladega</td><td>Private nonprofit · 4-year</td><td>$13,866</td><td>$13,128</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.huntsvilletspa.com/" rel="noopener nofollow">The Salon Professional Academy-Huntsville</a></td><td>Huntsville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,857</td><td>—</td></tr>
-<tr><td><a href="https://www.ua.edu/" rel="noopener nofollow">The University of Alabama</a></td><td>Tuscaloosa</td><td>Public · 4-year</td><td>$11,940</td><td>$20,888</td><td>D-I</td></tr>
-<tr><td><a href="https://www.troy.edu/" rel="noopener nofollow">Troy University</a></td><td>Troy</td><td>Public · 4-year</td><td>$9,312</td><td>$15,002</td><td>D-I</td></tr>
-<tr><td><a href="https://www.tuskegee.edu/" rel="noopener nofollow">Tuskegee University</a></td><td>Tuskegee</td><td>Private nonprofit · 4-year</td><td>$22,614</td><td>$32,297</td><td>D-II</td></tr>
-<tr><td><a href="https://www.ussa.edu/" rel="noopener nofollow">United States Sports Academy</a></td><td>Daphne</td><td>Private nonprofit · 4-year</td><td>$16,418</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.uahairdesign.com/" rel="noopener nofollow">University Academy of Hair Design</a></td><td>Tuscaloosa</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,809</td><td>—</td></tr>
-<tr><td><a href="https://www.uab.edu/" rel="noopener nofollow">University of Alabama at Birmingham</a></td><td>Birmingham</td><td>Public · 4-year</td><td>$8,832</td><td>$16,755</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uah.edu/" rel="noopener nofollow">University of Alabama in Huntsville</a></td><td>Huntsville</td><td>Public · 4-year</td><td>$11,878</td><td>$18,240</td><td>D-II</td></tr>
-<tr><td><a href="https://www.umobile.edu/" rel="noopener nofollow">University of Mobile</a></td><td>Mobile</td><td>Private nonprofit · 4-year</td><td>$25,880</td><td>$18,441</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.montevallo.edu/" rel="noopener nofollow">University of Montevallo</a></td><td>Montevallo</td><td>Public · 4-year</td><td>$13,710</td><td>$17,174</td><td>D-II</td></tr>
-<tr><td><a href="https://www.una.edu/" rel="noopener nofollow">University of North Alabama</a></td><td>Florence</td><td>Public · 4-year</td><td>$11,220</td><td>$10,527</td><td>D-I</td></tr>
-<tr><td><a href="https://www.southalabama.edu/" rel="noopener nofollow">University of South Alabama</a></td><td>Mobile</td><td>Public · 4-year</td><td>$9,116</td><td>$16,717</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uwa.edu/" rel="noopener nofollow">University of West Alabama</a></td><td>Livingston</td><td>Public · 4-year</td><td>$10,990</td><td>$14,006</td><td>D-II</td></tr>
-<tr><td><a href="https://www.winonah.net/" rel="noopener nofollow">Winonah&#x27;s International School of Cosmetology</a></td><td>Hoover</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,025</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/alabama-a-m-university.html">Alabama A &amp; M University</a></td><td>Normal</td><td>Public · 4-year</td><td>$10,024</td><td>$14,982</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/alabama-college-of-osteopathic-medicine.html">Alabama College of Osteopathic Medicine</a></td><td>Dothan</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/alabama-school-of-nail-technology-cosmetology.html">Alabama School of Nail Technology &amp; Cosmetology</a></td><td>Jackson</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$21,685</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/alabama-state-university.html">Alabama State University</a></td><td>Montgomery</td><td>Public · 4-year</td><td>$11,068</td><td>$13,527</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/amridge-university.html">Amridge University</a></td><td>Montgomery</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/athens-state-university.html">Athens State University</a></td><td>Athens</td><td>Public · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/auburn-university.html">Auburn University</a></td><td>Auburn</td><td>Public · 4-year</td><td>$12,176</td><td>$24,297</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/auburn-university-at-montgomery.html">Auburn University at Montgomery</a></td><td>Montgomery</td><td>Public · 4-year</td><td>$9,100</td><td>$12,630</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/bevill-state-community-college.html">Bevill State Community College</a></td><td>Jasper</td><td>Public · 2-year</td><td>$5,278</td><td>$7,495</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/birmingham-southern-college.html">Birmingham-Southern College</a></td><td>Birmingham</td><td>Private nonprofit · 4-year</td><td>$21,250</td><td>$19,723</td><td>NCAA</td></tr>
+<tr><td><a href="/colleges/alabama/bishop-state-community-college.html">Bishop State Community College</a></td><td>Mobile</td><td>Public · 2-year</td><td>$4,920</td><td>$2,084</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/blue-cliff-career-college.html">Blue Cliff Career College</a></td><td>Mobile</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,529</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/brown-beauty-barber-school.html">Brown Beauty Barber School</a></td><td>Bessemer</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,202</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/cardiac-and-vascular-institute-of-ultrasound.html">Cardiac and Vascular Institute of Ultrasound</a></td><td>Mobile</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/central-alabama-community-college.html">Central Alabama Community College</a></td><td>Alexander City</td><td>Public · 2-year</td><td>$4,990</td><td>$8,227</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/chattahoochee-valley-community-college.html">Chattahoochee Valley Community College</a></td><td>Phenix City</td><td>Public · 2-year</td><td>$4,980</td><td>$3,542</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/coastal-alabama-community-college.html">Coastal Alabama Community College</a></td><td>Bay Minette</td><td>Public · 2-year</td><td>$4,920</td><td>$7,306</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/columbia-southern-university.html">Columbia Southern University</a></td><td>Orange Beach</td><td>Private for-profit · 4-year</td><td>$6,015</td><td>$12,366</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/enterprise-state-community-college.html">Enterprise State Community College</a></td><td>Enterprise</td><td>Public · 2-year</td><td>$4,920</td><td>$3,337</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/faulkner-university.html">Faulkner University</a></td><td>Montgomery</td><td>Private nonprofit · 4-year</td><td>$23,920</td><td>$19,478</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/alabama/fortis-college.html">Fortis College</a></td><td>Mobile</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$24,393</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/fortis-college-dothan.html">Fortis College-Dothan</a></td><td>Dothan</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,670</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/fortis-college-foley.html">Fortis College-Foley</a></td><td>Foley</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$22,566</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/fortis-college-montgomery.html">Fortis College-Montgomery</a></td><td>Montgomery</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$21,402</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/fortis-institute-birmingham.html">Fortis Institute-Birmingham</a></td><td>Birmingham</td><td>Private for-profit · 2-year</td><td>$14,979</td><td>$28,374</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/gadsden-state-community-college.html">Gadsden State Community College</a></td><td>Gadsden</td><td>Public · 2-year</td><td>$3,984</td><td>$3,920</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/george-c-wallace-community-college-dothan.html">George C Wallace Community College-Dothan</a></td><td>Dothan</td><td>Public · 2-year</td><td>$4,860</td><td>$1,493</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/george-c-wallace-state-community-college-hanceville.html">George C Wallace State Community College-Hanceville</a></td><td>Hanceville</td><td>Public · 2-year</td><td>$4,920</td><td>$10,971</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/george-c-wallace-state-community-college-selma.html">George C Wallace State Community College-Selma</a></td><td>Selma</td><td>Public · 2-year</td><td>$4,620</td><td>$1,582</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/h-councill-trenholm-state-community-college.html">H Councill Trenholm State Community College</a></td><td>Montgomery</td><td>Public · 2-year</td><td>$4,830</td><td>$6,599</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/heritage-christian-university.html">Heritage Christian University</a></td><td>Florence</td><td>Private nonprofit · 4-year</td><td>$11,632</td><td>$5,020</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/herzing-university-birmingham.html">Herzing University-Birmingham</a></td><td>Birmingham</td><td>Private nonprofit · 4-year</td><td>$12,750</td><td>$21,275</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/huntingdon-college.html">Huntingdon College</a></td><td>Montgomery</td><td>Private nonprofit · 4-year</td><td>$28,350</td><td>$23,610</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/alabama/huntsville-bible-college.html">Huntsville Bible College</a></td><td>Huntsville</td><td>Private nonprofit · 4-year</td><td>$4,730</td><td>$11,831</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/j-f-drake-state-community-and-technical-college.html">J. F. Drake State Community and Technical College</a></td><td>Huntsville</td><td>Public · 2-year</td><td>$4,890</td><td>$5,138</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/jacksonville-state-university.html">Jacksonville State University</a></td><td>Jacksonville</td><td>Public · 4-year</td><td>$11,952</td><td>$17,979</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/jefferson-state-community-college.html">Jefferson State Community College</a></td><td>Birmingham</td><td>Public · 2-year</td><td>$5,220</td><td>$7,346</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/john-c-calhoun-state-community-college.html">John C Calhoun State Community College</a></td><td>Tanner</td><td>Public · 2-year</td><td>$5,000</td><td>$6,548</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/lawson-state-community-college.html">Lawson State Community College</a></td><td>Birmingham</td><td>Public · 2-year</td><td>$4,920</td><td>$3,842</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/lurleen-b-wallace-community-college.html">Lurleen B Wallace Community College</a></td><td>Andalusia</td><td>Public · 2-year</td><td>$4,920</td><td>$2,992</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/marion-military-institute.html">Marion Military Institute</a></td><td>Marion</td><td>Public · 2-year</td><td>$9,538</td><td>$9,589</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/midfield-institute-of-cosmetology.html">Midfield Institute of Cosmetology</a></td><td>Midfield</td><td>Private nonprofit · Certificate/trade</td><td>None</td><td>$6,619</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/miles-college.html">Miles College</a></td><td>Fairfield</td><td>Private nonprofit · 4-year</td><td>$12,714</td><td>$13,259</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/new-beginning-college-of-cosmetology.html">New Beginning College of Cosmetology</a></td><td>Albertville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$13,408</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/northeast-alabama-community-college.html">Northeast Alabama Community College</a></td><td>Rainsville</td><td>Public · 2-year</td><td>$4,920</td><td>$1,379</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/northwest-shoals-community-college.html">Northwest Shoals Community College</a></td><td>Muscle Shoals</td><td>Public · 2-year</td><td>$5,011</td><td>$2,459</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/oakwood-university.html">Oakwood University</a></td><td>Huntsville</td><td>Private nonprofit · 4-year</td><td>$20,040</td><td>$19,686</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/alabama/paul-mitchell-the-school-birmingham.html">Paul Mitchell the School-Birmingham</a></td><td>Hoover</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,199</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/paul-mitchell-the-school-huntsville.html">Paul Mitchell the School-Huntsville</a></td><td>Madison</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,321</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/reid-state-technical-college.html">Reid State Technical College</a></td><td>Evergreen</td><td>Public · 2-year</td><td>$4,950</td><td>$1,602</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/remington-college-mobile-campus.html">Remington College-Mobile Campus</a></td><td>Mobile</td><td>Private nonprofit · 2-year</td><td>$20,393</td><td>$25,510</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/ross-medical-education-center-huntsville.html">Ross Medical Education Center-Huntsville</a></td><td>Huntsville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,835</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/samford-university.html">Samford University</a></td><td>Birmingham</td><td>Private nonprofit · 4-year</td><td>$36,725</td><td>$30,689</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/selma-university.html">Selma University</a></td><td>Selma</td><td>Private nonprofit · 4-year</td><td>$4,800</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/shelton-state-community-college.html">Shelton State Community College</a></td><td>Tuscaloosa</td><td>Public · 2-year</td><td>$4,980</td><td>$8,745</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/snead-state-community-college.html">Snead State Community College</a></td><td>Boaz</td><td>Public · 2-year</td><td>$5,408</td><td>$7,181</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/south-university-montgomery.html">South University-Montgomery</a></td><td>Montgomery</td><td>Private for-profit · 4-year</td><td>$17,014</td><td>$27,195</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/southern-union-state-community-college.html">Southern Union State Community College</a></td><td>Wadley</td><td>Public · 2-year</td><td>$4,920</td><td>$8,840</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/alabama/spring-hill-college.html">Spring Hill College</a></td><td>Mobile</td><td>Private nonprofit · 4-year</td><td>$21,732</td><td>$19,449</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/stillman-college.html">Stillman College</a></td><td>Tuscaloosa</td><td>Private nonprofit · 4-year</td><td>$11,392</td><td>$16,085</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/alabama/talladega-college.html">Talladega College</a></td><td>Talladega</td><td>Private nonprofit · 4-year</td><td>$13,866</td><td>$13,128</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/alabama/the-salon-professional-academy-huntsville.html">The Salon Professional Academy-Huntsville</a></td><td>Huntsville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,857</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/the-university-of-alabama.html">The University of Alabama</a></td><td>Tuscaloosa</td><td>Public · 4-year</td><td>$11,940</td><td>$20,888</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/troy-university.html">Troy University</a></td><td>Troy</td><td>Public · 4-year</td><td>$9,312</td><td>$15,002</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/tuskegee-university.html">Tuskegee University</a></td><td>Tuskegee</td><td>Private nonprofit · 4-year</td><td>$22,614</td><td>$32,297</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/united-states-sports-academy.html">United States Sports Academy</a></td><td>Daphne</td><td>Private nonprofit · 4-year</td><td>$16,418</td><td>None</td><td>Other</td></tr>
+<tr><td><a href="/colleges/alabama/university-academy-of-hair-design.html">University Academy of Hair Design</a></td><td>Tuscaloosa</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,809</td><td>—</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-alabama-at-birmingham.html">University of Alabama at Birmingham</a></td><td>Birmingham</td><td>Public · 4-year</td><td>$8,832</td><td>$16,755</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-alabama-in-huntsville.html">University of Alabama in Huntsville</a></td><td>Huntsville</td><td>Public · 4-year</td><td>$11,878</td><td>$18,240</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-mobile.html">University of Mobile</a></td><td>Mobile</td><td>Private nonprofit · 4-year</td><td>$25,880</td><td>$18,441</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-montevallo.html">University of Montevallo</a></td><td>Montevallo</td><td>Public · 4-year</td><td>$13,710</td><td>$17,174</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-north-alabama.html">University of North Alabama</a></td><td>Florence</td><td>Public · 4-year</td><td>$11,220</td><td>$10,527</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-south-alabama.html">University of South Alabama</a></td><td>Mobile</td><td>Public · 4-year</td><td>$9,116</td><td>$16,717</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/alabama/university-of-west-alabama.html">University of West Alabama</a></td><td>Livingston</td><td>Public · 4-year</td><td>$10,990</td><td>$14,006</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/alabama/winonah-s-international-school-of-cosmetology.html">Winonah&#x27;s International School of Cosmetology</a></td><td>Hoover</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,025</td><td>—</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

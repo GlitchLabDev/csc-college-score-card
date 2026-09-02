@@ -22,47 +22,58 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Idaho — all 33 schools</h1>
-<p class="sub">11 four-year colleges, 4 community colleges, and 6 NCAA/NAIA athletic programs in Idaho, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">11 four-year colleges, 4 community colleges, and 8 NCAA/NAIA athletic programs in Idaho, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.austinkade.com/" rel="noopener nofollow">Austin Kade Academy</a></td><td>Idaho Falls</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,912</td><td>—</td></tr>
-<tr><td><a href="https://www.avedaidaho.com/" rel="noopener nofollow">Aveda Institute-Boise</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,359</td><td>—</td></tr>
-<tr><td><a href="https://www.avedaidaho.com/" rel="noopener nofollow">Aveda Institute-Twin Falls</a></td><td>Twin Falls</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,232</td><td>—</td></tr>
-<tr><td><a href="https://boisebarbercollege.com/" rel="noopener nofollow">Boise Barber College</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,263</td><td>—</td></tr>
-<tr><td><a href="https://www.boisebible.edu/" rel="noopener nofollow">Boise Bible College</a></td><td>Boise</td><td>Private nonprofit · 4-year</td><td>$9,770</td><td>$18,499</td><td>—</td></tr>
-<tr><td><a href="https://www.boisestate.edu/" rel="noopener nofollow">Boise State University</a></td><td>Boise</td><td>Public · 4-year</td><td>$8,364</td><td>$18,016</td><td>D-I</td></tr>
-<tr><td><a href="https://www.byui.edu/" rel="noopener nofollow">Brigham Young University-Idaho</a></td><td>Rexburg</td><td>Private nonprofit · 4-year</td><td>$4,536</td><td>$6,968</td><td>—</td></tr>
-<tr><td><a href="https://carrington.edu/" rel="noopener nofollow">Carrington College-Boise</a></td><td>Boise</td><td>Private for-profit · 2-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.cei.edu/" rel="noopener nofollow">College of Eastern Idaho</a></td><td>Idaho Falls</td><td>Public · 2-year</td><td>$3,390</td><td>$7,915</td><td>—</td></tr>
-<tr><td><a href="https://www.csi.edu/" rel="noopener nofollow">College of Southern Idaho</a></td><td>Twin Falls</td><td>Public · 4-year</td><td>$3,360</td><td>$5,745</td><td>—</td></tr>
-<tr><td><a href="https://cwi.edu/" rel="noopener nofollow">College of Western Idaho</a></td><td>Nampa</td><td>Public · 2-year</td><td>$3,336</td><td>$8,810</td><td>—</td></tr>
-<tr><td><a href="https://cosmetologyschoolof-art.com/" rel="noopener nofollow">Cosmetology School of Arts &amp; Sciences</a></td><td>Burley</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,314</td><td>—</td></tr>
-<tr><td><a href="https://www.eaglegatecollege.edu/" rel="noopener nofollow">Eagle Gate College-Boise Campus</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>$17,112</td><td>$29,912</td><td>—</td></tr>
-<tr><td><a href="https://www.evanshairstylingcollege.com/" rel="noopener nofollow">Evans Hairstyling College-Rexburg</a></td><td>Rexburg</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$8,863</td><td>—</td></tr>
-<tr><td><a href="https://headmasters.edu/" rel="noopener nofollow">Headmasters School of Hair Design</a></td><td>Lewiston</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,186</td><td>—</td></tr>
-<tr><td><a href="https://www.icom.edu/" rel="noopener nofollow">Idaho College of Osteopathic Medicine</a></td><td>Meridian</td><td>Private for-profit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.isu.edu/" rel="noopener nofollow">Idaho State University</a></td><td>Pocatello</td><td>Public · 4-year</td><td>$7,958</td><td>$17,203</td><td>D-I</td></tr>
-<tr><td><a href="https://www.collegemassagetherapy.com/" rel="noopener nofollow">Integrated Massage Therapy Services</a></td><td>Blackfoot</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,988</td><td>—</td></tr>
-<tr><td><a href="https://www.lcsc.edu/" rel="noopener nofollow">Lewis-Clark State College</a></td><td>Lewiston</td><td>Public · 4-year</td><td>$6,999</td><td>$11,695</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.nathanlayneinstitute.com/" rel="noopener nofollow">Nathan Layne Institute of Cosmetology</a></td><td>Chubbuck</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,295</td><td>—</td></tr>
-<tr><td><a href="https://nsa.edu/" rel="noopener nofollow">New Saint Andrews College</a></td><td>Moscow</td><td>Private nonprofit · 4-year</td><td>$14,500</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.nic.edu/" rel="noopener nofollow">North Idaho College</a></td><td>Coeur d&#x27;Alene</td><td>Public · 2-year</td><td>$3,396</td><td>$7,144</td><td>—</td></tr>
-<tr><td><a href="https://www.nnu.edu/" rel="noopener nofollow">Northwest Nazarene University</a></td><td>Nampa</td><td>Private nonprofit · 4-year</td><td>$36,298</td><td>$25,368</td><td>D-II</td></tr>
-<tr><td><a href="https://oliverfinley.com/" rel="noopener nofollow">Oliver Finley Academy of Cosmetology</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,988</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/boise" rel="noopener nofollow">Paul Mitchell the School-Boise</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,223</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/nampa" rel="noopener nofollow">Paul Mitchell the School-Nampa</a></td><td>Nampa</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,430</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/rexburg" rel="noopener nofollow">Paul Mitchell the School-Rexburg</a></td><td>Rexburg</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,304</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/twinfalls" rel="noopener nofollow">Paul Mitchell the School-Twin Falls</a></td><td>TWIN FALLS</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,431</td><td>—</td></tr>
-<tr><td><a href="https://www.eaglegatecollege.edu/" rel="noopener nofollow">Provo College-Idaho Falls Campus</a></td><td>Idaho Falls</td><td>Private for-profit · Certificate/trade</td><td>$17,112</td><td>$26,985</td><td>—</td></tr>
-<tr><td><a href="https://rexburgcmt.com/" rel="noopener nofollow">Rexburg College of Massage Therapy</a></td><td>Rexburg</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.collegeofidaho.edu/" rel="noopener nofollow">The College of Idaho</a></td><td>Caldwell</td><td>Private nonprofit · 4-year</td><td>$34,630</td><td>$21,956</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.tspanampa.com/" rel="noopener nofollow">The Salon Professional Academy-Nampa</a></td><td>Nampa</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$23,056</td><td>—</td></tr>
-<tr><td><a href="https://www.uidaho.edu/" rel="noopener nofollow">University of Idaho</a></td><td>Moscow</td><td>Public · 4-year</td><td>$8,396</td><td>$13,355</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/idaho/austin-kade-academy.html">Austin Kade Academy</a></td><td>Idaho Falls</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,912</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/aveda-institute-boise.html">Aveda Institute-Boise</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,359</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/aveda-institute-twin-falls.html">Aveda Institute-Twin Falls</a></td><td>Twin Falls</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,232</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/boise-barber-college.html">Boise Barber College</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,263</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/boise-bible-college.html">Boise Bible College</a></td><td>Boise</td><td>Private nonprofit · 4-year</td><td>$9,770</td><td>$18,499</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/boise-state-university.html">Boise State University</a></td><td>Boise</td><td>Public · 4-year</td><td>$8,364</td><td>$18,016</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/idaho/brigham-young-university-idaho.html">Brigham Young University-Idaho</a></td><td>Rexburg</td><td>Private nonprofit · 4-year</td><td>$4,536</td><td>$6,968</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/carrington-college-boise.html">Carrington College-Boise</a></td><td>Boise</td><td>Private for-profit · 2-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/college-of-eastern-idaho.html">College of Eastern Idaho</a></td><td>Idaho Falls</td><td>Public · 2-year</td><td>$3,390</td><td>$7,915</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/college-of-southern-idaho.html">College of Southern Idaho</a></td><td>Twin Falls</td><td>Public · 4-year</td><td>$3,360</td><td>$5,745</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/idaho/college-of-western-idaho.html">College of Western Idaho</a></td><td>Nampa</td><td>Public · 2-year</td><td>$3,336</td><td>$8,810</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/cosmetology-school-of-arts-sciences.html">Cosmetology School of Arts &amp; Sciences</a></td><td>Burley</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,314</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/eagle-gate-college-boise-campus.html">Eagle Gate College-Boise Campus</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>$17,112</td><td>$29,912</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/evans-hairstyling-college-rexburg.html">Evans Hairstyling College-Rexburg</a></td><td>Rexburg</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$8,863</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/headmasters-school-of-hair-design.html">Headmasters School of Hair Design</a></td><td>Lewiston</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,186</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/idaho-college-of-osteopathic-medicine.html">Idaho College of Osteopathic Medicine</a></td><td>Meridian</td><td>Private for-profit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/idaho-state-university.html">Idaho State University</a></td><td>Pocatello</td><td>Public · 4-year</td><td>$7,958</td><td>$17,203</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/idaho/integrated-massage-therapy-services.html">Integrated Massage Therapy Services</a></td><td>Blackfoot</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,988</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/lewis-clark-state-college.html">Lewis-Clark State College</a></td><td>Lewiston</td><td>Public · 4-year</td><td>$6,999</td><td>$11,695</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/idaho/nathan-layne-institute-of-cosmetology.html">Nathan Layne Institute of Cosmetology</a></td><td>Chubbuck</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,295</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/new-saint-andrews-college.html">New Saint Andrews College</a></td><td>Moscow</td><td>Private nonprofit · 4-year</td><td>$14,500</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/north-idaho-college.html">North Idaho College</a></td><td>Coeur d&#x27;Alene</td><td>Public · 2-year</td><td>$3,396</td><td>$7,144</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/idaho/northwest-nazarene-university.html">Northwest Nazarene University</a></td><td>Nampa</td><td>Private nonprofit · 4-year</td><td>$36,298</td><td>$25,368</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/idaho/oliver-finley-academy-of-cosmetology.html">Oliver Finley Academy of Cosmetology</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,988</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/paul-mitchell-the-school-boise.html">Paul Mitchell the School-Boise</a></td><td>Boise</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,223</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/paul-mitchell-the-school-nampa.html">Paul Mitchell the School-Nampa</a></td><td>Nampa</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,430</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/paul-mitchell-the-school-rexburg.html">Paul Mitchell the School-Rexburg</a></td><td>Rexburg</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,304</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/paul-mitchell-the-school-twin-falls.html">Paul Mitchell the School-Twin Falls</a></td><td>TWIN FALLS</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,431</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/provo-college-idaho-falls-campus.html">Provo College-Idaho Falls Campus</a></td><td>Idaho Falls</td><td>Private for-profit · Certificate/trade</td><td>$17,112</td><td>$26,985</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/rexburg-college-of-massage-therapy.html">Rexburg College of Massage Therapy</a></td><td>Rexburg</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/the-college-of-idaho.html">The College of Idaho</a></td><td>Caldwell</td><td>Private nonprofit · 4-year</td><td>$34,630</td><td>$21,956</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/idaho/the-salon-professional-academy-nampa.html">The Salon Professional Academy-Nampa</a></td><td>Nampa</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$23,056</td><td>—</td></tr>
+<tr><td><a href="/colleges/idaho/university-of-idaho.html">University of Idaho</a></td><td>Moscow</td><td>Public · 4-year</td><td>$8,396</td><td>$13,355</td><td>D-I</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

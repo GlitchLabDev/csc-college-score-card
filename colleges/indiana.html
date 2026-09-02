@@ -22,116 +22,127 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Indiana — all 102 schools</h1>
-<p class="sub">59 four-year colleges, 7 community colleges, and 40 NCAA/NAIA athletic programs in Indiana, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">59 four-year colleges, 7 community colleges, and 43 NCAA/NAIA athletic programs in Indiana, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.ace.edu/" rel="noopener nofollow">American College of Education</a></td><td>Indianapolis</td><td>Private for-profit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.ambs.edu/" rel="noopener nofollow">Anabaptist Mennonite Biblical Seminary</a></td><td>Elkhart</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://anderson.edu/" rel="noopener nofollow">Anderson University</a></td><td>Anderson</td><td>Private nonprofit · 4-year</td><td>$34,080</td><td>$20,896</td><td>D-III</td></tr>
-<tr><td><a href="https://avedafi.edu/indianapolis/" rel="noopener nofollow">Aveda Fredric&#x27;s Institute-Indianapolis</a></td><td>Carmel</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$22,917</td><td>—</td></tr>
-<tr><td><a href="https://aviationmaintenance.edu/campuses/indianapolis-in" rel="noopener nofollow">Aviation Institute of Maintenance-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>$16,757</td><td>$22,331</td><td>—</td></tr>
-<tr><td><a href="https://www.bsu.edu/" rel="noopener nofollow">Ball State University</a></td><td>Muncie</td><td>Public · 4-year</td><td>$10,440</td><td>$15,419</td><td>D-I</td></tr>
-<tr><td><a href="https://www.bethanyseminary.edu/" rel="noopener nofollow">Bethany Theological Seminary</a></td><td>Richmond</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://betheluniversity.edu/" rel="noopener nofollow">Bethel University</a></td><td>Mishawaka</td><td>Private nonprofit · 4-year</td><td>$32,040</td><td>$18,468</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.butler.edu/" rel="noopener nofollow">Butler University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$44,460</td><td>$37,339</td><td>D-I</td></tr>
-<tr><td><a href="https://www.ccsj.edu/" rel="noopener nofollow">Calumet College of Saint Joseph</a></td><td>Whiting</td><td>Private nonprofit · 4-year</td><td>$21,650</td><td>$13,507</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.cariscollege.edu/" rel="noopener nofollow">Caris College</a></td><td>Jeffersonville</td><td>Private for-profit · 2-year</td><td>—</td><td>$20,447</td><td>—</td></tr>
-<tr><td><a href="https://www.chamberlain.edu/" rel="noopener nofollow">Chamberlain University-Indiana</a></td><td>Indianapolis</td><td>Private for-profit · 4-year</td><td>$19,629</td><td>$31,732</td><td>—</td></tr>
-<tr><td><a href="https://www.cts.edu/" rel="noopener nofollow">Christian Theological Seminary</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.ccedcenter.com/" rel="noopener nofollow">Christina and Company Education Center</a></td><td>Lafayette</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$12,288</td><td>—</td></tr>
-<tr><td><a href="https://www.ccr.edu/" rel="noopener nofollow">College of Court Reporting Inc</a></td><td>Valparaiso</td><td>Private for-profit · 2-year</td><td>$10,080</td><td>$38,698</td><td>—</td></tr>
-<tr><td><a href="https://ctsfw.edu/" rel="noopener nofollow">Concordia Theological Seminary</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.depauw.edu/" rel="noopener nofollow">DePauw University</a></td><td>Greencastle</td><td>Private nonprofit · 4-year</td><td>$55,410</td><td>$25,673</td><td>D-III</td></tr>
-<tr><td><a href="https://www.successbarberschool.com/" rel="noopener nofollow">Denmark College</a></td><td>Merrillville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,872</td><td>—</td></tr>
-<tr><td><a href="https://www.donrobertsspaschool.com/" rel="noopener nofollow">Don Roberts School of Hair Design</a></td><td>Schererville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$12,577</td><td>—</td></tr>
-<tr><td><a href="https://earlham.edu/" rel="noopener nofollow">Earlham College</a></td><td>Richmond</td><td>Private nonprofit · 4-year</td><td>$50,058</td><td>$25,496</td><td>D-III</td></tr>
-<tr><td><a href="https://www.empire.edu/" rel="noopener nofollow">Empire Beauty School-Speedway</a></td><td>Speedway</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,479</td><td>—</td></tr>
-<tr><td><a href="https://www.fortis.edu/" rel="noopener nofollow">Fortis College-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · 2-year</td><td>$14,432</td><td>$26,342</td><td>—</td></tr>
-<tr><td><a href="https://www.franklincollege.edu/" rel="noopener nofollow">Franklin College</a></td><td>Franklin</td><td>Private nonprofit · 4-year</td><td>$36,136</td><td>$18,419</td><td>D-III</td></tr>
-<tr><td><a href="https://www.goshen.edu/" rel="noopener nofollow">Goshen College</a></td><td>Goshen</td><td>Private nonprofit · 4-year</td><td>$36,660</td><td>$18,353</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.grace.edu/" rel="noopener nofollow">Grace College and Theological Seminary</a></td><td>Winona Lake</td><td>Private nonprofit · 4-year</td><td>$29,048</td><td>$17,825</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.hanover.edu/" rel="noopener nofollow">Hanover College</a></td><td>Hanover</td><td>Private nonprofit · 4-year</td><td>$41,559</td><td>$24,059</td><td>D-III</td></tr>
-<tr><td><a href="https://www.hcc-nd.edu/" rel="noopener nofollow">Holy Cross College</a></td><td>Notre Dame</td><td>Private nonprofit · 4-year</td><td>$34,800</td><td>$28,681</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.horizonuniversity.edu/" rel="noopener nofollow">Horizon University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$9,840</td><td>$25,310</td><td>—</td></tr>
-<tr><td><a href="https://www.huntington.edu/" rel="noopener nofollow">Huntington University</a></td><td>Huntington</td><td>Private nonprofit · 4-year</td><td>$28,830</td><td>$13,294</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.indianatech.edu/" rel="noopener nofollow">Indiana Institute of Technology</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>$29,560</td><td>$21,392</td><td>NAIA</td></tr>
-<tr><td><a href="https://cps.indianatech.edu/" rel="noopener nofollow">Indiana Institute of Technology-College of Professional Studies</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>$10,224</td><td>$19,968</td><td>—</td></tr>
-<tr><td><a href="https://www.indstate.edu/" rel="noopener nofollow">Indiana State University</a></td><td>Terre Haute</td><td>Public · 4-year</td><td>$9,732</td><td>$13,241</td><td>D-I</td></tr>
-<tr><td><a href="https://www.indiana.edu/" rel="noopener nofollow">Indiana University-Bloomington</a></td><td>Bloomington</td><td>Public · 4-year</td><td>$11,447</td><td>$15,878</td><td>D-I</td></tr>
-<tr><td><a href="https://www.iue.edu/" rel="noopener nofollow">Indiana University-East</a></td><td>Richmond</td><td>Public · 4-year</td><td>$7,941</td><td>$8,360</td><td>NAIA</td></tr>
-<tr><td><a href="https://indianapolis.iu.edu/" rel="noopener nofollow">Indiana University-Indianapolis</a></td><td>Indianapolis</td><td>Public · 4-year</td><td>$10,144</td><td>$11,577</td><td>D-I</td></tr>
-<tr><td><a href="https://www.iuk.edu/" rel="noopener nofollow">Indiana University-Kokomo</a></td><td>Kokomo</td><td>Public · 4-year</td><td>$7,941</td><td>$6,934</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.iun.edu/" rel="noopener nofollow">Indiana University-Northwest</a></td><td>Gary</td><td>Public · 4-year</td><td>$7,941</td><td>$6,488</td><td>NAIA</td></tr>
-<tr><td><a href="https://iusb.edu/" rel="noopener nofollow">Indiana University-South Bend</a></td><td>South Bend</td><td>Public · 4-year</td><td>$7,941</td><td>$8,505</td><td>NAIA</td></tr>
-<tr><td><a href="https://ius.edu/" rel="noopener nofollow">Indiana University-Southeast</a></td><td>New Albany</td><td>Public · 4-year</td><td>$7,941</td><td>$8,516</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.indianawellnesscollege.edu/" rel="noopener nofollow">Indiana Wellness College</a></td><td>Carmel</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.indwes.edu/" rel="noopener nofollow">Indiana Wesleyan University-Marion</a></td><td>Marion</td><td>Private nonprofit · 4-year</td><td>$29,684</td><td>$19,449</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.indwes.edu/" rel="noopener nofollow">Indiana Wesleyan University-National &amp; Global</a></td><td>Marion</td><td>Private nonprofit · 4-year</td><td>$8,120</td><td>$16,899</td><td>—</td></tr>
-<tr><td><a href="https://www.ibcindianapolis.edu/" rel="noopener nofollow">International Business College-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · 2-year</td><td>$15,280</td><td>$13,925</td><td>—</td></tr>
-<tr><td><a href="https://www.ivytech.edu/" rel="noopener nofollow">Ivy Tech Community College</a></td><td>Indianapolis</td><td>Public · 2-year</td><td>$4,637</td><td>$6,350</td><td>—</td></tr>
-<tr><td><a href="https://harroldbeautyacademy.com/" rel="noopener nofollow">J Michael Harrold Beauty Academy</a></td><td>Terre Haute</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,312</td><td>—</td></tr>
-<tr><td><a href="https://jpu.edu/" rel="noopener nofollow">John Patrick University of Health and Applied Sciences</a></td><td>South Bend</td><td>Private for-profit · 4-year</td><td>$17,207</td><td>$19,714</td><td>—</td></tr>
-<tr><td><a href="https://kennysacademy.com/" rel="noopener nofollow">Kenny&#x27;s Academy of Barbering</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,597</td><td>—</td></tr>
-<tr><td><a href="https://www.lillousbeautyandbarbercollege.com/" rel="noopener nofollow">Lil Lou&#x27;s Beauty and Barber College</a></td><td>Gary</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$23,969</td><td>—</td></tr>
-<tr><td><a href="https://www.lillousbeautyandbarbercollege.com/" rel="noopener nofollow">Lil Lou&#x27;s Beauty and Barber College-Hammond</a></td><td>Hammond</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,565</td><td>—</td></tr>
-<tr><td><a href="https://www.lincolntech.edu/campus/indianapolis-in" rel="noopener nofollow">Lincoln College of Technology-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · 2-year</td><td>—</td><td>$30,201</td><td>—</td></tr>
-<tr><td><a href="https://www.manchester.edu/" rel="noopener nofollow">Manchester University</a></td><td>North Manchester</td><td>Private nonprofit · 4-year</td><td>$35,772</td><td>$17,694</td><td>D-III</td></tr>
-<tr><td><a href="https://www.marian.edu/" rel="noopener nofollow">Marian University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$37,600</td><td>$22,484</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.marian.edu/ancilla" rel="noopener nofollow">Marian University-Ancilla</a></td><td>Plymouth</td><td>Private nonprofit · 2-year</td><td>$19,850</td><td>$20,104</td><td>—</td></tr>
-<tr><td><a href="https://www.martin.edu/" rel="noopener nofollow">Martin University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$13,200</td><td>$15,457</td><td>—</td></tr>
-<tr><td><a href="https://www.mid-america.edu/" rel="noopener nofollow">Mid-America College of Funeral Service</a></td><td>Jeffersonville</td><td>Private nonprofit · 4-year</td><td>$18,000</td><td>$24,294</td><td>—</td></tr>
-<tr><td><a href="https://www.mycomputercareer.edu/" rel="noopener nofollow">MyComputerCareer at Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$25,145</td><td>—</td></tr>
-<tr><td><a href="https://www.oak.edu/" rel="noopener nofollow">Oakland City University</a></td><td>Oakland City</td><td>Private nonprofit · 4-year</td><td>$26,400</td><td>$16,193</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.gotopjs.com/" rel="noopener nofollow">PJ&#x27;s College of Cosmetology-Clarksville</a></td><td>Clarksville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,194</td><td>—</td></tr>
-<tr><td><a href="https://www.gotopjs.com/" rel="noopener nofollow">PJ&#x27;s College of Cosmetology-Richmond</a></td><td>Richmond</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,711</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/indianapolis" rel="noopener nofollow">Paul Mitchell the School-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$16,696</td><td>—</td></tr>
-<tr><td><a href="https://paulmitchell.edu/merrillville" rel="noopener nofollow">Paul Mitchell the School-Merrillville</a></td><td>Merrillville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$13,590</td><td>—</td></tr>
-<tr><td><a href="https://www.pfw.edu/" rel="noopener nofollow">Purdue University Fort Wayne</a></td><td>Fort Wayne</td><td>Public · 4-year</td><td>$8,985</td><td>$11,347</td><td>D-I</td></tr>
-<tr><td><a href="https://www.purdueglobal.edu/" rel="noopener nofollow">Purdue University Global</a></td><td>West Lafayette</td><td>Public · 4-year</td><td>$10,134</td><td>$4,765</td><td>—</td></tr>
-<tr><td><a href="https://www.pnw.edu/" rel="noopener nofollow">Purdue University Northwest</a></td><td>Hammond</td><td>Public · 4-year</td><td>$8,174</td><td>$8,732</td><td>D-II</td></tr>
-<tr><td><a href="https://www.purdue.edu/" rel="noopener nofollow">Purdue University-Main Campus</a></td><td>West Lafayette</td><td>Public · 4-year</td><td>$9,992</td><td>$14,000</td><td>D-I</td></tr>
-<tr><td><a href="https://ravenscroftcollege.com/" rel="noopener nofollow">Ravenscroft Beauty College</a></td><td>Fort Wayne</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://rogershair.com/" rel="noopener nofollow">Rogers Academy of Hair Design</a></td><td>Evansville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,319</td><td>—</td></tr>
-<tr><td><a href="https://www.rose-hulman.edu/" rel="noopener nofollow">Rose-Hulman Institute of Technology</a></td><td>Terre Haute</td><td>Private nonprofit · 4-year</td><td>$54,602</td><td>$38,280</td><td>D-III</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Evansville</a></td><td>Evansville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,643</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Fort Wayne</a></td><td>Fort Wayne</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$20,098</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Granger</a></td><td>Granger</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,402</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Kokomo</a></td><td>Kokomo</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,731</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Lafayette</a></td><td>Lafayette</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,588</td><td>—</td></tr>
-<tr><td><a href="https://rosseducation.edu/" rel="noopener nofollow">Ross Medical Education Center-Muncie</a></td><td>Muncie</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,837</td><td>—</td></tr>
-<tr><td><a href="https://www.rudaes.edu/" rel="noopener nofollow">Rudae&#x27;s School of Beauty Culture-Ft Wayne</a></td><td>Fort Wayne</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$22,189</td><td>—</td></tr>
-<tr><td><a href="https://www.steson.org/" rel="noopener nofollow">Saint Elizabeth School of Nursing</a></td><td>Lafayette</td><td>Private nonprofit · Certificate/trade</td><td>$20,064</td><td>$22,332</td><td>—</td></tr>
-<tr><td><a href="https://www.saintmarys.edu/" rel="noopener nofollow">Saint Mary&#x27;s College</a></td><td>Notre Dame</td><td>Private nonprofit · 4-year</td><td>$49,930</td><td>$25,209</td><td>D-III</td></tr>
-<tr><td><a href="https://www.smwc.edu/" rel="noopener nofollow">Saint Mary-of-the-Woods College</a></td><td>Saint Mary of the Woods</td><td>Private nonprofit · 4-year</td><td>$32,700</td><td>$16,889</td><td>NAIA</td></tr>
-<tr><td><a href="https://www.saintmeinrad.edu/" rel="noopener nofollow">Saint Meinrad School of Theology</a></td><td>St. Meinrad</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.andersonsalonacademy.com/" rel="noopener nofollow">Summit Salon Academy</a></td><td>Anderson</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,422</td><td>—</td></tr>
-<tr><td><a href="https://kokomobeautyschool.com/" rel="noopener nofollow">Summit Salon Academy-Kokomo</a></td><td>Kokomo</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,836</td><td>—</td></tr>
-<tr><td><a href="https://www.kbc.edu/" rel="noopener nofollow">Taylor Institute of Cosmetology II</a></td><td>Knox</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.taylor.edu/" rel="noopener nofollow">Taylor University</a></td><td>Upland</td><td>Private nonprofit · 4-year</td><td>$37,476</td><td>$25,815</td><td>NAIA</td></tr>
-<tr><td><a href="https://texturesinstitute.org/" rel="noopener nofollow">Textures Institute of Cosmetology</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$13,927</td><td>—</td></tr>
-<tr><td><a href="https://www.tspaevansville.com/" rel="noopener nofollow">The Salon Professional Academy-Evansville</a></td><td>Evansville</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$10,804</td><td>—</td></tr>
-<tr><td><a href="https://www.tricociuniversity.edu/" rel="noopener nofollow">Tricoci University of Beauty Culture LLC-Bloomington</a></td><td>Bloomington</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,863</td><td>—</td></tr>
-<tr><td><a href="https://www.tricociuniversity.edu/" rel="noopener nofollow">Tricoci University of Beauty Culture-Highland</a></td><td>Highland</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,288</td><td>—</td></tr>
-<tr><td><a href="https://www.tricociuniversity.edu/" rel="noopener nofollow">Tricoci University of Beauty Culture-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.tricociuniversity.edu/" rel="noopener nofollow">Tricoci University of Beauty Culture-Lafayette</a></td><td>Lafayette</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$14,053</td><td>—</td></tr>
-<tr><td><a href="https://www.trine.edu/" rel="noopener nofollow">Trine University</a></td><td>Angola</td><td>Private nonprofit · 4-year</td><td>$34,890</td><td>$24,276</td><td>D-III</td></tr>
-<tr><td><a href="https://trine.edu/online/index.aspx" rel="noopener nofollow">Trine University-Regional/Non-Traditional Campuses</a></td><td>Angola</td><td>Private nonprofit · 4-year</td><td>$9,576</td><td>$19,616</td><td>—</td></tr>
-<tr><td><a href="https://ubca.org/" rel="noopener nofollow">Union Bible College</a></td><td>Westfield</td><td>Private nonprofit · 4-year</td><td>$6,230</td><td>$6,390</td><td>—</td></tr>
-<tr><td><a href="https://www.evansville.edu/" rel="noopener nofollow">University of Evansville</a></td><td>Evansville</td><td>Private nonprofit · 4-year</td><td>$41,336</td><td>$19,852</td><td>D-I</td></tr>
-<tr><td><a href="https://uindy.edu/" rel="noopener nofollow">University of Indianapolis</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$34,972</td><td>$21,396</td><td>D-II</td></tr>
-<tr><td><a href="https://www.nd.edu/" rel="noopener nofollow">University of Notre Dame</a></td><td>Notre Dame</td><td>Private nonprofit · 4-year</td><td>$60,301</td><td>$29,974</td><td>D-I</td></tr>
-<tr><td><a href="https://www.sf.edu/" rel="noopener nofollow">University of Saint Francis-Fort Wayne</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>$34,050</td><td>$18,391</td><td>—</td></tr>
-<tr><td><a href="https://www.usi.edu/" rel="noopener nofollow">University of Southern Indiana</a></td><td>Evansville</td><td>Public · 4-year</td><td>$10,210</td><td>$13,135</td><td>D-I</td></tr>
-<tr><td><a href="https://www.valpo.edu/" rel="noopener nofollow">Valparaiso University</a></td><td>Valparaiso</td><td>Private nonprofit · 4-year</td><td>$44,796</td><td>$27,690</td><td>D-I</td></tr>
-<tr><td><a href="https://www.vbc.edu/" rel="noopener nofollow">Veritas Baptist College</a></td><td>Lawrenceburg</td><td>Private nonprofit · 4-year</td><td>$7,676</td><td>$10,033</td><td>—</td></tr>
-<tr><td><a href="https://vincennesbeautycollege.com/" rel="noopener nofollow">Vincennes Beauty College</a></td><td>Vincennes</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$7,856</td><td>—</td></tr>
-<tr><td><a href="https://www.vinu.edu/" rel="noopener nofollow">Vincennes University</a></td><td>Vincennes</td><td>Public · 4-year</td><td>$6,654</td><td>$8,697</td><td>—</td></tr>
-<tr><td><a href="https://www.wabash.edu/" rel="noopener nofollow">Wabash College</a></td><td>Crawfordsville</td><td>Private nonprofit · 4-year</td><td>$47,475</td><td>$22,067</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/american-college-of-education.html">American College of Education</a></td><td>Indianapolis</td><td>Private for-profit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/anabaptist-mennonite-biblical-seminary.html">Anabaptist Mennonite Biblical Seminary</a></td><td>Elkhart</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/anderson-university.html">Anderson University</a></td><td>Anderson</td><td>Private nonprofit · 4-year</td><td>$34,080</td><td>$20,896</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/aveda-fredric-s-institute-indianapolis.html">Aveda Fredric&#x27;s Institute-Indianapolis</a></td><td>Carmel</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$22,917</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/aviation-institute-of-maintenance-indianapolis.html">Aviation Institute of Maintenance-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>$16,757</td><td>$22,331</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ball-state-university.html">Ball State University</a></td><td>Muncie</td><td>Public · 4-year</td><td>$10,440</td><td>$15,419</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/bethany-theological-seminary.html">Bethany Theological Seminary</a></td><td>Richmond</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/bethel-university.html">Bethel University</a></td><td>Mishawaka</td><td>Private nonprofit · 4-year</td><td>$32,040</td><td>$18,468</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/butler-university.html">Butler University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$44,460</td><td>$37,339</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/calumet-college-of-saint-joseph.html">Calumet College of Saint Joseph</a></td><td>Whiting</td><td>Private nonprofit · 4-year</td><td>$21,650</td><td>$13,507</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/caris-college.html">Caris College</a></td><td>Jeffersonville</td><td>Private for-profit · 2-year</td><td>None</td><td>$20,447</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/chamberlain-university-indiana.html">Chamberlain University-Indiana</a></td><td>Indianapolis</td><td>Private for-profit · 4-year</td><td>$19,629</td><td>$31,732</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/christian-theological-seminary.html">Christian Theological Seminary</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/christina-and-company-education-center.html">Christina and Company Education Center</a></td><td>Lafayette</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$12,288</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/college-of-court-reporting-inc.html">College of Court Reporting Inc</a></td><td>Valparaiso</td><td>Private for-profit · 2-year</td><td>$10,080</td><td>$38,698</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/concordia-theological-seminary.html">Concordia Theological Seminary</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/depauw-university.html">DePauw University</a></td><td>Greencastle</td><td>Private nonprofit · 4-year</td><td>$55,410</td><td>$25,673</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/denmark-college.html">Denmark College</a></td><td>Merrillville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,872</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/don-roberts-school-of-hair-design.html">Don Roberts School of Hair Design</a></td><td>Schererville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$12,577</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/earlham-college.html">Earlham College</a></td><td>Richmond</td><td>Private nonprofit · 4-year</td><td>$50,058</td><td>$25,496</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/empire-beauty-school-speedway.html">Empire Beauty School-Speedway</a></td><td>Speedway</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,479</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/fortis-college-indianapolis.html">Fortis College-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · 2-year</td><td>$14,432</td><td>$26,342</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/franklin-college.html">Franklin College</a></td><td>Franklin</td><td>Private nonprofit · 4-year</td><td>$36,136</td><td>$18,419</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/goshen-college.html">Goshen College</a></td><td>Goshen</td><td>Private nonprofit · 4-year</td><td>$36,660</td><td>$18,353</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/grace-college-and-theological-seminary.html">Grace College and Theological Seminary</a></td><td>Winona Lake</td><td>Private nonprofit · 4-year</td><td>$29,048</td><td>$17,825</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/hanover-college.html">Hanover College</a></td><td>Hanover</td><td>Private nonprofit · 4-year</td><td>$41,559</td><td>$24,059</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/holy-cross-college.html">Holy Cross College</a></td><td>Notre Dame</td><td>Private nonprofit · 4-year</td><td>$34,800</td><td>$28,681</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/horizon-university.html">Horizon University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$9,840</td><td>$25,310</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/huntington-university.html">Huntington University</a></td><td>Huntington</td><td>Private nonprofit · 4-year</td><td>$28,830</td><td>$13,294</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-institute-of-technology.html">Indiana Institute of Technology</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>$29,560</td><td>$21,392</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-institute-of-technology-college-of-professional-studies.html">Indiana Institute of Technology-College of Professional Studies</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>$10,224</td><td>$19,968</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-state-university.html">Indiana State University</a></td><td>Terre Haute</td><td>Public · 4-year</td><td>$9,732</td><td>$13,241</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-bloomington.html">Indiana University-Bloomington</a></td><td>Bloomington</td><td>Public · 4-year</td><td>$11,447</td><td>$15,878</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-east.html">Indiana University-East</a></td><td>Richmond</td><td>Public · 4-year</td><td>$7,941</td><td>$8,360</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-indianapolis.html">Indiana University-Indianapolis</a></td><td>Indianapolis</td><td>Public · 4-year</td><td>$10,144</td><td>$11,577</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-kokomo.html">Indiana University-Kokomo</a></td><td>Kokomo</td><td>Public · 4-year</td><td>$7,941</td><td>$6,934</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-northwest.html">Indiana University-Northwest</a></td><td>Gary</td><td>Public · 4-year</td><td>$7,941</td><td>$6,488</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-south-bend.html">Indiana University-South Bend</a></td><td>South Bend</td><td>Public · 4-year</td><td>$7,941</td><td>$8,505</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-university-southeast.html">Indiana University-Southeast</a></td><td>New Albany</td><td>Public · 4-year</td><td>$7,941</td><td>$8,516</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-wellness-college.html">Indiana Wellness College</a></td><td>Carmel</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-wesleyan-university-marion.html">Indiana Wesleyan University-Marion</a></td><td>Marion</td><td>Private nonprofit · 4-year</td><td>$29,684</td><td>$19,449</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/indiana-wesleyan-university-national-global.html">Indiana Wesleyan University-National &amp; Global</a></td><td>Marion</td><td>Private nonprofit · 4-year</td><td>$8,120</td><td>$16,899</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/international-business-college-indianapolis.html">International Business College-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · 2-year</td><td>$15,280</td><td>$13,925</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ivy-tech-community-college.html">Ivy Tech Community College</a></td><td>Indianapolis</td><td>Public · 2-year</td><td>$4,637</td><td>$6,350</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/j-michael-harrold-beauty-academy.html">J Michael Harrold Beauty Academy</a></td><td>Terre Haute</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,312</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/john-patrick-university-of-health-and-applied-sciences.html">John Patrick University of Health and Applied Sciences</a></td><td>South Bend</td><td>Private for-profit · 4-year</td><td>$17,207</td><td>$19,714</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/kenny-s-academy-of-barbering.html">Kenny&#x27;s Academy of Barbering</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,597</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/lil-lou-s-beauty-and-barber-college.html">Lil Lou&#x27;s Beauty and Barber College</a></td><td>Gary</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$23,969</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/lil-lou-s-beauty-and-barber-college-hammond.html">Lil Lou&#x27;s Beauty and Barber College-Hammond</a></td><td>Hammond</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,565</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/lincoln-college-of-technology-indianapolis.html">Lincoln College of Technology-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · 2-year</td><td>None</td><td>$30,201</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/manchester-university.html">Manchester University</a></td><td>North Manchester</td><td>Private nonprofit · 4-year</td><td>$35,772</td><td>$17,694</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/marian-university.html">Marian University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$37,600</td><td>$22,484</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/marian-university-ancilla.html">Marian University-Ancilla</a></td><td>Plymouth</td><td>Private nonprofit · 2-year</td><td>$19,850</td><td>$20,104</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/indiana/martin-university.html">Martin University</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$13,200</td><td>$15,457</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/mid-america-college-of-funeral-service.html">Mid-America College of Funeral Service</a></td><td>Jeffersonville</td><td>Private nonprofit · 4-year</td><td>$18,000</td><td>$24,294</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/mycomputercareer-at-indianapolis.html">MyComputerCareer at Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$25,145</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/oakland-city-university.html">Oakland City University</a></td><td>Oakland City</td><td>Private nonprofit · 4-year</td><td>$26,400</td><td>$16,193</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/pj-s-college-of-cosmetology-clarksville.html">PJ&#x27;s College of Cosmetology-Clarksville</a></td><td>Clarksville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,194</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/pj-s-college-of-cosmetology-richmond.html">PJ&#x27;s College of Cosmetology-Richmond</a></td><td>Richmond</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,711</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/paul-mitchell-the-school-indianapolis.html">Paul Mitchell the School-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$16,696</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/paul-mitchell-the-school-merrillville.html">Paul Mitchell the School-Merrillville</a></td><td>Merrillville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$13,590</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/purdue-university-fort-wayne.html">Purdue University Fort Wayne</a></td><td>Fort Wayne</td><td>Public · 4-year</td><td>$8,985</td><td>$11,347</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/purdue-university-global.html">Purdue University Global</a></td><td>West Lafayette</td><td>Public · 4-year</td><td>$10,134</td><td>$4,765</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/purdue-university-northwest.html">Purdue University Northwest</a></td><td>Hammond</td><td>Public · 4-year</td><td>$8,174</td><td>$8,732</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/indiana/purdue-university-main-campus.html">Purdue University-Main Campus</a></td><td>West Lafayette</td><td>Public · 4-year</td><td>$9,992</td><td>$14,000</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/ravenscroft-beauty-college.html">Ravenscroft Beauty College</a></td><td>Fort Wayne</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/rogers-academy-of-hair-design.html">Rogers Academy of Hair Design</a></td><td>Evansville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,319</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/rose-hulman-institute-of-technology.html">Rose-Hulman Institute of Technology</a></td><td>Terre Haute</td><td>Private nonprofit · 4-year</td><td>$54,602</td><td>$38,280</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/ross-medical-education-center-evansville.html">Ross Medical Education Center-Evansville</a></td><td>Evansville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,643</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ross-medical-education-center-fort-wayne.html">Ross Medical Education Center-Fort Wayne</a></td><td>Fort Wayne</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$20,098</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ross-medical-education-center-granger.html">Ross Medical Education Center-Granger</a></td><td>Granger</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,402</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ross-medical-education-center-kokomo.html">Ross Medical Education Center-Kokomo</a></td><td>Kokomo</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,731</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ross-medical-education-center-lafayette.html">Ross Medical Education Center-Lafayette</a></td><td>Lafayette</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,588</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/ross-medical-education-center-muncie.html">Ross Medical Education Center-Muncie</a></td><td>Muncie</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,837</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/rudae-s-school-of-beauty-culture-ft-wayne.html">Rudae&#x27;s School of Beauty Culture-Ft Wayne</a></td><td>Fort Wayne</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$22,189</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/saint-elizabeth-school-of-nursing.html">Saint Elizabeth School of Nursing</a></td><td>Lafayette</td><td>Private nonprofit · Certificate/trade</td><td>$20,064</td><td>$22,332</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/saint-mary-s-college.html">Saint Mary&#x27;s College</a></td><td>Notre Dame</td><td>Private nonprofit · 4-year</td><td>$49,930</td><td>$25,209</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/saint-mary-of-the-woods-college.html">Saint Mary-of-the-Woods College</a></td><td>Saint Mary of the Woods</td><td>Private nonprofit · 4-year</td><td>$32,700</td><td>$16,889</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/saint-meinrad-school-of-theology.html">Saint Meinrad School of Theology</a></td><td>St. Meinrad</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/summit-salon-academy.html">Summit Salon Academy</a></td><td>Anderson</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,422</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/summit-salon-academy-kokomo.html">Summit Salon Academy-Kokomo</a></td><td>Kokomo</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,836</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/taylor-institute-of-cosmetology-ii.html">Taylor Institute of Cosmetology II</a></td><td>Knox</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/taylor-university.html">Taylor University</a></td><td>Upland</td><td>Private nonprofit · 4-year</td><td>$37,476</td><td>$25,815</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/textures-institute-of-cosmetology.html">Textures Institute of Cosmetology</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$13,927</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/the-salon-professional-academy-evansville.html">The Salon Professional Academy-Evansville</a></td><td>Evansville</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$10,804</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/tricoci-university-of-beauty-culture-llc-bloomington.html">Tricoci University of Beauty Culture LLC-Bloomington</a></td><td>Bloomington</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,863</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/tricoci-university-of-beauty-culture-highland.html">Tricoci University of Beauty Culture-Highland</a></td><td>Highland</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,288</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/tricoci-university-of-beauty-culture-indianapolis.html">Tricoci University of Beauty Culture-Indianapolis</a></td><td>Indianapolis</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/tricoci-university-of-beauty-culture-lafayette.html">Tricoci University of Beauty Culture-Lafayette</a></td><td>Lafayette</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$14,053</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/trine-university.html">Trine University</a></td><td>Angola</td><td>Private nonprofit · 4-year</td><td>$34,890</td><td>$24,276</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/indiana/trine-university-regional-non-traditional-campuses.html">Trine University-Regional/Non-Traditional Campuses</a></td><td>Angola</td><td>Private nonprofit · 4-year</td><td>$9,576</td><td>$19,616</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/union-bible-college.html">Union Bible College</a></td><td>Westfield</td><td>Private nonprofit · 4-year</td><td>$6,230</td><td>$6,390</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/university-of-evansville.html">University of Evansville</a></td><td>Evansville</td><td>Private nonprofit · 4-year</td><td>$41,336</td><td>$19,852</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/university-of-indianapolis.html">University of Indianapolis</a></td><td>Indianapolis</td><td>Private nonprofit · 4-year</td><td>$34,972</td><td>$21,396</td><td>D-II</td></tr>
+<tr><td><a href="/colleges/indiana/university-of-notre-dame.html">University of Notre Dame</a></td><td>Notre Dame</td><td>Private nonprofit · 4-year</td><td>$60,301</td><td>$29,974</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/university-of-saint-francis-fort-wayne.html">University of Saint Francis-Fort Wayne</a></td><td>Fort Wayne</td><td>Private nonprofit · 4-year</td><td>$34,050</td><td>$18,391</td><td>NAIA</td></tr>
+<tr><td><a href="/colleges/indiana/university-of-southern-indiana.html">University of Southern Indiana</a></td><td>Evansville</td><td>Public · 4-year</td><td>$10,210</td><td>$13,135</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/valparaiso-university.html">Valparaiso University</a></td><td>Valparaiso</td><td>Private nonprofit · 4-year</td><td>$44,796</td><td>$27,690</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/indiana/veritas-baptist-college.html">Veritas Baptist College</a></td><td>Lawrenceburg</td><td>Private nonprofit · 4-year</td><td>$7,676</td><td>$10,033</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/vincennes-beauty-college.html">Vincennes Beauty College</a></td><td>Vincennes</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$7,856</td><td>—</td></tr>
+<tr><td><a href="/colleges/indiana/vincennes-university.html">Vincennes University</a></td><td>Vincennes</td><td>Public · 4-year</td><td>$6,654</td><td>$8,697</td><td>NJCAA</td></tr>
+<tr><td><a href="/colleges/indiana/wabash-college.html">Wabash College</a></td><td>Crawfordsville</td><td>Private nonprofit · 4-year</td><td>$47,475</td><td>$22,067</td><td>D-III</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·

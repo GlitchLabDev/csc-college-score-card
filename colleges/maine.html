@@ -22,47 +22,58 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.fact b{display:block;font-size:18px;color:var(--text)}
+.fact span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.crumb{font-size:12px;color:var(--dim);margin-bottom:10px}
+.crumb a{color:var(--dim)}
+.bar{background:var(--panel);border-radius:4px;height:8px;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:var(--acc)}
+.mj{margin:4px 0 10px}
+.mj div{font-size:13px}
+.cta2{display:inline-block;border:1px solid var(--acc);color:var(--acc);padding:8px 14px;border-radius:9px;text-decoration:none;margin:4px 8px 4px 0;font-size:14px}
 @media (prefers-color-scheme: light){:root{--bg:#f6f8fb;--panel:#ffffff;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#b45309}}</style>
 </head>
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 <h1>Colleges in Maine — all 33 schools</h1>
-<p class="sub">21 four-year colleges, 8 community colleges, and 12 NCAA/NAIA athletic programs in Maine, with official tuition and average net cost from US Department of Education data.</p>
+<p class="sub">21 four-year colleges, 8 community colleges, and 19 NCAA/NAIA athletic programs in Maine, with official tuition and average net cost from US Department of Education data.</p>
 <a class="cta" href="/">Open the interactive map →</a>
 <table><tr><th>School</th><th>City</th><th>Type</th><th>Tuition (in-state)</th><th>Avg net cost</th><th>Athletics</th></tr>
-<tr><td><a href="https://www.bates.edu/" rel="noopener nofollow">Bates College</a></td><td>Lewiston</td><td>Private nonprofit · 4-year</td><td>$61,066</td><td>$29,341</td><td>D-III</td></tr>
-<tr><td><a href="https://www.beal.edu/" rel="noopener nofollow">Beal University</a></td><td>Bangor</td><td>Private for-profit · 4-year</td><td>—</td><td>$26,536</td><td>—</td></tr>
-<tr><td><a href="https://www.bowdoin.edu/" rel="noopener nofollow">Bowdoin College</a></td><td>Brunswick</td><td>Private nonprofit · 4-year</td><td>$61,528</td><td>$18,533</td><td>D-III</td></tr>
-<tr><td><a href="https://www.capilo.com/" rel="noopener nofollow">Capilo School of Hair Design</a></td><td>Augusta</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$17,910</td><td>—</td></tr>
-<tr><td><a href="https://www.cmcc.edu/" rel="noopener nofollow">Central Maine Community College</a></td><td>Auburn</td><td>Public · 2-year</td><td>$3,760</td><td>$6,047</td><td>—</td></tr>
-<tr><td><a href="https://www.colby.edu/" rel="noopener nofollow">Colby College</a></td><td>Waterville</td><td>Private nonprofit · 4-year</td><td>$63,520</td><td>$16,507</td><td>D-III</td></tr>
-<tr><td><a href="https://www.coa.edu/" rel="noopener nofollow">College of the Atlantic</a></td><td>Bar Harbor</td><td>Private nonprofit · 4-year</td><td>$44,829</td><td>$22,799</td><td>—</td></tr>
-<tr><td><a href="https://www.emcc.edu/" rel="noopener nofollow">Eastern Maine Community College</a></td><td>Bangor</td><td>Public · 2-year</td><td>$3,877</td><td>$8,890</td><td>—</td></tr>
-<tr><td><a href="https://www.empire.edu/" rel="noopener nofollow">Empire Beauty School-Maine</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$15,370</td><td>—</td></tr>
-<tr><td><a href="https://www.husson.edu/" rel="noopener nofollow">Husson University</a></td><td>Bangor</td><td>Private nonprofit · 4-year</td><td>$21,090</td><td>$19,517</td><td>D-III</td></tr>
-<tr><td><a href="https://www.idsva.edu/" rel="noopener nofollow">Institute for Doctoral Studies in the Visual Arts</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://www.kvcc.me.edu/" rel="noopener nofollow">Kennebec Valley Community College</a></td><td>Fairfield</td><td>Public · 2-year</td><td>$3,687</td><td>$8,162</td><td>—</td></tr>
-<tr><td><a href="https://www.meca.edu/" rel="noopener nofollow">Maine College of Art &amp; Design</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$39,830</td><td>$34,545</td><td>—</td></tr>
-<tr><td><a href="https://www.mchp.edu/" rel="noopener nofollow">Maine College of Health Professions</a></td><td>Lewiston</td><td>Private nonprofit · 4-year</td><td>$16,238</td><td>$21,281</td><td>—</td></tr>
-<tr><td><a href="https://mainemaritime.edu/" rel="noopener nofollow">Maine Maritime Academy</a></td><td>Castine</td><td>Public · 4-year</td><td>$14,562</td><td>$21,385</td><td>D-III</td></tr>
-<tr><td><a href="https://www.mainemedia.edu/college/" rel="noopener nofollow">Maine Media College</a></td><td>Rockport</td><td>Private nonprofit · 4-year</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td><a href="https://ntinow.edu/" rel="noopener nofollow">Northeast Technical Institute</a></td><td>Scarborough</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$18,363</td><td>—</td></tr>
-<tr><td><a href="https://www.nmcc.edu/" rel="noopener nofollow">Northern Maine Community College</a></td><td>Presque Isle</td><td>Public · 2-year</td><td>$3,730</td><td>$8,783</td><td>—</td></tr>
-<tr><td><a href="https://www.sjcme.edu/" rel="noopener nofollow">Saint Joseph&#x27;s College of Maine</a></td><td>Standish</td><td>Private nonprofit · 4-year</td><td>$41,586</td><td>$29,319</td><td>D-III</td></tr>
-<tr><td><a href="https://www.smccme.edu/" rel="noopener nofollow">Southern Maine Community College</a></td><td>South Portland</td><td>Public · 2-year</td><td>$3,797</td><td>$8,710</td><td>—</td></tr>
-<tr><td><a href="https://www.spatech.edu/" rel="noopener nofollow">Spa Tech Institute-Westbrook</a></td><td>Westbrook</td><td>Private for-profit · Certificate/trade</td><td>—</td><td>$19,402</td><td>—</td></tr>
-<tr><td><a href="https://www.landingschool.edu/" rel="noopener nofollow">The Landing School</a></td><td>Arundel</td><td>Private nonprofit · 2-year</td><td>$26,012</td><td>$36,505</td><td>—</td></tr>
-<tr><td><a href="https://www.thomas.edu/" rel="noopener nofollow">Thomas College</a></td><td>Waterville</td><td>Private nonprofit · 4-year</td><td>$29,996</td><td>$21,279</td><td>D-III</td></tr>
-<tr><td><a href="https://unity.edu/" rel="noopener nofollow">Unity Environmental University</a></td><td>New Gloucester</td><td>Private nonprofit · 4-year</td><td>$12,640</td><td>$19,016</td><td>—</td></tr>
-<tr><td><a href="https://www.umaine.edu/" rel="noopener nofollow">University of Maine</a></td><td>Orono</td><td>Public · 4-year</td><td>$12,136</td><td>$17,175</td><td>D-I</td></tr>
-<tr><td><a href="https://www.uma.edu/" rel="noopener nofollow">University of Maine at Augusta</a></td><td>Augusta</td><td>Public · 4-year</td><td>$8,378</td><td>$10,142</td><td>NCAA</td></tr>
-<tr><td><a href="https://www.umf.maine.edu/" rel="noopener nofollow">University of Maine at Farmington</a></td><td>Farmington</td><td>Public · 4-year</td><td>$9,890</td><td>$13,698</td><td>D-III</td></tr>
-<tr><td><a href="https://www.umfk.maine.edu/" rel="noopener nofollow">University of Maine at Fort Kent</a></td><td>Fort Kent</td><td>Public · 4-year</td><td>$8,805</td><td>$11,982</td><td>—</td></tr>
-<tr><td><a href="https://www.umpi.edu/" rel="noopener nofollow">University of Maine at Presque Isle</a></td><td>Presque Isle</td><td>Public · 4-year</td><td>$8,750</td><td>$8,948</td><td>D-III</td></tr>
-<tr><td><a href="https://www.une.edu/" rel="noopener nofollow">University of New England</a></td><td>Biddeford</td><td>Private nonprofit · 4-year</td><td>$40,950</td><td>$37,516</td><td>D-III</td></tr>
-<tr><td><a href="https://usm.maine.edu/" rel="noopener nofollow">University of Southern Maine</a></td><td>Portland</td><td>Public · 4-year</td><td>$10,120</td><td>$12,137</td><td>D-III</td></tr>
-<tr><td><a href="https://www.wccc.me.edu/" rel="noopener nofollow">Washington County Community College</a></td><td>Calais</td><td>Public · 2-year</td><td>$3,687</td><td>$4,277</td><td>—</td></tr>
-<tr><td><a href="https://www.yccc.edu/" rel="noopener nofollow">York County Community College</a></td><td>Wells</td><td>Public · 2-year</td><td>$3,760</td><td>$6,316</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/bates-college.html">Bates College</a></td><td>Lewiston</td><td>Private nonprofit · 4-year</td><td>$61,066</td><td>$29,341</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/beal-university.html">Beal University</a></td><td>Bangor</td><td>Private for-profit · 4-year</td><td>None</td><td>$26,536</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/bowdoin-college.html">Bowdoin College</a></td><td>Brunswick</td><td>Private nonprofit · 4-year</td><td>$61,528</td><td>$18,533</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/capilo-school-of-hair-design.html">Capilo School of Hair Design</a></td><td>Augusta</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$17,910</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/central-maine-community-college.html">Central Maine Community College</a></td><td>Auburn</td><td>Public · 2-year</td><td>$3,760</td><td>$6,047</td><td>Other</td></tr>
+<tr><td><a href="/colleges/maine/colby-college.html">Colby College</a></td><td>Waterville</td><td>Private nonprofit · 4-year</td><td>$63,520</td><td>$16,507</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/college-of-the-atlantic.html">College of the Atlantic</a></td><td>Bar Harbor</td><td>Private nonprofit · 4-year</td><td>$44,829</td><td>$22,799</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/eastern-maine-community-college.html">Eastern Maine Community College</a></td><td>Bangor</td><td>Public · 2-year</td><td>$3,877</td><td>$8,890</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/empire-beauty-school-maine.html">Empire Beauty School-Maine</a></td><td>Portland</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$15,370</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/husson-university.html">Husson University</a></td><td>Bangor</td><td>Private nonprofit · 4-year</td><td>$21,090</td><td>$19,517</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/institute-for-doctoral-studies-in-the-visual-arts.html">Institute for Doctoral Studies in the Visual Arts</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/kennebec-valley-community-college.html">Kennebec Valley Community College</a></td><td>Fairfield</td><td>Public · 2-year</td><td>$3,687</td><td>$8,162</td><td>Other</td></tr>
+<tr><td><a href="/colleges/maine/maine-college-of-art-design.html">Maine College of Art &amp; Design</a></td><td>Portland</td><td>Private nonprofit · 4-year</td><td>$39,830</td><td>$34,545</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/maine-college-of-health-professions.html">Maine College of Health Professions</a></td><td>Lewiston</td><td>Private nonprofit · 4-year</td><td>$16,238</td><td>$21,281</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/maine-maritime-academy.html">Maine Maritime Academy</a></td><td>Castine</td><td>Public · 4-year</td><td>$14,562</td><td>$21,385</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/maine-media-college.html">Maine Media College</a></td><td>Rockport</td><td>Private nonprofit · 4-year</td><td>None</td><td>None</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/northeast-technical-institute.html">Northeast Technical Institute</a></td><td>Scarborough</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$18,363</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/northern-maine-community-college.html">Northern Maine Community College</a></td><td>Presque Isle</td><td>Public · 2-year</td><td>$3,730</td><td>$8,783</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/saint-joseph-s-college-of-maine.html">Saint Joseph&#x27;s College of Maine</a></td><td>Standish</td><td>Private nonprofit · 4-year</td><td>$41,586</td><td>$29,319</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/southern-maine-community-college.html">Southern Maine Community College</a></td><td>South Portland</td><td>Public · 2-year</td><td>$3,797</td><td>$8,710</td><td>Other</td></tr>
+<tr><td><a href="/colleges/maine/spa-tech-institute-westbrook.html">Spa Tech Institute-Westbrook</a></td><td>Westbrook</td><td>Private for-profit · Certificate/trade</td><td>None</td><td>$19,402</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/the-landing-school.html">The Landing School</a></td><td>Arundel</td><td>Private nonprofit · 2-year</td><td>$26,012</td><td>$36,505</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/thomas-college.html">Thomas College</a></td><td>Waterville</td><td>Private nonprofit · 4-year</td><td>$29,996</td><td>$21,279</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/unity-environmental-university.html">Unity Environmental University</a></td><td>New Gloucester</td><td>Private nonprofit · 4-year</td><td>$12,640</td><td>$19,016</td><td>—</td></tr>
+<tr><td><a href="/colleges/maine/university-of-maine.html">University of Maine</a></td><td>Orono</td><td>Public · 4-year</td><td>$12,136</td><td>$17,175</td><td>D-I</td></tr>
+<tr><td><a href="/colleges/maine/university-of-maine-at-augusta.html">University of Maine at Augusta</a></td><td>Augusta</td><td>Public · 4-year</td><td>$8,378</td><td>$10,142</td><td>Other</td></tr>
+<tr><td><a href="/colleges/maine/university-of-maine-at-farmington.html">University of Maine at Farmington</a></td><td>Farmington</td><td>Public · 4-year</td><td>$9,890</td><td>$13,698</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/university-of-maine-at-fort-kent.html">University of Maine at Fort Kent</a></td><td>Fort Kent</td><td>Public · 4-year</td><td>$8,805</td><td>$11,982</td><td>Other</td></tr>
+<tr><td><a href="/colleges/maine/university-of-maine-at-presque-isle.html">University of Maine at Presque Isle</a></td><td>Presque Isle</td><td>Public · 4-year</td><td>$8,750</td><td>$8,948</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/university-of-new-england.html">University of New England</a></td><td>Biddeford</td><td>Private nonprofit · 4-year</td><td>$40,950</td><td>$37,516</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/university-of-southern-maine.html">University of Southern Maine</a></td><td>Portland</td><td>Public · 4-year</td><td>$10,120</td><td>$12,137</td><td>D-III</td></tr>
+<tr><td><a href="/colleges/maine/washington-county-community-college.html">Washington County Community College</a></td><td>Calais</td><td>Public · 2-year</td><td>$3,687</td><td>$4,277</td><td>Other</td></tr>
+<tr><td><a href="/colleges/maine/york-county-community-college.html">York County Community College</a></td><td>Wells</td><td>Public · 2-year</td><td>$3,760</td><td>$6,316</td><td>Other</td></tr>
 </table>
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/">My University View map</a>.</p>
 <footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·
