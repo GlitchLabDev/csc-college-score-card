@@ -977,44 +977,64 @@ function nameLink(s,cls){
 
 // ---------- sports catalog ----------
 const SPORTS=[
- {k:'m-baseball',l:"Baseball",g:'M',e:'⚾',n:'baseball'},
  {k:'m-basketball',l:"Basketball",g:'M',e:'🏀',n:'mens-basketball'},
- {k:'m-xc',l:"Cross Country",g:'M',e:'🏃',n:'mens-track-and-field'},
- {k:'m-football',l:"Football",g:'M',e:'🏈',n:'football'},
- {k:'m-golf',l:"Golf",g:'M',e:'⛳',n:'mens-golf'},
- {k:'m-hockey',l:"Ice Hockey",g:'M',e:'🏒',n:'mens-hockey'},
- {k:'m-lax',l:"Lacrosse",g:'M',e:'🥍',n:'mens-lacrosse'},
+ {k:'m-baseball',l:"Baseball",g:'M',e:'⚾',n:'mens-baseball'},
  {k:'m-soccer',l:"Soccer",g:'M',e:'⚽',n:'mens-soccer'},
- {k:'m-swim',l:"Swimming & Diving",g:'M',e:'🏊',n:'mens-swimming'},
- {k:'m-tennis',l:"Tennis",g:'M',e:'🎾',n:'mens-tennis'},
  {k:'m-track',l:"Track & Field",g:'M',e:'🏃',n:'mens-track-and-field'},
+ {k:'m-golf',l:"Golf",g:'M',e:'⛳',n:'mens-golf'},
+ {k:'m-football',l:"Football",g:'M',e:'🏈',n:'mens-football'},
+ {k:'m-tennis',l:"Tennis",g:'M',e:'🎾',n:'mens-tennis'},
+ {k:'m-xc',l:"Cross Country",g:'M',e:'🏃',n:'mens-track-and-field'},
+ {k:'m-swim',l:"Swimming & Diving",g:'M',e:'🏊',n:'mens-swimming'},
  {k:'m-wrestling',l:"Wrestling",g:'M',e:'🤼',n:'mens-wrestling'},
+ {k:'m-lax',l:"Lacrosse",g:'M',e:'🥍',n:'mens-lacrosse'},
+ {k:'m-vb',l:"Volleyball",g:'M',e:'🏐',n:'mens-volleyball'},
+ {k:'m-hockey',l:"Ice Hockey",g:'M',e:'🏒',n:'mens-hockey'},
+ {k:'m-bowling',l:"Bowling",g:'M',e:'🎳',n:'mens-bowling'},
+ {k:'m-waterpolo',l:"Water Polo",g:'M',e:'🤽',n:'mens-water-polo'},
+ {k:'m-rowing',l:"Rowing",g:'M',e:'🚣',n:'mens-rowing'},
+ {k:'m-rodeo',l:"Rodeo",g:'M',e:'🤠',n:'mens-rodeo'},
+ {k:'m-skiing',l:"Skiing",g:'M',e:'⛷️',n:'mens-skiing'},
+ {k:'m-fencing',l:"Fencing",g:'M',e:'🤺',n:'mens-fencing'},
+ {k:'m-squash',l:"Squash",g:'M',e:'🎾',n:'mens-squash'},
+ {k:'m-weightlifting',l:"Weightlifting",g:'M',e:'🏋️',n:'mens-weightlifting'},
+ {k:'m-beachvb',l:"Beach Volleyball",g:'M',e:'🏐',n:'mens-beach-volleyball'},
+ {k:'m-gym',l:"Gymnastics",g:'M',e:'🤸',n:'mens-gymnastics'},
+ {k:'m-tabletennis',l:"Table Tennis",g:'M',e:'🏓',n:'mens-table-tennis'},
+ {k:'m-archery',l:"Archery",g:'M',e:'🏹',n:'mens-archery'},
+ {k:'m-sailing',l:"Sailing",g:'M',e:'⛵',n:'mens-sailing'},
+ {k:'m-rifle',l:"Rifle",g:'M',e:'🎯',n:'mens-rifle'},
  {k:'w-basketball',l:"Basketball",g:'W',e:'🏀',n:'womens-basketball'},
- {k:'w-beachvb',l:"Beach Volleyball",g:'W',e:'🏐',n:'beach-volleyball'},
- {k:'w-xc',l:"Cross Country",g:'W',e:'🏃',n:'womens-track-and-field'},
- {k:'w-fieldhockey',l:"Field Hockey",g:'W',e:'🏑',n:'field-hockey'},
- {k:'w-golf',l:"Golf",g:'W',e:'⛳',n:'womens-golf'},
- {k:'w-gym',l:"Gymnastics",g:'W',e:'🤸',n:null},
- {k:'w-hockey',l:"Ice Hockey",g:'W',e:'🏒',n:'womens-hockey'},
- {k:'w-lax',l:"Lacrosse",g:'W',e:'🥍',n:'womens-lacrosse'},
- {k:'w-rowing',l:"Rowing",g:'W',e:'🚣',n:'womens-rowing'},
- {k:'w-softball',l:"Softball",g:'W',e:'🥎',n:'softball'},
- {k:'w-soccer',l:"Soccer",g:'W',e:'⚽',n:'womens-soccer'},
- {k:'w-swim',l:"Swimming & Diving",g:'W',e:'🏊',n:'womens-swimming'},
- {k:'w-tennis',l:"Tennis",g:'W',e:'🎾',n:'womens-tennis'},
- {k:'w-track',l:"Track & Field",g:'W',e:'🏃',n:'womens-track-and-field'},
  {k:'w-vb',l:"Volleyball",g:'W',e:'🏐',n:'womens-volleyball'},
- {k:'c-bowling',l:"Bowling",g:'C',e:'🎳',n:null},
- {k:'c-fencing',l:"Fencing",g:'C',e:'🤺',n:null},
- {k:'c-rifle',l:"Rifle",g:'C',e:'🎯',n:null},
- {k:'c-skiing',l:"Skiing",g:'C',e:'⛷️',n:null},
- {k:'c-waterpolo',l:"Water Polo",g:'C',e:'🤽',n:'womens-water-polo'},
- {k:'e-acro',l:"Acrobatics & Tumbling",g:'E',e:'🤸',n:null},
- {k:'e-equestrian',l:"Equestrian",g:'E',e:'🏇',n:null},
- {k:'e-stunt',l:"STUNT",g:'E',e:'📣',n:null},
- {k:'e-tri',l:"Triathlon",g:'E',e:'🚴',n:null},
+ {k:'w-softball',l:"Softball",g:'W',e:'🥎',n:'womens-softball'},
+ {k:'w-soccer',l:"Soccer",g:'W',e:'⚽',n:'womens-soccer'},
+ {k:'w-track',l:"Track & Field",g:'W',e:'🏃',n:'womens-track-and-field'},
+ {k:'w-tennis',l:"Tennis",g:'W',e:'🎾',n:'womens-tennis'},
+ {k:'w-golf',l:"Golf",g:'W',e:'⛳',n:'womens-golf'},
+ {k:'w-xc',l:"Cross Country",g:'W',e:'🏃',n:'womens-track-and-field'},
+ {k:'w-swim',l:"Swimming & Diving",g:'W',e:'🏊',n:'womens-swimming'},
+ {k:'w-lax',l:"Lacrosse",g:'W',e:'🥍',n:'womens-lacrosse'},
+ {k:'w-fieldhockey',l:"Field Hockey",g:'W',e:'🏑',n:'womens-field-hockey'},
+ {k:'w-beachvb',l:"Beach Volleyball",g:'W',e:'🏐',n:'womens-beach-volleyball'},
+ {k:'w-bowling',l:"Bowling",g:'W',e:'🎳',n:'womens-bowling'},
+ {k:'w-wrestling',l:"Wrestling",g:'W',e:'🤼',n:'womens-wrestling'},
+ {k:'w-rowing',l:"Rowing",g:'W',e:'🚣',n:'womens-rowing'},
+ {k:'w-hockey',l:"Ice Hockey",g:'W',e:'🏒',n:'womens-hockey'},
+ {k:'w-waterpolo',l:"Water Polo",g:'W',e:'🤽',n:'womens-water-polo'},
+ {k:'w-gym',l:"Gymnastics",g:'W',e:'🤸',n:'womens-gymnastics'},
+ {k:'w-rodeo',l:"Rodeo",g:'W',e:'🤠',n:'womens-rodeo'},
+ {k:'w-equestrian',l:"Equestrian",g:'W',e:'🐎',n:'womens-equestrian'},
+ {k:'w-fencing',l:"Fencing",g:'W',e:'🤺',n:'womens-fencing'},
+ {k:'w-skiing',l:"Skiing",g:'W',e:'⛷️',n:'womens-skiing'},
+ {k:'w-squash',l:"Squash",g:'W',e:'🎾',n:'womens-squash'},
+ {k:'w-weightlifting',l:"Weightlifting",g:'W',e:'🏋️',n:'womens-weightlifting'},
+ {k:'w-sailing',l:"Sailing",g:'W',e:'⛵',n:'womens-sailing'},
+ {k:'w-badminton',l:"Badminton",g:'W',e:'🏸',n:'womens-badminton'},
+ {k:'w-rifle',l:"Rifle",g:'W',e:'🎯',n:'womens-rifle'},
+ {k:'w-archery',l:"Archery",g:'W',e:'🏹',n:'womens-archery'},
+ {k:'w-tabletennis',l:"Table Tennis",g:'W',e:'🏓',n:'womens-table-tennis'},
 ];
-const SPORT_GROUPS={M:"Men's Sports",W:"Women's Sports",C:"Coed & Combined",E:"Emerging Sports (Women)"};
+const SPORT_GROUPS = {M:"Men's sports", W:"Women's sports"};
 function sportPhrase(sp){ return (sp.g==='M'?"men's ":sp.g==='W'&&sp.l!=='Softball'?"women's ":'')+sp.l; }
 function ncsaSportUrl(s,sp){
   const st = STATE_NAMES[s.s];
@@ -1050,7 +1070,7 @@ function softballCard(s){
 
 // ---------- filters ----------
 const STATES = [...new Set(SCHOOLS.map(s=>s.s))].sort();
-let F = { q:'', states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', mj:'', admMin:'', admMax:'' };
+let F = { q:'', states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', mj:'', admMin:'', admMax:'', sat:'', fit:[] };
 
 function renderFilters(){
   const el = document.getElementById('filters');
@@ -1074,8 +1094,12 @@ function renderFilters(){
     <div class="muted" style="font-size:11px;margin-top:3px">Pick a major to see only schools on the map where it makes up ≥2% of degrees awarded.</div>
     <h3>Acceptance rate (%)</h3>
     <div class="row"><input type="number" id="f-admmin" min="0" max="100" placeholder="min (e.g. 20)" value="${F.admMin}"><input type="number" id="f-adm" min="0" max="100" placeholder="max (e.g. 80)" value="${F.admMax}"></div>
+    <h3>My test scores</h3>
+    <div class="row"><input type="number" id="f-sat" min="400" max="1600" step="10" placeholder="Your SAT total (e.g. 1180)" value="${F.sat}"></div>
+    <div style="margin-top:6px">${[['likely','✅ Likely'],['match','🎯 Match'],['reach','🌟 Reach']].map(([k,l])=>`<span class="chip ${F.fit.includes(k)?'on':''}" data-fit="${k}">${l}</span>`).join('')}</div>
+    <div class="muted" style="font-size:11px;margin-top:3px">Enter your SAT and pick which schools to show. Compared against each school's average SAT — a guide, not a prediction, and only ${SAT_COVERAGE} of schools report one.</div>
     <h3>Athletics</h3>
-    ${['M','W','C','E'].map(g=>{
+    ${['M','W'].map(g=>{
       const cnt = F.sports.filter(k=>k.startsWith(g.toLowerCase()+'-')).length;
       return `<details class="sportdd" ${cnt?'open':''}>
         <summary>${SPORT_GROUPS[g]}<span class="cnt">${cnt?cnt+' selected':''}</span></summary>
@@ -1088,6 +1112,7 @@ function renderFilters(){
       <button class="btn sec" onclick="clearFilters()">Clear all</button>
     </div>`;
   el.querySelectorAll('[data-st]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
+  el.querySelectorAll('[data-fit]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
   el.querySelectorAll('[data-div]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
   el.querySelectorAll('[data-sp]').forEach(c=>c.onclick=()=>{
     c.classList.toggle('on');
@@ -1104,9 +1129,11 @@ function applyFilters(){
   F.lvl = el.querySelector('#f-lvl').value;
   F.setting = el.querySelector('#f-set').value;
   F.states = [...el.querySelectorAll('[data-st].on')].map(c=>c.dataset.st);
+  F.fit = [...el.querySelectorAll('[data-fit].on')].map(c=>c.dataset.fit);
   F.mj = el.querySelector('#f-mj').value;
   F.admMin = el.querySelector('#f-admmin').value;
   F.admMax = el.querySelector('#f-adm').value;
+  F.sat = el.querySelector('#f-sat').value;
   toggleFilters(false); refresh();
 }
 function clearFilters(){ F = { q:F.q, states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', mj:'', admMin:'', admMax:'' }; renderFilters(); refresh(); }
@@ -1118,7 +1145,7 @@ function filtered(){
   return SCHOOLS.filter(s=>{
     if(q && !(s.n.toLowerCase().includes(q) || s.c.toLowerCase().includes(q))) return false;
     if(F.divs.length && !F.divs.includes(divCat(s))) return false;
-    if(F.sports.includes('w-softball') && !s.sb) return false;
+    if(F.sports.length && !F.sports.some(k => s.sp && s.sp[k])) return false;
     if(F.ctrl && s.ctrl!==F.ctrl) return false;
     if(F.lvl && s.lvl!==F.lvl) return false;
     if(F.setting && !(s.loc||'').startsWith(F.setting)) return false;
@@ -1126,8 +1153,30 @@ function filtered(){
     if(F.mj!=='' && !(s.mj && s.mj.some(x=>x[0]===+F.mj))) return false;
     if(F.admMin && !(s.adm!=null && s.adm >= F.admMin/100)) return false;
     if(F.admMax && !(s.adm!=null && s.adm <= F.admMax/100)) return false;
+    if(F.sat && F.fit.length){ const f=satFit(s); if(!f || !F.fit.includes(f)) return false; }
     return true;
   });
+}
+
+// ---------- test-score fit ----------
+// Only the school's AVERAGE SAT is published in the federal file, not the 25th/75th percentiles,
+// so the band below is a proxy for the usual interquartile spread. It is guidance, not a prediction.
+const SAT_BAND = 60;
+const SAT_COVERAGE = '19%';
+function satFit(s){
+  const mine = parseInt(F.sat,10);
+  if(!mine || !s.sat) return null;
+  if(mine >= s.sat + SAT_BAND) return 'likely';
+  if(mine <= s.sat - SAT_BAND) return 'reach';
+  return 'match';
+}
+function fitBadge(s){
+  const f = satFit(s);
+  if(!f) return '';
+  const L = {likely:['✅ Likely','#22c55e'], match:['🎯 Match','#facc15'], reach:['🌟 Reach','#60a5fa']}[f];
+  const diff = parseInt(F.sat,10) - s.sat;
+  const sign = diff>0?'+':'';
+  return `<div class="stat" style="border-color:${L[1]}"><div class="k">Your fit</div><div class="v" style="color:${L[1]}">${L[0]}</div><div class="k" style="margin-top:2px">${sign}${diff} vs avg</div></div>`;
 }
 
 // ---------- map ----------
@@ -1167,8 +1216,15 @@ function openSheet(id){
       <div class="stat"><div class="k">In-state tuition</div><div class="v">${fmt.usd(s.tin)}</div></div>
       <div class="stat"><div class="k">Out-of-state tuition</div><div class="v">${fmt.usd(s.tout)}</div></div>
       <div class="stat"><div class="k">Avg SAT</div><div class="v">${fmt.num(s.sat)}</div></div>
-      <div class="stat"><div class="k">ACT midpoint</div><div class="v">${fmt.num(s.act)}</div></div>
+      ${s.act?`<div class="stat"><div class="k">ACT midpoint</div><div class="v">${fmt.num(s.act)}</div></div>`:''}
+      ${fitBadge(s)}
     </div>
+    ${s.sp?`<div class="revrow"><span class="k">🏅 VARSITY SPORTS — ${Object.keys(s.sp).length} PROGRAMS${s.ad?' · '+esc(s.ad):''}</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+        ${SPORTS.filter(sp=>s.sp[sp.k]).map(sp=>`<span class="chip ${F.sports.includes(sp.k)?'on':''}" style="cursor:default">${sp.e} ${esc(sp.l)} <b style="opacity:.6">${s.sp[sp.k]}</b></span>`).join('')}
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:6px">Squad sizes from the federal Equity in Athletics survey (2024-25). Highlighted chips match your Filters selection.</div>
+    </div>`:''}
     ${(s.cst||s.np!=null||s.rb)?`<div class="revrow">
       <span class="k">💰 COST PER YEAR — STICKER VS ACTUAL</span>
       <div class="costgrid">
