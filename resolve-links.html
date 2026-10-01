@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Link Resolver — My University View (admin)</title>
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--line:#334155;--text:#e2e8f0;--dim:#94a3b8;--acc:#facc15;--ok:#4ade80;--bad:#f87171}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;padding:4vh 5vw;max-width:900px;margin:0 auto}
+h1{font-size:22px;margin-bottom:4px}h2{font-size:15px;margin:22px 0 8px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
+p{color:var(--dim);font-size:14px;margin-bottom:14px}
+input,button{font:inherit}
+input{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:10px 12px;width:100%;margin-bottom:8px}
+button{background:var(--acc);color:#0f172a;font-weight:700;border:0;border-radius:8px;padding:11px 18px;cursor:pointer;margin-right:8px}
+button.sec{background:var(--panel);color:var(--text);border:1px solid var(--line)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.bar{height:8px;background:var(--panel);border-radius:99px;overflow:hidden;margin:12px 0}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px}
+.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--dim);text-transform:uppercase}
+#log{background:#0b1220;border:1px solid var(--line);border-radius:10px;padding:10px;height:260px;overflow:auto;font:12px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.dim{color:var(--dim)}
+.warn{background:#3b2b0b;border:1px solid #7c5e10;color:#fde68a;padding:10px 12px;border-radius:10px;font-size:13px;margin-bottom:14px}
+</style></head><body>
+
+<h1>🔗 Link Resolver</h1>
+<p>Finds each school's real admissions, visit, athletics, softball and recruiting-questionnaire pages, then builds a new <code>db.js</code> so the app links straight there instead of through DuckDuckGo.</p>
+
+<div class="warn">Admin tool. Keep this page's key private — anyone with it can run crawls against your Supabase function. Delete this file from the repo when you're done.</div>
+
+<h2>1. Settings</h2>
+<input id="fn" placeholder="Edge Function URL" value="https://akktntuteharoczygfku.supabase.co/functions/v1/resolve-links">
+<input id="key" type="password" placeholder="RESOLVE_ADMIN_KEY (the secret you put in Supabase)" autocomplete="off">
+<input id="limit" type="number" placeholder="How many schools this run (blank = all remaining)" value="40">
+
+<h2>2. Run</h2>
+<button id="go">Start</button>
+<button id="stop" class="sec" disabled>Stop</button>
+<button id="dl" class="sec" disabled>Download db.js</button>
+<button id="dlj" class="sec" disabled>Download links.json</button>
+<button id="reset" class="sec">Clear saved progress</button>
+
+<div class="bar"><i id="pbar"></i></div>
+<div class="stats">
+  <div class="stat"><b id="s-done">0</b><span>processed</span></div>
+  <div class="stat"><b id="s-au">0</b><span>admissions</span></div>
+  <div class="stat"><b id="s-vu">0</b><span>visit</span></div>
+  <div class="stat"><b id="s-hu">0</b><span>athletics</span></div>
+  <div class="stat"><b id="s-su">0</b><span>sport page</span></div>
+  <div class="stat"><b id="s-qu">0</b><span>questionnaire</span></div>
+</div>
+<div id="log">Load the page, enter your key, and press Start.
+Progress saves as you go — you can close the tab and resume later.
+</div>
+
+<script src="db.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const STORE = 'muv_links_cache';
+let cache = {};
+try { cache = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { cache = {}; }
+let stopping = false, running = false;
+
+const schools = (window.__DBDATA && window.__DBDATA.schools) || [];
+function log(msg, cls){ const d=document.createElement('div'); if(cls) d.className=cls; d.textContent=msg; $('log').appendChild(d); $('log').scrollTop=1e9; }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(cache)); }catch(e){ log('⚠️ browser storage full — download links.json now','bad'); } }
+
+function stats(){
+  const vals = Object.values(cache);
+  $('s-done').textContent = vals.length;
+  for(const k of ['au','vu','hu','su','qu']) $('s-'+k).textContent = vals.filter(v=>v && v[k]).length;
+  $('pbar').style.width = (schools.length ? vals.length/schools.length*100 : 0) + '%';
+  $('dl').disabled = $('dlj').disabled = !vals.length;
+}
+
+if(!schools.length) log('❌ db.js did not load — this page must sit next to db.js on your site.','bad');
+else { log('✓ loaded ' + schools.length.toLocaleString() + ' schools', 'ok'); stats(); }
+
+async function runBatch(batch, fn, key){
+  const r = await fetch(fn, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'Authorization': key },
+    body: JSON.stringify({ schools: batch.map(s=>({ id:s.id, url:s.url, sb: !!s.sb })) })
+  });
+  if(r.status === 401) throw new Error('401 — the key does not match RESOLVE_ADMIN_KEY in Supabase');
+  if(!r.ok) throw new Error('HTTP ' + r.status + ' ' + (await r.text()).slice(0,120));
+  return (await r.json()).results || [];
+}
+
+$('go').onclick = async () => {
+  if(running) return;
+  const fn = $('fn').value.trim(), key = $('key').value.trim();
+  if(!fn || !key) return log('Enter the function URL and the admin key first.','bad');
+  const lim = parseInt($('limit').value, 10);
+  let todo = schools.filter(s => !(String(s.id) in cache));
+  if(lim > 0) todo = todo.slice(0, lim);
+  if(!todo.length) return log('Nothing left to do — everything is cached. Press Download db.js.','ok');
+
+  running = true; stopping = false;
+  $('go').disabled = true; $('stop').disabled = false;
+  log('▶ starting ' + todo.length + ' schools (8 per request)…');
+
+  const t0 = Date.now();
+  for(let i = 0; i < todo.length && !stopping; i += 8){
+    const batch = todo.slice(i, i + 8);
+    try{
+      const res = await runBatch(batch, fn, key);
+      for(const r of res) cache[String(r.id)] = r.links || {};
+      save(); stats();
+      const done = Object.keys(cache).length;
+      const rate = (i + batch.length) / ((Date.now() - t0)/1000);
+      const names = batch.map(b=>b.n).slice(0,2).join(', ');
+      log(done + ' cached · ' + rate.toFixed(1) + '/s · ' + names + (batch.length>2?' …':''), 'dim');
+    }catch(e){
+      log('✖ ' + e.message, 'bad');
+      if(/401/.test(e.message)) break;
+      await new Promise(r=>setTimeout(r, 2000));   // transient — pause and continue
+    }
+  }
+  running = false; $('go').disabled = false; $('stop').disabled = true;
+  log(stopping ? '⏹ stopped — progress saved' : '✓ run complete', 'ok');
+  const v = Object.values(cache);
+  log('   admissions ' + v.filter(x=>x.au).length + ' · athletics ' + v.filter(x=>x.hu).length +
+      ' · sport ' + v.filter(x=>x.su).length + ' · questionnaire ' + v.filter(x=>x.qu).length, 'dim');
+};
+
+$('stop').onclick = () => { stopping = true; log('stopping after this batch…'); };
+
+$('reset').onclick = () => {
+  if(!confirm('Clear all resolved links and start over?')) return;
+  cache = {}; save(); stats(); log('cache cleared');
+};
+
+function download(name, text, type){
+  const b = new Blob([text], {type:type||'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b); a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+}
+
+$('dlj').onclick = () => download('links.json', JSON.stringify(cache), 'application/json');
+
+$('dl').onclick = () => {
+  let n = 0;
+  for(const s of schools){
+    const got = cache[String(s.id)];
+    if(got && Object.keys(got).length){ Object.assign(s, got); n++; }
+  }
+  download('db.js', 'window.__DBDATA=' + JSON.stringify(window.__DBDATA) + ';', 'application/javascript');
+  log('✓ db.js built with links for ' + n + ' schools — upload it to GitHub (replace the existing db.js)', 'ok');
+};
+</script>
+</body></html>
