@@ -1279,7 +1279,7 @@ function openSheet(id){
     <div class="revrow">
       <span class="k">RESEARCH THIS SCHOOL</span>
       <div class="actions" style="margin-top:6px">
-        <a class="btn sec" target="_blank" rel="noopener" href="${href(s)}">🏛 Official site</a>
+        ${siteUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${esc(siteUrl(s))}">🏛 Official site</a>`:''}
         <a class="btn sec" target="_blank" rel="noopener" href="${navigatorUrl(s)}">📊 College Navigator</a>
         <a class="btn sec" target="_blank" rel="noopener" href="${scorecardUrl(s)}">💵 College Scorecard</a>
         <a class="btn sec" target="_blank" rel="noopener" href="${nicheUrl(s)}">⭐ Niche reviews</a>
@@ -1391,14 +1391,14 @@ function visitUrl(s){
   // No resolver data yet. Send them to the school's own admissions section rather than a search
   // results page. /admissions is the near-universal convention on .edu domains; if a school
   // uses something else their site search or nav picks it up in one click.
-  return h ? 'https://' + h + '/admissions' : href(s);
+  return h ? 'https://' + h + '/admissions' : (siteUrl(s) || lucky(s.n+' admissions'));
 }
 // Find admissions email → the admissions office page itself, else a domain-restricted search.
 function findAdmUrl(s){
   const d = direct(s.au);
   if(d) return d;                       // resolver has run - exact page
   const h = schoolHost(s);
-  return h ? 'https://' + h + '/admissions' : href(s);
+  return h ? 'https://' + h + '/admissions' : (siteUrl(s) || lucky(s.n+' admissions'));
 }
 // Find coach email → the sport's own page (roster/coaches), else the athletics site home.
 // Athletics lives on a separate domain (arcadiaknights.com, not arcadia.edu), so a site:
