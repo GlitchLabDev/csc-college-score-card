@@ -325,9 +325,9 @@ a.schoollink:hover{color:var(--acc)}
   </div>
   <div class="ldstats">
     <div><b>5,777</b><span>Colleges mapped</span></div>
-    <div><b>1,300+</b><span>NCAA & NAIA programs</span></div>
+    <div><b>25,900+</b><span>Varsity teams</span></div>
     <div><b>38</b><span>Majors</span></div>
-    <div><b>36</b><span>Sports covered</span></div>
+    <div><b>56</b><span>Sports covered</span></div>
   </div>
   <div class="ldgrid">
     <div class="ldfeat"><div class="ic">🗺️</div><h3>The Map</h3><p>Every school is a pin. Zoom into a region, filter by what matters, and see all your options.</p></div>
@@ -370,7 +370,7 @@ a.schoollink:hover{color:var(--acc)}
     <button class="btn sec" style="margin-top:14px" onclick="skipAuth()">Continue as guest</button>
   </div>
 </div>
-<footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · NCAA softball 2024-25 · Verify details with each school<br>
+<footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · Equity in Athletics (EADA) 2025 · Verify details with each school<br>
 <span class="credit">Created by Glitch Labs © <span id="yr"></span></span> · <a href="#" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="terms.html" style="color:var(--dim)">Terms</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="contact.html" style="color:var(--dim)">Contact</a></footer>
 <script src="libs/leaflet.js"></script>
 <script src="libs/leaflet.markercluster.js"></script>
@@ -950,8 +950,25 @@ function esc(t){return String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt
 // ---------- direct links ----------
 const STATE_NAMES = {AL:'alabama',AK:'alaska',AZ:'arizona',AR:'arkansas',CA:'california',CO:'colorado',CT:'connecticut',DE:'delaware',DC:'district-of-columbia',FL:'florida',GA:'georgia',HI:'hawaii',ID:'idaho',IL:'illinois',IN:'indiana',IA:'iowa',KS:'kansas',KY:'kentucky',LA:'louisiana',ME:'maine',MD:'maryland',MA:'massachusetts',MI:'michigan',MN:'minnesota',MS:'mississippi',MO:'missouri',MT:'montana',NE:'nebraska',NV:'nevada',NH:'new-hampshire',NJ:'new-jersey',NM:'new-mexico',NY:'new-york',NC:'north-carolina',ND:'north-dakota',OH:'ohio',OK:'oklahoma',OR:'oregon',PA:'pennsylvania',RI:'rhode-island',SC:'south-carolina',SD:'south-dakota',TN:'tennessee',TX:'texas',UT:'utah',VT:'vermont',VA:'virginia',WA:'washington',WV:'west-virginia',WI:'wisconsin',WY:'wyoming',PR:'puerto-rico'};
 function siteUrl(s){ if(!s.url) return null; return /^https?:/.test(s.url) ? s.url : 'https://'+s.url; }
-// "I'm feeling ducky": redirects to the top result when DuckDuckGo is confident
+// Last resort only. Every link that CAN be built deterministically now is - see below.
 function lucky(q){ return 'https://duckduckgo.com/?q=' + encodeURIComponent('!ducky ' + q); }
+
+// ---------- deterministic external links ----------
+// Every school in the database carries its federal UNITID (s.id), which is the primary key for
+// two authoritative government sites. These links are exact - no search step, no guessing.
+function navigatorUrl(s){ return 'https://nces.ed.gov/collegenavigator/?id=' + s.id; }
+function scorecardUrl(s){
+  return 'https://collegescorecard.ed.gov/school/?' + s.id + '-' +
+         String(s.n).replace(/[^A-Za-z0-9 ]/g,'').trim().replace(/\s+/g,'-');
+}
+// Niche slugs drop punctuation entirely (hyphens vanish without a separator) and turn spaces
+// into hyphens. Verified against Arcadia, Princeton, Rutgers-New Brunswick and UC Davis.
+// 71% of school names contain no punctuation at all, so the slug is certain for those; the rest
+// land on Niche's own search box rather than a dead end.
+function nicheUrl(s){
+  return 'https://www.niche.com/colleges/' +
+         String(s.n).replace(/[^A-Za-z0-9 ]/g,'').trim().replace(/\s+/g,'-').toLowerCase() + '/';
+}
 function ncsaUrl(s){
   const st = STATE_NAMES[s.s];
   if(!st) return 'https://www.ncsasports.org/softball/colleges';
@@ -1260,13 +1277,14 @@ function openSheet(id){
       <div style="margin-top:6px">${s.mj.map(([k,p])=>`<span class="chip majchip">${esc(MAJORS[k])} · ${p}%</span>`).join('')}</div>
     </div>`:''}
     <div class="revrow">
-      <span class="k">REVIEWS & RANKINGS</span>
+      <span class="k">RESEARCH THIS SCHOOL</span>
       <div class="actions" style="margin-top:6px">
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky('site:niche.com colleges '+s.n)}">Niche</a>
-        ${s.lvl==='4-year'?`<a class="btn sec" target="_blank" rel="noopener" href="${lucky('site:princetonreview.com '+s.n+' college profile')}">Princeton Review</a>`:''}
-        ${s.lvl==='Certificate/trade'?'':`<a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.lvl==='2-year'?'site:usnews.com community-colleges '+s.n+' '+s.s:'site:usnews.com best-colleges '+s.n)}">US News</a>`}
-        <a class="btn sec" target="_blank" rel="noopener" href="${lucky('site:ratemyprofessors.com '+s.n)}">Rate My Professors</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${href(s)}">🏛 Official site</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${navigatorUrl(s)}">📊 College Navigator</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${scorecardUrl(s)}">💵 College Scorecard</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${nicheUrl(s)}">⭐ Niche reviews</a>
       </div>
+      <div class="muted" style="font-size:11px;margin-top:6px">College Navigator and College Scorecard are the federal sources behind the cost figures above — these open the school's own record directly.</div>
     </div>
     <div class="actions">
       <button class="btn ${isFav?'danger':''}" onclick="toggleFav(${id});openSheet(${id})">${isFav?'★ Remove favorite':'☆ Save favorite'}</button>
@@ -1368,29 +1386,34 @@ function direct(u){ if(!u) return null; return /^https?:/i.test(u) ? u : 'https:
 // Schedule Campus Visit/Tour → the school's own visit page, else admissions, else search.
 function visitUrl(s){
   const d = direct(s.vu) || direct(s.au);
-  if(d) return d;
+  if(d) return d;                       // resolver has run - exact page
   const h = schoolHost(s);
-  return h ? lucky('site:'+h+' visit campus tour schedule admissions')
-           : lucky(s.n+' schedule campus visit admissions');
+  // No resolver data yet. Send them to the school's own admissions section rather than a search
+  // results page. /admissions is the near-universal convention on .edu domains; if a school
+  // uses something else their site search or nav picks it up in one click.
+  return h ? 'https://' + h + '/admissions' : href(s);
 }
 // Find admissions email → the admissions office page itself, else a domain-restricted search.
 function findAdmUrl(s){
   const d = direct(s.au);
-  if(d) return d;
+  if(d) return d;                       // resolver has run - exact page
   const h = schoolHost(s);
-  return h ? lucky('site:'+h+' admissions office contact email address')
-           : lucky(s.n+' undergraduate admissions office contact email');
+  return h ? 'https://' + h + '/admissions' : href(s);
 }
 // Find coach email → the sport's own page (roster/coaches), else the athletics site home.
 // Athletics lives on a separate domain (arcadiaknights.com, not arcadia.edu), so a site:
 // search on the academic host would exclude the very page we want.
 function findCoachUrl(s){
   const d = direct(s.su) || direct(s.hu);
-  if(d) return d;
+  if(d) return d;                       // resolver has run - exact sport or athletics page
+  // Athletics almost always lives on its own domain (arcadiaknights.com, not arcadia.edu), which
+  // the database does not yet hold. Until the link resolver runs this is the one link that still
+  // needs a lookup - but a named-coach search lands on the staff page far more often than a
+  // generic one.
   const sp = primarySport();
-  const named = (F.sports.includes('w-softball') && s.sb && s.sb.coach) ? String(s.sb.coach).trim() : '';
-  return named ? lucky('"'+named+'" '+s.n+' '+sp+' coach email staff directory')
-               : lucky(s.n+' athletics '+sp+' coaching staff directory email');
+  const named = (s.sb && s.sb.coach) ? String(s.sb.coach).trim() : '';
+  return named ? lucky('"'+named+'" '+s.n+' '+sp+' coach') 
+               : lucky(s.n+' athletics staff directory '+sp+' coach');
 }
 // Recruiting questionnaire → the form itself, else the sport page, else the athletics site.
 function recruitUrl(s, sportName){
