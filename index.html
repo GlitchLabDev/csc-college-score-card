@@ -816,11 +816,13 @@ async function saveProfile(){
   if(addr && !geocodeResult) await geocodeAddress();
   const old = profile()||{};
   const keepGeo = (geocodeResult==null && old.address===addr);
-  store.set('profile',{ name:g('p-name'), address:addr, gpa:g('p-gpa'), major:g('p-major'), maps:g('p-maps'),
+  store.set('profile',{ name:g('p-name'), address:addr, gpa:g('p-gpa'), sat:g('p-sat'), major:g('p-major'), maps:g('p-maps'),
     lat: geocodeResult?geocodeResult.lat:(keepGeo?old.lat:null),
     lon: geocodeResult?geocodeResult.lon:(keepGeo?old.lon:null),
     label: geocodeResult?geocodeResult.label:(keepGeo?old.label:null) });
+  syncSatFromProfile(true);
   renderAccount(); renderUserBadge();
+  try{ renderFilters(); refresh(); }catch(e){}
   const btn = [...document.querySelectorAll('#accwrap .btn')].find(b=>b.textContent.includes('Save'));
   if(btn){ btn.textContent='✓ Profile saved'; btn.style.background='#22c55e';
     setTimeout(()=>{ btn.textContent='Save profile'; btn.style.background=''; }, 2000); }
@@ -891,6 +893,8 @@ function renderAccount(){
       <div class="actions" style="margin-top:6px"><button class="btn sec" onclick="geocodeAddress()">Verify address 📍</button></div>
       <div class="muted" id="geo-out" style="margin-top:4px">${p.label?'📍 '+esc(p.label):''}</div>
       <label>GPA</label><input id="p-gpa" value="${esc(p.gpa||'')}" placeholder="e.g. 3.8" inputmode="decimal">
+      <label>SAT total (optional)</label><input id="p-sat" type="number" min="400" max="1600" step="10" value="${esc(p.sat||'')}" placeholder="e.g. 1180" inputmode="numeric">
+      <div class="muted" style="font-size:11px;margin-top:3px">Saved here, it fills in automatically on the map and in search results — every school shows a ✅ Likely / 🎯 Match / 🌟 Reach badge. Nothing is hidden from your results unless you choose to filter by fit.</div>
       <label>Intended major</label><input id="p-major" value="${esc(p.major||'')}" placeholder="e.g. Biology">
       <label>Preferred maps app</label>
       <select id="p-maps"><option value="google" ${p.maps!=='apple'?'selected':''}>Google Maps</option><option value="apple" ${p.maps==='apple'?'selected':''}>Apple Maps</option></select>
@@ -1114,7 +1118,7 @@ function renderFilters(){
     <h3>My test scores</h3>
     <div class="row"><input type="number" id="f-sat" min="400" max="1600" step="10" placeholder="Your SAT total (e.g. 1180)" value="${F.sat}"></div>
     <div style="margin-top:6px">${[['likely','✅ Likely'],['match','🎯 Match'],['reach','🌟 Reach']].map(([k,l])=>`<span class="chip ${F.fit.includes(k)?'on':''}" data-fit="${k}">${l}</span>`).join('')}</div>
-    <div class="muted" style="font-size:11px;margin-top:3px">Enter your SAT and pick which schools to show. Compared against each school's average SAT — a guide, not a prediction, and only ${SAT_COVERAGE} of schools report one.</div>
+    <div class="muted" style="font-size:11px;margin-top:3px">${(()=>{const p=profile(); return (p&&p.sat)?'Filled in from your Account profile. ':'Save it in 👤 Account and it fills in automatically. ';})()}Every school keeps its badge — pick a chip above only if you also want to <b>hide</b> the others. Compared against each school's average SAT: a guide, not a prediction, and only ${SAT_COVERAGE} of schools report one.</div>
     <h3>Athletics</h3>
     ${['M','W'].map(g=>{
       const cnt = F.sports.filter(k=>k.startsWith(g.toLowerCase()+'-')).length;
@@ -1180,18 +1184,42 @@ function filtered(){
 // so the band below is a proxy for the usual interquartile spread. It is guidance, not a prediction.
 const SAT_BAND = 60;
 const SAT_COVERAGE = '19%';
+// The score comes from the Filters box if one is typed there, otherwise from the saved profile,
+// so entering it once in Account is enough for it to appear everywhere.
+function mySat(){
+  const typed = parseInt(F.sat,10);
+  if(typed) return typed;
+  const p = profile();
+  const saved = p ? parseInt(p.sat,10) : NaN;
+  return saved || 0;
+}
+// Copies the profile score into the filter box so it shows there too. force=true overwrites a
+// stale value after the profile is edited; otherwise a score typed in Filters wins.
+function syncSatFromProfile(force){
+  const p = profile();
+  const saved = p ? String(p.sat||'').trim() : '';
+  if(saved && (force || !F.sat)) F.sat = saved;
+}
 function satFit(s){
-  const mine = parseInt(F.sat,10);
+  const mine = mySat();
   if(!mine || !s.sat) return null;
   if(mine >= s.sat + SAT_BAND) return 'likely';
   if(mine <= s.sat - SAT_BAND) return 'reach';
   return 'match';
 }
+const FIT_LABELS = {likely:['✅ Likely','#22c55e'], match:['🎯 Match','#facc15'], reach:['🌟 Reach','#60a5fa']};
+// Compact badge for list rows — same verdict as the full card, one line.
+function fitPill(s){
+  const f = satFit(s);
+  if(!f) return '';
+  const L = FIT_LABELS[f];
+  return `<span class="chip" style="border-color:${L[1]};color:${L[1]};cursor:default">${L[0]}</span>`;
+}
 function fitBadge(s){
   const f = satFit(s);
   if(!f) return '';
-  const L = {likely:['✅ Likely','#22c55e'], match:['🎯 Match','#facc15'], reach:['🌟 Reach','#60a5fa']}[f];
-  const diff = parseInt(F.sat,10) - s.sat;
+  const L = FIT_LABELS[f];
+  const diff = mySat() - s.sat;
   const sign = diff>0?'+':'';
   return `<div class="stat" style="border-color:${L[1]}"><div class="k">Your fit</div><div class="v" style="color:${L[1]}">${L[0]}</div><div class="k" style="margin-top:2px">${sign}${diff} vs avg</div></div>`;
 }
@@ -1199,7 +1227,8 @@ function fitBadge(s){
 // ---------- map ----------
 const map = L.map('map',{zoomControl:true, worldCopyJump:true, minZoom:2, maxZoom:19}).setView([39.5,-96],4);
 // returning users with a saved home address start centered on their region; everyone else sees the whole US
-(()=>{ try{ const p = profile(); if(p && p.lat!=null && p.lon!=null) map.setView([p.lat, p.lon], 6); }catch(e){} })();
+(()=>{ try{ syncSatFromProfile(false); }catch(e){}
+       try{ const p = profile(); if(p && p.lat!=null && p.lon!=null) map.setView([p.lat, p.lon], 6); }catch(e){} })();
 let tileLayerRef = null;  // set by applyTheme()
 const cluster = L.markerClusterGroup({chunkedLoading:true, maxClusterRadius:46, disableClusteringAtZoom:9});
 map.addLayer(cluster);
@@ -1534,7 +1563,7 @@ let sortBy = 'n';
 function cardHTML(s){
   const isFav = !!favs[s.id], inTrip = trip.includes(s.id);
   return `<div class="card" onclick="openFromList(${s.id})">
-    <h3>${nameLink(s,'schoollink')} ${divBadge(s)}</h3>
+    <h3>${nameLink(s,'schoollink')} ${divBadge(s)} ${fitPill(s)}</h3>
     <div class="meta">${esc(s.c)}, ${s.s} · ${s.ctrl} · Accept: ${fmt.pct(s.adm)} · Enroll: ${fmt.num(s.en)} · Tuition: ${fmt.usd(s.tin)} in / ${fmt.usd(s.tout)} out</div>
     ${F.sports.includes('w-softball')&&s.sb&&s.sb.conf?`<div class="meta">🥎 ${esc(s.sb.conf)}${s.sb.coach?' · Coach '+esc(s.sb.coach):''}</div>`:''}
     <div class="cardacts">
