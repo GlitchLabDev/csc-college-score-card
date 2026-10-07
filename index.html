@@ -23,7 +23,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"WebApplication","name":"My University View","url":"https://www.myuniview.com/","applicationCategory":"EducationalApplication","operatingSystem":"Any","description":"Interactive map of 5,700+ US colleges with official cost, admissions, and athletics data.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
-{"@type":"Organization","name":"Glitch Labs","url":"https://www.myuniview.com/","email":"dev@glitchlabs.tech"}
+{"@type":"Person","name":"Sean Brady","url":"https://www.myuniview.com/","email":"dev@glitchlabs.tech"}
 ]}
 </script>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🎓</text></svg>'>
@@ -382,7 +382,7 @@ a.schoollink:hover{color:var(--acc)}
     </div>
     <div class="out muted" id="ld-mailout"></div>
   </div>
-  <div class="ldfoot">Created by Glitch Labs · Free to use · Works on any phone or computer · <a href="privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="contact.html" style="color:var(--dim)">Contact</a><br>
+  <div class="ldfoot">Created by Sean Brady · Free to use · Works on any phone or computer · <a href="privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="groups.html" style="color:var(--dim)">Group Licences</a> · <a href="contact.html" style="color:var(--dim)">Contact</a><br>
   Data: US Dept. of Education College Scorecard · Equity in Athletics (EADA) 2025 · Verify details with each college</div>
 </div>
 <div id="authwrap" style="display:none">
@@ -411,7 +411,7 @@ a.schoollink:hover{color:var(--acc)}
   </div>
 </div>
 <footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · Equity in Athletics (EADA) 2025 · Verify details with each school<br>
-<span class="credit">Created by Glitch Labs © <span id="yr"></span></span> · <a href="#" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="terms.html" style="color:var(--dim)">Terms</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="contact.html" style="color:var(--dim)">Contact</a></footer>
+<span class="credit">Created by Sean Brady © <span id="yr"></span></span> · <a href="#" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="terms.html" style="color:var(--dim)">Terms</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="groups.html" style="color:var(--dim)">👥 Group Licences</a> · <a href="contact.html" style="color:var(--dim)">Contact</a></footer>
 <script src="libs/leaflet.js"></script>
 <script src="libs/leaflet.markercluster.js"></script>
 <script src="db.js"></script>
@@ -613,19 +613,42 @@ function showPaywall(){
   }
 }
 function closePaywall(){ const o=document.getElementById('paywall'); if(o) o.style.display='none'; }
+// Two kinds of code reach this box. The seven original promo codes are still checked
+// against the baked-in hash list so nobody who already has one is broken. Everything else
+// goes to the redeem-code Edge Function, which owns group-licence codes: the hashes live
+// server-side, each code burns on first use, and the endpoint is rate-limited.
 async function redeemCode(){
   if(isIOSApp()) return;   // no code path inside the iOS app — App Store purchases only
-  const el = document.getElementById('pw-code');
+  const el  = document.getElementById('pw-code');
+  const err = document.getElementById('pw-err');
   const v = ((el && el.value)||'').trim().toUpperCase();
   if(!v) return;
+  const fail = m => { if(err) err.textContent = m; };
+  const win  = (label) => {
+    store.set('comp', {code:v, at:Date.now(), org:label||null});
+    closePaywall(); refreshLists();
+    alert(label ? `🎉 Premium unlocked through ${label} — enjoy the full suite!`
+                : '🎉 Premium unlocked — enjoy the full suite!');
+  };
+
   const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
   const h = [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
-  if(ACCESS_CODE_HASHES.includes(h)){
-    store.set('comp', {code:v, at:Date.now()});
-    closePaywall(); refreshLists();
-    alert('🎉 Premium unlocked — enjoy the full suite!');
-  } else {
-    document.getElementById('pw-err').textContent = "That code isn't valid.";
+  if(ACCESS_CODE_HASHES.includes(h)) return win(null);
+
+  if(!cloudConfigured()){ return fail("That code isn't valid."); }
+  fail('Checking…');
+  try{
+    const r = await fetch(SUPABASE_URL+'/functions/v1/redeem-code', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,
+               'Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body: JSON.stringify({ code: v, email: (cloudUser && cloudUser.email) || null })
+    });
+    const d = await r.json().catch(()=>({}));
+    if(r.ok && d.ok){ if(d.expires_on) store.set('compExp', d.expires_on); return win(d.org); }
+    fail(d.error || "That code isn't valid.");
+  }catch(e){
+    fail('Could not check that code just now. Please try again.');
   }
 }
 const cloudConfigured = () => SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
@@ -1044,6 +1067,20 @@ async function joinList(){
     show('Could not save that just now. Please try again, or use the Contact page.', '#f87171');
   }
 }
+// ---------- social accounts ----------
+// Resolved from the school's own footer (sm) and the athletics site's footer (sa). Links only:
+// Instagram's public-feed API was retired in Dec 2024 and X charges per read, so an embedded
+// feed is not possible for third-party accounts at any price that makes sense here.
+const SOCIAL_META = { ig:['Instagram','📷'], x:['X','𝕏'], fb:['Facebook','f'], yt:['YouTube','▶'], tt:['TikTok','♪'] };
+function socialRow(obj, label){
+  if(!obj) return '';
+  const keys = Object.keys(SOCIAL_META).filter(k => obj[k]);
+  if(!keys.length) return '';
+  return `<div class="revrow"><span class="k">${esc(label)}</span>
+    <div class="actions" style="margin-top:6px">
+      ${keys.map(k=>`<a class="btn sec" target="_blank" rel="noopener" href="${esc(obj[k])}">${SOCIAL_META[k][1]} ${SOCIAL_META[k][0]}</a>`).join('')}
+    </div></div>`;
+}
 function mapsPref(){ const p=profile(); return (p&&p.maps)||'google'; }
 function mapOpenUrl(s){
   return mapsPref()==='apple'
@@ -1132,9 +1169,9 @@ function sportCard(s,sp){
   const q = sportPhrase(sp);
   return `<div class="sbcard"><h4>${sp.e} ${esc(q.toUpperCase())}</h4>
     <div class="actions">
-      <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,q)}">Recruiting form</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,q,sp.k)}">Recruiting form</a>
       <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+q+' camps clinics')}">Camps</a>
-      <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,q)}">Team page</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,q,sp.k)}">Team page</a>
       <a class="btn sec" target="_blank" rel="noopener" href="${ncsaSportUrl(s,sp)}">NCSA ${esc(sp.l)}</a>
     </div></div>`;
 }
@@ -1145,9 +1182,9 @@ function softballCard(s){
       ${s.sb.coach?`<div class="muted">Head coach: ${esc(s.sb.coach)}</div>`:''}
       ${s.sb.w+s.sb.l>0?`<div class="muted">Record: ${s.sb.w}–${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}</div>`:''}
       <div class="actions">
-        <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,'softball')}">Recruiting form</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,'softball','w-softball')}">Recruiting form</a>
         <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball camps clinics')}">Camps</a>
-        <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,'softball')}">Team page</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,'softball','w-softball')}">Team page</a>
         <a class="btn sec" target="_blank" rel="noopener" href="${ncsaUrl(s)}">NCSA softball</a>
         ${ncaaUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${ncaaUrl(s)}">NCAA stats</a>`:''}
       </div></div>`;
@@ -1369,6 +1406,8 @@ function openSheet(id){
       <span class="k">🎓 MAJORS — SHARE OF DEGREES AWARDED</span>
       <div style="margin-top:6px">${s.mj.map(([k,p])=>`<span class="chip majchip">${esc(MAJORS[k])} · ${p}%</span>`).join('')}</div>
     </div>`:''}
+    ${socialRow(s.sm, '📱 FOLLOW THE SCHOOL')}
+    ${socialRow(s.sa, '🏅 FOLLOW THE ATHLETICS DEPARTMENT')}
     <div class="revrow">
       <span class="k">RESEARCH THIS SCHOOL</span>
       <div class="actions" style="margin-top:6px">
@@ -1493,11 +1532,28 @@ function findAdmUrl(s){
   const h = schoolHost(s);
   return h ? 'https://' + h + '/admissions' : (siteUrl(s) || lucky(s.n+' admissions'));
 }
+// The resolver now returns spu: { 'm-basketball': url, 'w-softball': url, ... } for every sport
+// a school fields. The legacy `su` was softball-only and is kept purely so older cached data
+// still resolves to something rather than nothing.
+function sportKey(){ return F.sports.length ? F.sports[0] : null; }
+function sportPageUrl(s, key){
+  const k = key || sportKey();
+  if(k && s.spu && s.spu[k]) return direct(s.spu[k]);
+  return null;
+}
+// `su` holds a softball page and nothing else. Handing it to a football or lacrosse family is
+// precisely the fault this replaces, so it is only ever used when softball is what was asked for.
+function legacySu(s, key){
+  const k = key || sportKey();
+  if(k && k !== 'w-softball') return null;
+  return direct(s.su);
+}
+
 // Find coach email → the sport's own page (roster/coaches), else the athletics site home.
 // Athletics lives on a separate domain (arcadiaknights.com, not arcadia.edu), so a site:
 // search on the academic host would exclude the very page we want.
 function findCoachUrl(s){
-  const d = direct(s.su) || direct(s.hu);
+  const d = sportPageUrl(s) || legacySu(s) || direct(s.hu);
   if(d) return d;                       // resolver has run - exact sport or athletics page
   // Athletics almost always lives on its own domain (arcadiaknights.com, not arcadia.edu), which
   // the database does not yet hold. Until the link resolver runs this is the one link that still
@@ -1509,14 +1565,14 @@ function findCoachUrl(s){
                : lucky(s.n+' athletics staff directory '+sp+' coach');
 }
 // Recruiting questionnaire → the form itself, else the sport page, else the athletics site.
-function recruitUrl(s, sportName){
-  const d = direct(s.qu) || direct(s.su) || direct(s.hu);
+function recruitUrl(s, sportName, key){
+  const d = direct(s.qu) || sportPageUrl(s, key) || legacySu(s, key) || direct(s.hu);
   if(d) return d;
   return lucky(s.n+' '+(sportName||'softball')+' recruiting questionnaire');
 }
 // Team/roster page → the sport page, else athletics home, else search.
-function teamUrl(s, sportName){
-  const d = direct(s.su) || direct(s.hu);
+function teamUrl(s, sportName, key){
+  const d = sportPageUrl(s, key) || legacySu(s, key) || direct(s.hu);
   if(d) return d;
   return lucky(s.n+' athletics '+(sportName||'softball')+' roster');
 }

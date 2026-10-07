@@ -47,8 +47,11 @@ button:disabled{opacity:.45;cursor:not-allowed}
   <div class="stat"><b id="s-au">0</b><span>admissions</span></div>
   <div class="stat"><b id="s-vu">0</b><span>visit</span></div>
   <div class="stat"><b id="s-hu">0</b><span>athletics</span></div>
-  <div class="stat"><b id="s-su">0</b><span>sport page</span></div>
+  <div class="stat"><b id="s-spu">0</b><span>schools w/ sport pages</span></div>
+  <div class="stat"><b id="s-spn">0</b><span>sport pages total</span></div>
   <div class="stat"><b id="s-qu">0</b><span>questionnaire</span></div>
+  <div class="stat"><b id="s-sm">0</b><span>school socials</span></div>
+  <div class="stat"><b id="s-sa">0</b><span>athletics socials</span></div>
 </div>
 <div id="log">Load the page, enter your key, and press Start.
 Progress saves as you go — you can close the tab and resume later.
@@ -69,7 +72,12 @@ function save(){ try{ localStorage.setItem(STORE, JSON.stringify(cache)); }catch
 function stats(){
   const vals = Object.values(cache);
   $('s-done').textContent = vals.length;
-  for(const k of ['au','vu','hu','su','qu']) $('s-'+k).textContent = vals.filter(v=>v && v[k]).length;
+  for(const k of ['au','vu','hu','qu']) $('s-'+k).textContent = vals.filter(v=>v && v[k]).length;
+  const hasMap = k => vals.filter(v => v && v[k] && Object.keys(v[k]).length).length;
+  $('s-spu').textContent = hasMap('spu');
+  $('s-spn').textContent = vals.reduce((n,v)=> n + (v && v.spu ? Object.keys(v.spu).length : 0), 0);
+  $('s-sm').textContent  = hasMap('sm');
+  $('s-sa').textContent  = hasMap('sa');
   $('pbar').style.width = (schools.length ? vals.length/schools.length*100 : 0) + '%';
   $('dl').disabled = $('dlj').disabled = !vals.length;
 }
@@ -81,7 +89,11 @@ async function runBatch(batch, fn, key){
   const r = await fetch(fn, {
     method:'POST',
     headers:{ 'Content-Type':'application/json', 'Authorization': key },
-    body: JSON.stringify({ schools: batch.map(s=>({ id:s.id, url:s.url, sb: !!s.sb })) })
+    body: JSON.stringify({ schools: batch.map(s=>({
+      id: s.id, url: s.url,
+      // Only the sports this school fields, from the EADA data already in db.js.
+      sports: s.sp ? Object.keys(s.sp) : []
+    })) })
   });
   if(r.status === 401) throw new Error('401 — the key does not match RESOLVE_ADMIN_KEY in Supabase');
   if(!r.ok) throw new Error('HTTP ' + r.status + ' ' + (await r.text()).slice(0,120));
@@ -121,8 +133,12 @@ $('go').onclick = async () => {
   running = false; $('go').disabled = false; $('stop').disabled = true;
   log(stopping ? '⏹ stopped — progress saved' : '✓ run complete', 'ok');
   const v = Object.values(cache);
+  const nSpu = v.reduce((n,x)=> n + (x.spu ? Object.keys(x.spu).length : 0), 0);
   log('   admissions ' + v.filter(x=>x.au).length + ' · athletics ' + v.filter(x=>x.hu).length +
-      ' · sport ' + v.filter(x=>x.su).length + ' · questionnaire ' + v.filter(x=>x.qu).length, 'dim');
+      ' · sport pages ' + nSpu + ' across ' + v.filter(x=>x.spu && Object.keys(x.spu).length).length + ' schools' +
+      ' · questionnaire ' + v.filter(x=>x.qu).length, 'dim');
+  log('   socials: school ' + v.filter(x=>x.sm && Object.keys(x.sm).length).length +
+      ' · athletics ' + v.filter(x=>x.sa && Object.keys(x.sa).length).length, 'dim');
 };
 
 $('stop').onclick = () => { stopping = true; log('stopping after this batch…'); };
