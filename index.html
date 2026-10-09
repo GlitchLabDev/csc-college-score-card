@@ -345,7 +345,7 @@ a.schoollink:hover{color:var(--acc)}
   <div class="ldgrid">
     <div class="ldfeat"><div class="ic">🗺️</div><h3>The Map</h3><p>Every school is a pin — university, community college or trade school. Zoom into a region and see every option, not a curated few.</p></div>
     <div class="ldfeat"><div class="ic">🎚️</div><h3>Real Filters</h3><p>Cost, acceptance rate, enrollment, campus setting, major, two-year vs four-year vs trade — and sport and division if that matters to you.</p></div>
-    <div class="ldfeat"><div class="ic">💰</div><h3>Honest Costs</h3><p>Federal tuition data with the context most sites skip — sticker prices aren't real prices.</p></div>
+    <div class="ldfeat"><div class="ic">💰</div><h3>Honest Costs</h3><p>Federal tuition data with the context most sites skip — sticker prices aren't what most families pay. Averages only; your own price will differ.</p></div>
     <div class="ldfeat"><div class="ic">🏆</div><h3>The Scorecard</h3><p>Compare favorites side by side with your own ratings, notes, and campus-visit photos.</p></div>
     <div class="ldfeat"><div class="ic">✅</div><h3>Communicate</h3><p>Reach admissions offices — and coaches, if you're recruiting — with a ready-to-send intro already filled in.</p></div>
     <div class="ldfeat"><div class="ic">🛣️</div><h3>Road Trips</h3><p>Turn your list into a campus-visit route from your front door, with one-tap navigation.</p></div>
@@ -1399,9 +1399,21 @@ function openSheet(id){
           </div>`:''}
         </div>
       </div>
-      <div class="muted" style="font-size:11px;margin-top:5px">Data source: US Dept. of Education College Scorecard / IPEDS (2022–23)${s.rb?' · IPEDS reports on-campus housing and meal plan as one combined figure':''} · Per-semester and total-degree figures are straight arithmetic on the annual average (2 semesters/yr; ${s.lvl==='4-year'?'4 years':'2 years'} to graduate) — they assume steady costs and on-time graduation, so treat them as a planning estimate. Your actual price depends on your family's income and aid — confirm with the college's net-price calculator.</div>
+      <div class="muted" style="font-size:11px;margin-top:5px">Data source: US Dept. of Education College Scorecard / IPEDS (2022–23)${s.rb?' · IPEDS reports on-campus housing and meal plan as one combined figure':''} · Per-semester and total-degree figures are straight arithmetic on the annual average (2 semesters/yr; ${s.lvl==='4-year'?'4 years':'2 years'} to graduate). They assume costs hold steady and that the student graduates on time — both of which often do not happen. Published costs typically rise each year, and fewer than half of students finish in the standard time, so a longer degree costs more. Treat every total here as a rough planning figure, not a quote.</div>
     </div>`:''}
-    <div class="datanote">⚠️ <b>Verify with the college.</b> Figures are historical federal averages (2022–23). Tuition shown is the published "sticker price" — it does <b>not</b> reflect the discounts and grants most schools award. Private colleges discount first-year tuition by ~56–57% on average (<a href="https://www.nacubo.org/Press-Releases/2026/Most-Undergraduates-Receive-Grants-at-Private-Colleges-NACUBO-Research-Shows" target="_blank" rel="noopener">NACUBO</a>), so the real cost is often far lower.</div>
+    <div class="datanote">⚠️ <b>These are averages. Your price will be different.</b>
+      Every figure here is a historical federal average for all students at this college (2022–23).
+      <b>No student pays the average.</b> What you are actually charged depends on your family's income
+      and assets, the year you apply, your academic record, the aid this college happens to have available,
+      and decisions made by its financial aid office. Two students at the same college routinely pay
+      amounts that differ by tens of thousands of dollars a year.
+      <div style="margin-top:7px">Use these numbers to decide which colleges are <b>worth investigating</b> —
+      never to decide what one will cost you. For that, run the college's own
+      <a href="https://collegecost.ed.gov/net-price" target="_blank" rel="noopener">net price calculator</a>
+      (every US college is required by law to publish one), then confirm in writing with its financial aid
+      office before you commit to anything.</div>
+      <div style="margin-top:7px">We are not financial, admissions or tax advisers, and we have no
+      relationship with any college listed here.</div></div>
     ${(()=>{
       const sel = F.sports.map(k=>SPORTS.find(x=>x.k===k)).filter(Boolean);
       return sel.length ? sel.map(sp=>sportCard(s,sp)).join('') : '';
