@@ -439,8 +439,10 @@ const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const AUTOFIND_ENABLED = () => false;
 // ---------- subscription (Stripe) — dormant until enabled; see SETUP-STRIPE.md ----------
 const PREMIUM_ENABLED = true;         // paywall LIVE (set false to make everything free again)
-const STRIPE_LINK_MONTHLY = "https://buy.stripe.com/00w7sEbdh3Ogf6xfqL6AM00";   // $4.99/month
-const STRIPE_LINK_ANNUAL  = "https://buy.stripe.com/eVq28kbdh3Og9Md5Qb6AM01";   // $29.99/year
+// Both links redirect to /?upgraded=1 — handleUpgradeReturn() needs that parameter
+// to show the confirmation and poll for the webhook. Don't drop it when replacing a link.
+const STRIPE_LINK_MONTHLY = "https://buy.stripe.com/7sY4gs3KP2KcbUldiD6AM02";   // $2.99/month
+const STRIPE_LINK_ANNUAL  = "https://buy.stripe.com/7sY8wIdlp70s2jL5Qb6AM03";   // $24.99/year
 const STRIPE_PORTAL_LINK  = "https://billing.stripe.com/p/login/00w7sEbdh3Ogf6xfqL6AM00"; // manage/cancel
 // ---------- iOS in-app purchase (RevenueCat → StoreKit); see SETUP-REVENUECAT.md ----------
 // Public SDK key from RevenueCat → Project settings → API keys → "Public app-specific" (appl_...).
@@ -585,8 +587,8 @@ function paywallBuyOptions(){
       · <a href="https://www.myuniview.com/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
     </div>`;
   }
-  return `${STRIPE_LINK_MONTHLY?`<a class="btn" style="width:100%;margin-top:14px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_MONTHLY}">$4.99 / month</a>`:''}
-    ${STRIPE_LINK_ANNUAL?`<a class="btn" style="width:100%;margin-top:8px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_ANNUAL}">$29.99 / year — save 50%</a>`:''}
+  return `${STRIPE_LINK_MONTHLY?`<a class="btn" style="width:100%;margin-top:14px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_MONTHLY}">$2.99 / month</a>`:''}
+    ${STRIPE_LINK_ANNUAL?`<a class="btn" style="width:100%;margin-top:8px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_ANNUAL}">$24.99 / year — save 30%</a>`:''}
     ${STRIPE_LINK_MONTHLY?`<div class="muted" style="font-size:11px;margin-top:8px">At checkout, use the same email you sign in with here — Premium unlocks automatically right after payment. Cancel anytime from Account → Manage subscription.</div>`:''}`;
 }
 function showPaywall(){
@@ -962,7 +964,7 @@ function premiumCardHTML(){
     ${isPremium()
       ? `<div class="muted" style="margin:6px 0">Full suite unlocked: favorites, Communicate, road trips, Scorecard exports, Top Picks, photos &amp; files.</div>
          ${manageSubHTML()}`
-      : `<div class="muted" style="margin:6px 0">Unlock favorites, Communicate outreach, road trips, Scorecard exports, Top Picks, and photos &amp; files${isIOSApp()?'':' — $4.99/mo or $29.99/yr'}.</div>
+      : `<div class="muted" style="margin:6px 0">Unlock favorites, Communicate outreach, road trips, Scorecard exports, Top Picks, and photos &amp; files${isIOSApp()?'':' — $2.99/mo or $24.99/yr'}.</div>
          <div class="actions"><button class="btn" onclick="showPaywall()">${isIOSApp()?'See Premium':'See Premium / enter code'}</button></div>`}
   </div>`;
 }
