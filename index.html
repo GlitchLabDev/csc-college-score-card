@@ -683,13 +683,41 @@ async function initCloud(){
   sb.auth.onAuthStateChange(async (ev, sess)=>{
     if(ev==='SIGNED_IN' && sess && !cloudUser) await onCloudLogin(sess.user);
     if(ev==='SIGNED_OUT'){ cloudUser=null; cloudData=null; subActive=false; afterAuth(); }
-    if(ev==='PASSWORD_RECOVERY'){
-      const np = prompt('Welcome back! Enter your NEW password (at least 6 characters):');
-      if(np && np.length>=6){ await sb.auth.updateUser({password:np}); alert('✅ Password updated — you are signed in.'); }
-      else alert('Password not changed — you can try again from Forgot password.');
-    }
+    if(ev==='PASSWORD_RECOVERY') await runPasswordRecovery();
   });
 }
+// Must stay in step with Supabase Auth → Email → password settings.
+// Server rejects anything weaker, so check here first and give a usable message.
+const PW_MIN = 8;
+function pwProblem(p){
+  if(!p || p.length < PW_MIN) return 'at least ' + PW_MIN + ' characters';
+  if(!/[a-z]/.test(p))        return 'a lowercase letter';
+  if(!/[A-Z]/.test(p))        return 'an uppercase letter';
+  if(!/[0-9]/.test(p))        return 'a number';
+  if(!/[^a-zA-Z0-9]/.test(p)) return 'a symbol (for example ! ? # or $)';
+  return null;
+}
+const PW_RULE = 'At least ' + PW_MIN + ' characters, with an uppercase letter, a lowercase letter, a number and a symbol.';
+
+async function runPasswordRecovery(){
+  // Three tries, then send them back to Forgot password rather than looping forever.
+  for(let i = 0; i < 3; i++){
+    const np = prompt('Choose a new password.\n\n' + PW_RULE);
+    if(np === null){ alert('Password not changed — you can try again from Forgot password.'); return; }
+    const need = pwProblem(np);
+    if(need){ alert('That password needs ' + need + '.\n\n' + PW_RULE); continue; }
+    const {error} = await sb.auth.updateUser({password: np});
+    if(!error){ alert('✅ Password updated — you are signed in.'); return; }
+    // The reset link is one-use and time-limited; an expired one fails here, not at the prompt.
+    const msg = /expired|invalid/i.test(error.message || '')
+      ? 'That reset link has expired. Request a new one from Forgot password.'
+      : (error.message || 'Something went wrong.');
+    alert('Password NOT changed. ' + msg);
+    if(/expired|invalid/i.test(error.message || '')) return;
+  }
+  alert('Password not changed. Request a fresh link from Forgot password.');
+}
+
 async function onCloudLogin(user){
   cloudUser = user;
   try{
@@ -795,7 +823,8 @@ function authErr(m){ document.getElementById('a-err').textContent = m||''; }
 async function doSignup(){
   const u=document.getElementById('a-user').value.trim(), p=document.getElementById('a-pass').value;
   if(cloudConfigured() && u.includes('@')){
-    if(p.length<6) return authErr('Password needs at least 6 characters.');
+    const need = pwProblem(p);
+    if(need) return authErr('Password needs ' + need + '. ' + PW_RULE);
     await initCloud(); if(!sb) return authErr('Cannot reach the sign-in service — check your connection.');
     const {error} = await sb.auth.signUp({email:u, password:p, options:{emailRedirectTo: location.origin+location.pathname}});
     if(error) return authErr(error.message);
