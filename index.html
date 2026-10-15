@@ -60,12 +60,14 @@ main{flex:1;position:relative;overflow:hidden}
 #filterBtn{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 /* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
    because the filter is scoped to the tile pane. Keeps one keyless tile source for both themes. */
-/* One OSM tile source serves both themes, filtered in CSS — no second provider, no API key.
+/* FALLBACK ONLY. CARTO serves a real light (Positron) and dark (Dark Matter) basemap,
+   so these filters must not touch them — inverting Dark Matter would turn it white.
+   JS adds .osmtiles to <body> only when we've fallen back to raw OSM tiles.
    LIGHT: fully desaturated so the school pins are the only colour on screen.
    DARK:  inverted, then pushed darker and flatter; the default invert leaves pink roads
           and teal water, which is what made the old dark map look muddy. */
-body.light .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.88)}
-body:not(.light) .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.72) contrast(1.2) saturate(.35) grayscale(.5)}
+body.osmtiles.light .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.88)}
+body.osmtiles:not(.light) .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.72) contrast(1.2) saturate(.35) grayscale(.5)}
 #legend{position:absolute;bottom:24px;left:12px;z-index:1000;background:var(--glass);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:11px;line-height:1.9}
 #legendToggle{display:none;background:none;border:none;color:var(--text);font:inherit;font-weight:700;cursor:pointer;padding:0}
 @media(max-width:640px){
@@ -434,7 +436,32 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const OAUTH_PROVIDERS = ['google'];
 // Map tiles. OpenStreetMap standard needs no API key. To switch to CARTO/Stadia later,
 // sign up for a free key and paste their URL template here (must include {z}/{x}/{y}).
-const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+// ---------- basemap ----------
+// OSM's tile policy is explicit that commercial services can be cut off without
+// notice, so the basemap comes from CARTO. Their key is domain-restricted in the
+// CARTO dashboard, which is what makes it safe to ship in a public HTML file.
+// OSM stays wired up as an emergency fallback: if CARTO stops answering, a
+// degraded map beats a blank one. Leave CARTO_KEY empty and we just use OSM.
+// Public by necessity — it ships in this file. Safe because it is Referer-restricted
+// to myuniview.com / www.myuniview.com in the CARTO dashboard, so it is useless
+// anywhere else. Rotate it there, not here, if it ever needs replacing.
+const CARTO_KEY = 'cb1_4lua_1_4d30a41ce9da6741fd74da8d';
+// Raster style names differ from the vector ones: light_all IS Positron and
+// dark_all IS Dark Matter. 'positron'/'dark-matter' only work on the /gl/ vector URLs.
+const CARTO_TILES = {
+  light: 'https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png',
+  dark:  'https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png'
+};
+const OSM_TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ATTRIB_CARTO = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a href="https://carto.com/attributions">CARTO</a>';
+const ATTRIB_OSM   = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+function tileURL(theme){
+  return CARTO_KEY ? CARTO_TILES[theme] + '?key=' + encodeURIComponent(CARTO_KEY) : OSM_TILES;
+}
+const TILE_URL = OSM_TILES;   // kept for anything still referencing the old name
+// Declared here, not beside applyTheme(), so no code path can reach them in the
+// temporal dead zone — applyTheme() is reachable from afterAuth() on sign-in.
+let tilesFellBack = false, tileErrors = 0;
 // "Auto-find emails" (temporarily shelved — autoFind() + find-emails Edge Function stay ready; re-add the button in Communicate to restore)
 const AUTOFIND_ENABLED = () => false;
 // ---------- subscription (Stripe) — dormant until enabled; see SETUP-STRIPE.md ----------
@@ -2164,10 +2191,25 @@ function applyTheme(t){
   const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content', t==='light'?'#f6f8fb':'#0f172a');
   const b=document.getElementById('themebtn'); if(b) b.textContent = t==='light'?'☀️':'🌙';
   if(tileLayerRef) map.removeLayer(tileLayerRef);
-  // OpenStreetMap standard tiles — no API key required. Dark mode is applied by CSS filter
-  // on .leaflet-tile-pane (see stylesheet), so one tile source serves both themes. The pins,
-  // route lines and cluster bubbles sit in other panes and are never filtered.
-  tileLayerRef = L.tileLayer(TILE_URL,{attribution:'© OpenStreetMap contributors',maxZoom:19}).addTo(map);
+  // CARTO ships purpose-built light (Positron) and dark (Dark Matter) basemaps, so the
+  // theme picks a real basemap instead of running a CSS filter over a light one.
+  const usingCarto = !!CARTO_KEY && !tilesFellBack;
+  document.body.classList.toggle('osmtiles', !usingCarto);   // gates the CSS tile filters
+  tileLayerRef = L.tileLayer(
+    usingCarto ? tileURL(t==='light'?'light':'dark') : OSM_TILES,
+    {attribution: usingCarto ? ATTRIB_CARTO : ATTRIB_OSM, maxZoom:19, crossOrigin:true}
+  ).addTo(map);
+  if(usingCarto) watchTiles(tileLayerRef, t);
+}
+function watchTiles(layer, theme){
+  tileErrors = 0;
+  layer.on('tileerror', function(){
+    if(tilesFellBack) return;
+    if(++tileErrors < 6) return;
+    tilesFellBack = true;
+    console.warn('Basemap provider failing — falling back to OpenStreetMap tiles.');
+    applyTheme(theme);
+  });
 }
 function toggleTheme(){
   const t = currentTheme()==='light' ? 'dark' : 'light';
