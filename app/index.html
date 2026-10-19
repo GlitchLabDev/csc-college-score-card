@@ -902,10 +902,18 @@ async function forgotPassword(){
   const {error} = await sb.auth.resetPasswordForEmail(u, {redirectTo: location.origin+location.pathname});
   authErr(error ? error.message : '📬 Reset link sent — check your email.');
 }
-function skipAuth(){ sessionStorage.setItem('csc_guest','1'); document.getElementById('authwrap').style.display='none'; renderUserBadge(); }
+function skipAuth(){
+  sessionStorage.setItem('csc_guest','1');
+  sessionStorage.removeItem('csc_authAsked');   // dismissed — don't re-raise it
+  document.getElementById('authwrap').style.display='none';
+  renderUserBadge();
+}
 function doLogout(){
   if(cloudUser && sb){ sb.auth.signOut(); cloudUser=null; cloudData=null; }
-  localStorage.removeItem('csc_session'); sessionStorage.removeItem('csc_guest'); afterAuth();
+  localStorage.removeItem('csc_session');
+  sessionStorage.removeItem('csc_guest');
+  afterAuth();
+  askAuth();   // signing out is a deliberate act: offer the gate so they can switch account
 }
 function signedIn(){ return !!cloudUser || !!store.session(); }
 function afterAuth(){
@@ -914,8 +922,21 @@ function afterAuth(){
   renderAuthGate(); renderUserBadge(); applyTheme(currentTheme()); refresh();
   if(signedIn()) switchView(profile()?'map':'account');  // new users: set up profile first
 }
+// The gate is opt-IN, not a wall. Arriving visitors get the working map; the homepage
+// promises "no account needed" and a login box over the map is the biggest drop-off
+// point in the funnel. It appears only when something asks for it — the Account tab's
+// "Sign in / Create account" button, or a sign-out — by clearing csc_guest first.
+// Anything a guest saves lives in localStorage and carries over if they sign up later.
 function renderAuthGate(){
-  document.getElementById('authwrap').style.display = (signedIn()||sessionStorage.getItem('csc_guest'))?'none':'flex';
+  const wantsAuth = !signedIn() && sessionStorage.getItem('csc_authAsked') === '1';
+  document.getElementById('authwrap').style.display = wantsAuth ? 'flex' : 'none';
+  if(!signedIn() && !sessionStorage.getItem('csc_guest')) sessionStorage.setItem('csc_guest','1');
+}
+// Called by the Account tab and after sign-out to bring the gate up deliberately.
+function askAuth(){
+  sessionStorage.setItem('csc_authAsked','1');
+  sessionStorage.removeItem('csc_guest');
+  document.getElementById('authwrap').style.display = 'flex';
 }
 function renderUserBadge(){
   document.getElementById('userbadge').textContent = cloudUser ? '👤 '+cloudName() : (store.session() ? '👤 '+store.session() : '👤 guest');
@@ -1007,7 +1028,7 @@ function renderAccount(){
   if(!s){
     w.innerHTML = `<h2 class="pagetitle">👤 Account</h2>
       <div class="card"><div class="muted" style="margin-bottom:8px">You're browsing as a guest. Sign in to keep separate favorites, ratings and trips per person.</div>
-      <button class="btn" onclick="sessionStorage.removeItem('csc_guest');renderAuthGate()">Sign in / Create account</button></div>
+      <button class="btn" onclick="askAuth()">Sign in / Create account</button></div>
       ${premiumCardHTML()}`;
     return;
   }
