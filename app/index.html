@@ -2207,6 +2207,15 @@ function showLanding(){ document.getElementById('landing').style.display='block'
 if(!localStorage.getItem('muv_seenLanding') && !signedIn()) document.getElementById('landing').style.display='block';
 else maybeStartTour();   // returning straight into the app — offer the tour once
 
+// Leaflet caches the container size when the map is constructed. invalidateSize() used
+// to be reached only via enterApp() (landing dismissed) or switchView('map'), so a
+// visitor who lands straight on the map — no landing overlay, and now no auth gate —
+// got tiles and markers positioned against a stale size: scattered tiles, no pins.
+// Re-measure once the layout has settled, and again after fonts/images shift it.
+function sizeMap(){ try{ map.invalidateSize(false); }catch(e){} }
+window.addEventListener('load', function(){ sizeMap(); setTimeout(sizeMap,150); setTimeout(sizeMap,600); });
+if(document.readyState === 'complete') { sizeMap(); setTimeout(sizeMap,150); }
+
 
 // ---------- light / dark theme ----------
 function currentTheme(){
