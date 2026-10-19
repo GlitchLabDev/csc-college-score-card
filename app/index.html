@@ -28,9 +28,9 @@
 </script>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🎓</text></svg>'>
 <link rel="apple-touch-icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%230f172a"/><text x="50" y="72" font-size="60" text-anchor="middle">🎓</text></svg>'>
-<link rel="stylesheet" href="libs/leaflet.css">
-<link rel="stylesheet" href="libs/MarkerCluster.css">
-<link rel="stylesheet" href="libs/MarkerCluster.Default.css">
+<link rel="stylesheet" href="/libs/leaflet.css">
+<link rel="stylesheet" href="/libs/MarkerCluster.css">
+<link rel="stylesheet" href="/libs/MarkerCluster.Default.css">
 <style>
 :root{--bg:#0f172a;--panel:#1e293b;--panel2:#273449;--line:#334155;--text:#e2e8f0;--dim:#94a3b8;--acc:#60A5FA;--d1:#eab308;--d2:#3b82f6;--d3:#22c55e;--none:#64748b;--red:#ef4444;
 --glass:rgba(30,41,59,.92);--overlay:rgba(15,23,42,.96);--onacc:#0f172a;--onbadge:#0f172a;--ok:#22c55e;--okbg:rgba(34,197,94,.15);--divU:#a855f7;--divN:#f472b6;--grad1:#1d2b45;--grad2:#16213a;--fitL:#22c55e;--fitM:#eab308;--fitR:#c084fc;--oauthbg:#ffffff;--oauthtx:#1f2937}
@@ -697,7 +697,7 @@ async function initCloud(){
   if(!cloudConfigured() || sb) return;
   if(!window.supabase){
     await new Promise((res)=>{ const t=document.createElement('script');
-      t.src='libs/supabase.js'; t.onload=res; t.onerror=res;
+      t.src='/libs/supabase.js'; t.onload=res; t.onerror=res;
       document.head.appendChild(t); });
   }
   if(!window.supabase) return;
@@ -1923,7 +1923,7 @@ async function exportExcel(){
   if(!gate('export')) return;
   if(!window.XLSX){
     await new Promise(res=>{ const t=document.createElement('script');
-      t.src='libs/xlsx.full.min.js';
+      t.src='/libs/xlsx.full.min.js';
       t.onload=res; t.onerror=res; document.head.appendChild(t); });
   }
   if(!window.XLSX){ alert('Could not load the Excel library — check your connection.'); return; }
