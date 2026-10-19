@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="f20700d3-b504-4535-81d3-f01bbf97f1ab" data-exclude-hash="true" data-exclude-search="true"></script>
+<meta name="theme-color" content="#0f172a">
+<title>My University View — College Search Map: Costs, Admissions & Athletics for 5,700+ US Schools</title>
+<meta name="google-site-verification" content="e1iwUSgb7LNYD22gtd9yup37FlXvvc2DwJE2vSlQAtI">
+<meta name="description" content="Explore every US college on one interactive map — real tuition and net costs, acceptance rates, NCAA & NAIA athletics, and community colleges. Compare schools, plan campus visits, and contact coaches and admissions. Free to use.">
+<link rel="canonical" href="https://www.myuniview.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="My University View">
+<meta property="og:title" content="My University View — Every US college on one map">
+<meta property="og:description" content="5,700+ colleges with real costs, admissions data, and athletics. Build your list, compare schools, plan campus road trips.">
+<meta property="og:url" content="https://www.myuniview.com/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="My University View — Every US college on one map">
+<meta name="twitter:description" content="5,700+ colleges with real costs, admissions data, and athletics — free interactive college search.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"My University View","url":"https://www.myuniview.com/","applicationCategory":"EducationalApplication","operatingSystem":"Any","description":"Interactive map of 5,700+ US colleges with official cost, admissions, and athletics data.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"Person","name":"Sean Brady","url":"https://www.myuniview.com/","email":"dev@glitchlabs.tech"}
+]}
+</script>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🎓</text></svg>'>
+<link rel="apple-touch-icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%230f172a"/><text x="50" y="72" font-size="60" text-anchor="middle">🎓</text></svg>'>
+<link rel="stylesheet" href="libs/leaflet.css">
+<link rel="stylesheet" href="libs/MarkerCluster.css">
+<link rel="stylesheet" href="libs/MarkerCluster.Default.css">
+<style>
+:root{--bg:#0f172a;--panel:#1e293b;--panel2:#273449;--line:#334155;--text:#e2e8f0;--dim:#94a3b8;--acc:#60A5FA;--d1:#eab308;--d2:#3b82f6;--d3:#22c55e;--none:#64748b;--red:#ef4444;
+--glass:rgba(30,41,59,.92);--overlay:rgba(15,23,42,.96);--onacc:#0f172a;--onbadge:#0f172a;--ok:#22c55e;--okbg:rgba(34,197,94,.15);--divU:#a855f7;--divN:#f472b6;--grad1:#1d2b45;--grad2:#16213a;--fitL:#22c55e;--fitM:#eab308;--fitR:#c084fc;--oauthbg:#ffffff;--oauthtx:#1f2937}
+body.light{--bg:#f6f8fb;--panel:#ffffff;--panel2:#eef2f7;--line:#cbd5e1;--text:#0f172a;--dim:#5b6b80;--acc:#1B5FCC;--none:#94a3b8;
+--glass:rgba(255,255,255,.94);--overlay:rgba(241,245,249,.97);--onacc:#ffffff;--onbadge:#0f172a;--ok:#15803d;--okbg:rgba(21,128,61,.12);--grad1:#eef4fd;--grad2:#e3ecfa;--fitL:#15803d;--fitM:#a16207;--fitR:#7e22ce;--oauthbg:#ffffff;--oauthtx:#1f2937}
+body.light .datanote b{color:var(--text)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;overflow:hidden}
+header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap;z-index:1200}
+header h1{font-size:18px;font-weight:800;letter-spacing:.5px;white-space:nowrap}
+header h1 span{color:var(--acc)}
+#search{flex:1;min-width:140px;position:relative}
+#search input{width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px}
+#suggest{position:absolute;top:100%;left:0;right:0;background:var(--panel2);border:1px solid var(--line);border-radius:0 0 10px 10px;max-height:260px;overflow:auto;z-index:1500;display:none}
+#suggest div{padding:8px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--line)}
+#suggest div:hover{background:var(--panel)}
+nav{display:flex;gap:2px;background:var(--panel);padding:0 6px 8px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:1 0 auto;padding:8px 8px;border:none;border-radius:10px;background:transparent;color:var(--dim);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+nav button.active{background:var(--acc);color:var(--onacc)}
+main{flex:1;position:relative;overflow:hidden}
+.view{position:absolute;inset:0;display:none;overflow:auto;-webkit-overflow-scrolling:touch}
+.view.active{display:block}
+#view-map{overflow:hidden}
+#map{position:absolute;inset:0;background:var(--bg)}
+#filterBtn{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+/* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
+   because the filter is scoped to the tile pane. Keeps one keyless tile source for both themes. */
+/* FALLBACK ONLY. CARTO serves a real light (Positron) and dark (Dark Matter) basemap,
+   so these filters must not touch them — inverting Dark Matter would turn it white.
+   JS adds .osmtiles to <body> only when we've fallen back to raw OSM tiles.
+   LIGHT: fully desaturated so the school pins are the only colour on screen.
+   DARK:  inverted, then pushed darker and flatter; the default invert leaves pink roads
+          and teal water, which is what made the old dark map look muddy. */
+body.osmtiles.light .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.88)}
+body.osmtiles:not(.light) .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.72) contrast(1.2) saturate(.35) grayscale(.5)}
+#legend{position:absolute;bottom:24px;left:12px;z-index:1000;background:var(--glass);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:11px;line-height:1.9}
+#legendToggle{display:none;background:none;border:none;color:var(--text);font:inherit;font-weight:700;cursor:pointer;padding:0}
+@media(max-width:640px){
+  #legendToggle{display:block}
+  #legend:not(.open) #legendItems{display:none}
+  #legend:not(.open){padding:7px 11px}
+  #legend.open #legendArrow{display:inline-block;transform:rotate(90deg)}
+}
+#legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+#count{position:absolute;top:12px;left:12px;z-index:1000;background:var(--glass);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600}
+#filters{position:absolute;top:0;right:0;bottom:0;width:min(320px,90vw);background:var(--panel);border-left:1px solid var(--line);z-index:1100;transform:translateX(100%);transition:transform .25s;overflow:auto;padding:16px}
+#filters.open{transform:none}
+#filters h3{font-size:14px;margin:14px 0 6px;color:var(--acc)}
+#filters h3:first-child{margin-top:0}
+#filters label{display:block;font-size:13px;margin:4px 0;cursor:pointer}
+#filters select,#filters input[type=number]{width:100%;padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13px}
+#filters .row{display:flex;gap:8px}
+.chip{display:inline-block;padding:5px 10px;margin:3px 3px 0 0;border:1px solid var(--line);border-radius:999px;font-size:12px;cursor:pointer;color:var(--dim)}
+.chip.on{background:var(--acc);color:var(--onacc);border-color:var(--acc);font-weight:700}
+details.sportdd{border:1px solid var(--line);border-radius:10px;margin:6px 0;background:var(--panel2)}
+details.sportdd summary{padding:9px 12px;cursor:pointer;font-size:13px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.sportdd summary::-webkit-details-marker{display:none}
+details.sportdd summary:after{content:'▾';color:var(--dim);transition:transform .15s}
+details.sportdd[open] summary:after{transform:rotate(180deg)}
+details.sportdd summary .cnt{color:var(--acc);font-size:11px;font-weight:700;margin-left:auto;padding-right:8px}
+details.sportdd > div{padding:0 10px 10px}
+.btn{display:inline-block;padding:9px 14px;border:none;border-radius:10px;background:var(--acc);color:var(--onacc);font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;text-align:center}
+.btn.sec{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.btn.danger{background:var(--red);color:#fff}
+.btn:active{transform:scale(.97)}
+/* detail sheet */
+#sheet{position:absolute;left:0;right:0;bottom:0;max-height:78%;background:var(--panel);border-top:2px solid var(--acc);border-radius:16px 16px 0 0;z-index:1150;transform:translateY(105%);transition:transform .25s;overflow:auto;padding:16px 16px 24px}
+#sheet.open{transform:none}
+#sheet .grab{width:44px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 10px}
+#sheet h2{font-size:19px;margin-bottom:2px;padding-right:70px}
+#sheet .sub{color:var(--dim);font-size:13px;margin-bottom:12px}
+#sheet .close{position:absolute;top:12px;right:14px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:5px 10px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px}
+.stat .k{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.stat .v{font-size:15px;font-weight:700;margin-top:2px}
+.revrow{margin:10px 0 2px}
+.costgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+@media (max-width:520px){.costgrid{grid-template-columns:1fr}}
+.costcol{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
+.costcol .costhead{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.costrow{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:2px 0}
+.costrow.total{border-top:1px solid var(--line);margin-top:5px;padding-top:6px;font-weight:700}
+.costcol.actual{border-color:var(--ok)}
+.costcol.actual .bignum{font-size:24px;font-weight:800;color:var(--ok);margin:2px 0}
+.savetag{display:inline-block;background:var(--okbg);color:var(--ok);border-radius:8px;padding:2px 8px;font-size:12px;font-weight:700;margin-top:6px}
+.costbreak{border-top:1px solid var(--line);margin-top:9px;padding-top:7px}
+.majchip{cursor:default;color:var(--text);background:var(--panel2)}
+.revrow .k{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.datanote{background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.35);border-radius:10px;padding:9px 12px;margin:2px 0 10px;font-size:12px;color:var(--dim);line-height:1.5}
+.datanote b{color:var(--text)}
+.datanote a{color:var(--acc)}
+.sbcard{background:linear-gradient(135deg,var(--panel2),var(--panel));border:1px solid var(--acc);border-radius:12px;padding:12px;margin:10px 0}
+.sbcard h4{color:var(--acc);font-size:13px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+/* list */
+.listwrap{padding:12px;max-width:900px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 138px 12px 14px;margin-bottom:10px;cursor:pointer;position:relative;min-height:104px}
+@media (max-width:480px){.card{padding-right:126px}.cardacts .act{font-size:12px}}
+.card h3{font-size:15px}
+.card .meta{font-size:12px;color:var(--dim);margin-top:3px}
+.badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.bDI{background:var(--d1);color:var(--onbadge)}.bDII{background:var(--d2);color:var(--onbadge)}.bDIII{background:var(--d3);color:var(--onbadge)}.bNCAA{background:var(--divU);color:var(--onbadge)}.bNAIA{background:var(--divN);color:var(--onbadge)}
+.cardacts{position:absolute;top:8px;right:12px;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.cardacts .act{background:none;border:none;cursor:pointer;font-size:13px;color:var(--dim);display:flex;align-items:center;gap:6px;padding:1px 0;font-family:inherit}
+.cardacts .act span{font-size:15px;line-height:1;filter:grayscale(1);opacity:.4}
+.cardacts .act.on{color:var(--text);font-weight:700}
+.cardacts .act.on span{filter:none;opacity:1}
+.pickbtn{background:none;border:1px solid var(--line);border-radius:8px;padding:2px 8px;font-size:11px;cursor:pointer;color:var(--dim);margin-top:4px;font-family:inherit}
+.pickbtn span{filter:grayscale(1);opacity:.45}
+.pickbtn.on{border-color:var(--acc);color:var(--text);font-weight:700}
+.pickbtn.on span{filter:none;opacity:1}
+.commlog{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:8px}
+.commrow{display:flex;gap:8px;align-items:baseline;font-size:12px;padding:3px 0;border-bottom:1px dashed var(--line)}
+.commrow:last-of-type{border-bottom:none}
+.commrow .cd{color:var(--dim);min-width:46px}
+.commrow .cdir{font-weight:600;white-space:nowrap}
+.commrow .cn{flex:1;word-break:break-word}
+.commrow b{cursor:pointer;color:var(--dim);padding:0 2px}
+.commadd{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.commadd select,.commadd input{background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:5px 8px;font-size:12px}
+.commadd input{flex:1;min-width:140px}
+.t5in{flex:1;min-width:0;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13px}
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.toolbar select{padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+/* scorecard */
+.scwrap{padding:12px;overflow:auto}
+table.sc{border-collapse:collapse;min-width:100%;font-size:12px}
+table.sc th,table.sc td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+table.sc th{background:var(--panel2);position:sticky;top:0}
+table.sc td.metric{background:var(--panel2);font-weight:700;white-space:nowrap;position:sticky;left:0}
+table.sc td.best{outline:2px solid var(--d3);outline-offset:-2px}
+table.sc input[type=range]{width:90px}
+table.sc .total{font-size:16px;font-weight:800;color:var(--acc)}
+textarea.notes{width:100%;min-height:52px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:6px;font-size:12px}
+.attgrid{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-width:130px}
+.attitem{position:relative;display:inline-block}
+.attitem img{width:56px;height:56px;object-fit:cover;border-radius:8px;cursor:pointer;border:1px solid var(--line)}
+.attitem b{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;line-height:16px;text-align:center;cursor:pointer}
+.attitem.doc a{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:11px;color:var(--text);text-decoration:none}
+.addatt{padding:6px 10px;font-size:12px}
+.attview{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:4000;display:flex;align-items:center;justify-content:center;cursor:zoom-out}
+.attview img{max-width:92vw;max-height:92vh;border-radius:10px}
+/* trip */
+.tripstop{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:8px}
+.tripstop .n{flex:1;font-size:14px}
+.tripstop button{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:4px 8px;cursor:pointer}
+.muted{color:var(--dim);font-size:12px}
+h2.pagetitle{padding:0 0 10px;font-size:18px}
+.empty{text-align:center;color:var(--dim);padding:40px 20px;font-size:14px}
+footer.note{padding:8px 14px;background:var(--panel);border-top:1px solid var(--line);font-size:10px;color:var(--dim);text-align:center}
+footer.note .credit{display:inline-block;margin-top:3px;font-weight:700;letter-spacing:.4px;color:var(--text)}
+a.schoollink{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:var(--acc);text-underline-offset:3px}
+a.schoollink:hover{color:var(--acc)}
+/* auth + profile */
+/* landing / welcome screen */
+#landing{position:fixed;inset:0;background:var(--bg);color:var(--text);z-index:5000;overflow:auto;-webkit-overflow-scrolling:touch}
+.ldclose{position:fixed;top:14px;right:16px;z-index:5001;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 12px;cursor:pointer;font-size:15px}
+.ldhero{text-align:center;padding:10vh 6vw 5vh;max-width:760px;margin:0 auto}
+.ldlogo{font-size:19px;font-weight:800;margin-bottom:26px}
+.ldlogo span{color:var(--acc)}
+.ldhero h1{font-size:clamp(28px,6vw,46px);line-height:1.15;font-weight:800}
+.ldhero h1 em{color:var(--acc);font-style:normal}
+.ldhero p{color:var(--dim);font-size:clamp(14px,2.2vw,17px);margin:18px auto 24px;max-width:580px}
+.ldcta{font-size:16px;padding:14px 28px}
+.ldstats{display:flex;justify-content:center;gap:clamp(16px,5vw,54px);flex-wrap:wrap;padding:22px 6vw;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.ldstats div{text-align:center}
+.ldstats b{display:block;font-size:24px;color:var(--acc)}
+.ldstats span{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px}
+.ldgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;padding:6vh 6vw;max-width:1020px;margin:0 auto}
+.ldfeat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.ldfeat .ic{font-size:26px}
+.ldfeat h3{margin:8px 0 4px;font-size:16px}
+.ldfeat p{color:var(--dim);font-size:13px;line-height:1.5}
+.ldathlete{background:linear-gradient(135deg,var(--grad1),var(--grad2));border:1px solid var(--acc);border-radius:16px;padding:26px;text-align:center;margin:0 6vw 6vh;max-width:900px;margin-left:auto;margin-right:auto}
+.ldathlete h2{margin-bottom:8px;font-size:clamp(19px,3vw,26px)}
+.ldaud{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;padding:0 6vw 6vh;max-width:1020px;margin:0 auto}
+.ldaud .c{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.ldaud .c h4{margin:0 0 6px;font-size:15px}
+.ldaud .c p{color:var(--dim);font-size:13px;margin:0}
+.ldaud .c .ic{font-size:22px;margin-bottom:6px}
+.ldmail{background:linear-gradient(135deg,var(--grad1),var(--grad2));border:1px solid var(--acc);border-radius:16px;padding:26px;text-align:center;margin:0 auto 6vh;max-width:900px;width:88vw}
+.ldmail h2{margin-bottom:8px;font-size:clamp(18px,3vw,24px)}
+.ldmail p{color:var(--dim);max-width:560px;margin:0 auto 14px;font-size:14px}
+.ldmail .row{display:flex;gap:8px;max-width:460px;margin:0 auto;flex-wrap:wrap}
+.ldmail input{flex:1;min-width:200px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:inherit;font-size:15px}
+.ldmail .out{font-size:13px;margin-top:10px;min-height:18px}
+.ldathlete p{color:var(--dim);max-width:600px;margin:0 auto 16px;font-size:14px}
+.ldfoot{text-align:center;color:var(--dim);font-size:11px;padding:0 6vw 6vh;line-height:1.8}
+.ldstates{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;line-height:2}
+.ldstates b{display:block;margin-bottom:6px;color:var(--text);font-size:12px}
+.ldstates a{color:var(--dim);text-decoration:none;white-space:nowrap}
+.ldstates a:hover{color:var(--acc);text-decoration:underline}
+#authwrap{position:fixed;inset:0;background:var(--overlay);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px}
+#paywall{position:fixed;inset:0;background:var(--overlay);z-index:3600;display:flex;align-items:center;justify-content:center;padding:20px}
+#paywall .authbox{position:relative}
+.authbox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;width:100%;max-width:360px}
+.authbox h2{margin-bottom:4px}.authbox .muted{margin-bottom:14px;display:block}
+.authbox input, .profform input, .profform select{width:100%;padding:10px;margin:5px 0;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px}
+.authbox .btn{width:100%;margin-top:8px}
+/* access-code row: input takes the space, Apply stays its natural size (overrides .authbox .btn) */
+.coderow{display:flex;gap:8px;align-items:stretch;margin-top:4px}
+.coderow input{flex:1 1 auto;min-width:0;width:auto;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:15px;letter-spacing:.5px}
+.coderow .btn{width:auto;flex:0 0 auto;margin-top:0;padding:11px 20px;white-space:nowrap}
+.autherr{color:var(--red);font-size:12px;min-height:16px;margin-top:6px}
+.profform label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-top:8px;display:block}
+.homechip{background:var(--panel2);border:1px dashed var(--acc);border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:13px}
+.homechip .row{display:flex;gap:6px}
+.homechip input{flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13px;min-width:0}
+#themebtn{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;cursor:pointer;font-size:14px}
+#helpbtn{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;cursor:pointer;font-size:14px}
+#tour{position:fixed;inset:0;z-index:4000;display:none;background:transparent}
+#tour.on{display:block}
+#tourRing{position:absolute;border:2px solid var(--acc);border-radius:12px;box-shadow:0 0 0 9999px var(--overlay);transition:all .5s cubic-bezier(.4,0,.2,1);pointer-events:none}
+#tourRing::after{content:'';position:absolute;inset:-2px;border-radius:12px;animation:tourPulse 1.6s infinite}
+@keyframes tourPulse{0%,100%{box-shadow:0 0 0 0 rgba(250,204,21,.5)}55%{box-shadow:0 0 0 12px rgba(250,204,21,0)}}
+#tourBox{position:absolute;width:min(320px,86vw);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:all .5s cubic-bezier(.4,0,.2,1)}
+#tourBox h4{margin:0 0 6px;font-size:16px}
+#tourBox p{margin:0 0 10px;font-size:13px;color:var(--dim);line-height:1.5}
+#tourBox .tdots{display:flex;gap:5px;margin-bottom:10px}
+#tourBox .tdots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+#tourBox .tdots i.on{background:var(--acc)}
+#tourBox .trow{display:flex;gap:8px;align-items:center}
+#tourBox .tskip{margin-left:auto;background:none;border:none;color:var(--dim);font-size:12px;cursor:pointer;text-decoration:underline}
+#userbadge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.ordivider{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin:14px 0 10px}
+.ordivider:before,.ordivider:after{content:'';flex:1;height:1px;background:var(--line)}
+.oauthrow{display:flex;gap:8px}
+.oauthbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:#fff;color:#1f2937;font-size:13px;font-weight:600;cursor:pointer}
+.oauthbtn:active{transform:scale(.97)}
+@media(min-width:760px){nav{max-width:860px}nav button{font-size:14px}}
+/* iOS safe areas (notch / home indicator) */
+@supports(padding:max(0px)){
+  header{padding-top:max(10px,env(safe-area-inset-top))}
+  footer.note{padding-bottom:max(8px,env(safe-area-inset-bottom))}
+}
+@media print{
+  body{background:#fff;color:#000}
+  header,nav,footer.note,#authwrap,.noprint{display:none!important}
+  main,.view{position:static!important;overflow:visible!important}
+  .view{display:none!important}
+  #view-score{display:block!important}
+  .scwrap{padding:0;overflow:visible}
+  table.sc{font-size:9px;width:100%}
+  table.sc th,table.sc td{border:1px solid #999;color:#000;background:#fff!important;position:static!important}
+  table.sc td.metric,table.sc th{background:#eee!important;font-weight:700}
+  table.sc td.best{outline:2px solid #16a34a}
+  table.sc input[type=range]{display:none}
+  table.sc .total{color:#000}
+  textarea.notes{border:none;background:#fff;color:#000}
+  h2.pagetitle{color:#000}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎓 My <span>University View</span></h1>
+  <div id="search"><input id="q" type="search" placeholder="Search school or city…" autocomplete="off"><div id="suggest"></div></div>
+  <button id="helpbtn" title="How to navigate" onclick="startTour(0)" style="display:none">❓</button>
+  <button id="themebtn" title="Light / dark mode" onclick="toggleTheme()">☀️</button>
+  <span id="userbadge" onclick="switchView('account')"></span>
+</header>
+<div id="tour" onclick="tourNext()">
+  <div id="tourRing"></div>
+  <div id="tourBox" onclick="event.stopPropagation()"></div>
+</div>
+<nav>
+  <button data-v="map" class="active">🗺️ Map</button>
+  <button data-v="favs">⭐ Favorites</button>
+  <button data-v="top5">✉️ Communicate</button>
+  <button data-v="trip">🛣️ Road Trip</button>
+  <button data-v="score">🏆 Scorecard</button>
+  <button data-v="picks">👍 Top Picks</button>
+  <button data-v="account">👤</button>
+</nav>
+<main>
+  <div class="view active" id="view-map">
+    <div id="map"></div>
+    <div id="count"></div>
+    <button id="filterBtn">⚙︎ Filters</button>
+    <div id="legend">
+      <button id="legendToggle" onclick="document.getElementById('legend').classList.toggle('open')">🎨 Map key <span id="legendArrow">▸</span></button>
+      <div id="legendItems">
+        <div><i style="background:var(--d1)"></i>NCAA D-I</div>
+        <div><i style="background:var(--d2)"></i>NCAA D-II</div>
+        <div><i style="background:var(--d3)"></i>NCAA D-III</div>
+        <div><i style="background:#f472b6"></i>NAIA</div>
+        <div><i style="background:#a855f7"></i>NCAA (div. unlisted)</div>
+        <div><i style="background:#f97316"></i>Community college (2-year)</div>
+        <div><i style="background:#7dd3fc"></i>Trade / certificate school</div>
+        <div><i style="background:var(--none)"></i>4-year · no athletics on file</div>
+      </div>
+    </div>
+    <div id="filters"></div>
+    <div id="sheet"></div>
+  </div>
+  <div class="view" id="view-list"><div class="listwrap" id="listwrap"></div></div>
+  <div class="view" id="view-favs"><div class="listwrap" id="favwrap"></div></div>
+  <div class="view" id="view-top5"><div class="listwrap" id="top5wrap"></div></div>
+  <div class="view" id="view-picks"><div class="listwrap" id="pickswrap"></div></div>
+  <div class="view" id="view-score"><div class="scwrap" id="scwrap"></div></div>
+  <div class="view" id="view-trip"><div class="listwrap" id="tripwrap"></div></div>
+  <div class="view" id="view-account"><div class="listwrap" id="accwrap"></div></div>
+</main>
+<div id="landing" style="display:none">
+  <button class="ldclose" onclick="enterApp()">✕</button>
+  <div class="ldhero">
+    <div class="ldlogo">🎓 My <span>University View</span></div>
+    <h1>Every school in America.<br><em>One map. Your plan.</em></h1>
+    <p>5,777 universities, community colleges and trade schools — all of them, on one map. Compare what they really cost, see where your scores land, build a shortlist and plan the visits, without a spreadsheet and without handing your details to a lead-generation site.</p>
+    <button class="btn ldcta" onclick="enterApp()">Open the App — Free</button>
+    <div class="muted" style="font-size:12px;margin-top:10px">No credit card. No sales calls. Works in any browser.</div>
+  </div>
+  <div class="ldstats">
+    <div><b>2,601</b><span>Four-year colleges</span></div>
+    <div><b>1,925</b><span>Trade & certificate</span></div>
+    <div><b>1,251</b><span>Community colleges</span></div>
+    <div><b>38</b><span>Majors tracked</span></div>
+    <div><b>$0</b><span>Free to use</span></div>
+  </div>
+  <div class="ldgrid">
+    <div class="ldfeat"><div class="ic">🗺️</div><h3>The Map</h3><p>Every school is a pin — university, community college or trade school. Zoom into a region and see every option, not a curated few.</p></div>
+    <div class="ldfeat"><div class="ic">🎚️</div><h3>Real Filters</h3><p>Cost, acceptance rate, enrollment, campus setting, major, two-year vs four-year vs trade — and sport and division if that matters to you.</p></div>
+    <div class="ldfeat"><div class="ic">💰</div><h3>Honest Costs</h3><p>Federal tuition data with the context most sites skip — sticker prices aren't what most families pay. Averages only; your own price will differ.</p></div>
+    <div class="ldfeat"><div class="ic">🏆</div><h3>The Scorecard</h3><p>Compare favorites side by side with your own ratings, notes, and campus-visit photos.</p></div>
+    <div class="ldfeat"><div class="ic">✅</div><h3>Communicate</h3><p>Reach admissions offices — and coaches, if you're recruiting — with a ready-to-send intro already filled in.</p></div>
+    <div class="ldfeat"><div class="ic">🛣️</div><h3>Road Trips</h3><p>Turn your list into a campus-visit route from your front door, with one-tap navigation.</p></div>
+  </div>
+  <h2 style="text-align:center;font-size:clamp(19px,3vw,26px);margin:0 0 18px">Who it's for</h2>
+  <div class="ldaud">
+    <div class="c"><div class="ic">🎒</div><h4>High school students</h4>
+      <p>Junior or senior year and ready to find a college that fits. Search 2,601 universities by major, cost, size, location and acceptance rate, see whether your SAT makes each one a Likely, Match or Reach, and build your list in one place.</p></div>
+    <div class="c"><div class="ic">🏅</div><h4>Student-athletes</h4>
+      <p>Filter by sport and division across 25,900+ varsity teams, then go straight to the athletics site, the sport page and the recruiting questionnaire.</p></div>
+    <div class="c"><div class="ic">👨‍👩‍👧</div><h4>Parents & families</h4>
+      <p>Begin with every option on the table instead of the ten schools everyone already named. Compare real costs side by side, keep notes from each visit, and narrow it down together.</p></div>
+    <div class="c"><div class="ic">🔧</div><h4>Trade & technical students</h4>
+      <p>1,925 certificate and trade schools, mapped with the same federal cost and completion data as the universities — not relegated to a separate list.</p></div>
+    <div class="c"><div class="ic">🏫</div><h4>Community college & transfer</h4>
+      <p>1,251 two-year colleges alongside the four-year schools, so you can compare the two-year route and the direct route on the same screen.</p></div>
+  </div>
+  <div class="muted" style="text-align:center;font-size:12px;max-width:760px;margin:-3vh auto 5vh;padding:0 6vw">
+    Coverage is undergraduate — bachelor's, associate and certificate programs. Graduate and professional
+    programs aren't in the data yet, so tuition and enrollment figures throughout refer to undergraduate study.
+  </div>
+  <div class="ldathlete">
+    <h2>Start with the whole map, not someone's top-ten list</h2>
+    <p>Every accredited university, community college and trade school in the country — 5,777 of them — with federal cost and admissions data and your own notes and ratings in one place. Free to use, and your list stays yours.</p>
+    <button class="btn ldcta" onclick="enterApp()">Start Your Search</button>
+  </div>
+  <div class="ldmail">
+    <h2>Get told when the iPhone app lands</h2>
+    <p>One email when the app ships, and the occasional note when something worth knowing gets added. Nothing else, and you can leave any time.</p>
+    <div class="row">
+      <input id="ld-email" type="email" placeholder="you@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')joinList()">
+      <button class="btn" onclick="joinList()">Keep me posted</button>
+    </div>
+    <div class="out muted" id="ld-mailout"></div>
+  </div>
+  <div class="ldfoot">Created by Sean Brady · Free to use · Works on any phone or computer · <a href="/privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="/terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="/disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="/sources.html" style="color:var(--dim)">Data Sources</a> · <a href="/groups.html" style="color:var(--dim)">Group Licences</a> · <a href="/contact.html" style="color:var(--dim)">Contact</a><br>
+  Data: US Dept. of Education College Scorecard · Equity in Athletics (EADA) 2025 · Verify details with each college
+  <!-- Real <a href> links into the static college pages. The app's own navigation is
+       JavaScript, so without these the 5,800 built pages have no crawlable path in from
+       the homepage and search engines only ever see them in the sitemap. Built by
+       build_site.py so the list can never drift from the pages that actually exist. -->
+  <div class="ldstates"><b>Browse colleges by state</b><br><!--STATELINKS--></div></div>
+</div>
+<div id="authwrap" style="display:none">
+  <div class="authbox">
+    <h2>🎓 My University View</h2>
+    <span class="muted">Sign in to keep your favorites, scorecard and road trips under your own profile on this device.</span>
+    <input id="a-user" placeholder="Email (or username)" autocomplete="username">
+    <input id="a-pass" type="password" placeholder="Password" autocomplete="current-password">
+    <div style="text-align:right;margin-top:4px"><a href="#" onclick="forgotPassword();return false" style="color:var(--dim);font-size:12px">Forgot password?</a></div>
+    <div class="autherr" id="a-err"></div>
+    <button class="btn" onclick="doLogin()">Sign in</button>
+    <button class="btn sec" onclick="doSignup()">Create account</button>
+    <div class="ordivider"><span>or continue with</span></div>
+    <div class="oauthrow">
+      <button class="oauthbtn" data-p="google" onclick="oauth('google')" title="Google">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6C44.1 38 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.6-5.7l-7.7-6c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+        Google</button>
+      <button class="oauthbtn" data-p="azure" onclick="oauth('azure')" title="Microsoft / Outlook">
+        <svg width="16" height="16" viewBox="0 0 23 23"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
+        Outlook</button>
+      <button class="oauthbtn" data-p="apple" onclick="oauth('apple')" title="Apple">
+        <svg width="16" height="18" viewBox="0 0 384 512"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        Apple</button>
+    </div>
+    <button class="btn sec" style="margin-top:14px" onclick="skipAuth()">Continue as guest</button>
+  </div>
+</div>
+<footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · Equity in Athletics (EADA) 2025 · Verify details with each school<br>
+<span class="credit">Created by Sean Brady © <span id="yr"></span></span> · <a href="/colleges/" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="/privacy.html" style="color:var(--dim)">Privacy</a> · <a href="/terms.html" style="color:var(--dim)">Terms</a> · <a href="/disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="/sources.html" style="color:var(--dim)">Data Sources</a> · <a href="/groups.html" style="color:var(--dim)">👥 Group Licences</a> · <a href="/contact.html" style="color:var(--dim)">Contact</a></footer>
+<script src="/libs/leaflet.js"></script>
+<script src="/libs/leaflet.markercluster.js"></script>
+<script src="/db.js"></script>
+<script>
+const DB = window.__DBDATA;   // college database — loaded from db.js (see build); keeps this page small & fast
+const SCHOOLS = DB.schools;
+const MAJORS = DB.majors || [];
+const byId = {}; SCHOOLS.forEach(s=>byId[s.id]=s);
+
+// ---------- cloud sign-in (Google / Outlook / Apple via Supabase) ----------
+// One-time setup: create a free Supabase project, run supabase-schema.sql,
+// enable the providers, host this file, then paste your two values here.
+// Full walkthrough: SETUP-AUTH.md
+const SUPABASE_URL = "https://akktntuteharoczygfku.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3RudHV0ZWhhcm9jenlnZmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODEwNjAsImV4cCI6MjEwMDg1NzA2MH0.OyEPZQKGsf9tl73sNabNec-mH21i3SweYBNhPy0LXJA";
+const OAUTH_PROVIDERS = ['google'];
+// ---------- basemap ----------
+// OSM's tile policy is explicit that commercial services can be cut off without
+// notice, so the basemap comes from CARTO. OSM stays wired up as an emergency
+// fallback: if CARTO stops answering, a degraded map beats a blank one.
+// Setting CARTO_KEY to '' falls back to OSM everywhere, which is the kill switch.
+//
+// This key is public by necessity — it ships in this file. It is safe because it is
+// Referer-restricted to myuniview.com / www.myuniview.com in the CARTO dashboard,
+// so it is useless anywhere else. Rotate it there, not here.
+const CARTO_KEY = 'cb1_4lua_1_4d30a41ce9da6741fd74da8d';
+// Raster style names differ from the vector ones: light_all IS Positron and
+// dark_all IS Dark Matter. 'positron'/'dark-matter' only work on the /gl/ vector URLs.
+const CARTO_TILES = {
+  light: 'https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png',
+  dark:  'https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png'
+};
+const OSM_TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ATTRIB_CARTO = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a href="https://carto.com/attributions">CARTO</a>';
+const ATTRIB_OSM   = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+function tileURL(theme){
+  return CARTO_KEY ? CARTO_TILES[theme] + '?key=' + encodeURIComponent(CARTO_KEY) : OSM_TILES;
+}
+// Declared here, not beside applyTheme(), so no code path can reach them in the
+// temporal dead zone — applyTheme() is reachable from afterAuth() on sign-in.
+let tilesFellBack = false, tileErrors = 0;
+// "Auto-find emails" (temporarily shelved — autoFind() + find-emails Edge Function stay ready; re-add the button in Communicate to restore)
+const AUTOFIND_ENABLED = () => false;
+// ---------- subscription (Stripe) — dormant until enabled; see SETUP-STRIPE.md ----------
+const PREMIUM_ENABLED = true;         // paywall LIVE (set false to make everything free again)
+// Both links redirect to /?upgraded=1 — handleUpgradeReturn() needs that parameter
+// to show the confirmation and poll for the webhook. Don't drop it when replacing a link.
+const STRIPE_LINK_MONTHLY = "https://buy.stripe.com/7sY4gs3KP2KcbUldiD6AM02";   // $2.99/month
+const STRIPE_LINK_ANNUAL  = "https://buy.stripe.com/7sY8wIdlp70s2jL5Qb6AM03";   // $24.99/year
+const STRIPE_PORTAL_LINK  = "https://billing.stripe.com/p/login/00w7sEbdh3Ogf6xfqL6AM00"; // manage/cancel
+// ---------- iOS in-app purchase (RevenueCat → StoreKit); see SETUP-REVENUECAT.md ----------
+// Public SDK key from RevenueCat → Project settings → API keys → "Public app-specific" (appl_...).
+// Safe to ship in client code — it can only read offerings and start purchases.
+// Empty string = IAP off (web builds ignore this entirely).
+const REVENUECAT_IOS_KEY = "";
+const RC_ENTITLEMENT = "premium";   // must match the entitlement identifier in RevenueCat
+// FREE: map, filters, College List, full school pages. PREMIUM (everything interactive):
+const PREMIUM_FEATURES = ['favorites','top5','picks','trips','export','attachments'];
+// access codes unlock full Premium free (hashed; plaintexts in ACCESS-CODES.md)
+const ACCESS_CODE_HASHES = [
+ 'a912c7a51f7bc2ee289966a37337495c02749d4ecc39eb8a6898c640cb6ab346',
+ 'c0feb90df1d2a333dfc4f7f808f2c17b6e6d67caaeac5c77d2268f104c477f33',
+ '05b198a146771786582905d74e06b35012b1deb48e9469c2b5c6e0c734d38dca',
+ '527f6a0bbad286d82583e0ad17c736109775a7b99c66a4ab1e107f6fdf87f6fb',
+ 'faf9ce6b2339f493a0c92ad117ce4d9a758514470fbd33614128056c51504032',
+ 'ae78fdfb2fc33d7885b5dff285f7b9eabda80af3a611c243c7ba2b7074f28125',
+ '0979df7280ecd2c0a1c07dcbe4335869dbb07ba91d472edb225236bdaf418436',
+];
+
+// ---------- platform ----------
+const isNativeApp = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const isIOSApp    = () => isNativeApp() && window.Capacitor.getPlatform && window.Capacitor.getPlatform()==='ios';
+// On iOS, Apple requires purchases go through StoreKit — the Stripe buttons must not appear.
+const useIAP      = () => isIOSApp() && !!REVENUECAT_IOS_KEY;
+
+// ---------- in-app purchase (RevenueCat) ----------
+let rcActive = false;      // true when StoreKit reports an active "premium" entitlement
+let rcOffering = null;     // the current RevenueCat offering (its packages become the buy buttons)
+const RCPlugin = () => (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Purchases) || null;
+
+async function initIAP(){
+  if(!useIAP()) return;
+  const P = RCPlugin();
+  if(!P){ console.warn('RevenueCat plugin missing — run: npm i @revenuecat/purchases-capacitor && npx cap sync'); return; }
+  try{
+    await P.configure({ apiKey: REVENUECAT_IOS_KEY });
+    // Tie StoreKit purchases to the Supabase account so Premium follows the person to the website.
+    if(cloudUser && cloudUser.id) { try{ await P.logIn({ appUserID: cloudUser.id }); }catch(e){} }
+    try{ const o = await P.getOfferings(); rcOffering = (o && o.current) || null; }catch(e){}
+    await rcRefresh();
+  }catch(e){ console.warn('RevenueCat init failed', e); }
+}
+// Ask StoreKit whether this person currently owns Premium.
+async function rcRefresh(){
+  if(!useIAP()) return false;
+  const P = RCPlugin(); if(!P) return false;
+  const was = rcActive;
+  try{
+    const r = await P.getCustomerInfo();
+    const ent = r && r.customerInfo && r.customerInfo.entitlements && r.customerInfo.entitlements.active;
+    rcActive = !!(ent && ent[RC_ENTITLEMENT]);
+  }catch(e){ rcActive = false; }
+  if(rcActive !== was) refreshLists();
+  return rcActive;
+}
+async function buyPackage(i){
+  const P = RCPlugin();
+  const pkgs = (rcOffering && rcOffering.availablePackages) || [];
+  const pkg = pkgs[i];
+  if(!P || !pkg){ alert('The App Store is unavailable right now. Please try again in a moment.'); return; }
+  try{
+    await P.purchasePackage({ aPackage: pkg });
+    await rcRefresh();
+    closePaywall();
+    alert('🎉 Premium is active — the full suite is unlocked. Welcome aboard!');
+  }catch(e){
+    // Apple reports a user-initiated cancel as an error; that is not a failure worth alerting about.
+    if(e && (e.code === '1' || e.userCancelled || /cancel/i.test(e.message||''))) return;
+    const el = document.getElementById('pw-err');
+    if(el) el.textContent = 'That purchase did not go through. No charge was made.';
+  }
+}
+// Apple requires a visible Restore option for anyone reinstalling or on a second device.
+async function restorePurchases(){
+  const P = RCPlugin(); if(!P) return;
+  try{
+    await P.restorePurchases();
+    if(await rcRefresh()){ closePaywall(); alert('✅ Your subscription has been restored.'); }
+    else { const el=document.getElementById('pw-err'); if(el) el.textContent = 'No previous purchase found on this Apple ID.'; }
+  }catch(e){
+    const el=document.getElementById('pw-err'); if(el) el.textContent = 'Could not reach the App Store. Please try again.';
+  }
+}
+
+// ---------- premium gating ----------
+let subActive = false;   // true when the signed-in email has an active Stripe subscription (set by checkSub)
+function isPremium(){ return !PREMIUM_ENABLED || subActive || rcActive || !!store.get('comp', null); }
+async function checkSub(){
+  const was = subActive;
+  subActive = false;
+  if(sb && cloudUser && cloudUser.email){
+    try{
+      const {data} = await sb.from('premium_subs').select('status').eq('email', cloudUser.email.toLowerCase()).maybeSingle();
+      subActive = !!data && data.status === 'active';
+    }catch(e){}
+  }
+  if(subActive !== was) refreshLists();
+  return subActive;
+}
+// return from Stripe checkout (?upgraded=1): poll until the webhook has flipped the flag
+async function handleUpgradeReturn(){
+  if(!new URLSearchParams(location.search).has('upgraded')) return;
+  history.replaceState(null, '', location.pathname);
+  if(!cloudUser){
+    alert("🎉 Payment received!\n\nOne last step: sign in (or create an account) using the SAME email you entered at checkout — Premium unlocks automatically the moment you do.");
+    return;
+  }
+  for(let i=0; i<20; i++){
+    if(await checkSub()){ alert('🎉 Premium is active — the full suite is unlocked. Welcome aboard!'); return; }
+    await new Promise(r=>setTimeout(r, 3000));
+  }
+  alert("Payment received, but activation is taking longer than usual.\nIf you checked out with a different email than you sign in with, contact dev@glitchlabs.tech and we'll link it up.");
+}
+function gate(feature){
+  if(!PREMIUM_ENABLED || !PREMIUM_FEATURES.includes(feature) || isPremium()) return true;
+  showPaywall(); return false;
+}
+// The buy section differs by platform: StoreKit inside the iOS app (App Store rule 3.1.1),
+// Stripe links on the web. Prices on iOS come from Apple so they are always correct per storefront.
+function paywallBuyOptions(){
+  // NOTE: the branch is on isIOSApp(), not useIAP(). If the RevenueCat key were ever missing from
+  // an iOS build we must still never fall through to the Stripe buttons — that is a 3.1.1 rejection.
+  if(isIOSApp()){
+    const pkgs = (rcOffering && rcOffering.availablePackages) || [];
+    if(!pkgs.length) return `<div class="muted" style="font-size:12px;margin-top:14px">Connecting to the App Store…</div>`;
+    const btns = pkgs.map((p,i)=>{
+      const sp = (p.product && (p.product.priceString || p.product.price_string)) || '';
+      const yr = /ANNUAL|YEAR/i.test(p.packageType||p.identifier||'');
+      const per = yr ? ' / year' : /MONTH/i.test(p.packageType||p.identifier||'') ? ' / month' : '';
+      return `<button class="btn" style="width:100%;margin-top:${i?8:14}px;text-align:center" onclick="buyPackage(${i})">${esc(sp)}${per}</button>`;
+    }).join('');
+    // Guideline 3.1.2 requires the paywall itself to state the subscription name, its length,
+    // the price per period, and to carry working Terms of Use + Privacy Policy links.
+    return btns + `<div class="actions" style="margin-top:8px"><button class="btn sec" style="width:100%" onclick="restorePurchases()">Restore purchases</button></div>
+    <div class="muted" style="font-size:11px;margin-top:10px;line-height:1.5">
+      <b>My University View Premium</b> is an auto-renewing subscription, offered monthly (1 month) and yearly (1 year) at the prices shown above.
+      Payment is charged to your Apple ID at confirmation of purchase. It renews automatically unless auto-renew is turned off at least 24 hours
+      before the end of the current period; your account is charged for renewal within 24 hours before the period ends.
+      Manage or cancel anytime in Settings → Apple ID → Subscriptions.
+      <br><a href="https://www.myuniview.com/terms.html" target="_blank" rel="noopener">Terms of Use</a>
+      · <a href="https://www.myuniview.com/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+    </div>`;
+  }
+  return `${STRIPE_LINK_MONTHLY?`<a class="btn" style="width:100%;margin-top:14px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_MONTHLY}">$2.99 / month</a>`:''}
+    ${STRIPE_LINK_ANNUAL?`<a class="btn" style="width:100%;margin-top:8px;text-align:center" target="_blank" rel="noopener" href="${STRIPE_LINK_ANNUAL}">$24.99 / year — save 30%</a>`:''}
+    ${STRIPE_LINK_MONTHLY?`<div class="muted" style="font-size:11px;margin-top:8px">At checkout, use the same email you sign in with here — Premium unlocks automatically right after payment. Cancel anytime from Account → Manage subscription.</div>`:''}`;
+}
+function showPaywall(){
+  let o = document.getElementById('paywall');
+  if(!o){ o=document.createElement('div'); o.id='paywall'; document.body.appendChild(o); }
+  o.innerHTML = `<div class="authbox">
+    <button class="close" style="position:absolute;top:12px;right:14px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:5px 10px;cursor:pointer" onclick="closePaywall()">✕</button>
+    <h2>⭐ Premium</h2>
+    <span class="muted" style="display:block;margin:6px 0 12px">The map and every school's full profile are free. Premium unlocks your personal college workflow:</span>
+    <div style="font-size:14px;line-height:2">⭐ Save unlimited favorites<br>✉️ Communicate — coach &amp; admissions outreach + 📒 communication log<br>🛣️ Road-trip planner with routes from home<br>🏆 Scorecard comparisons + ⬇ Excel &amp; PDF exports<br>👍 Top Picks — ranked final decisions<br>📷 Photos &amp; documents on your Scorecard</div>
+    ${paywallBuyOptions()}
+    ${isIOSApp() ? '' : `<div class="ordivider"><span>have an access code?</span></div>
+    <div class="coderow">
+      <input id="pw-code" placeholder="Enter access code" autocapitalize="characters" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')redeemCode()">
+      <button class="btn sec" onclick="redeemCode()">Apply</button>
+    </div>`}
+    <div class="autherr" id="pw-err"></div>
+  </div>`;
+  o.style.display='flex';
+  // Offerings may not have loaded yet on a cold start — fetch, then redraw the buttons in place.
+  if(useIAP() && !rcOffering){
+    const P = RCPlugin();
+    if(P) P.getOfferings().then(r=>{
+      rcOffering = (r && r.current) || null;
+      const open = document.getElementById('paywall');
+      if(rcOffering && open && open.style.display !== 'none') showPaywall();
+    }).catch(()=>{});
+  }
+}
+function closePaywall(){ const o=document.getElementById('paywall'); if(o) o.style.display='none'; }
+// Two kinds of code reach this box. The seven original promo codes are still checked
+// against the baked-in hash list so nobody who already has one is broken. Everything else
+// goes to the redeem-code Edge Function, which owns group-licence codes: the hashes live
+// server-side, each code burns on first use, and the endpoint is rate-limited.
+async function redeemCode(){
+  if(isIOSApp()) return;   // no code path inside the iOS app — App Store purchases only
+  const el  = document.getElementById('pw-code');
+  const err = document.getElementById('pw-err');
+  const v = ((el && el.value)||'').trim().toUpperCase();
+  if(!v) return;
+  const fail = m => { if(err) err.textContent = m; };
+  const win  = (label) => {
+    store.set('comp', {code:v, at:Date.now(), org:label||null});
+    closePaywall(); refreshLists();
+    alert(label ? `🎉 Premium unlocked through ${label} — enjoy the full suite!`
+                : '🎉 Premium unlocked — enjoy the full suite!');
+  };
+
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
+  const h = [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  if(ACCESS_CODE_HASHES.includes(h)) return win(null);
+
+  if(!cloudConfigured()){ return fail("That code isn't valid."); }
+  fail('Checking…');
+  try{
+    const r = await fetch(SUPABASE_URL+'/functions/v1/redeem-code', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,
+               'Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body: JSON.stringify({ code: v, email: (cloudUser && cloudUser.email) || null })
+    });
+    const d = await r.json().catch(()=>({}));
+    if(r.ok && d.ok){ if(d.expires_on) store.set('compExp', d.expires_on); return win(d.org); }
+    fail(d.error || "That code isn't valid.");
+  }catch(e){
+    fail('Could not check that code just now. Please try again.');
+  }
+}
+const cloudConfigured = () => SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 20;
+let sb = null, cloudUser = null, cloudData = null, cloudTimer = null;
+
+async function initCloud(){
+  if(!cloudConfigured() || sb) return;
+  if(!window.supabase){
+    await new Promise((res)=>{ const t=document.createElement('script');
+      t.src='libs/supabase.js'; t.onload=res; t.onerror=res;
+      document.head.appendChild(t); });
+  }
+  if(!window.supabase) return;
+  const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, isNative ? {auth:{flowType:'pkce'}} : undefined);
+  if(isNative && window.Capacitor.Plugins && window.Capacitor.Plugins.App){
+    // return from the native sign-in browser via myuniview:// deep link
+    window.Capacitor.Plugins.App.addListener('appUrlOpen', async ({url})=>{
+      if(url && url.includes('auth-callback')){
+        try{ window.Capacitor.Plugins.Browser && window.Capacitor.Plugins.Browser.close(); }catch(e){}
+        try{ await sb.auth.exchangeCodeForSession(url); }catch(e){}
+      }
+    });
+  }
+  const {data:{session}} = await sb.auth.getSession();
+  if(session) await onCloudLogin(session.user);
+  else handleUpgradeReturn();   // came back from checkout without being signed in → guide them
+  sb.auth.onAuthStateChange(async (ev, sess)=>{
+    if(ev==='SIGNED_IN' && sess && !cloudUser) await onCloudLogin(sess.user);
+    if(ev==='SIGNED_OUT'){ cloudUser=null; cloudData=null; subActive=false; afterAuth(); }
+    if(ev==='PASSWORD_RECOVERY') await runPasswordRecovery();
+  });
+}
+// Must stay in step with Supabase Auth → Email → password settings.
+// Server rejects anything weaker, so check here first and give a usable message.
+const PW_MIN = 8;
+function pwProblem(p){
+  if(!p || p.length < PW_MIN) return 'at least ' + PW_MIN + ' characters';
+  if(!/[a-z]/.test(p))        return 'a lowercase letter';
+  if(!/[A-Z]/.test(p))        return 'an uppercase letter';
+  if(!/[0-9]/.test(p))        return 'a number';
+  if(!/[^a-zA-Z0-9]/.test(p)) return 'a symbol (for example ! ? # or $)';
+  return null;
+}
+const PW_RULE = 'At least ' + PW_MIN + ' characters, with an uppercase letter, a lowercase letter, a number and a symbol.';
+
+async function runPasswordRecovery(){
+  // Three tries, then send them back to Forgot password rather than looping forever.
+  for(let i = 0; i < 3; i++){
+    const np = prompt('Choose a new password.\n\n' + PW_RULE);
+    if(np === null){ alert('Password not changed — you can try again from Forgot password.'); return; }
+    const need = pwProblem(np);
+    if(need){ alert('That password needs ' + need + '.\n\n' + PW_RULE); continue; }
+    const {error} = await sb.auth.updateUser({password: np});
+    if(!error){ alert('✅ Password updated — you are signed in.'); return; }
+    // The reset link is one-use and time-limited; an expired one fails here, not at the prompt.
+    const msg = /expired|invalid/i.test(error.message || '')
+      ? 'That reset link has expired. Request a new one from Forgot password.'
+      : (error.message || 'Something went wrong.');
+    alert('Password NOT changed. ' + msg);
+    if(/expired|invalid/i.test(error.message || '')) return;
+  }
+  alert('Password not changed. Request a fresh link from Forgot password.');
+}
+
+async function onCloudLogin(user){
+  cloudUser = user;
+  try{
+    const {data} = await sb.from('csc_user_data').select('data').eq('id',user.id).maybeSingle();
+    cloudData = (data && data.data) || {};
+  }catch(e){ cloudData = {}; }
+  sessionStorage.removeItem('csc_guest');
+  afterAuth();
+  checkSub().then(()=>handleUpgradeReturn());
+  // Bind StoreKit purchases to this account so Premium bought on iPhone also works on the website.
+  if(useIAP()){
+    const P = RCPlugin();
+    if(P && user && user.id) P.logIn({appUserID:user.id}).then(rcRefresh).catch(()=>{});
+  }
+}
+function scheduleCloudSave(){
+  clearTimeout(cloudTimer);
+  cloudTimer = setTimeout(async ()=>{
+    if(sb && cloudUser){ try{ await sb.from('csc_user_data').upsert({id:cloudUser.id, data:cloudData}); }catch(e){} }
+  }, 800);
+}
+async function oauth(provider){
+  if(!cloudConfigured()){
+    authErr('Cloud sign-in needs a one-time free setup (about 15 min) — open SETUP-AUTH.md in the project folder. Username accounts below work right now.');
+    return;
+  }
+  if(location.protocol==='file:'){
+    authErr('Cloud sign-in works once the app is hosted online (README → GitHub Pages). Username accounts work right now.');
+    return;
+  }
+  await initCloud();
+  if(!sb){ authErr('Could not reach the sign-in service — check your connection.'); return; }
+  const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  if(isNative){
+    const {data} = await sb.auth.signInWithOAuth({ provider, options:{ redirectTo:'myuniview://auth-callback', skipBrowserRedirect:true } });
+    if(data && data.url && window.Capacitor.Plugins.Browser) await window.Capacitor.Plugins.Browser.open({url:data.url});
+    return;
+  }
+  await sb.auth.signInWithOAuth({ provider, options:{ redirectTo: location.origin + location.pathname } });
+}
+function cloudName(){
+  if(!cloudUser) return null;
+  return (cloudUser.user_metadata && (cloudUser.user_metadata.full_name||cloudUser.user_metadata.name)) || cloudUser.email || 'signed in';
+}
+
+// ---------- persistence (cloud > local account > guest) ----------
+const store = {
+  users(){ try{return JSON.parse(localStorage.getItem('csc_users'))||{}}catch(e){return{}} },
+  saveUsers(u){ localStorage.setItem('csc_users', JSON.stringify(u)); },
+  session(){ return localStorage.getItem('csc_session') || null; },
+  get(k,d){
+    if(cloudUser && cloudData){ return cloudData[k]!==undefined ? cloudData[k] : d; }
+    const s = this.session();
+    if(s){ const u = this.users()[s]; return (u && u.data && u.data[k]!==undefined) ? u.data[k] : d; }
+    try{return JSON.parse(localStorage.getItem('csc_'+k)) ?? d}catch(e){return d}
+  },
+  set(k,v){
+    if(cloudUser && cloudData){ cloudData[k]=v; scheduleCloudSave(); return; }
+    const s = this.session();
+    if(s){ const users=this.users(); if(users[s]){ users[s].data=users[s].data||{}; users[s].data[k]=v; this.saveUsers(users); return; } }
+    localStorage.setItem('csc_'+k, JSON.stringify(v));
+  }
+};
+let favs = store.get('favs', {});      // id -> {notes, ratings:{}, att:[], contacts:{}}
+// multiple road trips: [{n,ids,start,end}]; `trip` aliases the active trip's ids
+let trips = [], curTrip = 0, trip = [];
+function loadTrips(){
+  trips = store.get('trips', null);
+  if(!trips || !trips.length){
+    trips = [{n:'Trip 1', ids:store.get('trip', []), start:store.get('tripStart',null), end:store.get('tripEnd',null)}];
+    store.set('trips',trips);
+  }
+  curTrip = Math.min(store.get('curTrip',0), trips.length-1);
+  trip = trips[curTrip].ids;
+}
+loadTrips();
+function T(){ return trips[curTrip]; }
+function saveTrips(){ store.set('trips',trips); }
+function selectTrip(i){
+  curTrip=i; store.set('curTrip',i); trip=trips[i].ids;
+  if(routeLayer){ map.removeLayer(routeLayer); routeLayer=null; }
+  renderTrip();
+}
+function newTrip(){ trips.push({n:'Trip '+(trips.length+1), ids:[], start:null, end:null}); saveTrips(); selectTrip(trips.length-1); }
+function renameTrip(v){ T().n = v.trim() || T().n; saveTrips(); }
+function deleteTrip(){
+  if(trips.length===1){ T().ids.length=0; T().start=null; T().end=null; saveTrips(); renderTrip(); return; }
+  if(!confirm('Delete "'+T().n+'" (its stops stay in Favorites)?')) return;
+  trips.splice(curTrip,1); saveTrips(); store.set('curTrip',0); selectTrip(Math.min(curTrip,trips.length-1));
+}
+let top5 = store.get('top5', []);      // [id,...] ranked — the ✉️ Communicate list
+let picks = store.get('picks', []);    // [id,...] — 👍 Top Picks (filters the Scorecard)
+
+// ---------- auth (device-local accounts; move to Supabase for cross-device sync) ----------
+async function pwHash(p){
+  if(crypto.subtle){
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('csc:'+p));
+    return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  let h=0; for(const c of 'csc:'+p){ h=(h*31+c.charCodeAt(0))>>>0; } return 'x'+h;
+}
+function authErr(m){ document.getElementById('a-err').textContent = m||''; }
+async function doSignup(){
+  const u=document.getElementById('a-user').value.trim(), p=document.getElementById('a-pass').value;
+  if(cloudConfigured() && u.includes('@')){
+    const need = pwProblem(p);
+    if(need) return authErr('Password needs ' + need + '. ' + PW_RULE);
+    await initCloud(); if(!sb) return authErr('Cannot reach the sign-in service — check your connection.');
+    const {error} = await sb.auth.signUp({email:u, password:p, options:{emailRedirectTo: location.origin+location.pathname}});
+    if(error) return authErr(error.message);
+    authErr('📬 Almost done — check your email and tap the confirmation link, then sign in.');
+    return;
+  }
+  if(u.length<2) return authErr('Username needs at least 2 characters.');
+  if(p.length<4) return authErr('Password needs at least 4 characters.');
+  const users=store.users();
+  if(users[u]) return authErr('That username already exists — sign in instead.');
+  // adopt any guest favorites/trip into the new account
+  let gf={}, gt=[];
+  try{gf=JSON.parse(localStorage.getItem('csc_favs'))||{}}catch(e){}
+  try{gt=JSON.parse(localStorage.getItem('csc_trip'))||[]}catch(e){}
+  users[u]={ pwh: await pwHash(p), data:{ favs:gf, trip:gt, profile:null } };
+  store.saveUsers(users);
+  localStorage.setItem('csc_session',u);
+  afterAuth();
+}
+async function doLogin(){
+  const u=document.getElementById('a-user').value.trim(), p=document.getElementById('a-pass').value;
+  if(cloudConfigured() && u.includes('@')){
+    await initCloud(); if(!sb) return authErr('Cannot reach the sign-in service — check your connection.');
+    const {error} = await sb.auth.signInWithPassword({email:u, password:p});
+    if(error) return authErr(/invalid/i.test(error.message) ? 'Wrong email or password.' : error.message);
+    return; // session handler takes it from here
+  }
+  const users=store.users();
+  if(!users[u]) return authErr('No account with that username — create one below.');
+  if(users[u].pwh !== await pwHash(p)) return authErr('Wrong password.');
+  localStorage.setItem('csc_session',u);
+  afterAuth();
+}
+async function forgotPassword(){
+  const u=(document.getElementById('a-user').value||'').trim();
+  if(!cloudConfigured() || !u.includes('@')){
+    return authErr('Type your account EMAIL above, then tap Forgot password. (Device-only username accounts have no recovery — email and Google accounts do.)');
+  }
+  await initCloud(); if(!sb) return authErr('Cannot reach the sign-in service — check your connection.');
+  const {error} = await sb.auth.resetPasswordForEmail(u, {redirectTo: location.origin+location.pathname});
+  authErr(error ? error.message : '📬 Reset link sent — check your email.');
+}
+function skipAuth(){ sessionStorage.setItem('csc_guest','1'); document.getElementById('authwrap').style.display='none'; renderUserBadge(); }
+function doLogout(){
+  if(cloudUser && sb){ sb.auth.signOut(); cloudUser=null; cloudData=null; }
+  localStorage.removeItem('csc_session'); sessionStorage.removeItem('csc_guest'); afterAuth();
+}
+function signedIn(){ return !!cloudUser || !!store.session(); }
+function afterAuth(){
+  authErr('');
+  favs = store.get('favs', {}); top5 = store.get('top5', []); picks = store.get('picks', []); loadTrips();
+  renderAuthGate(); renderUserBadge(); applyTheme(currentTheme()); refresh();
+  if(signedIn()) switchView(profile()?'map':'account');  // new users: set up profile first
+}
+function renderAuthGate(){
+  document.getElementById('authwrap').style.display = (signedIn()||sessionStorage.getItem('csc_guest'))?'none':'flex';
+}
+function renderUserBadge(){
+  document.getElementById('userbadge').textContent = cloudUser ? '👤 '+cloudName() : (store.session() ? '👤 '+store.session() : '👤 guest');
+}
+function profile(){ return store.get('profile', null); }
+function useHome(){ return store.get('useHome', true) && profile() && profile().lat!=null; }
+
+// ---------- profile / account ----------
+let geocodeResult = null;
+async function geocode(a){
+  try{
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q='+encodeURIComponent(a));
+    const j = await r.json();
+    return j[0] ? {lat:+j[0].lat, lon:+j[0].lon, label:j[0].display_name} : null;
+  }catch(e){ return null; }
+}
+async function geocodeAddress(){
+  const a = document.getElementById('p-address').value.trim();
+  const out = document.getElementById('geo-out');
+  if(!a){ out.textContent='Enter an address first.'; return; }
+  out.textContent='Looking up…';
+  const r = await geocode(a);
+  geocodeResult = r;
+  out.textContent = r ? '📍 '+r.label : 'Address not found — try adding city & state (or check connection).';
+}
+async function saveProfile(){
+  const g = id=>document.getElementById(id).value.trim();
+  const addr = g('p-address');
+  if(addr && !geocodeResult) await geocodeAddress();
+  const old = profile()||{};
+  const keepGeo = (geocodeResult==null && old.address===addr);
+  store.set('profile',{ name:g('p-name'), address:addr, gpa:g('p-gpa'), sat:g('p-sat'), major:g('p-major'), maps:g('p-maps'),
+    lat: geocodeResult?geocodeResult.lat:(keepGeo?old.lat:null),
+    lon: geocodeResult?geocodeResult.lon:(keepGeo?old.lon:null),
+    label: geocodeResult?geocodeResult.label:(keepGeo?old.label:null) });
+  syncSatFromProfile(true);
+  renderAccount(); renderUserBadge();
+  try{ renderFilters(); refresh(); }catch(e){}
+  const btn = [...document.querySelectorAll('#accwrap .btn')].find(b=>b.textContent.includes('Save'));
+  if(btn){ btn.textContent='✓ Profile saved'; btn.style.background='#22c55e';
+    setTimeout(()=>{ btn.textContent='Save profile'; btn.style.background=''; }, 2000); }
+}
+async function deleteAccount(){
+  if(!confirm('Delete your account and ALL saved data (favorites, ratings, photos, trips)? This cannot be undone.')) return;
+  if(cloudUser && sb){
+    try{
+      const {error} = await sb.functions.invoke('delete-account');
+      if(error) throw error;
+      doLogout();
+      alert('Your account and all data have been deleted.');
+    }catch(e){
+      alert('Automatic deletion is unavailable right now — email dev@glitchlabs.tech and we will delete your account within 30 days.');
+    }
+    return;
+  }
+  if(store.session()){
+    const users = store.users(); delete users[store.session()]; store.saveUsers(users); doLogout();
+  } else {
+    ['csc_favs','csc_trip','csc_trips','csc_curTrip','csc_top5','csc_picks','csc_profile','csc_useHome','csc_tripStart','csc_tripEnd'].forEach(k=>localStorage.removeItem(k));
+    location.reload();
+  }
+}
+// An App Store subscription can only be cancelled in iOS Settings — Apple rejects builds
+// that send subscribers to an external billing page instead.
+function manageSubHTML(){
+  if(rcActive || isIOSApp()){
+    return `<div class="actions"><a class="btn sec" href="itms-apps://apps.apple.com/account/subscriptions">Manage subscription</a></div>
+      <div class="muted" style="font-size:11px;margin-top:6px">Opens Settings → Apple ID → Subscriptions.</div>`;
+  }
+  if(STRIPE_PORTAL_LINK && (subActive || !store.get('comp',null))){
+    return `<div class="actions"><a class="btn sec" target="_blank" rel="noopener" href="${STRIPE_PORTAL_LINK}">Manage subscription</a></div>`;
+  }
+  return '';
+}
+function premiumCardHTML(){
+  if(!PREMIUM_ENABLED) return '';
+  return `<div class="card" style="cursor:default">
+    <h3 style="padding:0">⭐ Premium — ${isPremium() ? (rcActive?'active (App Store)':(subActive?'active (subscription)':(store.get('comp',null)?'active (access code)':'active'))) : 'not active'}</h3>
+    ${isPremium()
+      ? `<div class="muted" style="margin:6px 0">Full suite unlocked: favorites, Communicate, road trips, Scorecard exports, Top Picks, photos &amp; files.</div>
+         ${manageSubHTML()}`
+      : `<div class="muted" style="margin:6px 0">Unlock favorites, Communicate outreach, road trips, Scorecard exports, Top Picks, and photos &amp; files${isIOSApp()?'':' — $2.99/mo or $24.99/yr'}.</div>
+         <div class="actions"><button class="btn" onclick="showPaywall()">${isIOSApp()?'See Premium':'See Premium / enter code'}</button></div>`}
+  </div>`;
+}
+function renderAccount(){
+  const w = document.getElementById('accwrap');
+  const s = cloudUser ? cloudName() : store.session();
+  if(!s){
+    w.innerHTML = `<h2 class="pagetitle">👤 Account</h2>
+      <div class="card"><div class="muted" style="margin-bottom:8px">You're browsing as a guest. Sign in to keep separate favorites, ratings and trips per person.</div>
+      <button class="btn" onclick="sessionStorage.removeItem('csc_guest');renderAuthGate()">Sign in / Create account</button></div>
+      ${premiumCardHTML()}`;
+    return;
+  }
+  const p = profile()||{};
+  geocodeResult = null;
+  w.innerHTML = `<h2 class="pagetitle">👤 ${esc(s)}</h2>
+    <div class="card profform" onclick="event.stopPropagation()" style="cursor:default">
+      <div class="muted" style="margin-bottom:10px">${cloudUser
+        ? '✉️ ' + esc(cloudUser.email || '')
+        : 'Device account — no email attached (no password recovery). Tip: sign up with an email or Google for recovery and cross-device sync.'}</div>
+      <label>Name</label><input id="p-name" value="${esc(p.name||'')}" placeholder="Player name">
+      <label>Home address (road-trip start & end point)</label>
+      <input id="p-address" value="${esc(p.address||'')}" placeholder="123 Main St, City, ST" onchange="geocodeResult=null">
+      <div class="actions" style="margin-top:6px"><button class="btn sec" onclick="geocodeAddress()">Verify address 📍</button></div>
+      <div class="muted" id="geo-out" style="margin-top:4px">${p.label?'📍 '+esc(p.label):''}</div>
+      <label>GPA</label><input id="p-gpa" value="${esc(p.gpa||'')}" placeholder="e.g. 3.8" inputmode="decimal">
+      <label>SAT total (optional)</label><input id="p-sat" type="number" min="400" max="1600" step="10" value="${esc(p.sat||'')}" placeholder="e.g. 1180" inputmode="numeric">
+      <div class="muted" style="font-size:11px;margin-top:3px">Saved here, it fills in automatically on the map and in search results — every school shows a ✅ Likely / 🎯 Match / 🌟 Reach badge. Nothing is hidden from your results unless you choose to filter by fit.</div>
+      <label>Intended major</label><input id="p-major" value="${esc(p.major||'')}" placeholder="e.g. Biology">
+      <label>Preferred maps app</label>
+      <select id="p-maps"><option value="google" ${p.maps!=='apple'?'selected':''}>Google Maps</option><option value="apple" ${p.maps==='apple'?'selected':''}>Apple Maps</option></select>
+      <div class="actions"><button class="btn" onclick="saveProfile()">Save profile</button>
+      <button class="btn sec" onclick="doLogout()">Log out</button>
+      <button class="btn danger" onclick="deleteAccount()">Delete account</button></div>
+    </div>
+    ${premiumCardHTML()}
+    <div class="muted">${cloudUser
+      ? '☁️ Signed in with '+esc((cloudUser.app_metadata&&cloudUser.app_metadata.provider)||'cloud')+' — your data syncs to your account on any device.'
+      : 'This account is stored on this device. Cloud sign-in (Google / Outlook / Apple) syncs across devices once set up — see SETUP-AUTH.md.'}</div>`;
+}
+const RATE_CATS_BASE = ['Location','Acceptance Rate','Requirements','Tuition Costs','Academics','Clubs','Vibe'];
+// rating categories = base + one per sport currently selected in Filters
+function rateCats(){
+  return RATE_CATS_BASE.concat(F.sports.map(k=>{
+    const sp = SPORTS.find(x=>x.k===k);
+    return sp ? (k==='w-softball' ? 'Softball' : sportPhrase(sp)) : null;
+  }).filter(Boolean));
+}
+
+// ---------- helpers ----------
+const fmt = {
+  pct: v => v==null ? '—' : Math.round(v*1000)/10 + '%',
+  num: v => v==null ? '—' : v.toLocaleString(),
+  usd: v => v==null ? '—' : '$' + v.toLocaleString(),
+};
+function schoolDiv(s){ return s.ad || (s.sb && (s.sb.div||'NCAA')) || null; }
+const DIV_CATS = [
+  {k:'D-I',   lbl:'NCAA D-I',                      col:'#eab308'},
+  {k:'D-II',  lbl:'NCAA D-II',                     col:'#3b82f6'},
+  {k:'D-III', lbl:'NCAA D-III',                    col:'#22c55e'},
+  {k:'NAIA',  lbl:'NAIA',                          col:'#f472b6'},
+  {k:'NCAA',  lbl:'NCAA (div. unlisted)',          col:'#a855f7'},
+  {k:'CC',    lbl:'Community college (2-year)',    col:'#f97316'},
+  {k:'TRADE', lbl:'Trade / certificate school',    col:'#7dd3fc'},
+  {k:'NONE',  lbl:'4-year · no athletics on file', col:'#64748b'},
+];
+function divCat(s){
+  if(s.lvl==='2-year') return 'CC';
+  if(s.lvl==='Certificate/trade') return 'TRADE';
+  const d = schoolDiv(s);
+  if(d==='D-I'||d==='D-II'||d==='D-III'||d==='NAIA') return d;
+  return d ? 'NCAA' : 'NONE';
+}
+function divColor(s){
+  const c = DIV_CATS.find(c=>c.k===divCat(s));
+  return c ? c.col : '#64748b';
+}
+function divBadge(s){
+  const d = schoolDiv(s);
+  if(!d) return '';
+  return `<span class="badge b${d.replace(/[^A-Za-z]/g,'')}">${d==='NCAA'?'NCAA':(d==='NAIA'?'NAIA':'NCAA '+d)}</span>`;
+}
+function esc(t){return String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+// ---------- direct links ----------
+const STATE_NAMES = {AL:'alabama',AK:'alaska',AZ:'arizona',AR:'arkansas',CA:'california',CO:'colorado',CT:'connecticut',DE:'delaware',DC:'district-of-columbia',FL:'florida',GA:'georgia',HI:'hawaii',ID:'idaho',IL:'illinois',IN:'indiana',IA:'iowa',KS:'kansas',KY:'kentucky',LA:'louisiana',ME:'maine',MD:'maryland',MA:'massachusetts',MI:'michigan',MN:'minnesota',MS:'mississippi',MO:'missouri',MT:'montana',NE:'nebraska',NV:'nevada',NH:'new-hampshire',NJ:'new-jersey',NM:'new-mexico',NY:'new-york',NC:'north-carolina',ND:'north-dakota',OH:'ohio',OK:'oklahoma',OR:'oregon',PA:'pennsylvania',RI:'rhode-island',SC:'south-carolina',SD:'south-dakota',TN:'tennessee',TX:'texas',UT:'utah',VT:'vermont',VA:'virginia',WA:'washington',WV:'west-virginia',WI:'wisconsin',WY:'wyoming',PR:'puerto-rico'};
+function siteUrl(s){ if(!s.url) return null; return /^https?:/.test(s.url) ? s.url : 'https://'+s.url; }
+// Last resort only. Every link that CAN be built deterministically now is - see below.
+function lucky(q){ return 'https://duckduckgo.com/?q=' + encodeURIComponent('!ducky ' + q); }
+
+// ---------- deterministic external links ----------
+// Every school in the database carries its federal UNITID (s.id), which is the primary key for
+// two authoritative government sites. These links are exact - no search step, no guessing.
+function navigatorUrl(s){ return 'https://nces.ed.gov/collegenavigator/?id=' + s.id; }
+function scorecardUrl(s){
+  return 'https://collegescorecard.ed.gov/school/?' + s.id + '-' +
+         String(s.n).replace(/[^A-Za-z0-9 ]/g,'').trim().replace(/\s+/g,'-');
+}
+// Niche slugs drop punctuation entirely (hyphens vanish without a separator) and turn spaces
+// into hyphens. Verified against Arcadia, Princeton, Rutgers-New Brunswick and UC Davis.
+// 71% of school names contain no punctuation at all, so the slug is certain for those; the rest
+// land on Niche's own search box rather than a dead end.
+function nicheUrl(s){
+  return 'https://www.niche.com/colleges/' +
+         String(s.n).replace(/[^A-Za-z0-9 ]/g,'').trim().replace(/\s+/g,'-').toLowerCase() + '/';
+}
+function ncsaUrl(s){
+  const st = STATE_NAMES[s.s];
+  if(!st) return 'https://www.ncsasports.org/softball/colleges';
+  const slug = s.n.toLowerCase().replace(/&/g,'').replace(/[.,'()]/g,'').replace(/\s*-\s*/g,'--').replace(/\s+/g,'-');
+  return `https://www.ncsasports.org/athletic-scholarships/softball/${st}/${slug}`;
+}
+function ncaaUrl(s){ return s.sb&&s.sb.tid ? `https://stats.ncaa.org/teams/history?org_id=${s.sb.tid}&sport_code=WSB` : null; }
+// ---------- landing-page email capture ----------
+// Writes to the public.leads table in Supabase. The anon key can only INSERT (see the policy in
+// SETUP-LEADS.md) - it cannot read the list back, so the addresses are not exposed to the browser.
+async function joinList(){
+  const box = document.getElementById('ld-email');
+  const out = document.getElementById('ld-mailout');
+  if(!box || !out) return;
+  const email = (box.value||'').trim().toLowerCase();
+  const show = (msg, colour) => { out.textContent = msg; out.style.color = colour || ''; };
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return show('That does not look like an email address.', '#f87171');
+  if(!cloudConfigured() || !sb){
+    return show('Email list is not connected yet — please use the Contact page.', '#f87171');
+  }
+  show('Adding you…');
+  try{
+    const { error } = await sb.from('leads').insert({ email, source: 'landing' });
+    // 23505 is the unique-constraint code: they are already on the list, which is not a failure.
+    if(error && error.code !== '23505') throw error;
+    box.value = '';
+    show(error ? "You are already on the list — nothing to do." : "You are on the list. Thanks!", '#22c55e');
+  }catch(e){
+    show('Could not save that just now. Please try again, or use the Contact page.', '#f87171');
+  }
+}
+// ---------- social accounts ----------
+// Resolved from the school's own footer (sm) and the athletics site's footer (sa). Links only:
+// Instagram's public-feed API was retired in Dec 2024 and X charges per read, so an embedded
+// feed is not possible for third-party accounts at any price that makes sense here.
+const SOCIAL_META = { ig:['Instagram','📷'], x:['X','𝕏'], fb:['Facebook','f'], yt:['YouTube','▶'], tt:['TikTok','♪'] };
+function socialRow(obj, label){
+  if(!obj) return '';
+  const keys = Object.keys(SOCIAL_META).filter(k => obj[k]);
+  if(!keys.length) return '';
+  return `<div class="revrow"><span class="k">${esc(label)}</span>
+    <div class="actions" style="margin-top:6px">
+      ${keys.map(k=>`<a class="btn sec" target="_blank" rel="noopener" href="${esc(obj[k])}">${SOCIAL_META[k][1]} ${SOCIAL_META[k][0]}</a>`).join('')}
+    </div></div>`;
+}
+function mapsPref(){ const p=profile(); return (p&&p.maps)||'google'; }
+function mapOpenUrl(s){
+  return mapsPref()==='apple'
+    ? `https://maps.apple.com/?q=${encodeURIComponent(s.n)}&ll=${s.lat},${s.lon}`
+    : `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
+}
+function poiUrl(s,term){
+  return mapsPref()==='apple'
+    ? `https://maps.apple.com/?q=${encodeURIComponent(term)}&sll=${s.lat},${s.lon}&z=14`
+    : `https://www.google.com/maps/search/${encodeURIComponent(term)}/@${s.lat},${s.lon},14z`;
+}
+function nameLink(s,cls){
+  const u = siteUrl(s);
+  return u ? `<a class="${cls||''}" href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(s.n)}</a>` : esc(s.n);
+}
+
+// ---------- sports catalog ----------
+const SPORTS=[
+ {k:'m-basketball',l:"Basketball",g:'M',e:'🏀',n:'mens-basketball'},
+ {k:'m-baseball',l:"Baseball",g:'M',e:'⚾',n:'mens-baseball'},
+ {k:'m-soccer',l:"Soccer",g:'M',e:'⚽',n:'mens-soccer'},
+ {k:'m-track',l:"Track & Field",g:'M',e:'🏃',n:'mens-track-and-field'},
+ {k:'m-golf',l:"Golf",g:'M',e:'⛳',n:'mens-golf'},
+ {k:'m-football',l:"Football",g:'M',e:'🏈',n:'mens-football'},
+ {k:'m-tennis',l:"Tennis",g:'M',e:'🎾',n:'mens-tennis'},
+ {k:'m-xc',l:"Cross Country",g:'M',e:'🏃',n:'mens-track-and-field'},
+ {k:'m-swim',l:"Swimming & Diving",g:'M',e:'🏊',n:'mens-swimming'},
+ {k:'m-wrestling',l:"Wrestling",g:'M',e:'🤼',n:'mens-wrestling'},
+ {k:'m-lax',l:"Lacrosse",g:'M',e:'🥍',n:'mens-lacrosse'},
+ {k:'m-vb',l:"Volleyball",g:'M',e:'🏐',n:'mens-volleyball'},
+ {k:'m-hockey',l:"Ice Hockey",g:'M',e:'🏒',n:'mens-hockey'},
+ {k:'m-bowling',l:"Bowling",g:'M',e:'🎳',n:'mens-bowling'},
+ {k:'m-waterpolo',l:"Water Polo",g:'M',e:'🤽',n:'mens-water-polo'},
+ {k:'m-rowing',l:"Rowing",g:'M',e:'🚣',n:'mens-rowing'},
+ {k:'m-rodeo',l:"Rodeo",g:'M',e:'🤠',n:'mens-rodeo'},
+ {k:'m-skiing',l:"Skiing",g:'M',e:'⛷️',n:'mens-skiing'},
+ {k:'m-fencing',l:"Fencing",g:'M',e:'🤺',n:'mens-fencing'},
+ {k:'m-squash',l:"Squash",g:'M',e:'🎾',n:'mens-squash'},
+ {k:'m-weightlifting',l:"Weightlifting",g:'M',e:'🏋️',n:'mens-weightlifting'},
+ {k:'m-beachvb',l:"Beach Volleyball",g:'M',e:'🏐',n:'mens-beach-volleyball'},
+ {k:'m-gym',l:"Gymnastics",g:'M',e:'🤸',n:'mens-gymnastics'},
+ {k:'m-tabletennis',l:"Table Tennis",g:'M',e:'🏓',n:'mens-table-tennis'},
+ {k:'m-archery',l:"Archery",g:'M',e:'🏹',n:'mens-archery'},
+ {k:'m-sailing',l:"Sailing",g:'M',e:'⛵',n:'mens-sailing'},
+ {k:'m-rifle',l:"Rifle",g:'M',e:'🎯',n:'mens-rifle'},
+ {k:'w-basketball',l:"Basketball",g:'W',e:'🏀',n:'womens-basketball'},
+ {k:'w-vb',l:"Volleyball",g:'W',e:'🏐',n:'womens-volleyball'},
+ {k:'w-softball',l:"Softball",g:'W',e:'🥎',n:'womens-softball'},
+ {k:'w-soccer',l:"Soccer",g:'W',e:'⚽',n:'womens-soccer'},
+ {k:'w-track',l:"Track & Field",g:'W',e:'🏃',n:'womens-track-and-field'},
+ {k:'w-tennis',l:"Tennis",g:'W',e:'🎾',n:'womens-tennis'},
+ {k:'w-golf',l:"Golf",g:'W',e:'⛳',n:'womens-golf'},
+ {k:'w-xc',l:"Cross Country",g:'W',e:'🏃',n:'womens-track-and-field'},
+ {k:'w-swim',l:"Swimming & Diving",g:'W',e:'🏊',n:'womens-swimming'},
+ {k:'w-lax',l:"Lacrosse",g:'W',e:'🥍',n:'womens-lacrosse'},
+ {k:'w-fieldhockey',l:"Field Hockey",g:'W',e:'🏑',n:'womens-field-hockey'},
+ {k:'w-beachvb',l:"Beach Volleyball",g:'W',e:'🏐',n:'womens-beach-volleyball'},
+ {k:'w-bowling',l:"Bowling",g:'W',e:'🎳',n:'womens-bowling'},
+ {k:'w-wrestling',l:"Wrestling",g:'W',e:'🤼',n:'womens-wrestling'},
+ {k:'w-rowing',l:"Rowing",g:'W',e:'🚣',n:'womens-rowing'},
+ {k:'w-hockey',l:"Ice Hockey",g:'W',e:'🏒',n:'womens-hockey'},
+ {k:'w-waterpolo',l:"Water Polo",g:'W',e:'🤽',n:'womens-water-polo'},
+ {k:'w-gym',l:"Gymnastics",g:'W',e:'🤸',n:'womens-gymnastics'},
+ {k:'w-rodeo',l:"Rodeo",g:'W',e:'🤠',n:'womens-rodeo'},
+ {k:'w-equestrian',l:"Equestrian",g:'W',e:'🐎',n:'womens-equestrian'},
+ {k:'w-fencing',l:"Fencing",g:'W',e:'🤺',n:'womens-fencing'},
+ {k:'w-skiing',l:"Skiing",g:'W',e:'⛷️',n:'womens-skiing'},
+ {k:'w-squash',l:"Squash",g:'W',e:'🎾',n:'womens-squash'},
+ {k:'w-weightlifting',l:"Weightlifting",g:'W',e:'🏋️',n:'womens-weightlifting'},
+ {k:'w-sailing',l:"Sailing",g:'W',e:'⛵',n:'womens-sailing'},
+ {k:'w-badminton',l:"Badminton",g:'W',e:'🏸',n:'womens-badminton'},
+ {k:'w-rifle',l:"Rifle",g:'W',e:'🎯',n:'womens-rifle'},
+ {k:'w-archery',l:"Archery",g:'W',e:'🏹',n:'womens-archery'},
+ {k:'w-tabletennis',l:"Table Tennis",g:'W',e:'🏓',n:'womens-table-tennis'},
+];
+const SPORT_GROUPS = {M:"Men's sports", W:"Women's sports"};
+function sportPhrase(sp){ return (sp.g==='M'?"men's ":sp.g==='W'&&sp.l!=='Softball'?"women's ":'')+sp.l; }
+function ncsaSportUrl(s,sp){
+  const st = STATE_NAMES[s.s];
+  if(!sp.n || !st) return lucky('ncsasports.org athletic scholarships '+sportPhrase(sp)+' '+s.n);
+  const slug = s.n.toLowerCase().replace(/&/g,'').replace(/[.,'()]/g,'').replace(/\s*-\s*/g,'--').replace(/\s+/g,'-');
+  return `https://www.ncsasports.org/athletic-scholarships/${sp.n}/${st}/${slug}`;
+}
+function sportCard(s,sp){
+  if(sp.k==='w-softball') return softballCard(s);
+  const q = sportPhrase(sp);
+  return `<div class="sbcard"><h4>${sp.e} ${esc(q.toUpperCase())}</h4>
+    <div class="actions">
+      <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,q,sp.k)}">Recruiting form</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' '+q+' camps clinics')}">Camps</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,q,sp.k)}">Team page</a>
+      <a class="btn sec" target="_blank" rel="noopener" href="${ncsaSportUrl(s,sp)}">NCSA ${esc(sp.l)}</a>
+    </div></div>`;
+}
+function softballCard(s){
+  if(!s.sb) return sportCard(s,{...SPORTS.find(x=>x.k==='w-softball'),k:'_generic'});
+  return `<div class="sbcard"><h4>🥎 SOFTBALL — ${esc(s.sb.div||'NCAA')}</h4>
+      <div><b>${esc(s.sb.team)}</b>${s.sb.conf?' · '+esc(s.sb.conf)+' Conference':''}</div>
+      ${s.sb.coach?`<div class="muted">Head coach: ${esc(s.sb.coach)}</div>`:''}
+      ${s.sb.w+s.sb.l>0?`<div class="muted">Record: ${s.sb.w}–${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}</div>`:''}
+      <div class="actions">
+        <a class="btn sec" target="_blank" rel="noopener" href="${recruitUrl(s,'softball','w-softball')}">Recruiting form</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${lucky(s.n+' softball camps clinics')}">Camps</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${teamUrl(s,'softball','w-softball')}">Team page</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${ncsaUrl(s)}">NCSA softball</a>
+        ${ncaaUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${ncaaUrl(s)}">NCAA stats</a>`:''}
+      </div></div>`;
+}
+
+// ---------- filters ----------
+const STATES = [...new Set(SCHOOLS.map(s=>s.s))].sort();
+let F = { q:'', states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', mj:'', admMin:'', admMax:'', sat:'', fit:[] };
+
+function renderFilters(){
+  const el = document.getElementById('filters');
+  el.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0">Filters</h3>
+      <button class="btn sec" onclick="toggleFilters(false)">Done</button>
+    </div>
+    <h3>Division</h3>
+    <div id="divchips">${DIV_CATS.map(c=>`<span class="chip ${F.divs.includes(c.k)?'on':''}" data-div="${c.k}"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c.col};margin-right:5px;vertical-align:middle"></i>${c.lbl}</span>`).join('')}</div>
+    <div class="muted" style="font-size:11px;margin-top:3px">None selected = all schools. Colors match the map legend. NCAA/NAIA divisions per NCSA college lists.</div>
+    <h3>Type</h3>
+    <select id="f-ctrl"><option value="">Public & Private</option><option value="Public" ${F.ctrl==='Public'?'selected':''}>Public</option><option value="Private nonprofit" ${F.ctrl==='Private nonprofit'?'selected':''}>Private nonprofit</option><option value="Private for-profit" ${F.ctrl==='Private for-profit'?'selected':''}>Private for-profit</option></select>
+    <select id="f-lvl" style="margin-top:6px"><option value="">All levels</option><option value="4-year" ${F.lvl==='4-year'?'selected':''}>4-year</option><option value="2-year" ${F.lvl==='2-year'?'selected':''}>2-year</option><option value="Certificate/trade" ${F.lvl==='Certificate/trade'?'selected':''}>Certificate / trade</option></select>
+    <h3>Campus setting</h3>
+    <select id="f-set"><option value="">Any</option>${['City','Suburb','Town','Rural'].map(x=>`<option ${F.setting===x?'selected':''}>${x}</option>`).join('')}</select>
+    <h3>States</h3>
+    <div style="max-height:120px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:6px">${STATES.map(st=>`<span class="chip ${F.states.includes(st)?'on':''}" data-st="${st}">${st}</span>`).join('')}</div>
+    <h3>Major</h3>
+    <select id="f-mj"><option value="">Any</option>${MAJORS.map((m,k)=>[m,k]).sort((a,b)=>a[0].localeCompare(b[0])).map(([m,k])=>`<option value="${k}" ${F.mj===String(k)?'selected':''}>${m}</option>`).join('')}</select>
+    <div class="muted" style="font-size:11px;margin-top:3px">Pick a major to see only schools on the map where it makes up ≥2% of degrees awarded.</div>
+    <h3>Acceptance rate (%)</h3>
+    <div class="row"><input type="number" id="f-admmin" min="0" max="100" placeholder="min (e.g. 20)" value="${F.admMin}"><input type="number" id="f-adm" min="0" max="100" placeholder="max (e.g. 80)" value="${F.admMax}"></div>
+    <h3>My test scores</h3>
+    <div class="row"><input type="number" id="f-sat" min="400" max="1600" step="10" placeholder="Your SAT total (e.g. 1180)" value="${F.sat}"></div>
+    <div style="margin-top:6px">${[['likely','✅ Likely'],['match','🎯 Match'],['reach','🌟 Reach']].map(([k,l])=>`<span class="chip ${F.fit.includes(k)?'on':''}" data-fit="${k}">${l}</span>`).join('')}</div>
+    <div class="muted" style="font-size:11px;margin-top:3px">${(()=>{const p=profile(); return (p&&p.sat)?'Filled in from your Account profile. ':'Save it in 👤 Account and it fills in automatically. ';})()}Every school keeps its badge — pick a chip above only if you also want to <b>hide</b> the others. Compared against each school's average SAT: a guide, not a prediction, and only ${SAT_COVERAGE} of schools report one.</div>
+    <h3>Athletics</h3>
+    ${['M','W'].map(g=>{
+      const cnt = F.sports.filter(k=>k.startsWith(g.toLowerCase()+'-')).length;
+      return `<details class="sportdd" ${cnt?'open':''}>
+        <summary>${SPORT_GROUPS[g]}<span class="cnt">${cnt?cnt+' selected':''}</span></summary>
+        <div>${SPORTS.filter(x=>x.g===g).map(sp=>`<span class="chip ${F.sports.includes(sp.k)?'on':''}" data-sp="${sp.k}">${sp.e} ${sp.l}</span>`).join('')}</div>
+      </details>`;
+    }).join('')}
+    <div class="muted" style="font-size:11px;margin-top:6px">Selected sports appear on every school's card with that program's recruiting links. Softball selections also filter the map.</div>
+    <div style="margin-top:16px;display:flex;gap:8px">
+      <button class="btn" onclick="applyFilters()">Apply</button>
+      <button class="btn sec" onclick="clearFilters()">Clear all</button>
+    </div>`;
+  el.querySelectorAll('[data-st]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
+  el.querySelectorAll('[data-fit]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
+  el.querySelectorAll('[data-div]').forEach(c=>c.onclick=()=>{c.classList.toggle('on')});
+  el.querySelectorAll('[data-sp]').forEach(c=>c.onclick=()=>{
+    c.classList.toggle('on');
+    const dd = c.closest('details.sportdd');
+    const n = dd.querySelectorAll('[data-sp].on').length;
+    dd.querySelector('.cnt').textContent = n ? n+' selected' : '';
+  });
+}
+function applyFilters(){
+  const el = document.getElementById('filters');
+  F.sports = [...el.querySelectorAll('[data-sp].on')].map(c=>c.dataset.sp);
+  F.divs = [...el.querySelectorAll('[data-div].on')].map(c=>c.dataset.div);
+  F.ctrl = el.querySelector('#f-ctrl').value;
+  F.lvl = el.querySelector('#f-lvl').value;
+  F.setting = el.querySelector('#f-set').value;
+  F.states = [...el.querySelectorAll('[data-st].on')].map(c=>c.dataset.st);
+  F.fit = [...el.querySelectorAll('[data-fit].on')].map(c=>c.dataset.fit);
+  F.mj = el.querySelector('#f-mj').value;
+  F.admMin = el.querySelector('#f-admmin').value;
+  F.admMax = el.querySelector('#f-adm').value;
+  F.sat = el.querySelector('#f-sat').value;
+  toggleFilters(false); refresh();
+}
+function clearFilters(){ F = { q:F.q, states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', mj:'', admMin:'', admMax:'' }; renderFilters(); refresh(); }
+function toggleFilters(open){ document.getElementById('filters').classList.toggle('open', open); }
+document.getElementById('filterBtn').onclick = ()=>toggleFilters(true);
+
+function filtered(){
+  const q = F.q.toLowerCase();
+  return SCHOOLS.filter(s=>{
+    if(q && !(s.n.toLowerCase().includes(q) || s.c.toLowerCase().includes(q))) return false;
+    if(F.divs.length && !F.divs.includes(divCat(s))) return false;
+    if(F.sports.length && !F.sports.some(k => s.sp && s.sp[k])) return false;
+    if(F.ctrl && s.ctrl!==F.ctrl) return false;
+    if(F.lvl && s.lvl!==F.lvl) return false;
+    if(F.setting && !(s.loc||'').startsWith(F.setting)) return false;
+    if(F.states.length && !F.states.includes(s.s)) return false;
+    if(F.mj!=='' && !(s.mj && s.mj.some(x=>x[0]===+F.mj))) return false;
+    if(F.admMin && !(s.adm!=null && s.adm >= F.admMin/100)) return false;
+    if(F.admMax && !(s.adm!=null && s.adm <= F.admMax/100)) return false;
+    if(F.sat && F.fit.length){ const f=satFit(s); if(!f || !F.fit.includes(f)) return false; }
+    return true;
+  });
+}
+
+// ---------- test-score fit ----------
+// Only the school's AVERAGE SAT is published in the federal file, not the 25th/75th percentiles,
+// so the band below is a proxy for the usual interquartile spread. It is guidance, not a prediction.
+const SAT_BAND = 60;
+const SAT_COVERAGE = '19%';
+// The score comes from the Filters box if one is typed there, otherwise from the saved profile,
+// so entering it once in Account is enough for it to appear everywhere.
+function mySat(){
+  const typed = parseInt(F.sat,10);
+  if(typed) return typed;
+  const p = profile();
+  const saved = p ? parseInt(p.sat,10) : NaN;
+  return saved || 0;
+}
+// Copies the profile score into the filter box so it shows there too. force=true overwrites a
+// stale value after the profile is edited; otherwise a score typed in Filters wins.
+function syncSatFromProfile(force){
+  const p = profile();
+  const saved = p ? String(p.sat||'').trim() : '';
+  if(saved && (force || !F.sat)) F.sat = saved;
+}
+function satFit(s){
+  const mine = mySat();
+  if(!mine || !s.sat) return null;
+  if(mine >= s.sat + SAT_BAND) return 'likely';
+  if(mine <= s.sat - SAT_BAND) return 'reach';
+  return 'match';
+}
+// Colours come from CSS so each theme stays readable, and so 'Reach' never matches the
+// accent colour — a badge that looks like a button is a badge people try to press.
+const FIT_VAR = {likely:'--fitL', match:'--fitM', reach:'--fitR'};
+const FIT_TEXT = {likely:'✅ Likely', match:'🎯 Match', reach:'🌟 Reach'};
+const fitColor = k => getComputedStyle(document.body).getPropertyValue(FIT_VAR[k]).trim();
+const FIT_LABELS = new Proxy({}, {get:(_,k)=> k in FIT_TEXT ? [FIT_TEXT[k], fitColor(k)] : undefined});
+// Compact badge for list rows — same verdict as the full card, one line.
+function fitPill(s){
+  const f = satFit(s);
+  if(!f) return '';
+  const L = FIT_LABELS[f];
+  return `<span class="chip" style="border-color:${L[1]};color:${L[1]};cursor:default">${L[0]}</span>`;
+}
+function fitBadge(s){
+  const f = satFit(s);
+  if(!f) return '';
+  const L = FIT_LABELS[f];
+  const diff = mySat() - s.sat;
+  const sign = diff>0?'+':'';
+  return `<div class="stat" style="border-color:${L[1]}"><div class="k">Your fit</div><div class="v" style="color:${L[1]}">${L[0]}</div><div class="k" style="margin-top:2px">${sign}${diff} vs avg</div></div>`;
+}
+
+// ---------- map ----------
+const map = L.map('map',{zoomControl:true, worldCopyJump:true, minZoom:2, maxZoom:19}).setView([39.5,-96],4);
+// returning users with a saved home address start centered on their region; everyone else sees the whole US
+(()=>{ try{ syncSatFromProfile(false); }catch(e){}
+       try{ const p = profile(); if(p && p.lat!=null && p.lon!=null) map.setView([p.lat, p.lon], 6); }catch(e){} })();
+let tileLayerRef = null;  // set by applyTheme()
+const cluster = L.markerClusterGroup({chunkedLoading:true, maxClusterRadius:46, disableClusteringAtZoom:9});
+map.addLayer(cluster);
+let routeLayer = null;
+
+function markerFor(s){
+  const m = L.circleMarker([s.lat,s.lon],{radius:7,color:'#0f172a',weight:1,fillColor:divColor(s),fillOpacity:.95});
+  m.bindTooltip(s.n,{direction:'top',offset:[0,-6]});
+  m.on('click',()=>openSheet(s.id));
+  return m;
+}
+function refreshMap(list){
+  cluster.clearLayers();
+  cluster.addLayers(list.map(markerFor));
+  document.getElementById('count').textContent = list.length.toLocaleString() + ' schools';
+}
+
+// ---------- detail sheet ----------
+function openSheet(id){
+  const s = byId[id]; if(!s) return;
+  const sh = document.getElementById('sheet');
+  const isFav = !!favs[id], inTrip = trip.includes(id);
+  sh.innerHTML = `
+    <div class="grab"></div>
+    <button class="close" onclick="closeSheet()">✕</button>
+    <h2>${nameLink(s,'schoollink')} ${divBadge(s)}</h2>
+    <div class="sub">${esc(s.c)}, ${s.s} · ${s.ctrl} · ${s.lvl}${s.loc?' · '+s.loc:''}</div>
+    <div class="stats">
+      <div class="stat"><div class="k">Acceptance rate</div><div class="v">${fmt.pct(s.adm)}</div></div>
+      <div class="stat"><div class="k">Undergrad enrollment</div><div class="v">${fmt.num(s.en)}</div></div>
+      <div class="stat"><div class="k">In-state tuition</div><div class="v">${fmt.usd(s.tin)}</div></div>
+      <div class="stat"><div class="k">Out-of-state tuition</div><div class="v">${fmt.usd(s.tout)}</div></div>
+      <div class="stat"><div class="k">Avg SAT</div><div class="v">${fmt.num(s.sat)}</div></div>
+      ${s.act?`<div class="stat"><div class="k">ACT midpoint</div><div class="v">${fmt.num(s.act)}</div></div>`:''}
+      ${fitBadge(s)}
+    </div>
+    ${s.sp?`<div class="revrow"><span class="k">🏅 VARSITY SPORTS — ${Object.keys(s.sp).length} PROGRAMS${s.ad?' · '+esc(s.ad):''}</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+        ${SPORTS.filter(sp=>s.sp[sp.k]).map(sp=>`<span class="chip ${F.sports.includes(sp.k)?'on':''}" style="cursor:default">${sp.e} ${esc(sp.l)} <b style="opacity:.6">${s.sp[sp.k]}</b></span>`).join('')}
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:6px">Squad sizes from the federal Equity in Athletics survey (2024-25). Highlighted chips match your Filters selection.</div>
+    </div>`:''}
+    ${(s.cst||s.np!=null||s.rb)?`<div class="revrow">
+      <span class="k">💰 COST PER YEAR — STICKER VS ACTUAL</span>
+      <div class="costgrid">
+        <div class="costcol">
+          <div class="costhead">Sticker price</div>
+          <div class="costrow"><span>Tuition & fees (in-state)</span><b>${fmt.usd(s.tin)}</b></div>
+          <div class="costrow"><span>Tuition & fees (out-of-state)</span><b>${fmt.usd(s.tout)}</b></div>
+          ${s.rb?`<div class="costrow"><span>Housing & meal plan (on campus)</span><b>${fmt.usd(s.rb)}</b></div>`:''}
+          ${s.bk?`<div class="costrow"><span>Books & supplies</span><b>${fmt.usd(s.bk)}</b></div>`:''}
+          ${s.cst?`<div class="costrow total"><span>Total cost of attendance</span><b>${fmt.usd(s.cst)}</b></div>`:''}
+        </div>
+        <div class="costcol actual">
+          <div class="costhead">Actual average cost</div>
+          <div class="bignum">${fmt.usd(s.np)}</div>
+          <div style="font-size:12px;color:var(--dim)">average actually paid per year after grants &amp; scholarships (students receiving federal aid)</div>
+          ${(s.cst&&s.np!=null&&s.np<s.cst)?`<span class="savetag">${Math.round(100-100*s.np/s.cst)}% below sticker</span>`:''}
+          ${s.np!=null?`<div class="costbreak">
+            <div class="costrow"><span>Per semester</span><b>${fmt.usd(Math.round(s.np/2))}</b></div>
+            <div class="costrow"><span>Per year</span><b>${fmt.usd(s.np)}</b></div>
+            <div class="costrow total"><span>Total degree${s.lvl==='4-year'?' (4 yrs)':(s.lvl==='2-year'?' (2 yrs)':'')}</span><b>${fmt.usd(s.np*(s.lvl==='4-year'?4:2))}</b></div>
+          </div>`:''}
+        </div>
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:5px">Data source: US Dept. of Education College Scorecard / IPEDS (2022–23)${s.rb?' · IPEDS reports on-campus housing and meal plan as one combined figure':''} · Per-semester and total-degree figures are straight arithmetic on the annual average (2 semesters/yr; ${s.lvl==='4-year'?'4 years':'2 years'} to graduate). They assume costs hold steady and that the student graduates on time — both of which often do not happen. Published costs typically rise each year, and fewer than half of students finish in the standard time, so a longer degree costs more. Treat every total here as a rough planning figure, not a quote.</div>
+    </div>`:''}
+    <div class="datanote">⚠️ <b>These are averages. Your price will be different.</b>
+      Every figure here is a historical federal average for all students at this college (2022–23).
+      <b>No student pays the average.</b> What you are actually charged depends on your family's income
+      and assets, the year you apply, your academic record, the aid this college happens to have available,
+      and decisions made by its financial aid office. Two students at the same college routinely pay
+      amounts that differ by tens of thousands of dollars a year.
+      <div style="margin-top:7px">Use these numbers to decide which colleges are <b>worth investigating</b> —
+      never to decide what one will cost you. For that, run the college's own
+      <a href="https://collegecost.ed.gov/net-price" target="_blank" rel="noopener">net price calculator</a>
+      (every US college is required by law to publish one), then confirm in writing with its financial aid
+      office before you commit to anything.</div>
+      <div style="margin-top:7px">We are not financial, admissions or tax advisers, and we have no
+      relationship with any college listed here.</div></div>
+    ${(()=>{
+      const sel = F.sports.map(k=>SPORTS.find(x=>x.k===k)).filter(Boolean);
+      return sel.length ? sel.map(sp=>sportCard(s,sp)).join('') : '';
+    })()}
+    ${s.mj && s.mj.length ? `<div class="revrow">
+      <span class="k">🎓 MAJORS — SHARE OF DEGREES AWARDED</span>
+      <div style="margin-top:6px">${s.mj.map(([k,p])=>`<span class="chip majchip">${esc(MAJORS[k])} · ${p}%</span>`).join('')}</div>
+    </div>`:''}
+    ${socialRow(s.sm, '📱 FOLLOW THE SCHOOL')}
+    ${socialRow(s.sa, '🏅 FOLLOW THE ATHLETICS DEPARTMENT')}
+    <div class="revrow">
+      <span class="k">RESEARCH THIS SCHOOL</span>
+      <div class="actions" style="margin-top:6px">
+        ${siteUrl(s)?`<a class="btn sec" target="_blank" rel="noopener" href="${esc(siteUrl(s))}">🏛 Official site</a>`:''}
+        <a class="btn sec" target="_blank" rel="noopener" href="${navigatorUrl(s)}">📊 College Navigator</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${scorecardUrl(s)}">💵 College Scorecard</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${nicheUrl(s)}">⭐ Niche reviews</a>
+      </div>
+      <div class="muted" style="font-size:11px;margin-top:6px">College Navigator and College Scorecard are the federal sources behind the cost figures above — these open the school's own record directly.</div>
+    </div>
+    <div class="actions">
+      <button class="btn ${isFav?'danger':''}" onclick="toggleFav(${id});openSheet(${id})">${isFav?'★ Remove favorite':'☆ Save favorite'}</button>
+      <button class="btn sec" onclick="toggleTrip(${id});openSheet(${id})">${inTrip?'🛣️ Remove from trip':'🛣️ Add to road trip'}</button>
+      ${s.url?`<a class="btn sec" target="_blank" href="${/^https?:/.test(s.url)?esc(s.url):'https://'+esc(s.url)}">Website</a>`:''}
+      <a class="btn sec" target="_blank" href="${mapOpenUrl(s)}">Open in Maps</a>
+    </div>
+    <div class="revrow"><span class="k">NEAR CAMPUS (${mapsPref()==='apple'?'Apple':'Google'} Maps — change in 👤 Account)</span>
+      <div class="actions" style="margin-top:6px">
+        <a class="btn sec" target="_blank" rel="noopener" href="${poiUrl(s,'hotels')}">🏨 Hotels</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${poiUrl(s,'gas stations')}">⛽ Gas</a>
+        <a class="btn sec" target="_blank" rel="noopener" href="${poiUrl(s,'restaurants')}">🍔 Food</a>
+      </div>
+    </div>`;
+  sh.classList.add('open');
+  if(document.querySelector('nav .active').dataset.v==='map') map.panTo([s.lat,s.lon]);
+}
+function closeSheet(){ document.getElementById('sheet').classList.remove('open'); }
+
+// ---------- favorites ----------
+function toggleFav(id){
+  if(favs[id]) delete favs[id];
+  else{
+    if(!gate('favorites')) return;
+    favs[id] = {notes:'', ratings:{}};
+  }
+  store.set('favs',favs); refreshLists();
+}
+function toggleTrip(id){
+  const i = trip.indexOf(id);
+  if(i>=0) trip.splice(i,1);
+  else {
+    if(!gate('trips')) return;
+    trip.push(id);
+    // a road-trip school is automatically a favorite (and appears on the Scorecard)
+    if(!favs[id]){ favs[id] = {notes:'', ratings:{}}; store.set('favs',favs); }
+  }
+  saveTrips(); refreshLists();
+}
+
+// ---------- Communicate (outreach) ----------
+function toggleTop5(id){
+  const i = top5.indexOf(id);
+  if(i>=0) top5.splice(i,1);
+  else{
+    if(!gate('top5')) return;
+    top5.push(id);
+    if(!favs[id]){ favs[id]={notes:'',ratings:{}}; store.set('favs',favs); }
+  }
+  store.set('top5',top5); refreshLists();
+}
+function moveT5(i,d){ const j=i+d; if(j<0||j>=top5.length) return; [top5[i],top5[j]]=[top5[j],top5[i]]; store.set('top5',top5); renderTop5(); }
+// 👍 Top Picks — finalists; when any exist, the Scorecard compares only these
+function togglePick(id){
+  const i = picks.indexOf(id);
+  if(i>=0) picks.splice(i,1);
+  else{
+    if(!gate('picks')) return;
+    picks.push(id);
+    if(!favs[id]){ favs[id]={notes:'',ratings:{}}; store.set('favs',favs); }
+  }
+  store.set('picks',picks); refreshLists();
+}
+function movePick(i,d){ const j=i+d; if(j<0||j>=picks.length) return; [picks[i],picks[j]]=[picks[j],picks[i]]; store.set('picks',picks); renderPicks(); }
+function renderPicks(){
+  const w = document.getElementById('pickswrap');
+  const ids = picks.filter(id=>byId[id]);
+  if(!ids.length){ w.innerHTML = `<div class="empty">No Top Picks yet.<br>Tap 👍 on any school — in ⭐ Favorites, the 📋 College List, or the 🏆 Scorecard — and your finalists gather here for the final decision.</div>`; return; }
+  w.innerHTML = `<h2 class="pagetitle">👍 Top Picks — Final Decisions</h2>
+    <div class="muted" style="margin-bottom:10px">Your finalists, ranked. Use ↑ ↓ to set the order — the 🏆 Scorecard shows them in this same order.</div>` +
+    ids.map((id,i)=>`<div style="display:flex;gap:8px;align-items:stretch;margin-bottom:10px">
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;min-width:44px">
+        <div style="font-weight:800;font-size:18px">#${i+1}</div>
+        <button class="btn sec" style="padding:2px 10px" onclick="movePick(${i},-1)">↑</button>
+        <button class="btn sec" style="padding:2px 10px" onclick="movePick(${i},1)">↓</button>
+      </div>
+      <div style="flex:1">${cardHTML(byId[id])}</div>
+    </div>`).join('') +
+    `<div class="actions"><button class="btn" onclick="switchView('score')">🏆 Compare on Scorecard</button><button class="btn sec" onclick="switchView('top5')">✉️ Communicate with these schools</button></div>`;
+}
+function scoreIds(){
+  // all favorites, with 👍 Top Picks first (in the order they were picked)
+  const fav = Object.keys(favs).map(Number).filter(id=>byId[id]);
+  const p = picks.filter(id=>fav.includes(id));
+  return p.concat(fav.filter(id=>!p.includes(id)));
+}
+// The school's own hostname, e.g. "rutgers.edu" — the anchor for every site-restricted lookup.
+function schoolHost(s){
+  if(!s.url) return null;
+  try{ return new URL(/^https?:\/\//i.test(s.url) ? s.url : 'https://'+s.url).hostname.replace(/^www\./i,''); }
+  catch(e){ return null; }
+}
+// Direct URLs resolved once by resolve_links.py and stored on each school:
+//   au = admissions page · vu = visit/tour page · hu = athletics home · su = sport page · qu = questionnaire
+// When one is present we link straight to it. The search fallbacks below only run for schools
+// the resolver couldn't crack, so no link is ever dead — it just costs an extra click.
+function direct(u){ if(!u) return null; return /^https?:/i.test(u) ? u : 'https://'+u; }
+
+// Schedule Campus Visit/Tour → the school's own visit page, else admissions, else search.
+function visitUrl(s){
+  const d = direct(s.vu) || direct(s.au);
+  if(d) return d;                       // resolver has run - exact page
+  const h = schoolHost(s);
+  // No resolver data yet. Send them to the school's own admissions section rather than a search
+  // results page. /admissions is the near-universal convention on .edu domains; if a school
+  // uses something else their site search or nav picks it up in one click.
+  return h ? 'https://' + h + '/admissions' : (siteUrl(s) || lucky(s.n+' admissions'));
+}
+// Find admissions email → the admissions office page itself, else a domain-restricted search.
+function findAdmUrl(s){
+  const d = direct(s.au);
+  if(d) return d;                       // resolver has run - exact page
+  const h = schoolHost(s);
+  return h ? 'https://' + h + '/admissions' : (siteUrl(s) || lucky(s.n+' admissions'));
+}
+// The resolver now returns spu: { 'm-basketball': url, 'w-softball': url, ... } for every sport
+// a school fields. The legacy `su` was softball-only and is kept purely so older cached data
+// still resolves to something rather than nothing.
+function sportKey(){ return F.sports.length ? F.sports[0] : null; }
+function sportPageUrl(s, key){
+  const k = key || sportKey();
+  if(k && s.spu && s.spu[k]) return direct(s.spu[k]);
+  return null;
+}
+// `su` holds a softball page and nothing else. Handing it to a football or lacrosse family is
+// precisely the fault this replaces, so it is only ever used when softball is what was asked for.
+function legacySu(s, key){
+  const k = key || sportKey();
+  if(k && k !== 'w-softball') return null;
+  return direct(s.su);
+}
+
+// Find coach email → the sport's own page (roster/coaches), else the athletics site home.
+// Athletics lives on a separate domain (arcadiaknights.com, not arcadia.edu), so a site:
+// search on the academic host would exclude the very page we want.
+function findCoachUrl(s){
+  const d = sportPageUrl(s) || legacySu(s) || direct(s.hu);
+  if(d) return d;                       // resolver has run - exact sport or athletics page
+  // Athletics almost always lives on its own domain (arcadiaknights.com, not arcadia.edu), which
+  // the database does not yet hold. Until the link resolver runs this is the one link that still
+  // needs a lookup - but a named-coach search lands on the staff page far more often than a
+  // generic one.
+  const sp = primarySport();
+  const named = (s.sb && s.sb.coach) ? String(s.sb.coach).trim() : '';
+  return named ? lucky('"'+named+'" '+s.n+' '+sp+' coach') 
+               : lucky(s.n+' athletics staff directory '+sp+' coach');
+}
+// Recruiting questionnaire → the form itself, else the sport page, else the athletics site.
+function recruitUrl(s, sportName, key){
+  const d = direct(s.qu) || sportPageUrl(s, key) || legacySu(s, key) || direct(s.hu);
+  if(d) return d;
+  return lucky(s.n+' '+(sportName||'softball')+' recruiting questionnaire');
+}
+// Team/roster page → the sport page, else athletics home, else search.
+function teamUrl(s, sportName, key){
+  const d = sportPageUrl(s, key) || legacySu(s, key) || direct(s.hu);
+  if(d) return d;
+  return lucky(s.n+' athletics '+(sportName||'softball')+' roster');
+}
+function setContact(id,k,v){ favs[id]=favs[id]||{notes:'',ratings:{}}; (favs[id].contacts=favs[id].contacts||{})[k]=v.trim(); store.set('favs',favs); }
+function primarySport(){ const sp = F.sports.length ? SPORTS.find(x=>x.k===F.sports[0]) : null; return sp ? sportPhrase(sp) : 'softball'; }
+function mailtoUrl(to,subj,body){ return 'mailto:'+encodeURIComponent(to||'')+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body); }
+function mailCoach(id){
+  const s=byId[id], p=profile()||{}, ct=(favs[id]&&favs[id].contacts)||{};
+  const me=p.name||'[Your name]', em=(cloudUser&&cloudUser.email)||'';
+  const coachLast = s.sb&&s.sb.coach ? ' '+s.sb.coach.trim().split(/\s+/).slice(-1)[0] : '';
+  const body = `Dear Coach${coachLast},\n\nMy name is ${me} and I am very interested in ${s.n} and your ${primarySport()} program.\n\nA little about me:\n• GPA: ${p.gpa||''}\n• Intended major: ${p.major||''}\n• Graduation year: \n• Position: \n• Club/travel team: \n\nI would welcome the chance to learn more about your program and what you look for in recruits. My highlight video and schedule are available on request.\n\nThank you for your time,\n${me}${em?'\n'+em:''}`;
+  return mailtoUrl(ct.coach, `Prospective Student-Athlete: ${me}`, body);
+}
+function mailAdmissions(id){
+  const s=byId[id], p=profile()||{}, ct=(favs[id]&&favs[id].contacts)||{};
+  const me=p.name||'[Your name]', em=(cloudUser&&cloudUser.email)||'';
+  const body = `Hello,\n\nMy name is ${me} and ${s.n} is one of my top choices. I would like to request information about:\n• Admissions requirements and deadlines\n• The ${p.major||'[intended major]'} program\n• Scholarships and financial aid\n• Scheduling a campus visit\n\nThank you,\n${me}${em?'\n'+em:''}`;
+  return mailtoUrl(ct.adm, `Admissions information request — ${me}`, body);
+}
+// ---------- auto-find contact emails (best-effort scan of the school's own website) ----------
+const afMsg = {}; // per-school status line, survives re-renders
+async function autoFind(id, btn){
+  const s = byId[id];
+  if(!s.url){ afMsg[id]='This school has no website on file — use the Find buttons.'; renderTop5(); return; }
+  btn.disabled = true; btn.textContent = '🔎 Searching…';
+  afMsg[id] = 'Scanning '+esc(s.url)+' — this can take ~10 seconds…';
+  const st = document.getElementById('af-'+id); if(st) st.textContent = afMsg[id];
+  try{
+    const r = await fetch(SUPABASE_URL+'/functions/v1/find-emails', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_ANON_KEY, 'Authorization':'Bearer '+SUPABASE_ANON_KEY },
+      body: JSON.stringify({ url:s.url, sport:primarySport() })
+    });
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error||('HTTP '+r.status));
+    const ct = (favs[id]&&favs[id].contacts)||{};
+    const parts = [];
+    if(d.adm && d.adm.length){ if(!ct.adm) setContact(id,'adm',d.adm[0]); parts.push('Admissions: '+d.adm.slice(0,2).map(esc).join(' or ')); }
+    if(d.coach && d.coach.length){ if(!ct.coach) setContact(id,'coach',d.coach[0]); parts.push('Coach: '+d.coach.slice(0,2).map(esc).join(' or ')); }
+    if(parts.length){ afMsg[id] = '⚠️ Found on the school site — verify before sending. '+parts.join(' · '); }
+    else if(d.other && d.other.length){ afMsg[id] = 'No admissions/coach match, but found on the site: '+d.other.slice(0,3).map(esc).join(', ')+' — use the Find buttons to confirm.'; }
+    else { afMsg[id] = 'Nothing found on the school site — use the Find buttons to search the web.'; }
+  }catch(e){
+    afMsg[id] = 'Auto-find unavailable right now — use the Find buttons. ('+esc(e.message)+')';
+  }
+  renderTop5();
+}
+function renderTop5(){
+  const w = document.getElementById('top5wrap');
+  const ids = top5.filter(id=>byId[id]);
+  if(!ids.length){ w.innerHTML = `<div class="empty">Nothing to communicate yet.<br>In ⭐ Favorites, tap ✅ on a school to add it here — then email coaches and admissions and schedule campus visits in one tap.</div>`; return; }
+  const hasSport = F.sports.length > 0;
+  w.innerHTML = `<h2 class="pagetitle">✉️ Communicate — ${ids.length}</h2>
+    <div class="muted" style="margin-bottom:10px">Schedule Campus Visit/Tour opens the school's own visit page. Paste contact emails once (use the Find buttons) and Compose opens a ready-to-send intro using your 👤 profile.${hasSport?'':' Select a sport under Filters → Athletics to unlock coach outreach.'} The 📒 log keeps every contact with each school in one place.</div>` +
+    ids.map((id,i)=>{ const s=byId[id], ct=(favs[id]&&favs[id].contacts)||{}, cl=(favs[id]&&favs[id].comms)||[];
+      return `<div class="card" style="cursor:default" onclick="event.stopPropagation()">
+        <h3>#${i+1} ${nameLink(s,'schoollink')} ${divBadge(s)}</h3>
+        <div class="meta">${esc(s.c)}, ${s.s}${F.sports.includes('w-softball')&&s.sb&&s.sb.coach?' · 🥎 Coach '+esc(s.sb.coach):''}</div>
+        <div class="row" style="display:flex;gap:6px;margin:8px 0">
+          <input class="t5in" placeholder="Admissions email" value="${esc(ct.adm||'')}" onchange="setContact(${id},'adm',this.value);renderTop5()">
+          ${hasSport?`<input class="t5in" placeholder="Coach email" value="${esc(ct.coach||'')}" onchange="setContact(${id},'coach',this.value);renderTop5()">`:''}
+        </div>
+        <div class="actions">
+          <a class="btn" target="_blank" rel="noopener" href="${visitUrl(s)}" onclick="addComm(${id},'admissions','out','Opened campus visit/tour page',true)">📅 Schedule Campus Visit/Tour</a>
+          <a class="btn" href="${mailAdmissions(id)}" onclick="addComm(${id},'admissions','out','Email drafted',true)">✉️ Email admissions</a>
+          ${hasSport?`<a class="btn" href="${mailCoach(id)}" onclick="addComm(${id},'coach','out','Email drafted',true)">✉️ Email coach</a>`:''}
+          <a class="btn sec" target="_blank" rel="noopener" href="${findAdmUrl(s)}">Find admissions email</a>
+          ${hasSport?`<a class="btn sec" target="_blank" rel="noopener" href="${findCoachUrl(s)}">Find coach email</a>`:''}
+        </div>
+        <div class="commlog">
+          <div class="k" style="margin-top:8px;display:block">📒 COMMUNICATION LOG${cl.length?' — '+cl.length:''}</div>
+          ${cl.map((c,ci)=>`<div class="commrow">
+            <span class="cd">${new Date(c.t).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span>
+            <span class="cdir">${c.dir==='in'?'📥 From':'📤 To'} ${c.who}</span>
+            <span class="cn">${esc(c.note)}</span>
+            <b onclick="delComm(${id},${ci})" title="delete">✕</b>
+          </div>`).join('') || `<div class="muted" style="font-size:12px;margin:4px 0">No entries yet — emails you draft are logged automatically, and replies can be added below.</div>`}
+          <div class="commadd">
+            <select id="cw-${id}"><option value="admissions">Admissions</option>${hasSport?'<option value="coach">Coach</option>':''}<option value="other">Other</option></select>
+            <select id="cd-${id}"><option value="out">📤 Sent</option><option value="in">📥 Received</option></select>
+            <input id="cn-${id}" placeholder="e.g. Got reply — visit booked Oct 12" onkeydown="if(event.key==='Enter')addCommForm(${id})">
+            <button class="btn sec" onclick="addCommForm(${id})">＋ Log</button>
+          </div>
+        </div>
+        <div class="actions" style="margin-top:6px">
+          <button class="btn sec" onclick="moveT5(${i},-1)">↑</button>
+          <button class="btn sec" onclick="moveT5(${i},1)">↓</button>
+          <button class="btn danger" onclick="toggleTop5(${id})">Remove from Communicate</button>
+        </div>
+      </div>`; }).join('');
+}
+// per-school communication log — stored with the favorite, syncs with the account
+function addComm(id, who, dir, note, silent){
+  if(!favs[id]) favs[id]={notes:'',ratings:{}};
+  (favs[id].comms = favs[id].comms||[]).push({t:Date.now(), who, dir, note:String(note).slice(0,200)});
+  store.set('favs',favs);
+  if(!silent) renderTop5(); else setTimeout(renderTop5,400); // let the mailto/link fire first
+}
+function addCommForm(id){
+  const note = document.getElementById('cn-'+id).value.trim();
+  if(!note){ document.getElementById('cn-'+id).focus(); return; }
+  addComm(id, document.getElementById('cw-'+id).value, document.getElementById('cd-'+id).value, note);
+}
+function delComm(id, i){ favs[id].comms.splice(i,1); store.set('favs',favs); renderTop5(); }
+
+// ---------- list views ----------
+let sortBy = 'n';
+function cardHTML(s){
+  const isFav = !!favs[s.id], inTrip = trip.includes(s.id);
+  return `<div class="card" onclick="openFromList(${s.id})">
+    <h3>${nameLink(s,'schoollink')} ${divBadge(s)} ${fitPill(s)}</h3>
+    <div class="meta">${esc(s.c)}, ${s.s} · ${s.ctrl} · Accept: ${fmt.pct(s.adm)} · Enroll: ${fmt.num(s.en)} · Tuition: ${fmt.usd(s.tin)} in / ${fmt.usd(s.tout)} out</div>
+    ${F.sports.includes('w-softball')&&s.sb&&s.sb.conf?`<div class="meta">🥎 ${esc(s.sb.conf)}${s.sb.coach?' · Coach '+esc(s.sb.coach):''}</div>`:''}
+    <div class="cardacts">
+      <button class="act ${isFav?'on':''}" onclick="event.stopPropagation();toggleFav(${s.id})">Favorite <span>⭐</span></button>
+      <button class="act ${top5.includes(s.id)?'on':''}" onclick="event.stopPropagation();toggleTop5(${s.id})">Communicate <span>✉️</span></button>
+      <button class="act ${inTrip?'on':''}" onclick="event.stopPropagation();toggleTrip(${s.id})">Road Trip <span>🛣️</span></button>
+      <button class="act ${picks.includes(s.id)?'on':''}" onclick="event.stopPropagation();togglePick(${s.id})">Top Picks <span>👍</span></button>
+    </div>
+  </div>`;
+}
+function openFromList(id){ switchView('map'); setTimeout(()=>{map.setView([byId[id].lat,byId[id].lon],13); openSheet(id);},60); }
+function renderList(){
+  const list = filtered().slice();
+  const key = sortBy;
+  list.sort((a,b)=>{
+    if(key==='n') return a.n.localeCompare(b.n);
+    const av=a[key]??1e15, bv=b[key]??1e15;
+    return key==='adm'||key==='tin'||key==='tout' ? av-bv : bv-av;
+  });
+  document.getElementById('listwrap').innerHTML = `
+    <div class="toolbar"><h2 class="pagetitle" style="padding:0;flex:1">${list.length.toLocaleString()} schools</h2>
+    <select onchange="sortBy=this.value;renderList()">
+      <option value="n" ${sortBy==='n'?'selected':''}>Sort: Name</option>
+      <option value="adm" ${sortBy==='adm'?'selected':''}>Acceptance (low→high)</option>
+      <option value="en" ${sortBy==='en'?'selected':''}>Enrollment (high→low)</option>
+      <option value="tin" ${sortBy==='tin'?'selected':''}>In-state tuition (low→high)</option>
+      <option value="tout" ${sortBy==='tout'?'selected':''}>Out-of-state tuition (low→high)</option>
+      <option value="sat" ${sortBy==='sat'?'selected':''}>Avg SAT (high→low)</option>
+    </select>
+    <button class="btn sec" onclick="toggleFilters(true);switchView('map')">Filters</button></div>
+    ${list.slice(0,400).map(cardHTML).join('')}
+    ${list.length>400?`<div class="empty">Showing first 400 — narrow with search or filters.</div>`:''}`;
+}
+function renderFavs(){
+  const ids = Object.keys(favs).map(Number).filter(id=>byId[id]);
+  document.getElementById('favwrap').innerHTML = ids.length
+    ? `<h2 class="pagetitle">⭐ ${ids.length} favorite${ids.length>1?'s':''}</h2>` + ids.map(id=>cardHTML(byId[id])).join('') +
+      `<button class="btn sec" onclick="switchView('score')">Compare on Scorecard →</button>`
+    : `<div class="empty">No favorites yet.<br>Tap ★ on any school to save it here.</div>`;
+}
+
+// ---------- scorecard ----------
+function renderScore(){
+  const ids = scoreIds();
+  const w = document.getElementById('scwrap');
+  if(!ids.length){ w.innerHTML = `<div class="empty">Favorite some schools first — then compare them side-by-side here.<br><span style="font-size:12px">Tip: mark finalists with 👍 Top Picks to bring them to the front of the comparison.</span></div>`; return; }
+  const ss = ids.map(id=>byId[id]);
+  const best = {
+    adm: Math.min(...ss.map(s=>s.adm??Infinity)),
+    tin: Math.min(...ss.map(s=>s.tin??Infinity)),
+    tout: Math.min(...ss.map(s=>s.tout??Infinity)),
+    np: Math.min(...ss.map(s=>s.np??Infinity)),
+    sat: Math.max(...ss.map(s=>s.sat??-1)),
+  };
+  const row = (label, fn, bestFn) => `<tr><td class="metric">${label}</td>${ss.map(s=>`<td class="${bestFn&&bestFn(s)?'best':''}">${fn(s)}</td>`).join('')}</tr>`;
+  const rateRow = cat => `<tr><td class="metric">${cat} ☆</td>${ss.map(s=>{
+    const v = favs[s.id].ratings[cat]??0;
+    return `<td><input type="range" min="0" max="5" step="1" value="${v}" oninput="setRating(${s.id},'${cat}',this.value)"> <b id="rv-${s.id}-${cat.replace(/[^a-z]/gi,'')}">${v}</b>/5</td>`;
+  }).join('')}</tr>`;
+  w.innerHTML = `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <h2 class="pagetitle" style="padding:0;flex:1">🏆 Scorecard — ${ss.length} school${ss.length>1?'s':''}</h2>
+    <button class="btn sec noprint" onclick="exportExcel()">⬇ Excel</button>
+    <button class="btn sec noprint" onclick="exportPDF()">🖨 PDF</button>
+  </div>
+  <div class="muted noprint" style="margin:6px 0 8px">${picks.filter(id=>favs[id]).length?'👍 Top Picks are shown first; the rest of your favorites follow.':'Mark finalists with 👍 Top Picks to bring them to the front.'} Green outline = best value in row. Rate each category 0–5; totals update live. PDF uses your browser's print dialog — choose "Save as PDF".</div>
+  <table class="sc">
+    <tr><th class="metric">Metric</th>${ss.map(s=>`<th>${nameLink(s,'schoollink')}<br><button class="pickbtn noprint ${picks.includes(s.id)?'on':''}" onclick="togglePick(${s.id})"><span>👍</span> Top Pick</button></th>`).join('')}</tr>
+    ${row('Location', s=>`${esc(s.c)}, ${s.s}<br><span class="muted">${s.loc||''}</span>`)}
+    ${row('Type', s=>s.ctrl+' · '+s.lvl)}
+    ${row('Acceptance rate', s=>fmt.pct(s.adm), s=>s.adm===best.adm)}
+    ${row('Requirements', s=>`SAT ${fmt.num(s.sat)} · ACT ${fmt.num(s.act)}`, s=>s.sat===best.sat&&s.sat>0)}
+    ${row('Enrollment', s=>fmt.num(s.en))}
+    ${row('In-state tuition', s=>fmt.usd(s.tin), s=>s.tin===best.tin)}
+    ${row('Out-of-state tuition', s=>fmt.usd(s.tout), s=>s.tout===best.tout)}
+    ${row('Housing & meal plan', s=>fmt.usd(s.rb))}
+    ${row('Sticker cost (total/yr)', s=>fmt.usd(s.cst))}
+    ${row('Actual avg cost after aid', s=>fmt.usd(s.np), s=>s.np===best.np)}
+    ${row('Per semester (after aid)', s=>s.np!=null?fmt.usd(Math.round(s.np/2)):'—')}
+    ${row('Total degree cost (after aid)', s=>s.np!=null?fmt.usd(s.np*(s.lvl==='4-year'?4:2))+`<br><span class="muted">${s.lvl==='4-year'?'4 yrs':'2 yrs'}</span>`:'—')}
+    ${row('Top majors', s=>s.mj&&s.mj.length?s.mj.slice(0,3).map(([k,p])=>`${esc(MAJORS[k])} (${p}%)`).join('<br>'):'—')}
+    ${F.sports.map(k=>{
+      const sp = SPORTS.find(x=>x.k===k); if(!sp) return '';
+      if(k==='w-softball') return row('🥎 Softball', s=>s.sb?`${s.sb.div||'NCAA'}${s.sb.conf?' · '+esc(s.sb.conf):''}${s.sb.w+s.sb.l>0?`<br><span class="muted">${s.sb.w}–${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}</span>`:''}`:'—');
+      return row(sp.e+' '+sportPhrase(sp), s=>schoolDiv(s)?schoolDiv(s)+' school':'—');
+    }).join('')}
+    ${rateCats().map(rateRow).join('')}
+    ${row('Photos & files', s=>{
+      const at = favs[s.id].att || [];
+      return `<div class="attgrid">${at.map((a,i)=>a.t==='img'
+        ? `<span class="attitem"><img src="${a.d}" onclick="viewAtt(${s.id},${i})" title="${esc(a.n)}"><b onclick="delAtt(${s.id},${i})">✕</b></span>`
+        : `<span class="attitem doc"><a href="${a.d}" download="${esc(a.n)}" title="${esc(a.n)}">📄 ${esc(a.n.length>14?a.n.slice(0,12)+'…':a.n)}</a><b onclick="delAtt(${s.id},${i})">✕</b></span>`).join('')}
+        <button class="btn sec addatt noprint" onclick="addAtt(${s.id})">＋ Add</button></div>`;
+    })}
+    <tr><td class="metric">MY TOTAL</td>${ss.map(s=>`<td class="total" id="tot-${s.id}">${totalFor(s.id)}</td>`).join('')}</tr>
+    ${row('Notes', s=>`<textarea class="notes" onchange="favs[${s.id}].notes=this.value;store.set('favs',favs)" placeholder="Clubs, sororities, majors, visit impressions…">${esc(favs[s.id].notes)}</textarea>`)}
+  </table>`;
+}
+function totalFor(id){
+  const cats = rateCats();
+  const sum = cats.reduce((a,c)=>a+(+(favs[id].ratings[c]||0)),0);
+  return sum + ' / ' + cats.length*5;
+}
+function scorecardRows(){
+  const ids = scoreIds();
+  const ss = ids.map(id=>byId[id]);
+  const rows = [['Metric', ...ss.map(s=>s.n)]];
+  rows.push(['Location', ...ss.map(s=>s.c+', '+s.s+(s.loc?' ('+s.loc+')':''))]);
+  rows.push(['Type', ...ss.map(s=>s.ctrl+' · '+s.lvl)]);
+  rows.push(['Acceptance rate', ...ss.map(s=>s.adm!=null?Math.round(s.adm*1000)/10+'%':'—')]);
+  rows.push(['Avg SAT', ...ss.map(s=>s.sat??'—')]);
+  rows.push(['ACT midpoint', ...ss.map(s=>s.act??'—')]);
+  rows.push(['Undergrad enrollment', ...ss.map(s=>s.en??'—')]);
+  rows.push(['In-state tuition', ...ss.map(s=>s.tin??'—')]);
+  rows.push(['Out-of-state tuition', ...ss.map(s=>s.tout??'—')]);
+  rows.push(['Housing & meal plan (on campus)', ...ss.map(s=>s.rb??'—')]);
+  rows.push(['Sticker cost (total/yr)', ...ss.map(s=>s.cst??'—')]);
+  rows.push(['Actual avg cost after aid', ...ss.map(s=>s.np??'—')]);
+  rows.push(['Per semester (after aid)', ...ss.map(s=>s.np!=null?Math.round(s.np/2):'—')]);
+  rows.push(['Total degree cost (after aid)', ...ss.map(s=>s.np!=null?s.np*(s.lvl==='4-year'?4:2):'—')]);
+  F.sports.forEach(k=>{
+    const sp = SPORTS.find(x=>x.k===k); if(!sp) return;
+    if(k==='w-softball') rows.push(['Softball', ...ss.map(s=>s.sb?`${s.sb.div||'NCAA'}${s.sb.conf?' · '+s.sb.conf:''}${s.sb.coach?' · Coach '+s.sb.coach:''}${s.sb.w+s.sb.l>0?` · ${s.sb.w}-${s.sb.l}${s.sb.season?' ('+s.sb.season+')':''}`:''}`:'—')]);
+    else rows.push([sportPhrase(sp), ...ss.map(s=>schoolDiv(s)?schoolDiv(s)+' school':'—')]);
+  });
+  rateCats().forEach(c=>rows.push([c+' (my rating, 0-5)', ...ss.map(s=>favs[s.id].ratings[c]??0)]));
+  rows.push(['MY TOTAL', ...ss.map(s=>totalFor(s.id))]);
+  rows.push(['Notes', ...ss.map(s=>favs[s.id].notes||'')]);
+  return rows;
+}
+async function exportExcel(){
+  if(!gate('export')) return;
+  if(!window.XLSX){
+    await new Promise(res=>{ const t=document.createElement('script');
+      t.src='libs/xlsx.full.min.js';
+      t.onload=res; t.onerror=res; document.head.appendChild(t); });
+  }
+  if(!window.XLSX){ alert('Could not load the Excel library — check your connection.'); return; }
+  const rows = scorecardRows();
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:26}, ...rows[0].slice(1).map(()=>({wch:32}))];
+  XLSX.utils.book_append_sheet(wb, ws, 'Scorecard');
+  XLSX.writeFile(wb, 'MyUniversityView-Scorecard.xlsx');
+}
+function exportPDF(){ if(!gate('export')) return; window.print(); }
+// ---------- attachments (photos & reference docs per school) ----------
+function fileToDataURL(f){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }); }
+async function compressImg(f){
+  const url = await fileToDataURL(f);
+  return new Promise(res=>{ const img=new Image(); img.onload=()=>{
+    const scale = Math.min(1, 1000/Math.max(img.width,img.height));
+    const c=document.createElement('canvas'); c.width=Math.round(img.width*scale); c.height=Math.round(img.height*scale);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    res(c.toDataURL('image/jpeg',0.72)); }; img.src=url; });
+}
+function addAtt(id){
+  if(!gate('attachments')) return;
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*,application/pdf'; inp.multiple=true;
+  inp.onchange=async ()=>{
+    for(const f of inp.files){
+      try{
+        let att;
+        if(f.type.startsWith('image/')) att={n:f.name,t:'img',d:await compressImg(f)};
+        else{
+          if(f.size>1500000){ alert(f.name+' is too large — documents up to 1.5 MB. Tip: for big files, save a link in Notes instead.'); continue; }
+          att={n:f.name,t:'doc',d:await fileToDataURL(f)};
+        }
+        (favs[id].att = favs[id].att||[]).push(att);
+      }catch(e){ alert('Could not add '+f.name); }
+    }
+    try{ store.set('favs',favs); }
+    catch(e){ alert('Device storage is full — remove some photos/files.'); favs[id].att.pop(); }
+    renderScore();
+  };
+  inp.click();
+}
+function delAtt(id,i){ favs[id].att.splice(i,1); store.set('favs',favs); renderScore(); }
+function viewAtt(id,i){
+  const a=favs[id].att[i]; if(!a||a.t!=='img') return;
+  const o=document.createElement('div'); o.className='attview'; o.onclick=()=>o.remove();
+  o.innerHTML=`<img src="${a.d}">`; document.body.appendChild(o);
+}
+
+function setRating(id,cat,v){
+  favs[id].ratings[cat]=+v; store.set('favs',favs);
+  document.getElementById('rv-'+id+'-'+cat.replace(/[^a-z]/gi,'')).textContent=v;
+  document.getElementById('tot-'+id).textContent=totalFor(id);
+}
+
+// ---------- road trip ----------
+const R = 3958.8;
+function hav(a,b){
+  const dLat=(b.lat-a.lat)*Math.PI/180, dLon=(b.lon-a.lon)*Math.PI/180;
+  const x = Math.sin(dLat/2)**2 + Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+function optimizeTrip(){
+  const {st} = endpointPts();
+  if(trip.length<3 && !st) return renderTrip();
+  const pts = trip.map(id=>byId[id]);
+  // order stops nearest-neighbor from the start point (custom, home, or first stop)
+  const start = st || pts[0];
+  const rest = st ? pts.slice() : pts.slice(1);
+  const order = st ? [] : [pts[0]];
+  let cur = start;
+  while(rest.length){
+    let bi=0,bd=Infinity;
+    rest.forEach((x,i)=>{const d=hav(cur,x); if(d<bd){bd=d;bi=i}});
+    cur = rest.splice(bi,1)[0]; order.push(cur);
+  }
+  T().ids = order.map(x=>x.id); trip = T().ids; saveTrips(); renderTrip();
+}
+function moveStop(i,d){
+  const j=i+d; if(j<0||j>=trip.length) return;
+  [trip[i],trip[j]]=[trip[j],trip[i]]; saveTrips(); renderTrip();
+}
+function endpointPts(){
+  const p = profile();
+  const home = (useHome() && p && p.lat!=null) ? {lat:p.lat, lon:p.lon, n:'🏠 Home', c:(p.address||'').split(',')[0], s:'', home:true} : null;
+  const mk = (r,ic)=> r ? {lat:r.lat, lon:r.lon, n:ic+' '+r.label.split(',')[0], c:r.label.split(',').slice(1,3).join(',').trim(), s:'', home:true} : null;
+  return { st: mk(T().start,'📍') || home, en: mk(T().end,'🏁') || home };
+}
+function tripPoints(){
+  const pts = trip.map(id=>byId[id]);
+  if(!pts.length) return pts;
+  const {st,en} = endpointPts();
+  return [...(st?[st]:[]), ...pts, ...(en?[en]:[])];
+}
+async function setTripPoint(which){
+  const inp = document.getElementById(which==='start'?'t-start':'t-end');
+  const a = inp.value.trim(); if(!a) return;
+  inp.placeholder='Looking up…'; inp.value='';
+  const r = await geocode(a);
+  if(!r){ inp.value=a; inp.placeholder=''; alert('Address not found — try adding city & state.'); return; }
+  if(which==='start') T().start=r; else T().end=r; saveTrips(); renderTrip();
+}
+function clearTripPoint(w){ if(w==='start') T().start=null; else T().end=null; saveTrips(); renderTrip(); }
+function gmapsUrl(){
+  const pts = tripPoints();
+  const c = p=>p.lat+','+p.lon;
+  if(pts.length===1) return `https://www.google.com/maps/search/?api=1&query=${c(pts[0])}`;
+  const wp = pts.slice(1,-1).map(c).join('|');
+  return `https://www.google.com/maps/dir/?api=1&origin=${c(pts[0])}&destination=${c(pts[pts.length-1])}${wp?`&waypoints=${encodeURIComponent(wp)}`:''}&travelmode=driving`;
+}
+function appleTripUrl(){
+  const pts = tripPoints();
+  const c = p=>p.lat+','+p.lon;
+  if(pts.length===1) return `https://maps.apple.com/?q=${c(pts[0])}`;
+  // Apple Maps chains stops with "+to:" (works on iPhone/iPad/Mac)
+  return `https://maps.apple.com/?saddr=${c(pts[0])}&daddr=${pts.slice(1).map(c).join('+to:')}&dirflg=d`;
+}
+async function drawRoute(){
+  if(routeLayer){map.removeLayer(routeLayer); routeLayer=null;}
+  const pts = tripPoints();
+  if(pts.length<2) return;
+  try{
+    const coords = pts.map(p=>p.lon+','+p.lat).join(';');
+    const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`);
+    const j = await r.json();
+    if(j.routes && j.routes[0]){
+      routeLayer = L.geoJSON(j.routes[0].geometry,{style:{color:'#38bdf8',weight:4,opacity:.85}}).addTo(map);
+      map.fitBounds(routeLayer.getBounds().pad(.15));
+      const mi = Math.round(j.routes[0].distance/1609), hr = (j.routes[0].duration/3600);
+      document.getElementById('tripstats').textContent = `Driving route: ~${mi.toLocaleString()} mi · ${Math.floor(hr)}h ${Math.round((hr%1)*60)}m`;
+      return;
+    }
+  }catch(e){}
+  // fallback: straight lines + haversine estimate
+  routeLayer = L.polyline(pts.map(p=>[p.lat,p.lon]),{color:'#38bdf8',weight:3,dashArray:'6 6'}).addTo(map);
+  map.fitBounds(routeLayer.getBounds().pad(.15));
+  let mi=0; for(let i=1;i<pts.length;i++) mi+=hav(pts[i-1],pts[i]);
+  document.getElementById('tripstats').textContent = `~${Math.round(mi).toLocaleString()} mi straight-line (routing service unreachable)`;
+}
+function renderTrip(){
+  const w = document.getElementById('tripwrap');
+  const selector = `<div class="toolbar" style="margin-bottom:10px">
+    <select onchange="selectTrip(+this.value)">${trips.map((t,i)=>`<option value="${i}" ${i===curTrip?'selected':''}>🛣️ ${esc(t.n)} (${t.ids.length})</option>`).join('')}</select>
+    <input class="t5in" style="max-width:150px" value="${esc(T().n)}" onchange="renameTrip(this.value);renderTrip()" title="Rename this trip">
+    <button class="btn sec" onclick="newTrip()">＋ New trip</button>
+    <button class="btn sec" onclick="deleteTrip()">🗑</button>
+  </div>`;
+  if(!trip.length){ w.innerHTML = `<h2 class="pagetitle">🛣️ Road Trips</h2>`+selector+`<div class="empty">No stops in this trip yet.<br>Tap 🛣️ on any school to add it to the selected trip.<br><span style="font-size:12px">Tip: tap ✅ on a stop to add a visit standout to ✉️ Communicate.</span></div>`; return; }
+  const p = profile(), hasHome = p && p.lat!=null;
+  const {st,en} = endpointPts();
+  const stC = T().start, enC = T().end;
+  const all = tripPoints();
+  let mi=0; for(let i=1;i<all.length;i++) mi+=hav(all[i-1],all[i]);
+  const epRow = (pt,lbl)=>`<div class="tripstop" style="border-style:dashed"><b>${lbl==='Start'?'📍':'🏁'}</b><span class="n">${lbl}: ${esc(pt.n.replace(/^..\s*/,''))}<br><span class="muted">${esc(pt.home&&pt.n.includes('Home')?(p&&p.address||''):pt.c)}</span></span></div>`;
+  w.innerHTML = `<h2 class="pagetitle">🛣️ ${esc(T().n)} — ${trip.length} stop${trip.length>1?'s':''}</h2>`+selector+`
+    <div class="homechip">
+      <div class="row" style="margin-bottom:6px">
+        <input id="t-start" placeholder="${stC?'':'Start address (optional)'}" value="">
+        <button class="btn sec" onclick="setTripPoint('start')">Set start</button>
+        ${stC?`<button class="btn sec" onclick="clearTripPoint('start')">✕</button>`:''}
+      </div>
+      <div class="row" style="margin-bottom:6px">
+        <input id="t-end" placeholder="${enC?'':'End address (optional)'}" value="">
+        <button class="btn sec" onclick="setTripPoint('end')">Set end</button>
+        ${enC?`<button class="btn sec" onclick="clearTripPoint('end')">✕</button>`:''}
+      </div>
+      ${hasHome
+        ? `<label style="margin:0;cursor:pointer;font-size:13px"><input type="checkbox" ${useHome()?'checked':''} onchange="store.set('useHome',this.checked);renderTrip()"> Use 🏠 Home when no custom start/end is set</label>`
+        : `<span class="muted" style="font-size:12px">Tip: add your home address in <a href="#" onclick="switchView('account');return false" style="color:var(--acc)">👤 Account</a> to default trips to your door.</span>`}
+    </div>
+    <div class="muted" id="tripstats" style="margin-bottom:10px">${all.length>1?`~${Math.round(mi).toLocaleString()} mi round the route (straight-line)`:''}</div>
+    ${st?epRow(st,'Start'):''}
+    ${trip.map(id=>byId[id]).map((pt,i)=>`<div class="tripstop"><b>${i+1}.</b><span class="n">${esc(pt.n)}<br><span class="muted">${esc(pt.c)}, ${pt.s}</span></span>
+      <button title="Add to Communicate ✅" onclick="toggleTop5(${pt.id});renderTrip()">${top5.includes(pt.id)?'✅':'✓'}</button>
+      <button onclick="moveStop(${i},-1)">↑</button><button onclick="moveStop(${i},1)">↓</button>
+      <button onclick="toggleTrip(${pt.id})">✕</button></div>`).join('')}
+    ${en?epRow(en,'Finish'):''}
+    <div class="actions">
+      <button class="btn" onclick="switchView('map');setTimeout(drawRoute,80)">Show route on map</button>
+      <button class="btn sec" onclick="optimizeTrip()">Optimize order</button>
+      <a class="btn sec" target="_blank" href="${gmapsUrl()}">Open in Google Maps</a>
+      <a class="btn sec" target="_blank" href="${appleTripUrl()}"> Apple Maps</a>
+      <button class="btn danger" onclick="T().ids.length=0;saveTrips();renderTrip()">Clear trip</button>
+    </div>
+    <div class="muted" style="margin-top:10px">Tip: “Open in Google Maps” launches full turn-by-turn navigation with every stop loaded.</div>`;
+}
+
+// ---------- search ----------
+const qEl = document.getElementById('q'), sugEl = document.getElementById('suggest');
+qEl.addEventListener('input',()=>{
+  const q = qEl.value.trim().toLowerCase();
+  F.q = q; refresh();
+  if(q.length<2){ sugEl.style.display='none'; return; }
+  const hits = SCHOOLS.filter(s=>s.n.toLowerCase().includes(q)||s.c.toLowerCase().includes(q)).slice(0,8);
+  sugEl.innerHTML = hits.map(s=>`<div onclick="pickSuggest(${s.id})">${esc(s.n)} <span class="muted">· ${esc(s.c)}, ${s.s}</span></div>`).join('');
+  sugEl.style.display = hits.length?'block':'none';
+});
+function pickSuggest(id){
+  sugEl.style.display='none'; qEl.value=''; F.q='';
+  refresh(); openFromList(id);
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('#search')) sugEl.style.display='none'; });
+
+// ---------- views ----------
+let curView = 'map';
+function switchView(v){
+  curView = v;
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  if(v==='map') setTimeout(()=>map.invalidateSize(),60);
+  if(v==='list') renderList();
+  if(v==='favs') renderFavs();
+  if(v==='top5') renderTop5();
+  if(v==='picks') renderPicks();
+  if(v==='score') renderScore();
+  if(v==='trip') renderTrip();
+  if(v==='account') renderAccount();
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
+function refreshLists(){
+  const v = curView;
+  if(v==='list') renderList(); if(v==='favs') renderFavs(); if(v==='top5') renderTop5(); if(v==='picks') renderPicks(); if(v==='score') renderScore(); if(v==='trip') renderTrip();
+  if(document.getElementById('sheet').classList.contains('open')) {} // sheet re-rendered by its own buttons
+}
+function refresh(){ refreshMap(filtered()); refreshLists(); }
+
+// ---------- landing / welcome screen ----------
+function enterApp(){
+  localStorage.setItem('muv_seenLanding','1');
+  document.getElementById('landing').style.display='none';
+  renderAuthGate();
+  setTimeout(()=>map.invalidateSize(),60);
+  maybeStartTour();
+}
+
+// ---------- 🧭 How to navigate — animated guided tour ----------
+// TURNED OFF for now: flip to true to bring back the ❓ button, footer link, and first-visit tour.
+const TOUR_ENABLED = false;
+const TOUR_STEPS = [
+ {sel:'nav button[data-v="map"]',  t:'🗺️ The Map',    d:'Every dot is a college — all 5,777 of them. Colors show athletics and school type (tap the map key, bottom-left). Tap any pin for a full profile: real costs, academics, athletics.'},
+ {sel:'#search',                   t:'🔍 Search',      d:'Jump straight to any school or city by name.'},
+ {sel:'#filterBtn',                t:'⚙︎ Filters',     d:'Narrow the map by state, major, division, sport, campus setting, and acceptance rate. The map updates instantly.'},
+ {sel:'nav button[data-v="favs"]', t:'⭐ Favorites',   d:'On any school card, tap Favorite to save it. Your shortlist lives here — with notes, ratings, and photos.'},
+ {sel:'nav button[data-v="top5"]', t:'✉️ Communicate', d:'Email coaches and admissions with ready-to-send intros, jump to each school\'s campus-visit page, and keep a log of every contact — all in one place.'},
+ {sel:'nav button[data-v="trip"]', t:'🛣️ Road Trip',  d:'Turn your list into a driving route from your front door, with one-tap navigation and nearby hotels, gas, and food.'},
+ {sel:'nav button[data-v="score"]',t:'🏆 Scorecard',   d:'Compare favorites side by side — sticker vs. actual cost, admissions, athletics — and add your own 0–5 ratings.'},
+ {sel:'nav button[data-v="picks"]',t:'👍 Top Picks',   d:'Tap 👍 anywhere to mark a finalist. They gather here, ranked, for the final decision.'},
+ {sel:'nav button[data-v="account"]',t:'👤 Account',   d:'Sign in to sync everything across your devices, and set your home address to power Road Trips. That\'s the tour — happy hunting!'},
+];
+let tourI = 0;
+function startTour(i){ if(!TOUR_ENABLED) return; tourI = i||0; document.getElementById('tour').classList.add('on'); showTourStep(); }
+function maybeStartTour(){ if(TOUR_ENABLED && !localStorage.getItem('muv_tour_done')) setTimeout(()=>startTour(0), 700); }
+function showTourStep(){
+  const st = TOUR_STEPS[tourI];
+  const el = document.querySelector(st.sel);
+  const r = el ? el.getBoundingClientRect() : {left:innerWidth/2-70, top:innerHeight/2-30, width:140, height:60};
+  const pad = 6;
+  const ring = document.getElementById('tourRing'), box = document.getElementById('tourBox');
+  ring.style.left = (r.left-pad)+'px'; ring.style.top = (r.top-pad)+'px';
+  ring.style.width = (r.width+pad*2)+'px'; ring.style.height = (r.height+pad*2)+'px';
+  box.innerHTML = `<h4>${st.t}</h4><p>${st.d}</p>
+    <div class="tdots">${TOUR_STEPS.map((_,k)=>`<i class="${k===tourI?'on':''}"></i>`).join('')}</div>
+    <div class="trow">
+      ${tourI>0?'<button class="btn sec" onclick="tourBack()">←</button>':''}
+      <button class="btn" onclick="tourNext()">${tourI>=TOUR_STEPS.length-1?'Finish ✓':'Next →'}</button>
+      <button class="tskip" onclick="endTour()">Skip tour</button>
+    </div>`;
+  // place the box below the target (or above when the target sits low), clamped to the viewport
+  const bw = Math.min(320, innerWidth*0.86);
+  let bx = Math.min(Math.max(10, r.left), innerWidth-bw-10);
+  let by = r.bottom + 16;
+  if(by > innerHeight-190) by = Math.max(10, r.top - 200);
+  box.style.left = bx+'px'; box.style.top = by+'px';
+}
+function tourNext(){ if(tourI >= TOUR_STEPS.length-1){ endTour(); return; } tourI++; showTourStep(); }
+function tourBack(){ if(tourI>0){ tourI--; showTourStep(); } }
+function endTour(){ document.getElementById('tour').classList.remove('on'); localStorage.setItem('muv_tour_done','1'); }
+window.addEventListener('resize', ()=>{ if(document.getElementById('tour').classList.contains('on')) showTourStep(); });
+function showLanding(){ document.getElementById('landing').style.display='block'; }
+if(!localStorage.getItem('muv_seenLanding') && !signedIn()) document.getElementById('landing').style.display='block';
+else maybeStartTour();   // returning straight into the app — offer the tour once
+
+
+// ---------- light / dark theme ----------
+function currentTheme(){
+  // account preference first (syncs across devices), then this device, default LIGHT
+  return store.get('theme', null) || localStorage.getItem('muv_theme') || 'light';
+}
+function applyTheme(t){
+  document.body.classList.toggle('light', t==='light');
+  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content', t==='light'?'#f6f8fb':'#0f172a');
+  const b=document.getElementById('themebtn'); if(b) b.textContent = t==='light'?'☀️':'🌙';
+  if(tileLayerRef) map.removeLayer(tileLayerRef);
+  // CARTO ships purpose-built light (Positron) and dark (Dark Matter) basemaps, so the
+  // theme picks a real basemap instead of running a CSS filter over a light one.
+  const usingCarto = !!CARTO_KEY && !tilesFellBack;
+  document.body.classList.toggle('osmtiles', !usingCarto);   // gates the CSS tile filters
+  tileLayerRef = L.tileLayer(
+    usingCarto ? tileURL(t==='light'?'light':'dark') : OSM_TILES,
+    {attribution: usingCarto ? ATTRIB_CARTO : ATTRIB_OSM, maxZoom:19, crossOrigin:true}
+  ).addTo(map);
+  if(usingCarto) watchTiles(tileLayerRef, t);
+}
+function watchTiles(layer, theme){
+  tileErrors = 0;
+  layer.on('tileerror', function(){
+    if(tilesFellBack) return;
+    if(++tileErrors < 6) return;
+    tilesFellBack = true;
+    console.warn('Basemap provider failing — falling back to OpenStreetMap tiles.');
+    applyTheme(theme);
+  });
+}
+function toggleTheme(){
+  const t = currentTheme()==='light' ? 'dark' : 'light';
+  localStorage.setItem('muv_theme', t);
+  if(signedIn()) store.set('theme', t);   // saved with the account → any device
+  applyTheme(t);
+}
+
+renderFilters();
+applyTheme(currentTheme());
+document.getElementById('yr').textContent = new Date().getFullYear();
+document.querySelectorAll('.oauthbtn').forEach(b=>{ if(!OAUTH_PROVIDERS.includes(b.dataset.p)) b.style.display='none'; });
+document.querySelector('.ordivider').style.display = OAUTH_PROVIDERS.length ? '' : 'none';
+renderAuthGate();
+renderUserBadge();
+refresh();
+if(cloudConfigured()) initCloud();   // restores cloud session / completes OAuth redirect
+initIAP();                           // iOS only: connect StoreKit, load prices, restore entitlement
+</script>
+</body>
+</html>
