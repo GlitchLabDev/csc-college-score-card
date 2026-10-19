@@ -434,17 +434,15 @@ const byId = {}; SCHOOLS.forEach(s=>byId[s.id]=s);
 const SUPABASE_URL = "https://akktntuteharoczygfku.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFra3RudHV0ZWhhcm9jenlnZmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyODEwNjAsImV4cCI6MjEwMDg1NzA2MH0.OyEPZQKGsf9tl73sNabNec-mH21i3SweYBNhPy0LXJA";
 const OAUTH_PROVIDERS = ['google'];
-// Map tiles. OpenStreetMap standard needs no API key. To switch to CARTO/Stadia later,
-// sign up for a free key and paste their URL template here (must include {z}/{x}/{y}).
 // ---------- basemap ----------
 // OSM's tile policy is explicit that commercial services can be cut off without
-// notice, so the basemap comes from CARTO. Their key is domain-restricted in the
-// CARTO dashboard, which is what makes it safe to ship in a public HTML file.
-// OSM stays wired up as an emergency fallback: if CARTO stops answering, a
-// degraded map beats a blank one. Leave CARTO_KEY empty and we just use OSM.
-// Public by necessity — it ships in this file. Safe because it is Referer-restricted
-// to myuniview.com / www.myuniview.com in the CARTO dashboard, so it is useless
-// anywhere else. Rotate it there, not here, if it ever needs replacing.
+// notice, so the basemap comes from CARTO. OSM stays wired up as an emergency
+// fallback: if CARTO stops answering, a degraded map beats a blank one.
+// Setting CARTO_KEY to '' falls back to OSM everywhere, which is the kill switch.
+//
+// This key is public by necessity — it ships in this file. It is safe because it is
+// Referer-restricted to myuniview.com / www.myuniview.com in the CARTO dashboard,
+// so it is useless anywhere else. Rotate it there, not here.
 const CARTO_KEY = 'cb1_4lua_1_4d30a41ce9da6741fd74da8d';
 // Raster style names differ from the vector ones: light_all IS Positron and
 // dark_all IS Dark Matter. 'positron'/'dark-matter' only work on the /gl/ vector URLs.
@@ -458,7 +456,6 @@ const ATTRIB_OSM   = '© <a href="https://www.openstreetmap.org/copyright">OpenS
 function tileURL(theme){
   return CARTO_KEY ? CARTO_TILES[theme] + '?key=' + encodeURIComponent(CARTO_KEY) : OSM_TILES;
 }
-const TILE_URL = OSM_TILES;   // kept for anything still referencing the old name
 // Declared here, not beside applyTheme(), so no code path can reach them in the
 // temporal dead zone — applyTheme() is reachable from afterAuth() on sign-in.
 let tilesFellBack = false, tileErrors = 0;
