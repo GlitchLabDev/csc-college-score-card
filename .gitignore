@@ -1,2 +1,18 @@
+# Secrets — never commit. src/keys.json holds the Supabase anon key, the Umami
+# website id, and anything else the build injects. Copy src/keys.example.json
+# to src/keys.json and fill it in locally.
+src/keys.json
+keys.json
+
+# Build output lives at the repo root (index.html, app/, colleges/, sitemap.xml)
+# because GitHub Pages serves from there. The generator's own scratch directory
+# does not need committing.
+src/site/
+
+# macOS / editor noise
 .DS_Store
-links.json
+*.swp
+.vscode/
+.idea/
+__pycache__/
+*.pyc

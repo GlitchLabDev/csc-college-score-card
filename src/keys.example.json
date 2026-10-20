@@ -1,0 +1,5 @@
+{
+  "url":   "https://YOUR-PROJECT.supabase.co",
+  "anon":  "eyJ... your Supabase anon (public) key ...",
+  "umami": "your-umami-website-id"
+}
