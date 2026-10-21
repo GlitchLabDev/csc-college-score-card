@@ -952,7 +952,11 @@ function afterAuth(){
   authErr('');
   favs = store.get('favs', {}); top5 = store.get('top5', []); picks = store.get('picks', []); loadTrips();
   renderAuthGate(); renderUserBadge(); applyTheme(currentTheme()); refresh();
-  if(signedIn()) switchView(profile()?'map':'account');  // new users: set up profile first
+  // initCloud() restores a session asynchronously, i.e. after routeHash() has run. Without
+  // this guard a signed-in visitor following /app/#career=47-2111 would be bounced to the
+  // map a second after landing. Consumed once, so normal sign-ins still land sensibly.
+  if(deepLinked){ deepLinked = false; }
+  else if(signedIn()) switchView(profile()?'map':'account');  // new users: set up profile first
 }
 // The gate is opt-IN, not a wall. Arriving visitors get the working map; the homepage
 // promises "no account needed" and a login box over the map is the biggest drop-off
@@ -2210,6 +2214,8 @@ function refresh(){ refreshMap(filtered()); refreshLists(); }
 const CAR_FILES = { idx: '/careers.js', prog: '/programs.js' };
 let CJ = null, CP = null;
 const carLoads = {};
+let carPending = null;   // SOC from a #career= deep link, applied after careers.js loads
+let deepLinked = false;  // a #hash chose the view; afterAuth() must not override it
 const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', near:0, sort:'auto', off:{}, show:60,
               zip:'', zipLoc:null, zipBusy:false, zipErr:'' };
 
@@ -2348,7 +2354,11 @@ function renderCareers(){
   const w = document.getElementById('careerswrap');
   if(!CJ){
     w.innerHTML = `<div class="empty">Loading careers…</div>`;
-    carLoad('idx').then(()=>{ CJ = window.__CAREERS; carPrep(); renderCareers(); })
+    carLoad('idx').then(()=>{ CJ = window.__CAREERS; carPrep();
+        // a #career=SOC deep link can only be applied once the index exists
+        if(carPending){ const s = carPending; carPending = null;
+                        if(CJ.bySoc && CJ.bySoc[s]) CAR.soc = s; }
+        renderCareers(); })
       .catch(()=>{ w.innerHTML = `<div class="empty">Couldn't load career data. Check your connection and try again.<br><button class="btn sec" style="margin-top:10px" onclick="renderCareers()">Retry</button></div>`; });
     return;
   }
@@ -2618,6 +2628,25 @@ document.querySelector('.ordivider').style.display = OAUTH_PROVIDERS.length ? ''
 renderAuthGate();
 renderUserBadge();
 refresh();
+
+// Deep links from the static pages. Without this, "Open the career search" and every
+// career page's CTA dumped the visitor on the map to find Careers for themselves —
+// someone arriving from a search for "how to become an electrician" would land on a
+// map of 5,777 dots. #careers opens the tab; #career=47-2111 opens that occupation.
+(function routeHash(){
+  const h = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  if(!h) return;
+  const soc = (h.match(/^career=([\d-]+)$/) || [])[1];
+  if(soc || h === 'careers'){
+    deepLinked = true;
+    switchView('careers');
+    if(soc) carPending = soc;          // applied once careers.js has loaded
+    return;
+  }
+  // plain view names, so /app/#favs and the like work too
+  if(document.getElementById('view-' + h)){ deepLinked = true; switchView(h); }
+})();
+
 if(cloudConfigured()) initCloud();   // restores cloud session / completes OAuth redirect
 initIAP();                           // iOS only: connect StoreKit, load prices, restore entitlement
 </script>
