@@ -16,3 +16,6 @@ src/site/
 .idea/
 __pycache__/
 *.pyc
+
+# Raw federal downloads for build_careers.py (large; re-download per src/build_careers.py header)
+src/raw/

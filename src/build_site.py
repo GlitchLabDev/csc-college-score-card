@@ -263,6 +263,8 @@ def main():
     app = app.replace('"libs/', '"/libs/').replace("'libs/", "'/libs/")
     assert 'src="db.js"' in app
     app = app.replace('src="db.js"', 'src="/db.js"')
+    assert app.count("'careers.js'")==1 and app.count("'programs.js'")==1, 'career data paths missing from template'
+    app = app.replace("'careers.js'", "'/careers.js'").replace("'programs.js'", "'/programs.js'")
     for stray in ('"libs/', "'libs/", 'src="db.js"'):
         assert stray not in app, f'relative asset path survived the rewrite: {stray}'
     # NB: not 'page' as the loop name — that shadows the module-level page() builder
@@ -289,6 +291,16 @@ def main():
     open('site/index.html','w').write(home)
 
     open('site/db.js','w').write('window.__DBDATA=' + json.dumps(db, separators=(',',':')) + ';')
+
+    # Career search data (built by build_careers.py). careers.js is the small career index every
+    # visitor loads; programs.js (school x program lists) is only fetched once Premium is active.
+    if os.path.exists('careers.json'):
+        cj = json.load(open('careers.json'))
+        progs = cj.pop('programs')
+        open('site/careers.js','w').write('window.__CAREERS=' + json.dumps(cj, separators=(',',':')) + ';')
+        open('site/programs.js','w').write('window.__PROGRAMS=' + json.dumps(progs, separators=(',',':')) + ';')
+    else:
+        print('WARN careers.json missing — run build_careers.py; Career search will show an error')
 
     n_school=[0]
     urls = [f'{DOMAIN}/', f'{DOMAIN}/app/', f'{DOMAIN}/colleges/']
@@ -375,7 +387,7 @@ def main():
         '\n'.join(f'  <url><loc>{u}</loc></url>' for u in urls) + '\n</urlset>\n')
 
     print(f'site/ built: {len(state_links)} state pages, {n_school[0]} school pages, 4 division pages,')
-    print(f'             hub, sitemap ({len(urls)} urls), robots.txt, index.html, db.js')
+    print(f'             hub, sitemap ({len(urls)} urls), robots.txt, index.html, db.js, careers.js, programs.js')
 
 if __name__ == '__main__':
     main()

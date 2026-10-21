@@ -13,13 +13,17 @@ src/                      SOURCE — edit these
   app_template.html       the whole application: markup, CSS, JS
   homepage.html           the static marketing page served at /
   build_site.py           generator — builds everything below
+  build_careers.py        builds careers.json for Career search from the federal files in src/raw/
   db.json                 merged College Scorecard + IPEDS + EADA data
+  careers.json            careers + which schools award which programs (generated, committed)
+  raw/                    federal downloads for build_careers.py (gitignored)
   keys.example.json       copy to keys.json and fill in (keys.json is gitignored)
 
 index.html                GENERATED from src/homepage.html
 app/index.html            GENERATED from src/app_template.html
 colleges/                 GENERATED — 5,777 school + 59 state + 4 division pages
 db.js                     GENERATED from src/db.json
+careers.js programs.js    GENERATED from src/careers.json (programs.js loads only for Premium)
 sitemap.xml robots.txt    GENERATED
 libs/                     vendored Leaflet, MarkerCluster, Supabase, SheetJS
 privacy.html terms.html disclaimer.html sources.html contact.html groups.html
@@ -38,11 +42,26 @@ That writes to `src/site/`. Copy the output up to the repo root:
 
 ```
 rsync -a src/site/colleges/ colleges/
-cp src/site/index.html src/site/app/index.html src/site/sitemap.xml .
+cp src/site/index.html src/site/sitemap.xml src/site/db.js src/site/careers.js src/site/programs.js .
+cp src/site/app/index.html app/
 ```
 
 `rsync` is deliberate — a plain `cp -R` of 5,777 files can fail partway through
 and leave the site half-updated, which is easy to miss.
+
+## Career search data
+
+The 🧰 Careers tab (Premium for the school lists) is built from three federal files.
+Save them into `src/raw/`, then run `python3 build_careers.py` before `build_site.py`:
+
+| File | Source |
+|---|---|
+| `C2023_A.zip` (unzip it) | IPEDS completions 2022–23 — nces.ed.gov/ipeds/datacenter/DataFiles.aspx |
+| `CIP2020_SOC2018_Crosswalk.xlsx` | NCES CIP–SOC crosswalk — nces.ed.gov/ipeds/cipcode |
+| `occupation.xlsx` | BLS Employment Projections tables — bls.gov/emp/tables.htm |
+
+Both sites refuse scripted downloads; fetch them in a browser. Search aliases (the plain
+words people type, like "auto mechanic") live in `ALIASES` in `build_careers.py`.
 
 ## Two things that will bite you
 
