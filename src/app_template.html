@@ -2425,7 +2425,7 @@ function carDetail(k){
   if(!isPremium()){
     return head + cips + `<div class="carlock">
       <b style="font-size:16px">🔒 ${k.n.toLocaleString()} schools offer programs for this career</b>
-      <div class="muted" style="margin-top:6px;font-size:13px">Premium shows which schools, with the credentials each one awards, graduates per year and average net price, plus filters for program length, credential, cost and distance from home.</div>
+      <div class="muted" style="margin-top:6px;font-size:13px">Premium shows which schools, with the credentials each one awards, graduates per year and average net price, plus filters for program length, credential, cost and distance from any ZIP code.</div>
       <button type="button" class="btn" onclick="showPaywall()">Unlock with Premium</button></div>` + carFoot();
   }
   if(!CP){
