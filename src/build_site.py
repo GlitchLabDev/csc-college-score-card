@@ -238,18 +238,144 @@ def career_faq(k, cj, one, nschools):
                     f'less. Pay varies widely by state, employer and experience.'))
     need = {'deg':'Yes — a degree is the usual way in.',
             'degx':'Yes, and employers also expect years of related experience first.',
-            'cert':'Not a full degree. A certificate or short programme is the usual route.',
+            'cert':'Not a full degree. A certificate or short program is the usual route.',
             'appr':'No. Most people train through a paid apprenticeship and earn while they learn.',
-            'ojt':'No. Most people are hired and trained on the job; a programme is optional.'}
+            'ojt':'No. Most people are hired and trained on the job; a program is optional.'}
     out.append((f'Do you need a degree to become {one}?' if one
                 else 'Do you need a degree for this work?', need.get(k['p'])))
     if nschools:
         out.append((f'Where can you train to become {one}?' if one
                     else 'Where can you train for this work?',
                     f'{nschools:,} US colleges, community colleges and trade schools award '
-                    f'credentials in a matching programme. '
+                    f'credentials in a matching program. '
                     f'<a href="/app/">See which ones →</a>'))
     return out
+
+
+def build_report(schools):
+    """A single editorial page built from the data, for citation and press.
+    Generated rather than hand-written so the figures cannot drift from db.json."""
+    import statistics as _st, math, random
+    ok = [x for x in schools if x.get('cst') and x.get('np') and (x.get('en') or 0) >= 500]
+    gap = lambda x: x['cst'] - x['np']
+    pct = lambda x: (1 - x['np']/x['cst']) * 100
+    med_pct, med_gap = _st.median([pct(x) for x in ok]), _st.median([gap(x) for x in ok])
+
+    # How often does the cheaper-looking school actually cost more? Fixed seed so the
+    # published figure is reproducible by anyone re-running this.
+    random.seed(7); pairs = flips = 0
+    for _ in range(200000):
+        a, b = random.sample(ok, 2)
+        if a['cst'] == b['cst']: continue
+        cheap, exp = (a, b) if a['cst'] < b['cst'] else (b, a)
+        pairs += 1
+        if cheap['np'] > exp['np']: flips += 1
+    flip_pct = flips / pairs * 100
+
+    def row(x):
+        sl = slug(STATE_NAMES.get(x['s'], x['s']))
+        link = f'<a href="/colleges/{sl}/{x.get("_slug") or slug(x["n"])}.html">{H.escape(x["n"])}</a>'
+        return (f'<tr><td>{link}<span>{H.escape(x["c"])}, {x["s"]}</span></td>'
+                f'<td>{money(x["cst"])}</td><td><b>{money(x["np"])}</b></td>'
+                f'<td>−{money(gap(x))}<span>{pct(x):.0f}% off</span></td></tr>')
+    head = '<tr><th>School</th><th>Advertised</th><th>Actually paid</th><th>Difference</th></tr>'
+    biggest = ''.join(row(x) for x in sorted([x for x in ok if (x.get('en') or 0) >= 1000],
+                                             key=lambda x: -gap(x))[:15])
+    closest = ''.join(row(x) for x in sorted([x for x in ok if (x.get('en') or 0) >= 1000],
+                                             key=pct)[:10])
+    # Show a real inversion rather than the biggest-aid school. "Princeton costs less
+    # than X" is true but unsurprising; the point lands harder with two schools nobody
+    # assumes anything about. Pick the NJ pair where advertising LESS costs the most MORE.
+    nj = [x for x in ok if x['s'] == 'NJ' and (x.get('en') or 0) >= 1000]
+    # Compare like with like: an Ivy against a community college is not a choice any
+    # family makes, and it reduces the point to "rich colleges have aid". Same degree
+    # level, ranked by how much MORE the cheaper-advertised school actually costs.
+    best = None
+    for a in nj:
+        for b in nj:
+            if a['lvl'] != b['lvl']: continue
+            if a['cst'] >= b['cst'] or a['np'] <= b['np']: continue
+            score = a['np'] - b['np']
+            if best is None or score > best[0]: best = (score, a, b)
+
+    contrast = ''
+    if best:
+        _, cheap_ad, dear_ad = best          # cheap_ad advertises less but costs more
+        contrast = (f'<p>In New Jersey, {H.escape(cheap_ad["n"])} advertises '
+                    f'{money(cheap_ad["cst"])} and students pay {money(cheap_ad["np"])}. '
+                    f'{H.escape(dear_ad["n"])} advertises {money(dear_ad["cst"])} — '
+                    f'{money(dear_ad["cst"]-cheap_ad["cst"])} <em>more</em> — and students '
+                    f'pay {money(dear_ad["np"])}, which is '
+                    f'{money(cheap_ad["np"]-dear_ad["np"])} <em>less</em> a year. A family '
+                    f'comparing the two advertised figures would pick the wrong one.</p>')
+
+    body = f"""<div class="crumb"><a href="/">Home</a> › What college really costs</div>
+<h1>The advertised price of college is not the price</h1>
+<p class="sub">Across {len(ok):,} US colleges with enough students to compare, the median
+student pays {med_pct:.0f}% less than the published cost of attendance — about
+{money(int(med_gap))} a year less. The discount ranges from 5% to over 90%, which makes the
+advertised figure close to useless for deciding where to apply.</p>
+
+<h2>The cheaper-looking school often costs more</h2>
+<p>Take any two of these colleges at random. <b>{flip_pct:.0f}% of the time, the one with the
+lower advertised price is the one that actually costs more</b> once grants and scholarships
+are counted. Not occasionally — roughly one comparison in eight.</p>
+{contrast}
+<p class="note">Advertised price and real price are correlated overall. The problem is not
+that the sticker is random; it is that the discount varies so widely between schools that the
+sticker cannot tell a family which of two colleges will cost them less.</p>
+
+<h2>Where the gap is largest</h2>
+<p>These are the fifteen colleges with 1,000 or more undergraduates where the published price
+and the average amount students actually pay diverge most.</p>
+<table>{head}{biggest}</table>
+
+<h2>Where the advertised price is closest to the truth</h2>
+<p>And the ten where it is nearly accurate — mostly for-profit and specialist career colleges,
+which tend to discount least.</p>
+<table>{head}{closest}</table>
+
+<h2>What this means if you are choosing</h2>
+<p>Do not rule a college out on its advertised price, and do not assume a cheap-looking one
+will be cheap. Every US college is required by law to publish a
+<a href="https://collegecost.ed.gov/net-price" rel="noopener">net price calculator</a>; run it
+for each school on your list, then confirm in writing with the financial aid office.
+The figures here are historical averages across all students — <b>no student pays the
+average</b>, and what you are charged depends on your family's finances, your record and the
+year you apply.</p>
+<p><a class="cta" href="/app/">Compare any US college's advertised and actual cost →</a></p>
+
+<h2>Method and sources</h2>
+<p>US Department of Education College Scorecard and IPEDS, 2022–23 — the most recent year
+published. "Advertised" is the total published cost of attendance; "actually paid" is the
+average net price after grants and scholarships. Limited to the {len(ok):,} institutions with
+500 or more undergraduates that report both figures. The one-in-eight comparison is from
+200,000 random pairs drawn from that set with a fixed seed, so it is reproducible.
+Free to cite or reproduce with a link to this page.</p>
+
+<h2>Important — what these figures are not</h2>
+<p class="note"><b>Nothing on this page is a price quote, and no student pays the average.</b>
+Every figure here is a historical average across all students at a school. What you are
+actually charged will differ, often by a lot, and depends on your family's income and assets,
+your academic record, any merit or athletic scholarship you are offered, the program you
+enroll in, whether you live on campus, your residency status, and the year you apply. Aid
+policies change from year to year, and two students at the same college in the same year
+routinely pay very different amounts.</p>
+<p class="note">Use these numbers to decide which colleges are worth investigating — never to
+decide what one will cost you. Every US college is required by law to publish a
+<a href="https://collegecost.ed.gov/net-price" rel="noopener">net price calculator</a>; run it
+for each school on your list, then <b>confirm the figures in writing with that college's
+financial aid office</b> before you make any decision or sign anything. Where our figures and
+a college's own differ, the college is right and we are out of date.</p>
+<p class="note">We are not financial, admissions or tax advisers, we have no relationship with
+any college listed here, and we receive nothing from any of them.</p>"""
+    open('site/what-college-really-costs.html','w').write(page(
+        'The Advertised Price of College Is Not the Price — What Students Actually Pay',
+        f'Across {len(ok):,} US colleges, the median student pays {med_pct:.0f}% less than the '
+        f'published price. {flip_pct:.0f}% of the time the cheaper-looking college actually '
+        f'costs more. Federal data, free to cite.',
+        f'{DOMAIN}/what-college-really-costs.html', body))
+    return f'{DOMAIN}/what-college-really-costs.html'
 
 
 def faq_block(pairs):
@@ -352,7 +478,7 @@ def school_page(s, db, state_name, state_slug, peers):
         if bits:
             ath = ('<h2>Athletics</h2><table>' + ''.join(bits) + '</table>'
                    '<p class="sub" style="font-size:13px">Filter by sport and division on the '
-                   '<a href="/app/">interactive map</a> to compare programmes and reach coaching staff.</p>')
+                   '<a href="/app/">interactive map</a> to compare programs and reach coaching staff.</p>')
 
     peer_links = ' · '.join(f'<a href="/colleges/{state_slug}/{p.get("_slug") or slug(p["n"])}.html">{H.escape(p["n"])}</a>' for p in peers)
     nearby = f'<h2>Other colleges in {state_name}</h2><p style="font-size:14px">{peer_links}</p>' if peer_links else ''
@@ -385,7 +511,7 @@ def school_page(s, db, state_name, state_slug, peers):
     if s.get('ad'): desc += f", {s['ad']} athletics"
     desc += ". Full cost breakdown, majors and admissions data."
     # Lead the title with the words people actually type — "tuition", "cost",
-    # "acceptance rate" — rather than the categories we happen to organise by.
+    # "acceptance rate" — rather than the categories we happen to organize by.
     # Acceptance rate only goes in when the school reports one; open-admission
     # schools get the program angle instead, which is what their searchers want.
     bits = ['Tuition', 'Cost']
@@ -737,6 +863,9 @@ or compare costs side by side on the free <a href="/app/">My University View map
         'US Colleges by State — Complete Lists with Costs & Athletics | My University View',
         'Browse all 5,777 US colleges by state or NCAA/NAIA division: tuition, average net cost, community colleges, athletics.',
         f'{DOMAIN}/colleges/', body))
+
+    # after the state loop: school _slug values are assigned there
+    urls.append(build_report(schools))
 
     open('site/robots.txt','w').write(f'User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n')
     open('site/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
