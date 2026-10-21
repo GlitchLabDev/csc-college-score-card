@@ -2187,7 +2187,7 @@ function refresh(){ refreshMap(filtered()); refreshLists(); }
 const CAR_FILES = { idx: '/careers.js', prog: '/programs.js' };
 let CJ = null, CP = null;
 const carLoads = {};
-const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', near:0, sort:'grads', off:{}, show:60 };
+const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', near:0, sort:'auto', off:{}, show:60 };
 const SOC_GROUPS = {'11':'Management','13':'Business & finance','15':'Computers & IT','17':'Engineering & architecture','19':'Science','21':'Community & social service','23':'Legal','25':'Education','27':'Arts, design, media & film','29':'Healthcare (clinical)','31':'Healthcare support','33':'Protective service','35':'Food & culinary','37':'Building & grounds','39':'Personal care & beauty','41':'Sales','43':'Office & admin','45':'Farming & forestry','47':'Construction trades','49':'Repair & mechanics','51':'Production & manufacturing','53':'Transportation'};
 const CAR_PATHS = {
   cert:{lbl:'Certificate',        note:'A certificate or short program is the usual way in.'},
@@ -2248,7 +2248,7 @@ function carChips(key, opts){
   return opts.map(o=>`<button type="button" class="chip ${String(CAR[key])===String(o[0])?'on':''}" onclick="carSet('${key}','${o[0]}')">${esc(o[1])}</button>`).join('');
 }
 function carSet(key, val){ CAR[key] = (key==='near') ? +val : val; CAR.show = 60; carBody(); }
-function carPick(soc){ CAR.soc = soc; CAR.off = {}; CAR.show = 60; carBody(); carTop(); }
+function carPick(soc){ CAR.soc = soc; CAR.off = {}; CAR.sort = 'auto'; CAR.show = 60; carBody(); carTop(); }
 function carGroup(g){ CAR.grp = g; carBody(); carTop(); }
 function carBack(){ if(CAR.soc) CAR.soc = null; else CAR.grp = null; carBody(); carTop(); }
 function carToggleCip(cp){ CAR.off[cp] = !CAR.off[cp]; CAR.show = 60; carBody(); }
@@ -2377,7 +2377,10 @@ function carResults(k){
     if(CAR.near && home && a.d > CAR.near) return false;
     return true;
   });
-  const sort = (CAR.sort==='near' && !home) ? 'grads' : CAR.sort;
+  // Non-degree careers (certificate, apprenticeship, on the job) train locally, so with a saved
+  // home address they default to closest first; degree careers default to most graduates.
+  let sort = CAR.sort==='auto' ? ((home && (k.p==='cert' || k.p==='appr' || k.p==='ojt')) ? 'near' : 'grads') : CAR.sort;
+  if(sort==='near' && !home) sort = 'grads';
   rows.sort(sort==='near' ? (a,b)=>a.d-b.d : sort==='cost' ? (a,b)=>(a.s.np??1e9)-(b.s.np??1e9) : sort==='name' ? (a,b)=>a.s.n.localeCompare(b.s.n) : (a,b)=>b.n-a.n);
   const filters = `<div class="carfilters">
     <div class="carsec">Filter schools</div>
