@@ -24,6 +24,19 @@ DIVS = {'D-I':('ncaa-d1','NCAA Division I'),'D-II':('ncaa-d2','NCAA Division II'
 
 def slug(name): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',name.lower())).strip('-')
 
+# State pages answer "colleges in X". These answer the two searches it doesn't:
+# "community colleges in X" and "trade schools in X". Keyed by the lvl value in db.json.
+STATE_TYPES = {
+ '2-year': ('community-colleges', 'Community colleges',
+            'Community Colleges in {name} — All {n}, with Tuition and Net Cost',
+            '{n} two-year public and private colleges in {name}, with published tuition, '
+            'average net price after aid, enrollment and transfer-level programs.'),
+ 'Certificate/trade': ('trade-schools', 'Trade and technical schools',
+            'Trade Schools in {name} — All {n} Certificate and Technical Programs',
+            '{n} trade, technical and certificate schools in {name}, with published tuition '
+            'and average net price after aid — the same federal data as the universities.'),
+}
+
 # ---------- career pages ----------
 # Crawlable counterpart to the app's Career search. These target the queries families
 # actually type ("how to become an electrician", "welder salary") rather than college
@@ -245,7 +258,7 @@ def school_page(s, db, state_name, state_slug, peers):
 
     setting = (' · ' + H.escape(s['loc'])) if s.get('loc') else ''
     body = f"""<div class="crumb"><a href="/">Home</a> › <a href="/colleges/">Colleges</a> › <a href="/colleges/{state_slug}.html">{state_name}</a> › {nm}</div>
-<h1>{nm}</h1>
+<h1>{nm}: tuition, cost and admissions</h1>
 <p class="sub">{city}, {st} · {H.escape(ctrl)} {kind}{setting}</p>
 {factbox}
 <a class="cta" href="/app/">See {nm} on the map →</a>
@@ -265,7 +278,14 @@ def school_page(s, db, state_name, state_slug, peers):
     if isinstance(s.get('adm'), (int, float)): desc += f", {round(s['adm']*100)}% acceptance rate"
     if s.get('ad'): desc += f", {s['ad']} athletics"
     desc += ". Full cost breakdown, majors and admissions data."
-    title = f"{s['n']} — Cost, Admissions & Majors ({s['c']}, {st})"
+    # Lead the title with the words people actually type — "tuition", "cost",
+    # "acceptance rate" — rather than the categories we happen to organise by.
+    # Acceptance rate only goes in when the school reports one; open-admission
+    # schools get the program angle instead, which is what their searchers want.
+    bits = ['Tuition', 'Cost']
+    if isinstance(s.get('adm'), (int, float)): bits.append('Acceptance Rate')
+    else: bits.append('Programs')
+    title = f"{s['n']} — {', '.join(bits)} ({s['c']}, {st})"
     return page(title, desc[:300], f'{DOMAIN}/colleges/{state_slug}/{s.get("_slug") or slug(s["n"])}.html', body)
 
 
@@ -352,7 +372,13 @@ Projections 2025–35. Program-to-occupation mapping: <b>NCES CIP–SOC crosswal
 School counts: <b>IPEDS completions</b>, 2022–23.</p>
 {related}
 <script type="application/ld+json">{json.dumps(ld)}</script>"""
-    title = f"{k['t']} — Pay, Job Growth and the Programs That Lead There"
+    # The title is a stronger signal than the H1, so it gets the phrase people type.
+    # "How to become an electrician" is a real query; "Electricians" barely is.
+    if one:
+        art, _, rest = one.partition(' ')      # "an electrician" -> "an" + "electrician"
+        title = f"How to Become {art} {rest.title()} — Pay, Training and Programs"
+    else:
+        title = f"{k['t']} — Pay, Job Growth and Training"
     desc = (f"{k['t']}: median US pay {pay}, {grow} projected growth to 2035, about {opens} openings a year. "
             f"{lbl} is the usual way in. See the programs and schools that train for it.")
     return page(title, desc[:300], f'{DOMAIN}/careers/{slug(k["t"])}.html', body, foot=FOOT_CAREER)
@@ -494,7 +520,7 @@ def main():
 
     open('site/db.js','w').write('window.__DBDATA=' + json.dumps(db, separators=(',',':')) + ';')
 
-    n_school=[0]
+    n_school=[0]; n_type=[0]; type_links={}
     urls = [f'{DOMAIN}/', f'{DOMAIN}/app/', f'{DOMAIN}/colleges/'] + career_urls
     for p in ('privacy','terms','disclaimer','contact','sources'): urls.append(f'{DOMAIN}/{p}.html')
 
@@ -519,8 +545,15 @@ def main():
             if cand in taken: cand = f"{base}-{s['id']}"
             taken.add(cand)
             s['_slug'] = cand
+        subs = [(seg, h1, len([x for x in ss if x['lvl']==lvl]))
+                for lvl, (seg, h1, _t, _b) in STATE_TYPES.items()
+                if len([x for x in ss if x['lvl']==lvl]) >= 5]
+        sublinks = (' · '.join(f'<a href="/colleges/{sl}-{seg}.html">{h1} in {name} ({n})</a>'
+                               for seg, h1, n in subs))
+        subrow = f'<p class="sub" style="margin-top:10px">Narrow it down: {sublinks}</p>' if subs else ''
         body = f"""<h1>Colleges in {name} — all {len(ss)} schools</h1>
 <p class="sub">{n4} four-year colleges, {n2} community colleges, and {nA} NCAA/NAIA athletic programs in {name}, with official tuition and average net cost from US Department of Education data.</p>
+{subrow}
 <a class="cta" href="/app/">Open the interactive map →</a>
 {school_rows(ss, state_slug=sl)}
 <p style="margin-top:18px">Compare these schools side-by-side, filter by sport and division, and plan campus visits with the free <a href="/app/">My University View map</a>.</p>"""
@@ -530,6 +563,29 @@ def main():
             f'{DOMAIN}/colleges/{sl}.html', body))
         state_links.append((name, sl, len(ss)))
         urls.append(f'{DOMAIN}/colleges/{sl}.html')
+
+        # "community colleges in X" and "trade schools in X" are their own searches,
+        # distinct from "colleges in X", and the state page above answers none of them
+        # directly. Only built where there are enough schools to be worth a page —
+        # a list of two is thin content and better left on the main state page.
+        for lvl, (seg, h1, ttl, blurb) in STATE_TYPES.items():
+            sub = [x for x in ss if x['lvl'] == lvl]
+            if len(sub) < 5: continue
+            sb = f"""<div class="crumb"><a href="/">Home</a> › <a href="/colleges/">Colleges</a> › <a href="/colleges/{sl}.html">{name}</a> › {h1}</div>
+<h1>{h1} in {name} — all {len(sub)}</h1>
+<p class="sub">{blurb.format(name=name, n=len(sub))}</p>
+<a class="cta" href="/app/">Open the interactive map →</a>
+{school_rows(sub, state_slug=sl)}
+<p style="margin-top:18px">See every school in {name} on the <a href="/colleges/{sl}.html">full {name} list</a>,
+or compare costs side by side on the free <a href="/app/">My University View map</a>.</p>"""
+            open(f'site/colleges/{sl}-{seg}.html','w').write(page(
+                ttl.format(name=name, n=len(sub)),
+                f'All {len(sub)} {h1.lower()} in {name}, with published tuition, average net price after aid, '
+                f'enrollment and programs. Federal data, free to search.',
+                f'{DOMAIN}/colleges/{sl}-{seg}.html', sb))
+            urls.append(f'{DOMAIN}/colleges/{sl}-{seg}.html')
+            n_type[0] += 1
+            type_links.setdefault(seg, []).append((name, f'{sl}-{seg}', len(sub)))
 
         big = sorted(ss, key=lambda x: -(x.get('en') or 0))
         for s in ss:
