@@ -248,7 +248,7 @@ def career_faq(k, cj, one, nschools):
                     else 'Where can you train for this work?',
                     f'{nschools:,} US colleges, community colleges and trade schools award '
                     f'credentials in a matching program. '
-                    f'<a href="/app/">See which ones →</a>'))
+                    f'<a href="/app/#career={H.escape(k["soc"])}">See which ones →</a>'))
     return out
 
 
@@ -567,8 +567,9 @@ usually arrive here through experience, training on the job, or a related field 
 than a dedicated course of study.</p>"""
 
     nschools = k.get('n') or 0
-    cta = (f'<p><a class="cta" href="/app/">See the {nschools:,} schools that offer these programs →</a></p>'
-           if nschools else '<p><a class="cta" href="/app/">Explore schools on the map →</a></p>')
+    deep = f'/app/#career={H.escape(k["soc"])}'
+    cta = (f'<p><a class="cta" href="{deep}">See the {nschools:,} schools that offer these programs →</a></p>'
+           if nschools else f'<p><a class="cta" href="{deep}">Open this career in the app →</a></p>')
 
     rel = ' · '.join(f'<a href="/careers/{slug(p["t"])}.html">{H.escape(p["t"])}</a>' for p in peers)
     related = f'<h2>Related careers in {H.escape(grp)}</h2><p>{rel}</p>' if rel else ''
@@ -647,7 +648,7 @@ def build_careers(cj):
 <p class="sub">{len(have)} careers, with what they pay, how fast they are growing, how many
 openings there are each year, and which college programs lead to them. Federal data — BLS
 Employment Projections and the Department of Education's program–occupation crosswalk.</p>
-<p><a class="cta" href="/app/">Open the career search →</a></p>
+<p><a class="cta" href="/app/#careers">Open the career search →</a></p>
 {''.join(secs)}"""
     open('site/careers/index.html', 'w').write(page(
         'Careers — Pay, Growth and the College Programs That Lead There',
