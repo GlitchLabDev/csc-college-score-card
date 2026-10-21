@@ -1345,7 +1345,7 @@ function renderFilters(){
     <h3>My test scores</h3>
     <div class="row"><input type="number" id="f-sat" min="400" max="1600" step="10" placeholder="Your SAT total (e.g. 1180)" value="${F.sat}"></div>
     <div style="margin-top:6px">${[['likely','✅ Likely'],['match','🎯 Match'],['reach','🌟 Reach']].map(([k,l])=>`<span class="chip ${F.fit.includes(k)?'on':''}" data-fit="${k}">${l}</span>`).join('')}</div>
-    <div class="muted" style="font-size:11px;margin-top:3px">${(()=>{const p=profile(); return (p&&p.sat)?'Filled in from your Account profile. ':'Save it in 👤 Account and it fills in automatically. ';})()}Every school keeps its badge — pick a chip above only if you also want to <b>hide</b> the others. Compared against each school's average SAT: a guide, not a prediction, and only ${SAT_COVERAGE} of schools report one.</div>
+    <div class="muted" style="font-size:11px;margin-top:3px">${(()=>{const p=profile(); return (p&&p.sat)?'Filled in from your Account profile. ':'Save it in 👤 Account and it fills in automatically. ';})()}Every school keeps its badge — pick a chip above only if you also want to <b>hide</b> the others. Compared against each school's published 25th–75th percentile range where there is one, otherwise its average: a guide, not a prediction, and only ${SAT_COVERAGE} of schools report scores at all.</div>
     <h3>Athletics</h3>
     ${['M','W'].map(g=>{
       const cnt = F.sports.filter(k=>k.startsWith(g.toLowerCase()+'-')).length;
@@ -1407,8 +1407,9 @@ function filtered(){
 }
 
 // ---------- test-score fit ----------
-// Only the school's AVERAGE SAT is published in the federal file, not the 25th/75th percentiles,
-// so the band below is a proxy for the usual interquartile spread. It is guidance, not a prediction.
+// 1,000 schools publish real 25th/75th SAT percentiles (s25/s75) and those are used directly.
+// About 80 more report an average and nothing else; for those SAT_BAND stands in for the
+// interquartile spread. It is guidance either way, not a prediction.
 const SAT_BAND = 60;
 const SAT_COVERAGE = '19%';
 // The score comes from the Filters box if one is typed there, otherwise from the saved profile,
@@ -1427,9 +1428,20 @@ function syncSatFromProfile(force){
   const saved = p ? String(p.sat||'').trim() : '';
   if(saved && (force || !F.sat)) F.sat = saved;
 }
+// Prefer the school's real 25th/75th percentile range where the federal file publishes
+// one (1,000 schools): above the 75th is Likely, below the 25th is a Reach, inside the
+// middle 50% is a Match. SAT_BAND is only a stand-in for schools that report an average
+// and nothing else — a flat ±60 is far too wide for a selective school and too narrow
+// for an open-admission one, which is exactly what the percentiles fix.
 function satFit(s){
   const mine = mySat();
-  if(!mine || !s.sat) return null;
+  if(!mine) return null;
+  if(s.s25 && s.s75){
+    if(mine > s.s75) return 'likely';
+    if(mine < s.s25) return 'reach';
+    return 'match';
+  }
+  if(!s.sat) return null;
   if(mine >= s.sat + SAT_BAND) return 'likely';
   if(mine <= s.sat - SAT_BAND) return 'reach';
   return 'match';
@@ -1451,9 +1463,11 @@ function fitBadge(s){
   const f = satFit(s);
   if(!f) return '';
   const L = FIT_LABELS[f];
-  const diff = mySat() - s.sat;
-  const sign = diff>0?'+':'';
-  return `<div class="stat" style="border-color:${L[1]}"><div class="k">Your fit</div><div class="v" style="color:${L[1]}">${L[0]}</div><div class="k" style="margin-top:2px">${sign}${diff} vs avg</div></div>`;
+  // With a published range, show the range itself — far more use than a gap from an
+  // average, and it tells the reader what the badge was actually measured against.
+  const note = (s.s25 && s.s75) ? `${s.s25}–${s.s75} middle 50%`
+             : (s.sat ? `${mySat()-s.sat > 0 ? '+' : ''}${mySat()-s.sat} vs avg` : '');
+  return `<div class="stat" style="border-color:${L[1]}"><div class="k">Your fit</div><div class="v" style="color:${L[1]}">${L[0]}</div>${note?`<div class="k" style="margin-top:2px">${note}</div>`:''}</div>`;
 }
 
 // ---------- map ----------

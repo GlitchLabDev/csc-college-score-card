@@ -100,7 +100,14 @@ def umami_tag(website_id):
             'data-website-id="%s" data-exclude-hash="true" '
             'data-exclude-search="true"></script>' % H.escape(website_id))
 
-def page(title, desc, canonical, body):
+# Career pages are built from BLS and the NCES crosswalk, not from Scorecard and the
+# athletics files, so they get their own source line rather than crediting the wrong data.
+FOOT_EDU = ('Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · '
+            'Athletics from NCAA/NCSA public listings · Always verify with each college')
+FOOT_CAREER = ('Data: US Bureau of Labor Statistics Employment Projections 2025–35 · '
+               'NCES CIP–SOC crosswalk · IPEDS completions (2022–23) · Figures are national averages')
+
+def page(title, desc, canonical, body, foot=None):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,8 +122,8 @@ def page(title, desc, canonical, body):
 <body><div class="wrap">
 <div class="logo"><a href="/">🎓 My <span>University View</span></a></div>
 {body}
-<footer>Data: US Dept. of Education College Scorecard / IPEDS (2022–23) · Athletics from NCAA/NCSA public listings · Always verify with each college ·
-<a href="/app/">Interactive map</a> · <a href="/colleges/">All states</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · © Sean Brady</footer>
+<footer>{foot or FOOT_EDU} ·
+<a href="/app/">Interactive map</a> · <a href="/colleges/">All states</a> · <a href="/careers/">Careers</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · © Sean Brady</footer>
 </div></body></html>"""
 
 def href(s):
@@ -348,7 +355,7 @@ School counts: <b>IPEDS completions</b>, 2022–23.</p>
     title = f"{k['t']} — Pay, Job Growth and the Programs That Lead There"
     desc = (f"{k['t']}: median US pay {pay}, {grow} projected growth to 2035, about {opens} openings a year. "
             f"{lbl} is the usual way in. See the programs and schools that train for it.")
-    return page(title, desc[:300], f'{DOMAIN}/careers/{slug(k["t"])}.html', body)
+    return page(title, desc[:300], f'{DOMAIN}/careers/{slug(k["t"])}.html', body, foot=FOOT_CAREER)
 
 
 def build_careers(cj):
@@ -387,7 +394,7 @@ Employment Projections and the Department of Education's program–occupation cr
         'Careers — Pay, Growth and the College Programs That Lead There',
         f'{len(have)} careers with median pay, projected growth to 2035, annual openings and the '
         'college and trade-school programs that train for each. Free, from federal data.',
-        f'{DOMAIN}/careers/', hub))
+        f'{DOMAIN}/careers/', hub, foot=FOOT_CAREER))
     return [f'{DOMAIN}/careers/'] + urls
 
 
