@@ -24,6 +24,38 @@ DIVS = {'D-I':('ncaa-d1','NCAA Division I'),'D-II':('ncaa-d2','NCAA Division II'
 
 def slug(name): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',name.lower())).strip('-')
 
+# ---------- career pages ----------
+# Crawlable counterpart to the app's Career search. These target the queries families
+# actually type ("how to become an electrician", "welder salary") rather than college
+# names, which have far less search volume.
+#
+# PAYWALL: the app sells the per-career list of SCHOOLS (programs.js, Premium). These
+# public pages therefore publish the career facts and the programs that lead to the job,
+# plus HOW MANY schools offer each — never the school list itself. The count is the hook;
+# the names are behind the CTA into /app/.
+SOC_GROUPS = {'11':'Management','13':'Business & finance','15':'Computers & IT',
+ '17':'Engineering & architecture','19':'Science','21':'Community & social service',
+ '23':'Legal','25':'Education','27':'Arts, design, media & film','29':'Healthcare (clinical)',
+ '31':'Healthcare support','33':'Protective service','35':'Food & culinary','37':'Building & grounds',
+ '39':'Personal care & beauty','41':'Sales','43':'Office & admin','45':'Farming & forestry',
+ '47':'Construction trades','49':'Repair & mechanics','51':'Production & manufacturing','53':'Transportation'}
+CAR_PATHS = {
+ 'cert':('Certificate',      'A certificate or short program is the usual way in.'),
+ 'appr':('Apprenticeship',   'Usually learned through a paid apprenticeship: you earn a wage while you train.'),
+ 'ojt' :('On the job',       'Most people are hired and trained on the job, so school is optional. A program can still help you stand out.'),
+ 'deg' :('Degree',           'A degree is the usual way in.'),
+ 'degx':('Degree + experience','Not an entry-level job: it usually takes a degree plus years of related work.')}
+
+def career_singular(t):
+    """'Electricians' -> 'an electrician'. Returns None when the title can't be made
+    singular cleanly — BLS titles like 'Welders, cutters, solderers, and brazers' are
+    lists, and naively stripping the final 's' produces nonsense."""
+    if ',' in t or ' and ' in t.lower(): return None
+    low = t.lower()
+    if not low.endswith('s') or low.endswith('ss'): return None
+    one = low[:-3] + 'y' if low.endswith('ies') else low[:-1]
+    return ('an ' if one[0] in 'aeiou' else 'a ') + one
+
 CSS = """:root{--bg:#0f172a;--panel:#1e293b;--line:#334155;--text:#e2e8f0;--dim:#94a3b8;--acc:#60A5FA}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
@@ -230,6 +262,135 @@ def school_page(s, db, state_name, state_slug, peers):
     return page(title, desc[:300], f'{DOMAIN}/colleges/{state_slug}/{s.get("_slug") or slug(s["n"])}.html', body)
 
 
+def career_page(k, cj, peers):
+    """One occupation. k is a careers.json record; peers are other careers in the same field."""
+    E, X, J = cj['edu'], cj['exp'], cj['ojt']
+    nm   = H.escape(k['t'])
+    grp  = SOC_GROUPS.get(k['soc'][:2], '')
+    lbl, note = CAR_PATHS[k['p']]
+    pay  = money(k.get('w'))
+    grow = (f"+{k['g']}%" if (k.get('g') or 0) > 0 else f"{k['g']}%") if k.get('g') is not None else '—'
+    opens = f"{round(k['o']*1000):,}" if k.get('o') is not None else '—'
+
+    # How you get there, as ordered steps rather than a table of codes.
+    steps = []
+    ed = E[k['e']]
+    steps.append(f'{ed} (a program is optional for this job)' if k['p'] == 'ojt' else ed)
+    ex = X[k['x']] if k.get('x') is not None else None
+    if ex and ex not in ('None', '—'): steps.append(f'{ex} of experience in a related job')
+    oj = J[k['j']] if k.get('j') is not None else None
+    if oj and oj not in ('None', '—'): steps.append(oj)
+    one = career_singular(k['t'])
+    steps.append(f'Work as {one}' if one else f'Work in: {k["t"].lower()}')
+    steps_html = ''.join(f'<li>{H.escape(s)}</li>' for s in steps)
+
+    # Programs that lead here. Schools-per-program is a COUNT only; the list is Premium.
+    rows = []
+    for cip in k.get('c', []):
+        info = cj['cips'].get(cip)
+        if not info: continue
+        rows.append((info[0], info[1] or 0, cip))
+    rows.sort(key=lambda r: -r[1])
+    if rows:
+        prog_rows = ''.join(
+            f'<tr><td>{H.escape(t)}</td><td>CIP {H.escape(c)}</td>'
+            f'<td style="text-align:right">{n:,}</td></tr>' for t, n, c in rows[:25])
+        extra = f'<p class="note">…and {len(rows)-25} more related programs.</p>' if len(rows) > 25 else ''
+        programs = f"""<h2>Programs that lead to this job</h2>
+<p>These are the federal program codes (CIP) that the Department of Education maps to this
+occupation, and how many US colleges, community colleges or trade schools report awarding
+credentials in each.</p>
+<table><tr><th>Program</th><th>Code</th><th style="text-align:right">Schools</th></tr>{prog_rows}</table>{extra}"""
+    else:
+        programs = """<h2>Programs that lead to this job</h2>
+<p>No specific college program maps to this occupation in the federal crosswalk — people
+usually arrive here through experience, training on the job, or a related field rather
+than a dedicated course of study.</p>"""
+
+    nschools = k.get('n') or 0
+    cta = (f'<p><a class="cta" href="/app/">See the {nschools:,} schools that offer these programs →</a></p>'
+           if nschools else '<p><a class="cta" href="/app/">Explore schools on the map →</a></p>')
+
+    rel = ' · '.join(f'<a href="/careers/{slug(p["t"])}.html">{H.escape(p["t"])}</a>' for p in peers)
+    related = f'<h2>Related careers in {H.escape(grp)}</h2><p>{rel}</p>' if rel else ''
+
+    ld = {"@context": "https://schema.org", "@type": "Occupation", "name": k['t'],
+          "occupationalCategory": k['soc'],
+          "description": f"{k['t']}: median US pay {pay}, {grow} projected growth 2025–35.",
+          "estimatedSalary": {"@type": "MonetaryAmountDistribution", "name": "base",
+                              "currency": "USD", "median": k.get('w')} if k.get('w') else None}
+    ld = {x: y for x, y in ld.items() if y is not None}
+
+    h1 = (f'How to become {one}' if one
+          else f'{nm}: pay, training and the programs that lead there')
+    body = f"""<div class="crumb"><a href="/">Home</a> › <a href="/careers/">Careers</a> › {nm}</div>
+<h1>{h1}</h1>
+<p class="sub">{H.escape(grp)} · SOC {H.escape(k['soc'])}</p>
+<div class="facts">
+  <div class="fact"><b>{pay}</b><span>US median pay, 2025</span></div>
+  <div class="fact"><b>{grow}</b><span>Projected growth, 2025–35</span></div>
+  <div class="fact"><b>{opens}</b><span>Openings per year</span></div>
+  <div class="fact"><b>{H.escape(lbl)}</b><span>Usual way in</span></div>
+</div>
+<h2>How you get in</h2>
+<p>{H.escape(note)}</p>
+<ol>{steps_html}</ol>
+{programs}
+{cta}
+<p class="note"><b>Pay and growth are national figures.</b> What you earn depends on where you work,
+your employer and your experience, and these are projections rather than promises. Education
+requirements describe how most people enter the job, not a rule — plenty of people take another route.<br><br>
+Pay, growth, openings and entry requirements: <b>US Bureau of Labor Statistics</b>, Employment
+Projections 2025–35. Program-to-occupation mapping: <b>NCES CIP–SOC crosswalk</b> (2020/2018).
+School counts: <b>IPEDS completions</b>, 2022–23.</p>
+{related}
+<script type="application/ld+json">{json.dumps(ld)}</script>"""
+    title = f"{k['t']} — Pay, Job Growth and the Programs That Lead There"
+    desc = (f"{k['t']}: median US pay {pay}, {grow} projected growth to 2035, about {opens} openings a year. "
+            f"{lbl} is the usual way in. See the programs and schools that train for it.")
+    return page(title, desc[:300], f'{DOMAIN}/careers/{slug(k["t"])}.html', body)
+
+
+def build_careers(cj):
+    """Writes /careers/ hub + one page per occupation that has programs mapped to it.
+    Occupations with no CIP mapping are skipped: their pages would be near-empty, and
+    thin templated pages at scale are exactly what search engines penalise."""
+    os.makedirs('site/careers', exist_ok=True)
+    have = [k for k in cj['careers'] if k.get('c')]
+    by_group = {}
+    for k in have:
+        by_group.setdefault(k['soc'][:2], []).append(k)
+    for g in by_group:
+        by_group[g].sort(key=lambda k: -(k.get('o') or 0))
+
+    urls = []
+    for k in have:
+        peers = [p for p in by_group[k['soc'][:2]] if p['soc'] != k['soc']][:8]
+        open(f'site/careers/{slug(k["t"])}.html', 'w').write(career_page(k, cj, peers))
+        urls.append(f'{DOMAIN}/careers/{slug(k["t"])}.html')
+
+    secs = []
+    for g, name in SOC_GROUPS.items():
+        ks = by_group.get(g)
+        if not ks: continue
+        links = ' · '.join(
+            f'<a href="/careers/{slug(k["t"])}.html">{H.escape(k["t"])}</a>' for k in ks)
+        secs.append(f'<h2>{H.escape(name)}</h2><p class="sub">{len(ks)} careers</p><p>{links}</p>')
+    hub = f"""<div class="crumb"><a href="/">Home</a> › Careers</div>
+<h1>Search by career, not by major</h1>
+<p class="sub">{len(have)} careers, with what they pay, how fast they are growing, how many
+openings there are each year, and which college programs lead to them. Federal data — BLS
+Employment Projections and the Department of Education's program–occupation crosswalk.</p>
+<p><a class="cta" href="/app/">Open the career search →</a></p>
+{''.join(secs)}"""
+    open('site/careers/index.html', 'w').write(page(
+        'Careers — Pay, Growth and the College Programs That Lead There',
+        f'{len(have)} careers with median pay, projected growth to 2035, annual openings and the '
+        'college and trade-school programs that train for each. Free, from federal data.',
+        f'{DOMAIN}/careers/', hub))
+    return [f'{DOMAIN}/careers/'] + urls
+
+
 def main():
     db = json.load(open('db.json'))
     schools = db['schools']
@@ -284,26 +445,50 @@ def main():
         for st, name in STATE_NAMES.items() if st in present)
     state_nav += f' · <a href="/colleges/">All colleges</a>'
 
-    home = open('homepage.html').read()
-    home = home.replace('<!--ANALYTICS-->', ANALYTICS)
-    home = home.replace('<!--STATELINKS-->', state_nav)
-    assert '<!--STATELINKS-->' not in home, 'state link placeholder not substituted'
-    open('site/index.html','w').write(home)
-
-    open('site/db.js','w').write('window.__DBDATA=' + json.dumps(db, separators=(',',':')) + ';')
-
     # Career search data (built by build_careers.py). careers.js is the small career index every
     # visitor loads; programs.js (school x program lists) is only fetched once Premium is active.
+    career_urls, career_nav = [], ''
     if os.path.exists('careers.json'):
         cj = json.load(open('careers.json'))
         progs = cj.pop('programs')
         open('site/careers.js','w').write('window.__CAREERS=' + json.dumps(cj, separators=(',',':')) + ';')
         open('site/programs.js','w').write('window.__PROGRAMS=' + json.dumps(progs, separators=(',',':')) + ';')
+        career_urls = build_careers(cj)
+        # Homepage teaser. NOT sorted by openings: that surfaces home health aides, office
+        # clerks and cooks — the highest-volume jobs in America, but mostly ones needing no
+        # college, which is a poor advertisement on a college-search homepage. This is a
+        # curated spread of trades, healthcare, tech and creative work that people actually
+        # search for by name, mirroring the app's own popular list.
+        WANT = ['Electricians', 'Registered nurses', 'Welders', 'Software developers',
+                'Plumbers', 'Dental hygienists', 'Heating, air conditioning',
+                'Automotive service technicians', 'Paralegals', 'Graphic designers',
+                'Radiologic technologists', 'Carpenters', 'Accountants',
+                'Aircraft mechanics', 'Veterinary technologists', 'Police and sheriff']
+        have = {k['t']: k for k in cj['careers'] if k.get('c')}
+        picked, seen = [], set()
+        for want in WANT:
+            hit = next((k for t, k in have.items()
+                        if t.lower().startswith(want.lower()) and t not in seen), None)
+            if hit:
+                picked.append(hit); seen.add(hit['t'])
+        career_nav = ' · '.join(
+            f'<a href="/careers/{slug(k["t"])}.html">{H.escape(k["t"])}</a>' for k in picked)
+        career_nav += ' · <a href="/careers/">All careers</a>'
     else:
         print('WARN careers.json missing — run build_careers.py; Career search will show an error')
 
+    home = open('homepage.html').read()
+    home = home.replace('<!--ANALYTICS-->', ANALYTICS)
+    home = home.replace('<!--STATELINKS-->', state_nav)
+    home = home.replace('<!--CAREERLINKS-->', career_nav)
+    for ph in ('<!--STATELINKS-->', '<!--CAREERLINKS-->'):
+        assert ph not in home, f'placeholder not substituted: {ph}'
+    open('site/index.html','w').write(home)
+
+    open('site/db.js','w').write('window.__DBDATA=' + json.dumps(db, separators=(',',':')) + ';')
+
     n_school=[0]
-    urls = [f'{DOMAIN}/', f'{DOMAIN}/app/', f'{DOMAIN}/colleges/']
+    urls = [f'{DOMAIN}/', f'{DOMAIN}/app/', f'{DOMAIN}/colleges/'] + career_urls
     for p in ('privacy','terms','disclaimer','contact','sources'): urls.append(f'{DOMAIN}/{p}.html')
 
     # state pages
@@ -387,7 +572,7 @@ def main():
         '\n'.join(f'  <url><loc>{u}</loc></url>' for u in urls) + '\n</urlset>\n')
 
     print(f'site/ built: {len(state_links)} state pages, {n_school[0]} school pages, 4 division pages,')
-    print(f'             hub, sitemap ({len(urls)} urls), robots.txt, index.html, db.js, careers.js, programs.js')
+    print(f'             hub, {len(career_urls)-1 if career_urls else 0} career pages,\n             sitemap ({len(urls)} urls), robots.txt, index.html, db.js, careers.js, programs.js')
 
 if __name__ == '__main__':
     main()

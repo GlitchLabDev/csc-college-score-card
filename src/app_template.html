@@ -311,6 +311,10 @@ a.schoollink:hover{color:var(--acc)}
 .carlock .btn{margin-top:12px}
 .carfilters .row{margin:4px 0}.carfilters .lbl{display:inline-block;min-width:110px;font-size:12px;color:var(--dim);font-weight:700;margin-right:4px}
 .carfilters select{padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+.carzip{display:inline-flex;align-items:center;gap:7px;margin-left:4px;vertical-align:middle}
+.carzip input{width:76px;padding:5px 8px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:12.5px;text-align:center}
+.carzip input:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:var(--acc)}
+.carzip .muted{font-size:11.5px}
 </style>
 </head>
 <body>
@@ -976,9 +980,13 @@ function useHome(){ return store.get('useHome', true) && profile() && profile().
 let geocodeResult = null;
 async function geocode(a){
   try{
-    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q='+encodeURIComponent(a));
+    // addressdetails gives us the postcode, which pre-fills the Career search ZIP box
+    // even when the person didn't type a ZIP into their address.
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&countrycodes=us&q='+encodeURIComponent(a));
     const j = await r.json();
-    return j[0] ? {lat:+j[0].lat, lon:+j[0].lon, label:j[0].display_name} : null;
+    if(!j[0]) return null;
+    const zip = String(((j[0].address||{}).postcode)||'').match(/\d{5}/);
+    return {lat:+j[0].lat, lon:+j[0].lon, label:j[0].display_name, zip: zip ? zip[0] : ''};
   }catch(e){ return null; }
 }
 async function geocodeAddress(){
@@ -999,7 +1007,8 @@ async function saveProfile(){
   store.set('profile',{ name:g('p-name'), address:addr, gpa:g('p-gpa'), sat:g('p-sat'), major:g('p-major'), maps:g('p-maps'),
     lat: geocodeResult?geocodeResult.lat:(keepGeo?old.lat:null),
     lon: geocodeResult?geocodeResult.lon:(keepGeo?old.lon:null),
-    label: geocodeResult?geocodeResult.label:(keepGeo?old.label:null) });
+    label: geocodeResult?geocodeResult.label:(keepGeo?old.label:null),
+    zip: geocodeResult?(geocodeResult.zip||''):(keepGeo?(old.zip||''):'') });
   syncSatFromProfile(true);
   renderAccount(); renderUserBadge();
   try{ renderFilters(); refresh(); }catch(e){}
@@ -2187,7 +2196,47 @@ function refresh(){ refreshMap(filtered()); refreshLists(); }
 const CAR_FILES = { idx: 'careers.js', prog: 'programs.js' };
 let CJ = null, CP = null;
 const carLoads = {};
-const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', near:0, sort:'auto', off:{}, show:60 };
+const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', near:0, sort:'auto', off:{}, show:60,
+              zip:'', zipLoc:null, zipBusy:false, zipErr:'' };
+
+// ---------- distance origin ----------
+// Distance used to require a geocoded home address in the profile, so anyone who hadn't
+// filled one in simply couldn't filter by distance. A ZIP code is enough to place someone
+// on the map, so it is accepted as an origin on its own and pre-filled from the profile
+// when there is one.
+function zipOf(p){
+  if(!p) return '';
+  if(p.zip) return p.zip;                       // saved by geocodeAddress (addressdetails)
+  const m = String(p.address||'').match(/\b(\d{5})(?:-\d{4})?\b/);   // older profiles: dig it out
+  return m ? m[1] : '';
+}
+// ZIP centroids are looked up once and cached: Nominatim asks for no more than one
+// request a second, and the same ZIP would otherwise be re-fetched on every keystroke.
+function zipCacheGet(z){ try{ return JSON.parse(localStorage.getItem('muv_zip_'+z)||'null'); }catch(e){ return null; } }
+function zipCacheSet(z, v){ try{ localStorage.setItem('muv_zip_'+z, JSON.stringify(v)); }catch(e){} }
+
+async function carSetZip(z){
+  z = String(z||'').trim().slice(0,5);
+  CAR.zip = z; CAR.zipErr = '';
+  if(!/^\d{5}$/.test(z)){ CAR.zipLoc = null; carBody(); return; }
+  const hit = zipCacheGet(z);
+  if(hit){ CAR.zipLoc = hit; carBody(); return; }
+  CAR.zipBusy = true; carBody();
+  try{
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&postalcode='+encodeURIComponent(z));
+    const j = await r.json();
+    if(j && j[0]){ CAR.zipLoc = {lat:+j[0].lat, lon:+j[0].lon, zip:z}; zipCacheSet(z, CAR.zipLoc); }
+    else { CAR.zipLoc = null; CAR.zipErr = 'No US ZIP matches '+z+'.'; }
+  }catch(e){ CAR.zipLoc = null; CAR.zipErr = 'Could not look that ZIP up — check your connection.'; }
+  CAR.zipBusy = false; carBody();
+}
+// A ZIP the person actually typed wins — editing the box is a deliberate act, and it lets
+// someone with a saved address check "what about near my grandmother?" without changing it.
+// Otherwise fall back to the saved home address.
+function carOrigin(){
+  if(CAR.zipLoc) return CAR.zipLoc;
+  return useHome() ? profile() : null;
+}
 const SOC_GROUPS = {'11':'Management','13':'Business & finance','15':'Computers & IT','17':'Engineering & architecture','19':'Science','21':'Community & social service','23':'Legal','25':'Education','27':'Arts, design, media & film','29':'Healthcare (clinical)','31':'Healthcare support','33':'Protective service','35':'Food & culinary','37':'Building & grounds','39':'Personal care & beauty','41':'Sales','43':'Office & admin','45':'Farming & forestry','47':'Construction trades','49':'Repair & mechanics','51':'Production & manufacturing','53':'Transportation'};
 const CAR_PATHS = {
   cert:{lbl:'Certificate',        note:'A certificate or short program is the usual way in.'},
@@ -2243,6 +2292,27 @@ function carMiles(a, b){
   const dLa = r(b.lat-a.lat), dLo = r(b.lon-a.lon);
   const h = Math.sin(dLa/2)**2 + Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLo/2)**2;
   return 2*R*Math.asin(Math.sqrt(h));
+}
+// Distance row. The ZIP box is always present: pre-filled from the saved address when
+// there is one, typed in when there isn't. Re-rendering carBody() would blow away a
+// half-typed value, so the field keeps its own value and only commits on change/Enter.
+function carNearRow(origin){
+  const pz = zipOf(profile());
+  const shown = CAR.zip || pz;
+  const status = CAR.zipBusy ? '<span class="muted">looking up…</span>'
+    : CAR.zipErr ? `<span class="muted" style="color:var(--red)">${esc(CAR.zipErr)}</span>`
+    : CAR.zipLoc ? `<span class="muted">from ${esc(CAR.zipLoc.zip)}</span>`
+    : (useHome() ? '<span class="muted">from your saved address</span>'
+                 : '<span class="muted">enter a ZIP to filter by distance</span>');
+  return `${origin ? carChips('near', CAR_NEAR) : ''}
+    <span class="carzip">
+      <label class="sr" for="carzip">ZIP code</label>
+      <input id="carzip" type="text" inputmode="numeric" maxlength="5" placeholder="ZIP"
+             value="${esc(shown)}"
+             onchange="carSetZip(this.value)"
+             onkeydown="if(event.key==='Enter'){event.preventDefault();carSetZip(this.value);}">
+      ${status}
+    </span>`;
 }
 function carChips(key, opts){
   return opts.map(o=>`<button type="button" class="chip ${String(CAR[key])===String(o[0])?'on':''}" onclick="carSet('${key}','${o[0]}')">${esc(o[1])}</button>`).join('');
@@ -2365,7 +2435,7 @@ function carResults(k){
   }
   const mask = CAR_LEN.find(o=>o[0]===CAR.len)[2] & CAR_CRED.find(o=>o[0]===CAR.cred)[2];
   const cost = CAR_COST.find(o=>o[0]===CAR.cost)[2];
-  const home = useHome() ? profile() : null;
+  const home = carOrigin();
   let rows = [...agg.values()];
   const states = [...new Set(rows.map(a=>a.s.s))].sort();
   rows = rows.filter(a=>{
@@ -2388,14 +2458,14 @@ function carResults(k){
     <div class="row"><span class="lbl">Credential</span>${carChips('cred', CAR_CRED)}</div>
     <div class="row"><span class="lbl">Avg net price</span>${carChips('cost', CAR_COST)}</div>
     <div class="row"><span class="lbl">School type</span>${carChips('ctrl', CAR_CTRL)}</div>
-    <div class="row"><span class="lbl">Distance</span>${home ? carChips('near', CAR_NEAR) : `<span class="muted">Add your home address in <a href="#" onclick="switchView('account');return false">👤 Account</a> to filter by distance.</span>`}</div>
+    <div class="row"><span class="lbl">Distance</span>${carNearRow(home)}</div>
     <div class="toolbar" style="margin-top:8px">
       <label class="muted" for="carst">State</label>
       <select id="carst" onchange="carSet('st',this.value)"><option value="">All states</option>${states.map(s=>`<option ${CAR.st===s?'selected':''}>${s}</option>`).join('')}</select>
       <label class="muted" for="carsort">Sort</label>
       <select id="carsort" onchange="carSet('sort',this.value)">
         <option value="grads" ${sort==='grads'?'selected':''}>Most graduates</option>
-        ${home?`<option value="near" ${sort==='near'?'selected':''}>Closest to home</option>`:''}
+        ${home?`<option value="near" ${sort==='near'?'selected':''}>${CAR.zipLoc?'Closest to '+esc(CAR.zipLoc.zip):'Closest to home'}</option>`:''}
         <option value="cost" ${sort==='cost'?'selected':''}>Lowest net price</option>
         <option value="name" ${sort==='name'?'selected':''}>Name</option>
       </select>
