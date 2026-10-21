@@ -152,12 +152,16 @@ def school_rows(schools, show_div=True, state_slug=None):
         nm = (f'<a href="/colleges/{state_slug}/{s.get("_slug") or slug(s["n"])}.html">{H.escape(s["n"])}</a>' if state_slug
               else (f'<a href="{href(s)}" rel="noopener nofollow">{H.escape(s["n"])}</a>' if s.get('url') else H.escape(s['n'])))
         ath = s.get('ad') or ('NCAA' if s.get('sb') else '—')
-        out.append(f'<tr><td>{nm}</td><td>{H.escape(s["c"])}</td><td>{s["ctrl"]} · {s["lvl"]}</td><td>{money(s.get("tin"))}</td><td>{money(s.get("np"))}</td>%s</tr>' % (f'<td>{ath}</td>' if show_div else ''))
+        out.append(f'<tr><td>{nm}</td><td>{H.escape(s["c"])}</td><td>{s["ctrl"]} · {s["lvl"]}</td><td>{dash(s.get("tin"))}</td><td>{dash(s.get("np"))}</td>%s</tr>' % (f'<td>{ath}</td>' if show_div else ''))
     out.append('</table>')
     return '\n'.join(out)
 
 
 def money(v): return f'${v:,}' if isinstance(v,(int,float)) and v else None
+
+# money() returns None on purpose: the school-page cost table uses `if val:` to drop
+# rows it has no figure for. List tables need something visible instead, hence dash().
+def dash(v): return money(v) or '—'
 
 def school_page(s, db, state_name, state_slug, peers):
     """One page per school. Content is drawn from federal data, so every page differs."""
@@ -605,7 +609,7 @@ or compare costs side by side on the free <a href="/app/">My University View map
                 cur = s['s']
                 secs.append(f'<h2>{STATE_NAMES.get(cur,cur)}</h2><table><tr><th>School</th><th>City</th><th>Tuition (in-state)</th><th>Avg net cost</th></tr>')
             nm = f'<a href="{href(s)}" rel="noopener nofollow">{H.escape(s["n"])}</a>' if s.get('url') else H.escape(s['n'])
-            secs.append(f'<tr><td>{nm}</td><td>{H.escape(s["c"])}</td><td>{money(s.get("tin"))}</td><td>{money(s.get("np"))}</td></tr>')
+            secs.append(f'<tr><td>{nm}</td><td>{H.escape(s["c"])}</td><td>{dash(s.get("tin"))}</td><td>{dash(s.get("np"))}</td></tr>')
         if ss: secs.append('</table>')
         body = f"""<h1>{label} colleges — all {len(ss)} schools by state</h1>
 <p class="sub">Every {label} member school with location, published tuition, and the average net cost families actually pay. For recruiting research: filter by sport on the interactive map to see coaches, conferences, and recruiting links.</p>
