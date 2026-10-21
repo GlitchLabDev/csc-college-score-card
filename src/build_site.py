@@ -85,6 +85,7 @@ h2{font-size:19px;margin:26px 0 8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:14px 0}
 .grid a{font-size:14px;text-decoration:none}
 footer{color:var(--dim);font-size:12px;margin-top:44px;border-top:1px solid var(--line);padding-top:14px}
+dl.faq dt{font-weight:700;margin-top:14px}dl.faq dd{color:var(--dim);margin-top:3px}
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
 .fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .fact b{display:block;font-size:18px;color:var(--text)}
@@ -162,6 +163,107 @@ def money(v): return f'${v:,}' if isinstance(v,(int,float)) and v else None
 # money() returns None on purpose: the school-page cost table uses `if val:` to drop
 # rows it has no figure for. List tables need something visible instead, hence dash().
 def dash(v): return money(v) or '—'
+
+
+def sub_faq(sub, h1, name, sl, seg=None):
+    """Answers for a state x type page, from the schools on that page.
+
+    For community colleges the figures are taken over PUBLIC institutions only.
+    Federally, a two-year seminary is a 2-year school, and it was turning up as
+    'the cheapest community college in New Jersey' — true to the data, and useless
+    as an answer, because nobody asking that question means a yeshiva."""
+    pool = sub
+    low = h1.lower()
+    if seg == 'community-colleges':
+        pub = [x for x in sub if x.get('ctrl') == 'Public']
+        if len(pub) >= 3:
+            pool, low = pub, 'public community colleges'
+    priced = sorted([x for x in pool if x.get('np')], key=lambda x: x['np'])
+    out = []
+    out.append((f'How many {h1.lower()} are there in {name}?',
+                f'{len(sub)} — every one of them is listed above, from US Department of '
+                f'Education data.'))
+    if priced:
+        c = priced[0]
+        link = f'<a href="/colleges/{sl}/{c.get("_slug") or slug(c["n"])}.html">{H.escape(c["n"])}</a>'
+        out.append((f'What is the cheapest of the {low} in {name}?',
+                    f'By average net price — what students actually pay after grants and '
+                    f'scholarships — {link} in {H.escape(c["c"])} is lowest at '
+                    f'{money(c["np"])} a year. That is an average across all students, not a '
+                    f'quote: your own price depends on your family finances and your record.'))
+        mid = priced[len(priced)//2]
+        out.append((f'What do {low} cost in {name}?',
+                    f'The middle of the range is about {money(mid["np"])} a year after aid, '
+                    f'from {money(priced[0]["np"])} to {money(priced[-1]["np"])}. '
+                    f'Published tuition is higher — the figures above are what students paid.'))
+    return out
+
+
+# Rough schooling time by federal education level. Deliberately phrased as ranges:
+# the federal file says what credential people hold, not how long each person took.
+EDU_YEARS = {
+ 'No formal educational credential': 'no schooling after high school',
+ 'High school diploma or equivalent': 'no schooling after high school',
+ 'Postsecondary nondegree award': 'a few months to two years for the certificate',
+ 'Some college, no degree': 'a year or so of college',
+ "Associate's degree": 'about two years for the degree',
+ "Bachelor's degree": 'about four years for the degree',
+ "Master's degree": 'about six years of study in total',
+ 'Doctoral or professional degree': 'eight years or more of study',
+}
+OJT_TIME = {
+ 'Apprenticeship': 'a paid apprenticeship, usually three to five years',
+ 'Long-term on-the-job training': 'more than a year of training on the job',
+ 'Moderate-term on-the-job training': 'a few months to a year of training on the job',
+ 'Short-term on-the-job training': 'a few weeks of training on the job',
+ 'Internship/residency': 'an internship or residency, often one to three years',
+}
+
+def career_faq(k, cj, one, nschools):
+    name = (one.split(' ',1)[1] if one else k['t'].lower())
+    ed, ex, oj = cj['edu'][k['e']], cj['exp'][k['x']], cj['ojt'][k['j']]
+    out = []
+    parts = [EDU_YEARS.get(ed)]
+    if oj in OJT_TIME: parts.append(OJT_TIME[oj])
+    if ex and ex not in ('None','—'): parts.append(f'{ex.lower()} of related work first')
+    parts = [x for x in parts if x]
+    if parts:
+        out.append((f'How long does it take to become {one}?' if one
+                    else 'How long does the training take?',
+                    'Typically ' + ', then '.join(parts) + '. That is the usual route rather '
+                    'than a rule — people arrive by other paths all the time.'))
+    if k.get('w'):
+        out.append((f'How much do {k["t"].lower()} make?',
+                    f'The US median is {money(k["w"])} a year, meaning half earn more and half '
+                    f'less. Pay varies widely by state, employer and experience.'))
+    need = {'deg':'Yes — a degree is the usual way in.',
+            'degx':'Yes, and employers also expect years of related experience first.',
+            'cert':'Not a full degree. A certificate or short programme is the usual route.',
+            'appr':'No. Most people train through a paid apprenticeship and earn while they learn.',
+            'ojt':'No. Most people are hired and trained on the job; a programme is optional.'}
+    out.append((f'Do you need a degree to become {one}?' if one
+                else 'Do you need a degree for this work?', need.get(k['p'])))
+    if nschools:
+        out.append((f'Where can you train to become {one}?' if one
+                    else 'Where can you train for this work?',
+                    f'{nschools:,} US colleges, community colleges and trade schools award '
+                    f'credentials in a matching programme. '
+                    f'<a href="/app/">See which ones →</a>'))
+    return out
+
+
+def faq_block(pairs):
+    """Short Q&A built from our own figures. The questions are the ones Google's
+    "People also ask" actually shows for these searches — cheapest, how many, how long —
+    rather than questions we imagined. Emitted as FAQPage data too."""
+    pairs = [(q, a) for q, a in pairs if a]
+    if not pairs: return ''
+    html_q = ''.join(f'<dt>{q}</dt><dd>{a}</dd>' for q, a in pairs)
+    ld = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+        {"@type":"Question","name":re.sub('<[^>]+>','',q),
+         "acceptedAnswer":{"@type":"Answer","text":re.sub('<[^>]+>','',a)}} for q, a in pairs]}
+    return (f'<h2>Common questions</h2><dl class="faq">{html_q}</dl>'
+            f'<script type="application/ld+json">{json.dumps(ld)}</script>')
 
 def school_page(s, db, state_name, state_slug, peers):
     """One page per school. Content is drawn from federal data, so every page differs."""
@@ -368,6 +470,7 @@ than a dedicated course of study.</p>"""
 <ol>{steps_html}</ol>
 {programs}
 {cta}
+{faq_block(career_faq(k, cj, one, nschools))}
 <p class="note"><b>Pay and growth are national figures.</b> What you earn depends on where you work,
 your employer and your experience, and these are projections rather than promises. Education
 requirements describe how most people enter the job, not a rule — plenty of people take another route.<br><br>
@@ -580,6 +683,7 @@ def main():
 <p class="sub">{blurb.format(name=name, n=len(sub))}</p>
 <a class="cta" href="/app/">Open the interactive map →</a>
 {school_rows(sub, state_slug=sl)}
+{faq_block(sub_faq(sub, h1, name, sl, seg))}
 <p style="margin-top:18px">See every school in {name} on the <a href="/colleges/{sl}.html">full {name} list</a>,
 or compare costs side by side on the free <a href="/app/">My University View map</a>.</p>"""
             open(f'site/colleges/{sl}-{seg}.html','w').write(page(
