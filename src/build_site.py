@@ -297,8 +297,10 @@ def main():
     if os.path.exists('careers.json'):
         cj = json.load(open('careers.json'))
         progs = cj.pop('programs')
+        tots = cj.pop('totals', [])
         open('site/careers.js','w').write('window.__CAREERS=' + json.dumps(cj, separators=(',',':')) + ';')
-        open('site/programs.js','w').write('window.__PROGRAMS=' + json.dumps(progs, separators=(',',':')) + ';')
+        open('site/programs.js','w').write('window.__PROGRAMS=' + json.dumps(progs, separators=(',',':')) + ';'
+                                           + 'window.__PROGTOT=' + json.dumps(tots, separators=(',',':')) + ';')
     else:
         print('WARN careers.json missing — run build_careers.py; Career search will show an error')
 

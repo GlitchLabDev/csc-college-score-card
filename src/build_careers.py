@@ -68,6 +68,7 @@ def cips_for(soc):
 LEVEL_BIT = {'20': 1, '21': 1, '1': 1, '2': 2, '4': 2, '3': 4, '5': 8,
              '6': 16, '7': 16, '8': 16, '17': 16, '18': 16, '19': 16}
 prog = defaultdict(lambda: defaultdict(lambda: [0, 0]))   # cip -> school idx -> [mask, grads]
+totals = [0] * len(db['schools'])                        # all awards per school (for program share)
 with open(os.path.join(RAW, 'C2023_a_RV.csv'), encoding='utf-8-sig') as f:
     for r in csv.DictReader(f):
         if r['MAJORNUM'] != '1': continue
@@ -79,6 +80,7 @@ with open(os.path.join(RAW, 'C2023_a_RV.csv'), encoding='utf-8-sig') as f:
         n = int(r['CTOTALT'] or 0)
         if n <= 0: continue
         e = prog[cip][i]; e[0] |= b; e[1] += n
+        totals[i] += n
 
 # ---- curated search aliases (plain words people type) ----
 ALIASES = {
@@ -130,7 +132,7 @@ for cp in used:
 out = dict(source='BLS Employment Projections 2025–35 · NCES CIP–SOC crosswalk 2020/2018 · IPEDS completions 2022–23',
            edu=EDU, exp=EXP, ojt=OJT, careers=careers,
            cips={cp: [cip_title.get(cp, cp), len(prog.get(cp, {}))] for cp in sorted({cp for k in careers for cp in k['c']})},
-           programs=programs)
+           programs=programs, totals=totals)
 json.dump(out, open('careers.json', 'w'), separators=(',', ':'))
 from collections import Counter
 print(len(careers), 'careers ·', Counter(k['p'] for k in careers))
