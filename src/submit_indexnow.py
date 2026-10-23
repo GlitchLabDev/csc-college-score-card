@@ -89,7 +89,7 @@ MEANING = {
     200: 'Accepted — URLs are queued.',
     202: 'Accepted, key validation pending. Normal on a first submission.',
     400: 'Bad request — malformed JSON or URL list.',
-    403: 'Key not valid. The key file is missing, unreachable, or has the wrong contents.',
+    403: 'Key not valid — see the response body for which case this is.',
     422: 'URLs do not match the host, or the key does not match the schema.',
     429: 'Too many requests. Wait and retry; do not resubmit the same URLs repeatedly.',
 }
@@ -124,15 +124,26 @@ def main():
 
     batches = [urls[i:i + BATCH] for i in range(0, len(urls), BATCH)]
     failures = 0
+    pending = False
     for i, b in enumerate(batches, 1):
         status, body = submit(b)
         note = MEANING.get(status, 'Unexpected status.')
         print(f'\nBatch {i}/{len(batches)} — {len(b):,} URLs — HTTP {status}: {note}')
         if body.strip():
             print(f'  response: {body.strip()}')
+        if 'SiteVerificationNotCompleted' in body:
+            pending = True
         if status not in (200, 202):
             failures += 1
 
+    if pending:
+        # Not a configuration problem: the key file is live and correct, but Bing
+        # fetches and verifies it on its own schedule after a domain's first ever
+        # submission. Re-running later is the whole fix.
+        sys.exit('\nBing has not finished verifying the key file yet. Nothing is wrong '
+                 'with it — this is a one-time wait after a domain\'s first submission.\n'
+                 'Wait a few hours and run this again; registering the site at '
+                 'https://www.bing.com/webmasters usually speeds it up.')
     if failures:
         sys.exit(f'\n{failures} batch(es) were not accepted.')
     print('\nDone. Bing typically reflects this within a day or two; check Bing '
