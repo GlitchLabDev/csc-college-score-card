@@ -7,6 +7,9 @@
 import json, os, re, html as H
 
 DOMAIN = 'https://www.myuniview.com'
+# IndexNow key. Must match KEY in src/submit_indexnow.py — if you change one, change both.
+# Not a secret: it is published at DOMAIN/<key>.txt, which is how ownership is proved.
+INDEXNOW_KEY = '83328049409d86f564920869f691aabe'
 STATE_NAMES = {
  'AL':'Alabama','AK':'Alaska','AZ':'Arizona','AR':'Arkansas','CA':'California','CO':'Colorado','CT':'Connecticut',
  'DE':'Delaware','DC':'Washington DC','FL':'Florida','GA':'Georgia','HI':'Hawaii','ID':'Idaho','IL':'Illinois',
@@ -869,6 +872,10 @@ or compare costs side by side on the free <a href="/app/">My University View map
     urls.append(build_report(schools))
 
     open('site/robots.txt','w').write(f'User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n')
+    # IndexNow ownership proof. Bing fetches this file and compares it to the key in the
+    # submission payload, so it must stay live and must match submit_indexnow.py exactly.
+    # Emitted by the build so a rebuild + rsync can never quietly drop it.
+    open(f'site/{INDEXNOW_KEY}.txt','w').write(INDEXNOW_KEY + '\n')
     open('site/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
         '\n'.join(f'  <url><loc>{u}</loc></url>' for u in urls) + '\n</urlset>\n')
 
