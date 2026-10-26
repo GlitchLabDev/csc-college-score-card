@@ -63,7 +63,7 @@ main{flex:1;position:relative;overflow:hidden}
 /* FALLBACK ONLY. CARTO serves a real light (Positron) and dark (Dark Matter) basemap,
    so these filters must not touch them — inverting Dark Matter would turn it white.
    JS adds .osmtiles to <body> only when we've fallen back to raw OSM tiles.
-   LIGHT: fully desaturated so the school pins are the only colour on screen.
+   LIGHT: fully desaturated so the school pins are the only color on screen.
    DARK:  inverted, then pushed darker and flatter; the default invert leaves pink roads
           and teal water, which is what made the old dark map look muddy. */
 body.osmtiles.light .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.88)}
@@ -424,7 +424,7 @@ a.schoollink:hover{color:var(--acc)}
     </div>
     <div class="out muted" id="ld-mailout"></div>
   </div>
-  <div class="ldfoot">Created by Sean Brady · Free to use · Works on any phone or computer · <a href="privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="groups.html" style="color:var(--dim)">Group Licences</a> · <a href="contact.html" style="color:var(--dim)">Contact</a><br>
+  <div class="ldfoot">Created by Sean Brady · Free to use · Works on any phone or computer · <a href="privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="groups.html" style="color:var(--dim)">Group Licenses</a> · <a href="contact.html" style="color:var(--dim)">Contact</a><br>
   Data: US Dept. of Education College Scorecard · Equity in Athletics (EADA) 2025 · Verify details with each college
   <!-- Real <a href> links into the static college pages. The app's own navigation is
        JavaScript, so without these the 5,800 built pages have no crawlable path in from
@@ -458,7 +458,7 @@ a.schoollink:hover{color:var(--acc)}
   </div>
 </div>
 <footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · Equity in Athletics (EADA) 2025 · Verify details with each school<br>
-<span class="credit">Created by Sean Brady © <span id="yr"></span></span> · <a href="/colleges/" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="terms.html" style="color:var(--dim)">Terms</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="groups.html" style="color:var(--dim)">👥 Group Licences</a> · <a href="contact.html" style="color:var(--dim)">Contact</a></footer>
+<span class="credit">Created by Sean Brady © <span id="yr"></span></span> · <a href="/colleges/" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="privacy.html" style="color:var(--dim)">Privacy</a> · <a href="terms.html" style="color:var(--dim)">Terms</a> · <a href="disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="sources.html" style="color:var(--dim)">Data Sources</a> · <a href="groups.html" style="color:var(--dim)">👥 Group Licenses</a> · <a href="contact.html" style="color:var(--dim)">Contact</a></footer>
 <script src="libs/leaflet.js"></script>
 <script src="libs/leaflet.markercluster.js"></script>
 <script src="db.js"></script>
@@ -686,7 +686,7 @@ function showPaywall(){
 function closePaywall(){ const o=document.getElementById('paywall'); if(o) o.style.display='none'; }
 // Two kinds of code reach this box. The seven original promo codes are still checked
 // against the baked-in hash list so nobody who already has one is broken. Everything else
-// goes to the redeem-code Edge Function, which owns group-licence codes: the hashes live
+// goes to the redeem-code Edge Function, which owns group-license codes: the hashes live
 // server-side, each code burns on first use, and the endpoint is rate-limited.
 async function redeemCode(){
   if(isIOSApp()) return;   // no code path inside the iOS app — App Store purchases only
@@ -1040,7 +1040,7 @@ async function deleteAccount(){
     location.reload();
   }
 }
-// An App Store subscription can only be cancelled in iOS Settings — Apple rejects builds
+// An App Store subscription can only be canceled in iOS Settings — Apple rejects builds
 // that send subscribers to an external billing page instead.
 function manageSubHTML(){
   if(rcActive || isIOSApp()){
@@ -1181,7 +1181,7 @@ async function joinList(){
   const out = document.getElementById('ld-mailout');
   if(!box || !out) return;
   const email = (box.value||'').trim().toLowerCase();
-  const show = (msg, colour) => { out.textContent = msg; out.style.color = colour || ''; };
+  const show = (msg, color) => { out.textContent = msg; out.style.color = color || ''; };
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return show('That does not look like an email address.', '#f87171');
   if(!cloudConfigured() || !sb){
     return show('Email list is not connected yet — please use the Contact page.', '#f87171');
@@ -1450,8 +1450,8 @@ function satFit(s){
   if(mine <= s.sat - SAT_BAND) return 'reach';
   return 'match';
 }
-// Colours come from CSS so each theme stays readable, and so 'Reach' never matches the
-// accent colour — a badge that looks like a button is a badge people try to press.
+// Colors come from CSS so each theme stays readable, and so 'Reach' never matches the
+// accent color — a badge that looks like a button is a badge people try to press.
 const FIT_VAR = {likely:'--fitL', match:'--fitM', reach:'--fitR'};
 const FIT_TEXT = {likely:'✅ Likely', match:'🎯 Match', reach:'🌟 Reach'};
 const fitColor = k => getComputedStyle(document.body).getPropertyValue(FIT_VAR[k]).trim();
