@@ -56,7 +56,32 @@ main{flex:1;position:relative;overflow:hidden}
 .view{position:absolute;inset:0;display:none;overflow:auto;-webkit-overflow-scrolling:touch}
 .view.active{display:block}
 #view-map{overflow:hidden}
+/* ---------- split view: map beside a scrolling result list ----------
+   #view-map holds the map and the list side by side on a wide screen. Below 900px there is no
+   room for both, so the panes stack and #splitTab toggles which one is on top — the same content,
+   not a different build. #map keeps position:absolute inside its own pane so Leaflet's size
+   calculations are unchanged; only the pane it sits in moves. */
+#view-map{display:flex}
+#mappane{position:relative;flex:1 1 auto;min-width:0}
 #map{position:absolute;inset:0;background:var(--bg)}
+#splitlist{flex:0 0 430px;max-width:46%;border-left:1px solid var(--line);background:var(--bg);overflow:auto;-webkit-overflow-scrolling:touch;padding:0 12px 20px}
+#splithead{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+#splithead b{font-size:17px}
+#splithead .muted{font-size:12px}
+#splithead select{margin-left:auto}
+#splitlist .card{margin:10px 0}
+#splitlist .card.hot{outline:2px solid var(--acc);outline-offset:1px}
+#splitTab{display:none}
+@media(max-width:900px){
+  #view-map{display:block}
+  #mappane{position:absolute;inset:0}
+  #splitlist{position:absolute;inset:0;flex:none;max-width:none;border-left:0;display:none;z-index:900}
+  body.splitlist #mappane{display:none}
+  body.splitlist #splitlist{display:block}
+  #splitTab{display:block;position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:1200;
+    background:var(--acc);color:#fff;border:0;border-radius:99px;padding:11px 20px;font-weight:700;cursor:pointer;
+    box-shadow:0 3px 12px rgba(0,0,0,.35)}
+}
 #filterBtn{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 /* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
    because the filter is scoped to the tile pane. Keeps one keyless tile source for both themes. */
@@ -341,6 +366,7 @@ a.schoollink:hover{color:var(--acc)}
 </nav>
 <main>
   <div class="view active" id="view-map">
+   <div id="mappane">
     <div id="map"></div>
     <div id="count"></div>
     <button id="filterBtn">⚙︎ Filters</button>
@@ -357,6 +383,9 @@ a.schoollink:hover{color:var(--acc)}
         <div><i style="background:var(--none)"></i>4-year · no athletics on file</div>
       </div>
     </div>
+    <button id="splitTab" onclick="toggleSplitPane()">📋 Show list</button>
+   </div>
+   <div id="splitlist"></div>
     <div id="filters"></div>
     <div id="sheet"></div>
   </div>
@@ -1484,17 +1513,101 @@ const cluster = L.markerClusterGroup({chunkedLoading:true, maxClusterRadius:46, 
 map.addLayer(cluster);
 let routeLayer = null;
 
+// Markers are kept by school id so the list pane can highlight the pin for a hovered card and
+// vice versa. Rebuilt on every refreshMap, so it never holds markers from a stale filter.
+const markerById = new Map();
 function markerFor(s){
   const m = L.circleMarker([s.lat,s.lon],{radius:7,color:'#0f172a',weight:1,fillColor:divColor(s),fillOpacity:.95});
   m.bindTooltip(s.n,{direction:'top',offset:[0,-6]});
   m.on('click',()=>openSheet(s.id));
+  m.on('mouseover',()=>hotCard(s.id,true));
+  m.on('mouseout', ()=>hotCard(s.id,false));
+  markerById.set(s.id,m);
   return m;
 }
 function refreshMap(list){
   cluster.clearLayers();
+  markerById.clear();
   cluster.addLayers(list.map(markerFor));
   document.getElementById('count').textContent = list.length.toLocaleString() + ' schools';
+  renderSplit();
 }
+
+// ---------- split list ----------
+// Above SPLIT_ZOOM the list follows the map: pan or zoom and it shows only what is in frame.
+// Below it the map is showing most of the country, every school is nominally "in view", and a
+// bounds filter would just restate the full list — so it falls back to the whole filtered set
+// and says so, rather than implying a precision it does not have.
+const SPLIT_ZOOM = 6;
+let splitSort = 'np';
+function splitRows(){
+  const all = filtered();
+  const byBounds = map.getZoom() >= SPLIT_ZOOM;
+  const b = byBounds ? map.getBounds() : null;
+  const rows = byBounds ? all.filter(s=>s.lat!=null && b.contains([s.lat,s.lon])) : all.slice();
+  const k = splitSort;
+  rows.sort((a,b2)=>{
+    if(k==='n')  return a.n.localeCompare(b2.n);
+    if(k==='adm')return (a.adm??9)-(b2.adm??9);
+    if(k==='en') return (b2.en??0)-(a.en??0);
+    if(k==='tin')return (a.tin ?? 1e15)-(b2.tin ?? 1e15);
+    // Cheapest real cost first. The 683 schools with no reported net price sort to the bottom
+    // rather than falling back to sticker tuition — ranking a sticker price alongside net prices
+    // is precisely the comparison this product exists to stop people making.
+    return (a.np ?? 1e15) - (b2.np ?? 1e15);
+  });
+  return {rows, byBounds, total: all.length};
+}
+function renderSplit(){
+  const el = document.getElementById('splitlist');
+  if(!el) return;
+  const {rows, byBounds, total} = splitRows();
+  const cap = rows.slice(0,200);
+  const opt = (v,t)=>`<option value="${v}" ${splitSort===v?'selected':''}>${t}</option>`;
+  el.innerHTML = `<div id="splithead">
+      <b>${rows.length.toLocaleString()}</b>
+      <span class="muted">${byBounds ? 'in this map area' : `of ${total.toLocaleString()} — zoom in to filter by area`}</span>
+      <select onchange="splitSort=this.value;renderSplit()" aria-label="Sort results">
+        ${opt('np','Sort: Actual cost')}${opt('tin','Sticker tuition')}${opt('adm','Acceptance rate')}${opt('en','Size')}${opt('n','Name')}
+      </select>
+    </div>
+    ${cap.length ? cap.map(cardHTML).join('')
+                 : '<div class="empty" style="padding:22px 0">No schools here. Pan the map or widen your filters.</div>'}
+    ${rows.length>cap.length ? `<div class="empty" style="padding:14px 0">Showing the first ${cap.length} of ${rows.length.toLocaleString()} — zoom in to narrow.</div>` : ''}`;
+  el.querySelectorAll('.card').forEach(c=>{
+    const id = +(/openFromList\((\d+)\)/.exec(c.getAttribute('onclick')||'')||[])[1];
+    if(!id) return;
+    c.addEventListener('mouseenter',()=>hotMarker(id,true));
+    c.addEventListener('mouseleave',()=>hotMarker(id,false));
+  });
+}
+// Hover sync. A clustered marker is not on screen, so highlighting it would do nothing visible —
+// getVisibleParent gives the cluster standing in for it, which is what the eye should be drawn to.
+function hotMarker(id,on){
+  const m = markerById.get(id); if(!m) return;
+  const vis = cluster.getVisibleParent ? cluster.getVisibleParent(m) : m;
+  if(vis === m){
+    m.setStyle(on ? {radius:11,weight:3,color:'var(--acc)'} : {radius:7,weight:1,color:'#0f172a'});
+    if(on && m.bringToFront) m.bringToFront();
+  }else if(vis && vis._icon){
+    vis._icon.style.filter = on ? 'brightness(1.35)' : '';
+  }
+}
+function hotCard(id,on){
+  const el = document.querySelector(`#splitlist .card[onclick*="openFromList(${id})"]`);
+  if(!el) return;
+  el.classList.toggle('hot',on);
+  if(on) el.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+function toggleSplitPane(){
+  const on = document.body.classList.toggle('splitlist');
+  document.getElementById('splitTab').textContent = on ? '🗺️ Show map' : '📋 Show list';
+  if(!on) setTimeout(()=>map.invalidateSize(),60);
+}
+// Panning fires moveend continuously on a drag; rebuilding 200 cards on every frame would
+// stutter, so coalesce to one render once the map settles.
+let splitTimer = null;
+map.on('moveend zoomend', ()=>{ clearTimeout(splitTimer); splitTimer = setTimeout(renderSplit,160); });
 
 // ---------- detail sheet ----------
 function openSheet(id){

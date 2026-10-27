@@ -56,14 +56,39 @@ main{flex:1;position:relative;overflow:hidden}
 .view{position:absolute;inset:0;display:none;overflow:auto;-webkit-overflow-scrolling:touch}
 .view.active{display:block}
 #view-map{overflow:hidden}
+/* ---------- split view: map beside a scrolling result list ----------
+   #view-map holds the map and the list side by side on a wide screen. Below 900px there is no
+   room for both, so the panes stack and #splitTab toggles which one is on top — the same content,
+   not a different build. #map keeps position:absolute inside its own pane so Leaflet's size
+   calculations are unchanged; only the pane it sits in moves. */
+#view-map{display:flex}
+#mappane{position:relative;flex:1 1 auto;min-width:0}
 #map{position:absolute;inset:0;background:var(--bg)}
+#splitlist{flex:0 0 430px;max-width:46%;border-left:1px solid var(--line);background:var(--bg);overflow:auto;-webkit-overflow-scrolling:touch;padding:0 12px 20px}
+#splithead{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+#splithead b{font-size:17px}
+#splithead .muted{font-size:12px}
+#splithead select{margin-left:auto}
+#splitlist .card{margin:10px 0}
+#splitlist .card.hot{outline:2px solid var(--acc);outline-offset:1px}
+#splitTab{display:none}
+@media(max-width:900px){
+  #view-map{display:block}
+  #mappane{position:absolute;inset:0}
+  #splitlist{position:absolute;inset:0;flex:none;max-width:none;border-left:0;display:none;z-index:900}
+  body.splitlist #mappane{display:none}
+  body.splitlist #splitlist{display:block}
+  #splitTab{display:block;position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:1200;
+    background:var(--acc);color:#fff;border:0;border-radius:99px;padding:11px 20px;font-weight:700;cursor:pointer;
+    box-shadow:0 3px 12px rgba(0,0,0,.35)}
+}
 #filterBtn{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
 /* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
    because the filter is scoped to the tile pane. Keeps one keyless tile source for both themes. */
 /* FALLBACK ONLY. CARTO serves a real light (Positron) and dark (Dark Matter) basemap,
    so these filters must not touch them — inverting Dark Matter would turn it white.
    JS adds .osmtiles to <body> only when we've fallen back to raw OSM tiles.
-   LIGHT: fully desaturated so the school pins are the only colour on screen.
+   LIGHT: fully desaturated so the school pins are the only color on screen.
    DARK:  inverted, then pushed darker and flatter; the default invert leaves pink roads
           and teal water, which is what made the old dark map look muddy. */
 body.osmtiles.light .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.88)}
@@ -341,6 +366,7 @@ a.schoollink:hover{color:var(--acc)}
 </nav>
 <main>
   <div class="view active" id="view-map">
+   <div id="mappane">
     <div id="map"></div>
     <div id="count"></div>
     <button id="filterBtn">⚙︎ Filters</button>
@@ -357,6 +383,9 @@ a.schoollink:hover{color:var(--acc)}
         <div><i style="background:var(--none)"></i>4-year · no athletics on file</div>
       </div>
     </div>
+    <button id="splitTab" onclick="toggleSplitPane()">📋 Show list</button>
+   </div>
+   <div id="splitlist"></div>
     <div id="filters"></div>
     <div id="sheet"></div>
   </div>
@@ -424,7 +453,7 @@ a.schoollink:hover{color:var(--acc)}
     </div>
     <div class="out muted" id="ld-mailout"></div>
   </div>
-  <div class="ldfoot">Created by Sean Brady · Free to use · Works on any phone or computer · <a href="/privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="/terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="/disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="/sources.html" style="color:var(--dim)">Data Sources</a> · <a href="/groups.html" style="color:var(--dim)">Group Licences</a> · <a href="/contact.html" style="color:var(--dim)">Contact</a><br>
+  <div class="ldfoot">Created by Sean Brady · Free to use · Works on any phone or computer · <a href="/privacy.html" style="color:var(--dim)">Privacy Policy</a> · <a href="/terms.html" style="color:var(--dim)">Terms of Service</a> · <a href="/disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="/sources.html" style="color:var(--dim)">Data Sources</a> · <a href="/groups.html" style="color:var(--dim)">Group Licenses</a> · <a href="/contact.html" style="color:var(--dim)">Contact</a><br>
   Data: US Dept. of Education College Scorecard · Equity in Athletics (EADA) 2025 · Verify details with each college
   <!-- Real <a href> links into the static college pages. The app's own navigation is
        JavaScript, so without these the 5,800 built pages have no crawlable path in from
@@ -458,7 +487,7 @@ a.schoollink:hover{color:var(--acc)}
   </div>
 </div>
 <footer class="note">Data: US Dept. of Education College Scorecard (2022-23) · Equity in Athletics (EADA) 2025 · Verify details with each school<br>
-<span class="credit">Created by Sean Brady © <span id="yr"></span></span> · <a href="/colleges/" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="/privacy.html" style="color:var(--dim)">Privacy</a> · <a href="/terms.html" style="color:var(--dim)">Terms</a> · <a href="/disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="/sources.html" style="color:var(--dim)">Data Sources</a> · <a href="/groups.html" style="color:var(--dim)">👥 Group Licences</a> · <a href="/contact.html" style="color:var(--dim)">Contact</a></footer>
+<span class="credit">Created by Sean Brady © <span id="yr"></span></span> · <a href="/colleges/" onclick="switchView('list');window.scrollTo(0,0);return false" style="color:var(--dim)">📋 College List</a> · <a href="#" onclick="showLanding();return false" style="color:var(--dim)">About</a> · <a href="/privacy.html" style="color:var(--dim)">Privacy</a> · <a href="/terms.html" style="color:var(--dim)">Terms</a> · <a href="/disclaimer.html" style="color:var(--dim)">Disclaimer</a> · <a href="/sources.html" style="color:var(--dim)">Data Sources</a> · <a href="/groups.html" style="color:var(--dim)">👥 Group Licenses</a> · <a href="/contact.html" style="color:var(--dim)">Contact</a></footer>
 <script src="/libs/leaflet.js"></script>
 <script src="/libs/leaflet.markercluster.js"></script>
 <script src="/db.js"></script>
@@ -686,7 +715,7 @@ function showPaywall(){
 function closePaywall(){ const o=document.getElementById('paywall'); if(o) o.style.display='none'; }
 // Two kinds of code reach this box. The seven original promo codes are still checked
 // against the baked-in hash list so nobody who already has one is broken. Everything else
-// goes to the redeem-code Edge Function, which owns group-licence codes: the hashes live
+// goes to the redeem-code Edge Function, which owns group-license codes: the hashes live
 // server-side, each code burns on first use, and the endpoint is rate-limited.
 async function redeemCode(){
   if(isIOSApp()) return;   // no code path inside the iOS app — App Store purchases only
@@ -1040,7 +1069,7 @@ async function deleteAccount(){
     location.reload();
   }
 }
-// An App Store subscription can only be cancelled in iOS Settings — Apple rejects builds
+// An App Store subscription can only be canceled in iOS Settings — Apple rejects builds
 // that send subscribers to an external billing page instead.
 function manageSubHTML(){
   if(rcActive || isIOSApp()){
@@ -1181,7 +1210,7 @@ async function joinList(){
   const out = document.getElementById('ld-mailout');
   if(!box || !out) return;
   const email = (box.value||'').trim().toLowerCase();
-  const show = (msg, colour) => { out.textContent = msg; out.style.color = colour || ''; };
+  const show = (msg, color) => { out.textContent = msg; out.style.color = color || ''; };
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return show('That does not look like an email address.', '#f87171');
   if(!cloudConfigured() || !sb){
     return show('Email list is not connected yet — please use the Contact page.', '#f87171');
@@ -1450,8 +1479,8 @@ function satFit(s){
   if(mine <= s.sat - SAT_BAND) return 'reach';
   return 'match';
 }
-// Colours come from CSS so each theme stays readable, and so 'Reach' never matches the
-// accent colour — a badge that looks like a button is a badge people try to press.
+// Colors come from CSS so each theme stays readable, and so 'Reach' never matches the
+// accent color — a badge that looks like a button is a badge people try to press.
 const FIT_VAR = {likely:'--fitL', match:'--fitM', reach:'--fitR'};
 const FIT_TEXT = {likely:'✅ Likely', match:'🎯 Match', reach:'🌟 Reach'};
 const fitColor = k => getComputedStyle(document.body).getPropertyValue(FIT_VAR[k]).trim();
@@ -1484,17 +1513,101 @@ const cluster = L.markerClusterGroup({chunkedLoading:true, maxClusterRadius:46, 
 map.addLayer(cluster);
 let routeLayer = null;
 
+// Markers are kept by school id so the list pane can highlight the pin for a hovered card and
+// vice versa. Rebuilt on every refreshMap, so it never holds markers from a stale filter.
+const markerById = new Map();
 function markerFor(s){
   const m = L.circleMarker([s.lat,s.lon],{radius:7,color:'#0f172a',weight:1,fillColor:divColor(s),fillOpacity:.95});
   m.bindTooltip(s.n,{direction:'top',offset:[0,-6]});
   m.on('click',()=>openSheet(s.id));
+  m.on('mouseover',()=>hotCard(s.id,true));
+  m.on('mouseout', ()=>hotCard(s.id,false));
+  markerById.set(s.id,m);
   return m;
 }
 function refreshMap(list){
   cluster.clearLayers();
+  markerById.clear();
   cluster.addLayers(list.map(markerFor));
   document.getElementById('count').textContent = list.length.toLocaleString() + ' schools';
+  renderSplit();
 }
+
+// ---------- split list ----------
+// Above SPLIT_ZOOM the list follows the map: pan or zoom and it shows only what is in frame.
+// Below it the map is showing most of the country, every school is nominally "in view", and a
+// bounds filter would just restate the full list — so it falls back to the whole filtered set
+// and says so, rather than implying a precision it does not have.
+const SPLIT_ZOOM = 6;
+let splitSort = 'np';
+function splitRows(){
+  const all = filtered();
+  const byBounds = map.getZoom() >= SPLIT_ZOOM;
+  const b = byBounds ? map.getBounds() : null;
+  const rows = byBounds ? all.filter(s=>s.lat!=null && b.contains([s.lat,s.lon])) : all.slice();
+  const k = splitSort;
+  rows.sort((a,b2)=>{
+    if(k==='n')  return a.n.localeCompare(b2.n);
+    if(k==='adm')return (a.adm??9)-(b2.adm??9);
+    if(k==='en') return (b2.en??0)-(a.en??0);
+    if(k==='tin')return (a.tin ?? 1e15)-(b2.tin ?? 1e15);
+    // Cheapest real cost first. The 683 schools with no reported net price sort to the bottom
+    // rather than falling back to sticker tuition — ranking a sticker price alongside net prices
+    // is precisely the comparison this product exists to stop people making.
+    return (a.np ?? 1e15) - (b2.np ?? 1e15);
+  });
+  return {rows, byBounds, total: all.length};
+}
+function renderSplit(){
+  const el = document.getElementById('splitlist');
+  if(!el) return;
+  const {rows, byBounds, total} = splitRows();
+  const cap = rows.slice(0,200);
+  const opt = (v,t)=>`<option value="${v}" ${splitSort===v?'selected':''}>${t}</option>`;
+  el.innerHTML = `<div id="splithead">
+      <b>${rows.length.toLocaleString()}</b>
+      <span class="muted">${byBounds ? 'in this map area' : `of ${total.toLocaleString()} — zoom in to filter by area`}</span>
+      <select onchange="splitSort=this.value;renderSplit()" aria-label="Sort results">
+        ${opt('np','Sort: Actual cost')}${opt('tin','Sticker tuition')}${opt('adm','Acceptance rate')}${opt('en','Size')}${opt('n','Name')}
+      </select>
+    </div>
+    ${cap.length ? cap.map(cardHTML).join('')
+                 : '<div class="empty" style="padding:22px 0">No schools here. Pan the map or widen your filters.</div>'}
+    ${rows.length>cap.length ? `<div class="empty" style="padding:14px 0">Showing the first ${cap.length} of ${rows.length.toLocaleString()} — zoom in to narrow.</div>` : ''}`;
+  el.querySelectorAll('.card').forEach(c=>{
+    const id = +(/openFromList\((\d+)\)/.exec(c.getAttribute('onclick')||'')||[])[1];
+    if(!id) return;
+    c.addEventListener('mouseenter',()=>hotMarker(id,true));
+    c.addEventListener('mouseleave',()=>hotMarker(id,false));
+  });
+}
+// Hover sync. A clustered marker is not on screen, so highlighting it would do nothing visible —
+// getVisibleParent gives the cluster standing in for it, which is what the eye should be drawn to.
+function hotMarker(id,on){
+  const m = markerById.get(id); if(!m) return;
+  const vis = cluster.getVisibleParent ? cluster.getVisibleParent(m) : m;
+  if(vis === m){
+    m.setStyle(on ? {radius:11,weight:3,color:'var(--acc)'} : {radius:7,weight:1,color:'#0f172a'});
+    if(on && m.bringToFront) m.bringToFront();
+  }else if(vis && vis._icon){
+    vis._icon.style.filter = on ? 'brightness(1.35)' : '';
+  }
+}
+function hotCard(id,on){
+  const el = document.querySelector(`#splitlist .card[onclick*="openFromList(${id})"]`);
+  if(!el) return;
+  el.classList.toggle('hot',on);
+  if(on) el.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+function toggleSplitPane(){
+  const on = document.body.classList.toggle('splitlist');
+  document.getElementById('splitTab').textContent = on ? '🗺️ Show map' : '📋 Show list';
+  if(!on) setTimeout(()=>map.invalidateSize(),60);
+}
+// Panning fires moveend continuously on a drag; rebuilding 200 cards on every frame would
+// stutter, so coalesce to one render once the map settles.
+let splitTimer = null;
+map.on('moveend zoomend', ()=>{ clearTimeout(splitTimer); splitTimer = setTimeout(renderSplit,160); });
 
 // ---------- detail sheet ----------
 function openSheet(id){
