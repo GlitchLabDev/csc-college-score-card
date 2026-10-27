@@ -78,8 +78,8 @@ main{flex:1;position:relative;overflow:hidden}
    Filters button was the last one left and it was covering the card's close X whenever a pin
    near the top right was opened — measured, 1 in 16. Nothing here is needed while you are
    reading a school, so the rule covers all three rather than waiting to find the next one. */
-body.pincard #legend, body.pincard #count, body.pincard #filterBtn{opacity:0;pointer-events:none}
-#legend,#count,#filterBtn{transition:opacity .15s}
+body.pincard #legend, body.pincard #count{opacity:0;pointer-events:none}
+#legend,#count{transition:opacity .15s}
 /* The map key and the count badge sit BESIDE #map, not inside it, and Leaflet's wheel listener is
    on #map. Scrolling over either one therefore bubbled past Leaflet and did nothing at all, while
    the same gesture two inches away zoomed normally. Measured: the key alone covered 9 of 140
@@ -134,7 +134,11 @@ body.pincard #legend, body.pincard #count, body.pincard #filterBtn{opacity:0;poi
     background:var(--acc);color:#fff;border:0;border-radius:99px;padding:11px 20px;font-weight:700;cursor:pointer;
     box-shadow:0 3px 12px rgba(0,0,0,.35)}
 }
-#filterBtn{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+/* Filters lives in the nav now rather than floating over the map. One less thing layered on
+   top of the map to intercept wheels and clicks, and it sits with the other controls. */
+#filterBtn{margin-left:auto;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:7px 13px;font-weight:700;cursor:pointer;white-space:nowrap;align-self:center}
+#filterBtn:hover{border-color:var(--acc);color:var(--acc)}
+@media(max-width:640px){#filterBtn{margin-left:6px;padding:7px 10px}}
 /* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
    because the filter is scoped to the tile pane. Keeps one keyless tile source for both themes. */
 /* FALLBACK ONLY. CARTO serves a real light (Positron) and dark (Dark Matter) basemap,
@@ -185,15 +189,18 @@ details.sportdd > div{padding:0 10px 10px}
    changes at the breakpoint, so there is one detail view to maintain rather than two. */
 #sheetbg{position:absolute;inset:0;background:rgba(2,6,16,.62);z-index:1140;opacity:0;pointer-events:none;transition:opacity .2s}
 #sheetbg.open{opacity:1;pointer-events:auto}
-#sheet{position:absolute;left:0;right:0;bottom:0;max-height:78%;background:var(--panel);border-top:2px solid var(--acc);border-radius:16px 16px 0 0;z-index:1150;transform:translateY(105%);transition:transform .25s;overflow:auto;padding:16px 16px 24px}
-#sheet.open{transform:none}
+#sheet{position:absolute;left:0;right:0;bottom:0;max-height:78%;background:var(--panel);border-top:2px solid var(--acc);border-radius:16px 16px 0 0;z-index:1150;transform:translateY(105%);transition:transform .25s;overflow:auto;padding:16px 16px 24px;pointer-events:none}
+#sheet.open{transform:none;pointer-events:auto}
 #sheet .grab{width:44px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 10px}
 @media(min-width:900px){
   #sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(1020px,92vw);max-height:90vh;
          border:1px solid var(--line);border-top:2px solid var(--acc);border-radius:16px;
          transform:translate(-50%,-44%) scale(.98);opacity:0;transition:transform .2s,opacity .2s;
          padding:22px 26px 28px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
-  #sheet.open{transform:translate(-50%,-50%) scale(1);opacity:1}
+  /* Closed, this panel is a 1020px invisible rectangle centred over the map at z-index 1150.
+     Without pointer-events:none it swallowed every wheel and click in the middle of the map
+     while the edges still worked — the single hardest bug of the redesign. */
+  #sheet.open{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
   #sheet .grab{display:none}
   #sheet .close{top:16px;right:18px;padding:7px 12px;font-size:15px}
   #sheet h2{font-size:24px}
@@ -434,13 +441,13 @@ a.schoollink:hover{color:var(--acc)}
   <button data-v="score">🏆 Scorecard</button>
   <button data-v="picks">👍 Top Picks</button>
   <button data-v="account">👤</button>
+  <button id="filterBtn">⚙︎ Filters</button>
 </nav>
 <main>
   <div class="view active" id="view-map">
    <div id="mappane">
     <div id="map"></div>
     <div id="count"></div>
-    <button id="filterBtn">⚙︎ Filters</button>
     <div id="legend">
       <button id="legendToggle" onclick="document.getElementById('legend').classList.toggle('open')">🎨 Map key <span id="legendArrow">▸</span></button>
       <div id="legendItems">
@@ -2447,7 +2454,7 @@ document.addEventListener('click',e=>{ if(!e.target.closest('#search')) sugEl.st
 let curView = 'map';
 function switchView(v){
   curView = v;
-  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
+  document.querySelectorAll('nav button[data-v]').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   if(v==='map') setTimeout(()=>map.invalidateSize(),60);
@@ -2460,7 +2467,7 @@ function switchView(v){
   if(v==='trip') renderTrip();
   if(v==='account') renderAccount();
 }
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
+document.querySelectorAll('nav button[data-v]').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
 function refreshLists(){
   const v = curView;
   if(v==='list') renderList(); if(v==='careers') renderCareers(); if(v==='favs') renderFavs(); if(v==='top5') renderTop5(); if(v==='picks') renderPicks(); if(v==='score') renderScore(); if(v==='trip') renderTrip();
