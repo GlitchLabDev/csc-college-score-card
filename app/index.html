@@ -89,7 +89,9 @@ main{flex:1;position:relative;overflow:hidden}
 .mini .pair b{display:block;font-size:14px;color:var(--text);font-weight:700}
 .mini .go{display:block;width:100%;margin-top:10px;background:var(--acc);color:var(--onacc);border:0;border-radius:9px;padding:8px;font-weight:700;font-size:12.5px;cursor:pointer}
 .mini .badges{margin-bottom:7px;display:flex;gap:5px;flex-wrap:wrap}
-#view-map{display:flex}
+/* .active matters here: an unqualified #view-map rule outranks .view{display:none} by
+   specificity, so the map stayed painted over every other screen and ate every click. */
+#view-map.active{display:flex}
 #mappane{position:relative;flex:1 1 auto;min-width:0}
 #map{position:absolute;inset:0;background:var(--bg)}
 #splitlist{flex:0 0 430px;max-width:46%;border-left:1px solid var(--line);background:var(--bg);overflow:auto;-webkit-overflow-scrolling:touch;padding:0 12px 20px}
@@ -101,7 +103,7 @@ main{flex:1;position:relative;overflow:hidden}
 #splitlist .card.hot{outline:2px solid var(--acc);outline-offset:1px}
 #splitTab{display:none}
 @media(max-width:900px){
-  #view-map{display:block}
+  #view-map.active{display:block}
   #mappane{position:absolute;inset:0}
   #splitlist{position:absolute;inset:0;flex:none;max-width:none;border-left:0;display:none;z-index:900}
   body.splitlist #mappane{display:none}
