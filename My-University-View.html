@@ -69,10 +69,16 @@ main{flex:1;position:relative;overflow:hidden}
 .leaflet-popup-content-wrapper{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .leaflet-popup-content{margin:0;width:258px!important;line-height:1.4}
 .leaflet-popup-tip{background:var(--panel);border:1px solid var(--line)}
-.leaflet-popup-close-button{color:var(--dim)!important;font-size:20px!important;padding:6px 8px 0 0!important}
-.leaflet-popup-close-button:hover{color:var(--text)!important}
+/* Leaflet gives the close button a fixed 24x24 box and positions the glyph inside it. Adding
+   padding moves the glyph but not the box, so the X ends up drawn somewhere you cannot click —
+   which is exactly how the first version of this shipped. Resize the box, centre the glyph in it
+   with line-height, and keep padding out of it entirely. */
+.leaflet-popup-close-button{width:30px!important;height:30px!important;padding:0!important;
+  top:5px!important;right:5px!important;font:700 19px/30px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif!important;
+  text-align:center;color:var(--dim)!important;border-radius:8px}
+.leaflet-popup-close-button:hover{color:var(--text)!important;background:var(--panel2)}
 .mini{padding:13px 14px 12px;cursor:pointer}
-.mini h4{font-size:14.5px;line-height:1.3;margin:0 18px 3px 0;font-weight:700}
+.mini h4{font-size:14.5px;line-height:1.3;margin:0 34px 3px 0;font-weight:700}
 .mini .where{font-size:11.5px;color:var(--dim);margin-bottom:9px}
 .mini .cost{display:flex;align-items:baseline;gap:7px;margin-bottom:2px}
 .mini .cost b{font-size:21px;letter-spacing:-.5px}
