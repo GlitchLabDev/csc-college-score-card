@@ -74,8 +74,12 @@ main{flex:1;position:relative;overflow:hidden}
    creates a stacking context, so every pane inside it is pinned at that pane's z-index (400) no
    matter what you set on the pane itself. Measured, not assumed — the blocker was #legend.
    So instead of fighting the stack, take the chrome out of the way while a card is open. */
-body.pincard #legend, body.pincard #count{opacity:0;pointer-events:none}
-#legend,#count{transition:opacity .15s}
+/* Every piece of chrome floating over the map gets out of the way while a card is open. The
+   Filters button was the last one left and it was covering the card's close X whenever a pin
+   near the top right was opened — measured, 1 in 16. Nothing here is needed while you are
+   reading a school, so the rule covers all three rather than waiting to find the next one. */
+body.pincard #legend, body.pincard #count, body.pincard #filterBtn{opacity:0;pointer-events:none}
+#legend,#count,#filterBtn{transition:opacity .15s}
 /* The map key and the count badge sit BESIDE #map, not inside it, and Leaflet's wheel listener is
    on #map. Scrolling over either one therefore bubbled past Leaflet and did nothing at all, while
    the same gesture two inches away zoomed normally. Measured: the key alone covered 9 of 140
