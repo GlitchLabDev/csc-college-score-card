@@ -1251,9 +1251,12 @@ function poiUrl(s,term){
     ? `https://maps.apple.com/?q=${encodeURIComponent(term)}&sll=${s.lat},${s.lon}&z=14`
     : `https://www.google.com/maps/search/${encodeURIComponent(term)}/@${s.lat},${s.lon},14z`;
 }
-function nameLink(s,cls){
-  const u = siteUrl(s);
-  return u ? `<a class="${cls||''}" href="${esc(u)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(s.n)}</a>` : esc(s.n);
+// The school name inside a tile used to be an external link with stopPropagation, so clicking the
+// most obvious target on the card sent people to the college's own website instead of opening our
+// detail sheet — the one place all of this data actually lives. The name now opens the sheet; the
+// college's own site is still one click away from inside it, via the "Official site" button.
+function nameOpen(s,cls){
+  return `<a class="${cls||''}" href="#" onclick="event.preventDefault();event.stopPropagation();openSheet(${s.id});return false">${esc(s.n)}</a>`;
 }
 
 // ---------- sports catalog ----------
@@ -1542,8 +1545,14 @@ const SPLIT_ZOOM = 6;
 let splitSort = 'np';
 function splitRows(){
   const all = filtered();
-  const byBounds = map.getZoom() >= SPLIT_ZOOM;
-  const b = byBounds ? map.getBounds() : null;
+  // A map whose container has no size reports a zero-area bounds — every contains() test fails and
+  // the pane would claim "0 in this map area" while the map plainly shows pins. That happens while
+  // #view-map is inactive, during the mobile pane toggle, and before the first invalidateSize().
+  // Treat a degenerate bounds as "we don't know yet" and show everything rather than nothing.
+  const b0 = map.getBounds();
+  const sized = b0.getNorth() !== b0.getSouth() && b0.getEast() !== b0.getWest();
+  const byBounds = sized && map.getZoom() >= SPLIT_ZOOM;
+  const b = byBounds ? b0 : null;
   const rows = byBounds ? all.filter(s=>s.lat!=null && b.contains([s.lat,s.lon])) : all.slice();
   const k = splitSort;
   rows.sort((a,b2)=>{
@@ -1617,7 +1626,7 @@ function openSheet(id){
   sh.innerHTML = `
     <div class="grab"></div>
     <button class="close" onclick="closeSheet()">✕</button>
-    <h2>${nameLink(s,'schoollink')} ${divBadge(s)}</h2>
+    <h2>${esc(s.n)} ${divBadge(s)}</h2>
     <div class="sub">${esc(s.c)}, ${s.s} · ${s.ctrl} · ${s.lvl}${s.loc?' · '+s.loc:''}</div>
     <div class="stats">
       <div class="stat"><div class="k">Acceptance rate</div><div class="v">${fmt.pct(s.adm)}</div></div>
@@ -1903,7 +1912,7 @@ function renderTop5(){
     <div class="muted" style="margin-bottom:10px">Schedule Campus Visit/Tour opens the school's own visit page. Paste contact emails once (use the Find buttons) and Compose opens a ready-to-send intro using your 👤 profile.${hasSport?'':' Select a sport under Filters → Athletics to unlock coach outreach.'} The 📒 log keeps every contact with each school in one place.</div>` +
     ids.map((id,i)=>{ const s=byId[id], ct=(favs[id]&&favs[id].contacts)||{}, cl=(favs[id]&&favs[id].comms)||[];
       return `<div class="card" style="cursor:default" onclick="event.stopPropagation()">
-        <h3>#${i+1} ${nameLink(s,'schoollink')} ${divBadge(s)}</h3>
+        <h3>#${i+1} ${nameOpen(s,'schoollink')} ${divBadge(s)}</h3>
         <div class="meta">${esc(s.c)}, ${s.s}${F.sports.includes('w-softball')&&s.sb&&s.sb.coach?' · 🥎 Coach '+esc(s.sb.coach):''}</div>
         <div class="row" style="display:flex;gap:6px;margin:8px 0">
           <input class="t5in" placeholder="Admissions email" value="${esc(ct.adm||'')}" onchange="setContact(${id},'adm',this.value);renderTop5()">
@@ -1957,7 +1966,7 @@ let sortBy = 'n';
 function cardHTML(s){
   const isFav = !!favs[s.id], inTrip = trip.includes(s.id);
   return `<div class="card" onclick="openFromList(${s.id})">
-    <h3>${nameLink(s,'schoollink')} ${divBadge(s)} ${fitPill(s)}</h3>
+    <h3>${nameOpen(s,'schoollink')} ${divBadge(s)} ${fitPill(s)}</h3>
     <div class="meta">${esc(s.c)}, ${s.s} · ${s.ctrl} · Accept: ${fmt.pct(s.adm)} · Enroll: ${fmt.num(s.en)} · Tuition: ${fmt.usd(s.tin)} in / ${fmt.usd(s.tout)} out</div>
     ${F.sports.includes('w-softball')&&s.sb&&s.sb.conf?`<div class="meta">🥎 ${esc(s.sb.conf)}${s.sb.coach?' · Coach '+esc(s.sb.coach):''}</div>`:''}
     <div class="cardacts">
@@ -2024,7 +2033,7 @@ function renderScore(){
   </div>
   <div class="muted noprint" style="margin:6px 0 8px">${picks.filter(id=>favs[id]).length?'👍 Top Picks are shown first; the rest of your favorites follow.':'Mark finalists with 👍 Top Picks to bring them to the front.'} Green outline = best value in row. Rate each category 0–5; totals update live. PDF uses your browser's print dialog — choose "Save as PDF".</div>
   <table class="sc">
-    <tr><th class="metric">Metric</th>${ss.map(s=>`<th>${nameLink(s,'schoollink')}<br><button class="pickbtn noprint ${picks.includes(s.id)?'on':''}" onclick="togglePick(${s.id})"><span>👍</span> Top Pick</button></th>`).join('')}</tr>
+    <tr><th class="metric">Metric</th>${ss.map(s=>`<th>${nameOpen(s,'schoollink')}<br><button class="pickbtn noprint ${picks.includes(s.id)?'on':''}" onclick="togglePick(${s.id})"><span>👍</span> Top Pick</button></th>`).join('')}</tr>
     ${row('Location', s=>`${esc(s.c)}, ${s.s}<br><span class="muted">${s.loc||''}</span>`)}
     ${row('Type', s=>s.ctrl+' · '+s.lvl)}
     ${row('Acceptance rate', s=>fmt.pct(s.adm), s=>s.adm===best.adm)}
