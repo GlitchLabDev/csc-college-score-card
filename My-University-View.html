@@ -61,6 +61,28 @@ main{flex:1;position:relative;overflow:hidden}
    room for both, so the panes stack and #splitTab toggles which one is on top — the same content,
    not a different build. #map keeps position:absolute inside its own pane so Leaflet's size
    calculations are unchanged; only the pane it sits in moves. */
+/* ---------- map pin popup ----------
+   Clicking a pin used to throw the full detail sheet straight over the map, which loses your place
+   and is a lot of screen for "is this one worth a look". The popup is the Zillow step in between:
+   enough to judge, one tap to the rest. Leaflet's default popup chrome is white and square, so the
+   wrapper is restyled rather than fought with. */
+.leaflet-popup-content-wrapper{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.leaflet-popup-content{margin:0;width:258px!important;line-height:1.4}
+.leaflet-popup-tip{background:var(--panel);border:1px solid var(--line)}
+.leaflet-popup-close-button{color:var(--dim)!important;font-size:20px!important;padding:6px 8px 0 0!important}
+.leaflet-popup-close-button:hover{color:var(--text)!important}
+.mini{padding:13px 14px 12px;cursor:pointer}
+.mini h4{font-size:14.5px;line-height:1.3;margin:0 18px 3px 0;font-weight:700}
+.mini .where{font-size:11.5px;color:var(--dim);margin-bottom:9px}
+.mini .cost{display:flex;align-items:baseline;gap:7px;margin-bottom:2px}
+.mini .cost b{font-size:21px;letter-spacing:-.5px}
+.mini .cost s{font-size:12px;color:var(--dim)}
+.mini .costk{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:9px}
+.mini .pair{display:flex;gap:14px;border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.mini .pair div{font-size:11.5px;color:var(--dim)}
+.mini .pair b{display:block;font-size:14px;color:var(--text);font-weight:700}
+.mini .go{display:block;width:100%;margin-top:10px;background:var(--acc);color:var(--onacc);border:0;border-radius:9px;padding:8px;font-weight:700;font-size:12.5px;cursor:pointer}
+.mini .badges{margin-bottom:7px;display:flex;gap:5px;flex-wrap:wrap}
 #view-map{display:flex}
 #mappane{position:relative;flex:1 1 auto;min-width:0}
 #map{position:absolute;inset:0;background:var(--bg)}
@@ -124,9 +146,25 @@ details.sportdd > div{padding:0 10px 10px}
 .btn.danger{background:var(--red);color:#fff}
 .btn:active{transform:scale(.97)}
 /* detail sheet */
+/* The detail panel is a bottom sheet on a phone, where sliding up from the thumb is right, and a
+   centred modal on a wide screen, where a strip across the bottom wastes most of the display and
+   makes you scroll for figures that would otherwise fit. Same markup either way — only the frame
+   changes at the breakpoint, so there is one detail view to maintain rather than two. */
+#sheetbg{position:absolute;inset:0;background:rgba(2,6,16,.62);z-index:1140;opacity:0;pointer-events:none;transition:opacity .2s}
+#sheetbg.open{opacity:1;pointer-events:auto}
 #sheet{position:absolute;left:0;right:0;bottom:0;max-height:78%;background:var(--panel);border-top:2px solid var(--acc);border-radius:16px 16px 0 0;z-index:1150;transform:translateY(105%);transition:transform .25s;overflow:auto;padding:16px 16px 24px}
 #sheet.open{transform:none}
 #sheet .grab{width:44px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 10px}
+@media(min-width:900px){
+  #sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(1020px,92vw);max-height:90vh;
+         border:1px solid var(--line);border-top:2px solid var(--acc);border-radius:16px;
+         transform:translate(-50%,-44%) scale(.98);opacity:0;transition:transform .2s,opacity .2s;
+         padding:22px 26px 28px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+  #sheet.open{transform:translate(-50%,-50%) scale(1);opacity:1}
+  #sheet .grab{display:none}
+  #sheet .close{top:16px;right:18px;padding:7px 12px;font-size:15px}
+  #sheet h2{font-size:24px}
+}
 #sheet h2{font-size:19px;margin-bottom:2px;padding-right:70px}
 #sheet .sub{color:var(--dim);font-size:13px;margin-bottom:12px}
 #sheet .close{position:absolute;top:12px;right:14px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:5px 10px;cursor:pointer}
@@ -387,6 +425,7 @@ a.schoollink:hover{color:var(--acc)}
    </div>
    <div id="splitlist"></div>
     <div id="filters"></div>
+    <div id="sheetbg" onclick="closeSheet()"></div>
     <div id="sheet"></div>
   </div>
   <div class="view" id="view-list"><div class="listwrap" id="listwrap"></div></div>
@@ -1519,12 +1558,34 @@ let routeLayer = null;
 // Markers are kept by school id so the list pane can highlight the pin for a hovered card and
 // vice versa. Rebuilt on every refreshMap, so it never holds markers from a stale filter.
 const markerById = new Map();
+// The compact card shown when a pin is clicked. It leads with what students actually pay, struck
+// through against the sticker where the two differ — the one comparison this product exists to
+// make, and the reason to show a card here rather than a name and a link.
+function miniHTML(s){
+  const net = s.np, sticker = s.cst ?? s.tin;
+  const gap  = (net!=null && sticker!=null && sticker>net);
+  return `<div class="mini" onclick="openSheet(${s.id})">
+    <h4>${esc(s.n)}</h4>
+    <div class="where">${esc(s.c)}, ${s.s} · ${esc(s.ctrl)} · ${esc(s.lvl)}</div>
+    <div class="badges">${divBadge(s)} ${fitPill(s)}</div>
+    <div class="cost"><b>${net!=null?fmt.usd(net):'—'}</b>${gap?`<s>${fmt.usd(sticker)}</s>`:''}</div>
+    <div class="costk">${net!=null?'Average actual cost / year':'Net cost not reported'}</div>
+    <div class="pair">
+      <div>Acceptance<b>${fmt.pct(s.adm)}</b></div>
+      <div>Undergrads<b>${fmt.num(s.en)}</b></div>
+    </div>
+    <button class="go" onclick="event.stopPropagation();openSheet(${s.id})">Full details →</button>
+  </div>`;
+}
 function markerFor(s){
   const m = L.circleMarker([s.lat,s.lon],{radius:7,color:'#0f172a',weight:1,fillColor:divColor(s),fillOpacity:.95});
   m.bindTooltip(s.n,{direction:'top',offset:[0,-6]});
-  m.on('click',()=>openSheet(s.id));
+  // autoPan keeps the card on screen near the map edge; the offset lifts it clear of the pin.
+  m.bindPopup(()=>miniHTML(s),{closeButton:true,autoPan:true,autoPanPadding:[24,24],offset:[0,-4],maxWidth:270,minWidth:258});
+  m.on('popupopen', ()=>hotCard(s.id,true));
+  m.on('popupclose',()=>hotCard(s.id,false));
   m.on('mouseover',()=>hotCard(s.id,true));
-  m.on('mouseout', ()=>hotCard(s.id,false));
+  m.on('mouseout', ()=>{ if(!m.isPopupOpen || !m.isPopupOpen()) hotCard(s.id,false); });
   markerById.set(s.id,m);
   return m;
 }
@@ -1715,9 +1776,18 @@ function openSheet(id){
       </div>
     </div>`;
   sh.classList.add('open');
+  document.getElementById('sheetbg').classList.add('open');
+  sh.scrollTop = 0;   // a modal reused for the next school must not open halfway down the last one
   if(document.querySelector('nav .active').dataset.v==='map') map.panTo([s.lat,s.lon]);
 }
-function closeSheet(){ document.getElementById('sheet').classList.remove('open'); }
+function closeSheet(){
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('sheetbg').classList.remove('open');
+}
+// A centred modal that only closes via a small ✕ is a trap on desktop; Escape is the expected way out.
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && document.getElementById('sheet').classList.contains('open')) closeSheet();
+});
 
 // ---------- favorites ----------
 function toggleFav(id){
