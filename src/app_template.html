@@ -1720,6 +1720,34 @@ function toggleSplitPane(){
 let splitTimer = null;
 map.on('moveend zoomend', ()=>{ clearTimeout(splitTimer); splitTimer = setTimeout(renderSplit,160); });
 
+// ---------- wheel zoom ----------
+// Leaflet's own scroll zoom listens on #map, so anything layered over the map — the key, the
+// count badge, the Filters button — swallowed the wheel and the map simply did not respond
+// there. It also accumulates deltas against a per-platform divisor, which on macOS needs a
+// surprising amount of scrolling before it crosses a whole zoom level.
+// Replacing it with one rule removes both problems: one notch, one level, bound on the whole
+// map pane so it fires no matter what is drawn on top. The result list is outside #mappane,
+// so scrolling there still scrolls the list.
+map.scrollWheelZoom.disable();
+(function wheelZoom(){
+  const pane = document.getElementById('mappane');
+  if(!pane) return;
+  let last = 0;
+  pane.addEventListener('wheel', e=>{
+    if(e.ctrlKey) return;                 // leave browser pinch-zoom alone
+    e.preventDefault();                   // never let the page scroll instead
+    const now = performance.now();
+    if(now - last < 110) return;          // one step per gesture, not per frame
+    last = now;
+    const dir = e.deltaY < 0 ? 1 : -1;
+    const next = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), map.getZoom() + dir));
+    if(next === map.getZoom()) return;
+    // Zoom toward the cursor, the way every map does. mouseEventToContainerPoint reads the
+    // container's live rect, so this stays correct even when the pane has just resized.
+    map.setZoomAround(map.mouseEventToContainerPoint(e), next);
+  }, {passive:false});
+})();
+
 // ---------- detail sheet ----------
 function openSheet(id){
   const s = byId[id]; if(!s) return;
