@@ -66,6 +66,11 @@ main{flex:1;position:relative;overflow:hidden}
    and is a lot of screen for "is this one worth a look". The popup is the Zillow step in between:
    enough to judge, one tap to the rest. Leaflet's default popup chrome is white and square, so the
    wrapper is restyled rather than fought with. */
+/* Our map chrome — the count badge, the map key and the Filters button — all sit at z-index 1000,
+   while Leaflet's popup pane defaults to 700. A pin near any of them opened its card underneath,
+   so the card was visible but its button was not clickable. It looked random because it depends
+   entirely on where the pin happens to be. Lift the popup pane above the chrome. */
+.leaflet-pane.leaflet-popup-pane{z-index:1100}
 .leaflet-popup-content-wrapper{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .leaflet-popup-content{margin:0;width:258px!important;line-height:1.4}
 .leaflet-popup-tip{background:var(--panel);border:1px solid var(--line)}
@@ -2799,6 +2804,23 @@ else maybeStartTour();   // returning straight into the app — offer the tour o
 // got tiles and markers positioned against a stale size: scattered tiles, no pins.
 // Re-measure once the layout has settled, and again after fonts/images shift it.
 function sizeMap(){ try{ map.invalidateSize(false); }catch(e){} }
+// The split view made the map pane's width depend on the result list beside it, and that list is
+// populated after the map is built — so the map kept converting clicks and scroll positions against
+// a width it no longer had. Symptoms: some pins respond and others do not, panning feels offset,
+// and popups open where you cannot reach them. Fixed timeouts cannot cover this because the pane
+// also resizes when the window changes, when the mobile toggle swaps panes, and when the list
+// first fills. Watch the element instead and tell Leaflet every time it actually changes.
+(function watchMapPane(){
+  const pane = document.getElementById('mappane');
+  if(!pane || typeof ResizeObserver === 'undefined'){ window.addEventListener('resize', sizeMap); return; }
+  let t = null, last = '';
+  new ResizeObserver(entries=>{
+    const r = entries[0].contentRect, key = Math.round(r.width)+'x'+Math.round(r.height);
+    if(key === last || r.width === 0) return;      // ignore no-op and hidden states
+    last = key;
+    clearTimeout(t); t = setTimeout(sizeMap, 60);  // coalesce a drag-resize into one call
+  }).observe(pane);
+})();
 window.addEventListener('load', function(){ sizeMap(); setTimeout(sizeMap,150); setTimeout(sizeMap,600); });
 if(document.readyState === 'complete') { sizeMap(); setTimeout(sizeMap,150); }
 
