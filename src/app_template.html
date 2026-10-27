@@ -1628,7 +1628,7 @@ function refreshMap(list){
   markerById.clear();
   cluster.addLayers(list.map(markerFor));
   document.getElementById('count').textContent = list.length.toLocaleString() + ' schools';
-  renderSplit();
+  renderSplit(true);   // filters changed: rebuild even if the signature matches
 }
 
 // ---------- split list ----------
@@ -1662,10 +1662,17 @@ function splitRows(){
   });
   return {rows, byBounds, total: all.length};
 }
-function renderSplit(){
+// Rewriting 200 cards also rewrites the list's scrollbar, which can nudge the pane width and wake
+// the resize watcher — so a render that changes nothing is not free, it is the second half of a
+// feedback loop. Skip when the visible result set is identical to what is already on screen.
+let splitSig = '';
+function renderSplit(force){
   const el = document.getElementById('splitlist');
   if(!el) return;
   const {rows, byBounds, total} = splitRows();
+  const sig = byBounds + '|' + total + '|' + splitSort + '|' + rows.length + '|' + rows.slice(0,200).map(s=>s.id).join(',');
+  if(!force && sig === splitSig) return;
+  splitSig = sig;
   const cap = rows.slice(0,200);
   const opt = (v,t)=>`<option value="${v}" ${splitSort===v?'selected':''}>${t}</option>`;
   el.innerHTML = `<div id="splithead">
@@ -2821,7 +2828,17 @@ else maybeStartTour();   // returning straight into the app — offer the tour o
 // visitor who lands straight on the map — no landing overlay, and now no auth gate —
 // got tiles and markers positioned against a stale size: scattered tiles, no pins.
 // Re-measure once the layout has settled, and again after fonts/images shift it.
-function sizeMap(){ try{ map.invalidateSize(false); }catch(e){} }
+// invalidateSize() makes Leaflet fire move/moveend, which re-renders the result list, which can
+// change the list's scrollbar and therefore the pane width, which wakes the ResizeObserver again.
+// That is a feedback loop that pins the main thread and makes the whole map stop responding to
+// scrolls and clicks. Only tell Leaflet about a size it does not already have.
+function sizeMap(){
+  try{
+    const c = map.getContainer();
+    if(map.getSize().x === c.clientWidth && map.getSize().y === c.clientHeight) return;
+    map.invalidateSize(false);
+  }catch(e){}
+}
 // The split view made the map pane's width depend on the result list beside it, and that list is
 // populated after the map is built — so the map kept converting clicks and scroll positions against
 // a width it no longer had. Symptoms: some pins respond and others do not, panning feels offset,
