@@ -66,11 +66,24 @@ main{flex:1;position:relative;overflow:hidden}
    and is a lot of screen for "is this one worth a look". The popup is the Zillow step in between:
    enough to judge, one tap to the rest. Leaflet's default popup chrome is white and square, so the
    wrapper is restyled rather than fought with. */
-/* Our map chrome — the count badge, the map key and the Filters button — all sit at z-index 1000,
-   while Leaflet's popup pane defaults to 700. A pin near any of them opened its card underneath,
-   so the card was visible but its button was not clickable. It looked random because it depends
-   entirely on where the pin happens to be. Lift the popup pane above the chrome. */
-.leaflet-pane.leaflet-popup-pane{z-index:1100}
+/* Pin cards vs map chrome.
+   The count badge, the map key and the Filters button sit at z-index 1000. A card opening near
+   any of them was drawn underneath, so you could see it but not press its button — which looked
+   random because it depends purely on where the pin is.
+   Raising Leaflet's popup pane does NOT fix this: .leaflet-map-pane carries a transform, which
+   creates a stacking context, so every pane inside it is pinned at that pane's z-index (400) no
+   matter what you set on the pane itself. Measured, not assumed — the blocker was #legend.
+   So instead of fighting the stack, take the chrome out of the way while a card is open. */
+body.pincard #legend, body.pincard #count{opacity:0;pointer-events:none}
+#legend,#count{transition:opacity .15s}
+/* The map key and the count badge sit BESIDE #map, not inside it, and Leaflet's wheel listener is
+   on #map. Scrolling over either one therefore bubbled past Leaflet and did nothing at all, while
+   the same gesture two inches away zoomed normally. Measured: the key alone covered 9 of 140
+   sampled points. Neither needs to receive the mouse — the count is a read-only label and the key
+   only needs its toggle — so let events fall through to the map underneath. */
+#count{pointer-events:none}
+#legend{pointer-events:none}
+#legendToggle{pointer-events:auto}
 .leaflet-popup-content-wrapper{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .leaflet-popup-content{margin:0;width:258px!important;line-height:1.4}
 .leaflet-popup-tip{background:var(--panel);border:1px solid var(--line)}
@@ -1598,8 +1611,9 @@ function markerFor(s){
   m.bindTooltip(s.n,{direction:'top',offset:[0,-6]});
   // autoPan keeps the card on screen near the map edge; the offset lifts it clear of the pin.
   m.bindPopup(()=>miniHTML(s),{closeButton:true,autoPan:true,autoPanPadding:[24,24],offset:[0,-4],maxWidth:270,minWidth:258});
-  m.on('popupopen', ()=>hotCard(s.id,true));
-  m.on('popupclose',()=>hotCard(s.id,false));
+  // Chrome out of the way while a card is open, so its button is always reachable.
+  m.on('popupopen', ()=>{ document.body.classList.add('pincard'); hotCard(s.id,true); });
+  m.on('popupclose',()=>{ document.body.classList.remove('pincard'); hotCard(s.id,false); });
   m.on('mouseover',()=>hotCard(s.id,true));
   m.on('mouseout', ()=>{ if(!m.isPopupOpen || !m.isPopupOpen()) hotCard(s.id,false); });
   markerById.set(s.id,m);
