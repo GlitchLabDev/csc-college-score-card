@@ -440,7 +440,6 @@ a.schoollink:hover{color:var(--acc)}
   <button data-v="trip">🛣️ Road Trip</button>
   <button data-v="score">🏆 Scorecard</button>
   <button data-v="picks">👍 Top Picks</button>
-  <button data-v="account">👤</button>
   <button id="filterBtn">⚙︎ Filters</button>
 </nav>
 <main>
@@ -2823,7 +2822,7 @@ const TOUR_STEPS = [
  {sel:'nav button[data-v="trip"]', t:'🛣️ Road Trip',  d:'Turn your list into a driving route from your front door, with one-tap navigation and nearby hotels, gas, and food.'},
  {sel:'nav button[data-v="score"]',t:'🏆 Scorecard',   d:'Compare favorites side by side — sticker vs. actual cost, admissions, athletics — and add your own 0–5 ratings.'},
  {sel:'nav button[data-v="picks"]',t:'👍 Top Picks',   d:'Tap 👍 anywhere to mark a finalist. They gather here, ranked, for the final decision.'},
- {sel:'nav button[data-v="account"]',t:'👤 Account',   d:'Sign in to sync everything across your devices, and set your home address to power Road Trips. That\'s the tour — happy hunting!'},
+ {sel:'#userbadge',t:'👤 Account',   d:'Sign in to sync everything across your devices, and set your home address to power Road Trips. That\'s the tour — happy hunting!'},
 ];
 let tourI = 0;
 function startTour(i){ if(!TOUR_ENABLED) return; tourI = i||0; document.getElementById('tour').classList.add('on'); showTourStep(); }
