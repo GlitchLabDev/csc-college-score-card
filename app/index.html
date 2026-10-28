@@ -40,60 +40,57 @@ body.light .datanote b{color:var(--text)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;overflow:hidden}
-header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap;z-index:1200}
+/* Header: the logo alone, dead-centred on the page, with the account controls pushed to the
+   right. Equal 1fr side columns are what centre it — the empty left column is deliberate. */
+header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);z-index:1200}
+.hdrside{display:flex;align-items:center;gap:10px;min-width:0}
+.hdrright{justify-self:end}
+.hdrlogo{justify-self:center;font-size:19px;font-weight:800;letter-spacing:.4px;white-space:nowrap;
+         color:var(--text);text-decoration:none}
+.hdrlogo span{color:var(--acc)}
+.hdrlogo:hover{opacity:.82}
 header h1{font-size:18px;font-weight:800;letter-spacing:.5px;white-space:nowrap}
 header h1 span{color:var(--acc)}
-#search{flex:1;min-width:140px;position:relative}
+#search{flex:0 0 190px;min-width:0;position:relative}
 #search input{width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px}
 #suggest{position:absolute;top:100%;left:0;right:0;background:var(--panel2);border:1px solid var(--line);border-radius:0 0 10px 10px;max-height:260px;overflow:auto;z-index:1500;display:none}
 #suggest div{padding:8px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--line)}
 #suggest div:hover{background:var(--panel)}
-/* Top bar: school-type filters on the left, logo centred, nothing on the right. The three
-   columns are a grid rather than flex so the logo stays optically centred on the page no matter
-   how wide the button group gets. */
-/* The left group is sized to its content so the six type buttons are never clipped; the logo
-   centres in whatever is left over. Dead-centring the logo needs 2x695 + 186 = 1,576px of bar,
-   so below 1,600px the logo sits at the right end instead of being cut in half. */
-nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:var(--panel);
+/* Top bar: school-type filters on the left, the shortlist tools and search on the right. Both
+   groups are sized to their own content, so neither can be clipped by the other. */
+nav{display:flex;justify-content:space-between;align-items:center;gap:14px;background:var(--panel);
     padding:0 10px 8px;border-bottom:1px solid var(--line)}
-.navleft{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;min-width:0}
+.navleft,.navright{display:flex;gap:4px;align-items:center;min-width:0}
+.navright{flex:0 0 auto}
+.navleft{overflow-x:auto;scrollbar-width:none}
 .navleft::-webkit-scrollbar{display:none}
 nav button{flex:0 0 auto;padding:8px 11px;border:none;border-radius:10px;background:transparent;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 nav button:hover{color:var(--text);background:var(--panel2)}
 nav button.active{background:var(--acc);color:var(--onacc)}
-.navlogo{justify-self:end;font-size:17px;font-weight:800;letter-spacing:.3px;white-space:nowrap;
-         color:var(--text);text-decoration:none}
-.navlogo span{color:var(--acc)}
-.navlogo:hover{opacity:.82}
-@media(min-width:1600px){nav{grid-template-columns:1fr auto 1fr}.navlogo{justify-self:center}}
-.navright{min-width:0}
+.mobonly{display:none}
+/* Narrow desktops can't fit two full label sets plus the search box, so the right-hand group
+   drops to icons before anything starts clipping. */
+@media(max-width:1480px){.navright .vbtn span{display:none}.navright .vbtn{font-size:16px;padding:7px 9px}}
 @media(max-width:900px){
-  /* No room for three columns on a phone: the logo drops out and the filters get the full width. */
-  nav{grid-template-columns:1fr}
-  .navlogo,.navright{display:none}
   nav button{font-size:12px;padding:8px 9px}
+  .navright .vbtn{font-size:15px;padding:7px 7px}
+  #search{flex:0 0 120px}
+  .mobonly{display:inline-block}
 }
+@media(max-width:620px){#search{display:none}}
 
-/* ---------- left sidebar ----------
-   Favorites and the tools that act on a shortlist live here, out of the top bar. Communicate,
-   Road Trip, Scorecard and Top Picks are indented under Favorites because each one operates on
-   the list you build there — the nesting is the explanation. */
-#shell{flex:1;display:flex;min-height:0}
-#sidebar{flex:0 0 186px;background:var(--panel);border-right:1px solid var(--line);
-         padding:12px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
-.sbtn{display:flex;align-items:center;gap:9px;width:100%;padding:9px 11px;border:none;border-radius:10px;
-      background:transparent;color:var(--dim);font-size:13.5px;font-weight:600;cursor:pointer;text-align:left}
-.sbtn:hover{background:var(--panel2);color:var(--text)}
-.sbtn.active{background:var(--acc);color:var(--onacc)}
-.subnav{display:flex;flex-direction:column;gap:2px;margin:1px 0 6px;padding-left:10px;
-        border-left:2px solid var(--line)}
-.sbtn.sub{font-size:12.5px;font-weight:500;padding:7px 10px}
+/* ---------- left sidebar = the filter panel ----------
+   The filters used to slide in over the right-hand edge of the map, covering the results they
+   were narrowing. They now live permanently down the left side, so you can see the map change
+   as you change them. On a phone there is no room for a permanent column, so the same panel
+   becomes a drawer opened by the Filters button in the top bar. */
+#shell{flex:1;display:flex;min-height:0;position:relative}
+#sidebar{flex:0 0 276px;background:var(--panel);border-right:1px solid var(--line);
+         display:flex;flex-direction:column;min-height:0}
 @media(max-width:900px){
-  /* Icons only — 186px of labels is most of a phone screen. */
-  #sidebar{flex:0 0 52px;padding:10px 6px;align-items:center}
-  .sbtn{justify-content:center;padding:10px 0;font-size:17px}
-  .sbtn span{display:none}
-  .subnav{padding-left:0;border-left:0;border-top:1px solid var(--line);padding-top:4px;margin-top:4px}
+  #sidebar{position:absolute;left:0;top:0;bottom:0;z-index:1100;width:min(300px,86vw);
+           transform:translateX(-100%);transition:transform .25s;box-shadow:6px 0 30px rgba(0,0,0,.4)}
+  #sidebar.open{transform:none}
 }
 main{flex:1;position:relative;overflow:hidden;min-width:0}
 .view{position:absolute;inset:0;display:none;overflow:auto;-webkit-overflow-scrolling:touch}
@@ -179,7 +176,7 @@ body.pincard #legend, body.pincard #count{opacity:0;pointer-events:none}
 }
 /* Filters lives in the nav now rather than floating over the map. One less thing layered on
    top of the map to intercept wheels and clicks, and it sits with the other controls. */
-#filterBtn{margin-left:auto;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:7px 13px;font-weight:700;cursor:pointer;white-space:nowrap;align-self:center}
+#filterBtn{margin-left:6px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:7px 13px;font-weight:700;cursor:pointer;white-space:nowrap;align-self:center}
 #filterBtn:hover{border-color:var(--acc);color:var(--acc)}
 @media(max-width:640px){#filterBtn{margin-left:6px;padding:7px 10px}}
 /* Dark theme: invert the (light) OSM tiles only — markers, popups and controls are unaffected
@@ -205,8 +202,8 @@ body.osmtiles:not(.light) .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg)
    same spot with a higher z-index, so it covered the + entirely — the - peeked out below only
    because the badge is shorter than the control. Offset past the control's 30px width. */
 #count{position:absolute;top:12px;left:54px;z-index:1000;background:var(--glass);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600}
-#filters{position:absolute;top:0;right:0;bottom:0;width:min(320px,90vw);background:var(--panel);border-left:1px solid var(--line);z-index:1100;transform:translateX(100%);transition:transform .25s;overflow:auto;padding:16px}
-#filters.open{transform:none}
+/* Now a static column filling the sidebar rather than a panel that slides over the map. */
+#filters{flex:1;min-height:0;overflow-y:auto;padding:14px 12px}
 #filters h3{font-size:14px;margin:14px 0 6px;color:var(--acc)}
 #filters h3:first-child{margin-top:0}
 #filters label{display:block;font-size:13px;margin:4px 0;cursor:pointer}
@@ -467,10 +464,13 @@ a.schoollink:hover{color:var(--acc)}
 </head>
 <body>
 <header>
-  <div id="search"><input id="q" type="search" placeholder="Search school or city…" autocomplete="off"><div id="suggest"></div></div>
-  <button id="helpbtn" title="How to navigate" onclick="startTour(0)" style="display:none">❓</button>
-  <button id="themebtn" title="Light / dark mode" onclick="toggleTheme()">☀️</button>
-  <span id="userbadge" onclick="switchView('account')"></span>
+  <div class="hdrside"></div>
+  <a class="hdrlogo" href="/" title="My University View home">🎓 My <span>University View</span></a>
+  <div class="hdrside hdrright">
+    <button id="helpbtn" title="How to navigate" onclick="startTour(0)" style="display:none">❓</button>
+    <button id="themebtn" title="Light / dark mode" onclick="toggleTheme()">☀️</button>
+    <span id="userbadge" onclick="switchView('account')"></span>
+  </div>
 </header>
 <div id="tour" onclick="tourNext()">
   <div id="tourRing"></div>
@@ -483,21 +483,20 @@ a.schoollink:hover{color:var(--acc)}
     <button class="tbtn" data-lvl="2-year">🏫 Community College</button>
     <button class="tbtn" data-lvl="Certificate/trade">🔧 Trade School</button>
     <button class="tbtn" data-go="careers">🧰 Career Path</button>
-    <button id="filterBtn">⚙︎ Filters</button>
+    <button id="filterBtn" class="mobonly">⚙︎ Filters</button>
   </div>
-  <a class="navlogo" href="/" title="My University View home">🎓 My <span>University View</span></a>
-  <div class="navright"></div>
+  <div class="navright">
+    <button class="vbtn" data-v="favs">⭐ <span>Favorites</span></button>
+    <button class="vbtn" data-v="top5">✉️ <span>Communicate</span></button>
+    <button class="vbtn" data-v="trip">🛣️ <span>Road Trip</span></button>
+    <button class="vbtn" data-v="score">🏆 <span>Scorecard</span></button>
+    <button class="vbtn" data-v="picks">👍 <span>Top Picks</span></button>
+    <div id="search"><input id="q" type="search" placeholder="🔍 Search school or city…" autocomplete="off"><div id="suggest"></div></div>
+  </div>
 </nav>
 <div id="shell">
  <aside id="sidebar">
-   <button class="sbtn" data-v="favs">⭐ <span>Favorites</span></button>
-   <div class="subnav">
-     <button class="sbtn sub" data-v="top5">✉️ <span>Communicate</span></button>
-     <button class="sbtn sub" data-v="trip">🛣️ <span>Road Trip</span></button>
-     <button class="sbtn sub" data-v="score">🏆 <span>Scorecard</span></button>
-     <button class="sbtn sub" data-v="picks">👍 <span>Top Picks</span></button>
-   </div>
-   <button class="sbtn" id="sbSearch">🔍 <span>Search</span></button>
+   <div id="filters"></div>
  </aside>
 <main>
   <div class="view active" id="view-map">
@@ -520,7 +519,6 @@ a.schoollink:hover{color:var(--acc)}
     <button id="splitTab" onclick="toggleSplitPane()">📋 Show list</button>
    </div>
    <div id="splitlist"></div>
-    <div id="filters"></div>
     <div id="sheetbg" onclick="closeSheet()"></div>
     <div id="sheet"></div>
   </div>
@@ -1497,7 +1495,7 @@ function renderFilters(){
   el.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center">
       <h3 style="margin:0">Filters</h3>
-      <button class="btn sec" onclick="toggleFilters(false)">Done</button>
+      <button class="btn sec mobonly" onclick="toggleFilters(false)">Done</button>
     </div>
     <h3>Division</h3>
     <div id="divchips">${DIV_CATS.map(c=>`<span class="chip ${F.divs.includes(c.k)?'on':''}" data-div="${c.k}"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c.col};margin-right:5px;vertical-align:middle"></i>${c.lbl}</span>`).join('')}</div>
@@ -1557,7 +1555,9 @@ function applyFilters(){
   toggleFilters(false); refresh();
 }
 function clearFilters(){ F = { q:F.q, states:[], ctrl:'', sports:[], divs:[], setting:'', lvl:'', mj:'', admMin:'', admMax:'' }; renderFilters(); refresh(); }
-function toggleFilters(open){ document.getElementById('filters').classList.toggle('open', open); }
+// On desktop the filter column is always open, so this is a no-op there; on a phone it slides
+// the sidebar drawer in and out.
+function toggleFilters(open){ document.getElementById('sidebar').classList.toggle('open', open); }
 document.getElementById('filterBtn').onclick = ()=>toggleFilters(true);
 
 function filtered(){
@@ -2517,7 +2517,7 @@ function switchView(v){
     b.classList.toggle('active', v==='map' && (b.dataset.lvl||'')===(F.lvl||'')));
   document.querySelectorAll('.navleft .tbtn[data-go]').forEach(b=>
     b.classList.toggle('active', b.dataset.go===v));
-  document.querySelectorAll('#sidebar .sbtn[data-v]').forEach(b=>
+  document.querySelectorAll('.navright .vbtn[data-v]').forEach(b=>
     b.classList.toggle('active', b.dataset.v===v));
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
@@ -2540,12 +2540,8 @@ document.querySelectorAll('.navleft .tbtn[data-lvl]').forEach(b=>b.onclick=()=>{
   refresh();
 });
 document.querySelectorAll('.navleft .tbtn[data-go]').forEach(b=>b.onclick=()=>switchView(b.dataset.go));
-// Sidebar
-document.querySelectorAll('#sidebar .sbtn[data-v]').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
-document.getElementById('sbSearch').onclick=()=>{
-  switchView('map');
-  const q=document.getElementById('q'); if(q){ q.focus(); q.select(); }
-};
+// Right-hand group: the shortlist tools, each one its own view.
+document.querySelectorAll('.navright .vbtn[data-v]').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
 function refreshLists(){
   const v = curView;
   if(v==='list') renderList(); if(v==='careers') renderCareers(); if(v==='favs') renderFavs(); if(v==='top5') renderTop5(); if(v==='picks') renderPicks(); if(v==='score') renderScore(); if(v==='trip') renderTrip();
@@ -2895,12 +2891,12 @@ const TOUR_ENABLED = false;
 const TOUR_STEPS = [
  {sel:'.navleft .tbtn[data-lvl=""]',  t:'🗺️ The Map',    d:'Every dot is a college — all 5,777 of them. Colors show athletics and school type (tap the map key, bottom-left). Tap any pin for a full profile: real costs, academics, athletics.'},
  {sel:'#search',                   t:'🔍 Search',      d:'Jump straight to any school or city by name.'},
- {sel:'#filterBtn',                t:'⚙︎ Filters',     d:'Narrow the map by state, major, division, sport, campus setting, and acceptance rate. The map updates instantly.'},
- {sel:'#sidebar .sbtn[data-v="favs"]', t:'⭐ Favorites',   d:'On any school card, tap Favorite to save it. Your shortlist lives here — with notes, ratings, and photos.'},
- {sel:'#sidebar .sbtn[data-v="top5"]', t:'✉️ Communicate', d:'Email coaches and admissions with ready-to-send intros, jump to each school\'s campus-visit page, and keep a log of every contact — all in one place.'},
- {sel:'#sidebar .sbtn[data-v="trip"]', t:'🛣️ Road Trip',  d:'Turn your list into a driving route from your front door, with one-tap navigation and nearby hotels, gas, and food.'},
- {sel:'#sidebar .sbtn[data-v="score"]',t:'🏆 Scorecard',   d:'Compare favorites side by side — sticker vs. actual cost, admissions, athletics — and add your own 0–5 ratings.'},
- {sel:'#sidebar .sbtn[data-v="picks"]',t:'👍 Top Picks',   d:'Tap 👍 anywhere to mark a finalist. They gather here, ranked, for the final decision.'},
+ {sel:'#sidebar',                 t:'⚙︎ Filters',     d:'Narrow the map by state, major, division, sport, campus setting, and acceptance rate. The panel stays open down the left so you can watch the map change as you go.'},
+ {sel:'.navright .vbtn[data-v="favs"]', t:'⭐ Favorites',   d:'On any school card, tap Favorite to save it. Your shortlist lives here — with notes, ratings, and photos.'},
+ {sel:'.navright .vbtn[data-v="top5"]', t:'✉️ Communicate', d:'Email coaches and admissions with ready-to-send intros, jump to each school\'s campus-visit page, and keep a log of every contact — all in one place.'},
+ {sel:'.navright .vbtn[data-v="trip"]', t:'🛣️ Road Trip',  d:'Turn your list into a driving route from your front door, with one-tap navigation and nearby hotels, gas, and food.'},
+ {sel:'.navright .vbtn[data-v="score"]',t:'🏆 Scorecard',   d:'Compare favorites side by side — sticker vs. actual cost, admissions, athletics — and add your own 0–5 ratings.'},
+ {sel:'.navright .vbtn[data-v="picks"]',t:'👍 Top Picks',   d:'Tap 👍 anywhere to mark a finalist. They gather here, ranked, for the final decision.'},
  {sel:'#userbadge',t:'👤 Account',   d:'Sign in to sync everything across your devices, and set your home address to power Road Trips. That\'s the tour — happy hunting!'},
 ];
 let tourI = 0;
