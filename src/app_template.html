@@ -610,9 +610,12 @@ a.schoollink:hover{color:var(--acc)}
         <div><i style="background:var(--none)"></i>4-year · no athletics on file</div>
       </div>
     </div>
-    <button id="splitTab" onclick="toggleSplitPane()">📋 Show list</button>
    </div>
    <div id="splitlist"></div>
+   <!-- This toggle must be a sibling of #mappane, never a child of it: on a phone
+        body.splitlist hides #mappane, so while it lived inside, opening the list also hid the
+        only control that closed it again and left you stuck on the list with no way back. -->
+   <button id="splitTab" onclick="toggleSplitPane()">📋 Show list</button>
     <div id="sheetbg" onclick="closeSheet()"></div>
     <div id="sheet"></div>
   </div>
@@ -2653,6 +2656,10 @@ function switchView(v){
     b.classList.toggle('active', b.dataset.v===v));
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
+  // Asking for the map has to close the list pane too. body.splitlist hides #mappane, so you can
+  // be "on" the map view and still be looking at the list — which is why the Map tab and the logo
+  // both appeared to do nothing: they were switching to a view that was already active.
+  if(v==='map' && document.body.classList.contains('splitlist')) toggleSplitPane();
   if(v==='map') setTimeout(()=>map.invalidateSize(),60);
   if(v==='list') renderList();
   if(v==='careers') renderCareers();
