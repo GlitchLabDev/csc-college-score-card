@@ -137,11 +137,17 @@ nav button.active{background:var(--acc);color:var(--onacc)}
 #tabbar .tab i{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.2px}
 #tabbar .tab.active{color:var(--acc)}
 #tabbar .tab.active b{filter:none;opacity:1}
-#shortcutbar{flex:0 0 auto;gap:4px;padding:6px 8px;background:var(--panel);
+#shortcutbar{flex:0 0 auto;gap:3px;padding:6px;background:var(--panel);
              border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
 #shortcutbar::-webkit-scrollbar{display:none}
-#shortcutbar button{flex:0 0 auto;padding:6px 12px;border:1px solid var(--line);border-radius:999px;
-                    background:transparent;color:var(--dim);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+/* All five have to sit on one line: at 12.5px with 12px side padding they need ~437px against a
+   393px screen, so "Top Picks" was sliced by the edge. Smaller type and tighter padding bring the
+   row to ~335px, and flex:1 lets them share the leftover width evenly rather than bunching left.
+   The trade is a ~31pt tap target against Apple's 44pt guideline — acceptable for a secondary
+   segmented control, but it is the reason not to shrink these any further. */
+#shortcutbar button{flex:1 1 auto;min-width:0;padding:8px 6px;border:1px solid var(--line);border-radius:999px;
+                    background:transparent;color:var(--dim);font:inherit;font-size:11px;font-weight:600;
+                    white-space:nowrap;cursor:pointer}
 #shortcutbar button.active{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
 .applegal{font-size:11.5px;color:var(--dim);line-height:2;text-align:center;padding-top:0}
 .applegal a{color:var(--dim)}
