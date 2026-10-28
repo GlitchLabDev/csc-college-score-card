@@ -93,6 +93,29 @@ nav button.active{background:var(--acc);color:var(--onacc)}
   /* The Filters button opens the drawer, so it cannot live in .navleft, which scrolls sideways:
      at 393px it sat at x=540, past the right edge of the screen and unreachable without one. */
   #filterBtn span{display:none}
+  /* The whole top bar goes: its two button groups move to the bottom tab bar and the Favorites
+     strip, and its one remaining child (#search) is relocated into the map by placeControls(). */
+  nav{display:none}
+  /* Account is a tab now, and the page footer is replaced by the links in the Account view. */
+  #userbadge{display:none}
+  footer.note{display:none}
+  .applegal{display:block}
+  /* Logo can be centred again now that the right-hand side holds only the theme toggle. */
+  header{grid-template-columns:1fr auto 1fr}
+  .hdrside:first-child{display:block}
+  .hdrlogo{justify-self:center}
+  /* Search and Filters sit on the map itself, the way the zoom and map-key controls already do.
+     They are children of #mappane, not page-level overlays — the distinction that matters is
+     that they can never cover a view other than the map. */
+  #mappane > #search{position:absolute;top:10px;left:10px;right:58px;z-index:1000;flex:none}
+  #mappane > #search input{box-shadow:0 2px 10px rgba(0,0,0,.18)}
+  #mappane > #filterBtn{position:absolute;top:10px;right:10px;z-index:1000;height:38px;
+                        box-shadow:0 2px 10px rgba(0,0,0,.18)}
+  /* Clear the search pill: Leaflet's zoom control and the result count both start at the top
+     left, exactly where the pill now sits. */
+  #mappane .leaflet-top .leaflet-control{margin-top:58px}
+  #count{top:60px}
+  body.shortlist #shortcutbar{display:flex}
   /* The five school-type buttons are gone from the phone toolbar: even scrolling they filled the
      row and still had to be swiped. The same four type choices live in the filter panel's Type
      dropdown, which is one tap away, so nothing is lost but the space. */
@@ -101,6 +124,28 @@ nav button.active{background:var(--acc);color:var(--onacc)}
      against the right edge — bigger gaps between targets on the smallest screens. */
   .navright{flex:1 1 100%;margin-left:0;justify-content:space-between}
 }
+
+/* ---------- phone chrome: bottom tabs + Favorites sub-nav ----------
+   Both are plain rows in the body's flex column, not fixed overlays. Nothing here can end up
+   layered over the map, which is the failure this layout has hit more than once. */
+#tabbar,#shortcutbar,.applegal{display:none}
+#tabbar{flex:0 0 auto;background:var(--panel);border-top:1px solid var(--line);
+        justify-content:space-around;align-items:stretch;padding-bottom:env(safe-area-inset-bottom)}
+#tabbar .tab{flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:2px;
+             background:none;border:none;cursor:pointer;padding:7px 2px 6px;color:var(--dim);font:inherit}
+#tabbar .tab b{font-size:20px;line-height:1;font-weight:400;filter:grayscale(1);opacity:.55}
+#tabbar .tab i{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.2px}
+#tabbar .tab.active{color:var(--acc)}
+#tabbar .tab.active b{filter:none;opacity:1}
+#shortcutbar{flex:0 0 auto;gap:4px;padding:6px 8px;background:var(--panel);
+             border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+#shortcutbar::-webkit-scrollbar{display:none}
+#shortcutbar button{flex:0 0 auto;padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+                    background:transparent;color:var(--dim);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+#shortcutbar button.active{background:var(--acc);color:var(--onacc);border-color:var(--acc)}
+.applegal{font-size:11.5px;color:var(--dim);line-height:2;text-align:center;padding-top:0}
+.applegal a{color:var(--dim)}
+@media(max-width:900px){#tabbar{display:flex}}
 
 /* ---------- left sidebar = the filter panel ----------
    The filters used to slide in over the right-hand edge of the map, covering the results they
@@ -494,7 +539,13 @@ a.schoollink:hover{color:var(--acc)}
 <body>
 <header>
   <div class="hdrside"></div>
-  <a class="hdrlogo" href="/" title="My University View home">🎓 My <span>University View</span></a>
+  <!-- Inside the app the logo is a "back to the map" control, not a link out to the marketing
+       site — leaving the app is almost never what someone wants from tapping it. The href is
+       kept so it still reads as a link and opens sensibly on a middle-click; the handler stops
+       the navigation. Filters are deliberately left alone: this returns you to the map, it does
+       not throw away the search you built to get there. -->
+  <a class="hdrlogo" href="/" title="Back to the map"
+     onclick="event.preventDefault();switchView('map');return false">🎓 My <span>University View</span></a>
   <div class="hdrside hdrright">
     <button id="helpbtn" title="How to navigate" onclick="startTour(0)" style="display:none">❓</button>
     <button id="themebtn" title="Light / dark mode" onclick="toggleTheme()">☀️</button>
@@ -527,6 +578,16 @@ a.schoollink:hover{color:var(--acc)}
   </div>
   <div id="search"><input id="q" type="search" placeholder="🔍 Search school or city…" autocomplete="off"><div id="suggest"></div></div>
 </nav>
+<!-- Communicate, Road Trip, Scorecard and Top Picks all act on the shortlist built in Favorites,
+     so on a phone they stop being top-level destinations and become a strip inside it. That is
+     what frees the bottom bar to hold four real destinations instead of seven cramped icons. -->
+<div id="shortcutbar">
+  <button data-v="favs">Saved</button>
+  <button data-v="top5">Communicate</button>
+  <button data-v="trip">Road Trip</button>
+  <button data-v="score">Scorecard</button>
+  <button data-v="picks">Top Picks</button>
+</div>
 <div id="shell">
  <aside id="sidebar">
    <div id="filters"></div>
@@ -562,9 +623,22 @@ a.schoollink:hover{color:var(--acc)}
   <div class="view" id="view-picks"><div class="listwrap" id="pickswrap"></div></div>
   <div class="view" id="view-score"><div class="scwrap" id="scwrap"></div></div>
   <div class="view" id="view-trip"><div class="listwrap" id="tripwrap"></div></div>
-  <div class="view" id="view-account"><div class="listwrap" id="accwrap"></div></div>
+  <div class="view" id="view-account"><div class="listwrap" id="accwrap"></div>
+    <!-- renderAccount only rewrites #accwrap, so this sibling survives every re-render. It
+         carries the legal links that live in the page footer on a desktop, because that footer
+         is hidden on a phone and the App Store requires a reachable privacy policy. -->
+    <div class="listwrap applegal">Data: US Dept. of Education College Scorecard (2022-23) · Equity in Athletics (EADA) 2025 · Verify details with each school<br>
+      <a href="/colleges/" onclick="switchView('list');return false">📋 College List</a> · <a href="#" onclick="showLanding();return false">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/disclaimer.html">Disclaimer</a> · <a href="/sources.html">Data Sources</a> · <a href="/groups.html">👥 Group Licenses</a> · <a href="/contact.html">Contact</a></div>
+  </div>
 </main>
 </div>
+<!-- Four destinations, thumb-reachable. Only ever visible below the mobile breakpoint. -->
+<nav id="tabbar">
+  <button class="tab" data-v="map"><b>🗺️</b><i>Map</i></button>
+  <button class="tab" data-v="careers"><b>🧰</b><i>Careers</i></button>
+  <button class="tab" data-v="favs"><b>⭐</b><i>Favorites</i></button>
+  <button class="tab" data-v="account"><b>👤</b><i>Account</i></button>
+</nav>
 <div id="landing" style="display:none">
   <button class="ldclose" onclick="enterApp()">✕</button>
   <div class="ldhero">
@@ -2556,9 +2630,17 @@ function pickSuggest(id){
 document.addEventListener('click',e=>{ if(!e.target.closest('#search')) sugEl.style.display='none'; });
 
 // ---------- views ----------
+// Everything that operates on the shortlist. The Favorites tab stays lit for all of them,
+// because from the user's point of view they are all "my list".
+const SHORTLIST = ['favs','top5','trip','score','picks'];
 let curView = 'map';
 function switchView(v){
   curView = v;
+  document.body.classList.toggle('shortlist', SHORTLIST.includes(v));
+  document.querySelectorAll('#tabbar .tab[data-v]').forEach(b=>
+    b.classList.toggle('active', b.dataset.v===v || (b.dataset.v==='favs' && SHORTLIST.includes(v))));
+  document.querySelectorAll('#shortcutbar button[data-v]').forEach(b=>
+    b.classList.toggle('active', b.dataset.v===v));
   // The top bar now filters by school type rather than switching views, so its active state
   // follows F.lvl while the sidebar's follows the current view.
   document.querySelectorAll('.navleft .tbtn[data-lvl]').forEach(b=>
@@ -2590,6 +2672,25 @@ document.querySelectorAll('.navleft .tbtn[data-lvl]').forEach(b=>b.onclick=()=>{
   refresh();
 });
 document.querySelectorAll('nav [data-go]').forEach(b=>b.onclick=()=>switchView(b.dataset.go));
+document.querySelectorAll('#tabbar .tab[data-v], #shortcutbar button[data-v]')
+        .forEach(b=>b.onclick=()=>switchView(b.dataset.v));
+
+// Search and Filters belong in the top bar on a desktop and on the map itself on a phone. Rather
+// than duplicate either control (two of anything means one of them silently rots), the same two
+// elements are moved between parents when the breakpoint changes.
+const PHONE = matchMedia('(max-width:900px)');
+function placeControls(){
+  const nav = document.querySelector('nav'), pane = document.getElementById('mappane');
+  const search = document.getElementById('search'), fb = document.getElementById('filterBtn');
+  if(!nav || !pane || !search || !fb) return;
+  const home = PHONE.matches ? pane : nav;
+  if(search.parentElement !== home) home.appendChild(search);
+  if(fb.parentElement !== (PHONE.matches ? pane : document.querySelector('.navright')))
+    (PHONE.matches ? pane : document.querySelector('.navright')).prepend(fb);
+  try{ map.invalidateSize(false); }catch(e){}
+}
+PHONE.addEventListener('change', placeControls);
+placeControls();
 // Right-hand group: the shortlist tools, each one its own view.
 document.querySelectorAll('.navright .vbtn[data-v]').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
 function refreshLists(){
