@@ -49,6 +49,16 @@ header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10
          color:var(--text);text-decoration:none}
 .hdrlogo span{color:var(--acc)}
 .hdrlogo:hover{opacity:.82}
+/* Centring needs equal side tracks, and a grid track will not shrink below its content: at 393px
+   the right track held the theme toggle plus the account name, so both 1fr tracks were forced to
+   that width and the 208px logo was squeezed into 65px and overlapped. On a phone there is no
+   width to centre within, so the logo goes left and the controls right. */
+@media(max-width:620px){
+  header{grid-template-columns:auto 1fr;padding:9px 12px}
+  .hdrside:first-child{display:none}
+  .hdrlogo{justify-self:start;font-size:16px}
+  #userbadge{max-width:108px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
 header h1{font-size:18px;font-weight:800;letter-spacing:.5px;white-space:nowrap}
 header h1 span{color:var(--acc)}
 #search{flex:0 0 190px;min-width:0;position:relative}
@@ -58,11 +68,11 @@ header h1 span{color:var(--acc)}
 #suggest div:hover{background:var(--panel)}
 /* Top bar: school-type filters on the left, the shortlist tools and search on the right. Both
    groups are sized to their own content, so neither can be clipped by the other. */
-nav{display:flex;justify-content:space-between;align-items:center;gap:14px;background:var(--panel);
+nav{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);
     padding:0 10px 8px;border-bottom:1px solid var(--line)}
 .navleft,.navright{display:flex;gap:4px;align-items:center;min-width:0}
-.navright{flex:0 0 auto}
-.navleft{overflow-x:auto;scrollbar-width:none}
+.navright{flex:0 0 auto;margin-left:auto}
+.navleft{flex:0 1 auto;overflow-x:auto;scrollbar-width:none}
 .navleft::-webkit-scrollbar{display:none}
 nav button{flex:0 0 auto;padding:8px 11px;border:none;border-radius:10px;background:transparent;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 nav button:hover{color:var(--text);background:var(--panel2)}
@@ -74,10 +84,16 @@ nav button.active{background:var(--acc);color:var(--onacc)}
 @media(max-width:900px){
   nav button{font-size:12px;padding:8px 9px}
   .navright .vbtn{font-size:15px;padding:7px 7px}
-  #search{flex:0 0 120px}
   .mobonly{display:inline-block}
+  /* Search can't fit beside two button groups on a phone, and hiding it left no way to find a
+     school by name at all. It gets its own full-width row under the toolbar instead — the one
+     control that has to be reachable without a swipe. */
+  #search{flex:1 0 100%;order:3;margin-top:2px}
+  #search input{font-size:16px}   /* <16px makes iOS Safari zoom the page on focus */
+  /* The Filters button opens the drawer, so it cannot live in .navleft, which scrolls sideways:
+     at 393px it sat at x=540, past the right edge of the screen and unreachable without one. */
+  #filterBtn span{display:none}
 }
-@media(max-width:620px){#search{display:none}}
 
 /* ---------- left sidebar = the filter panel ----------
    The filters used to slide in over the right-hand edge of the map, covering the results they
@@ -489,16 +505,16 @@ a.schoollink:hover{color:var(--acc)}
     <button class="tbtn" data-lvl="2-year">🏫 Community College</button>
     <button class="tbtn" data-lvl="Certificate/trade">🔧 Trade School</button>
     <button class="tbtn" data-go="careers">🧰 Career Path</button>
-    <button id="filterBtn" class="mobonly">⚙︎ Filters</button>
   </div>
   <div class="navright">
+    <button id="filterBtn" class="mobonly">⚙︎ <span>Filters</span></button>
     <button class="vbtn" data-v="favs">⭐ <span>Favorites</span></button>
     <button class="vbtn" data-v="top5">✉️ <span>Communicate</span></button>
     <button class="vbtn" data-v="trip">🛣️ <span>Road Trip</span></button>
     <button class="vbtn" data-v="score">🏆 <span>Scorecard</span></button>
     <button class="vbtn" data-v="picks">👍 <span>Top Picks</span></button>
-    <div id="search"><input id="q" type="search" placeholder="🔍 Search school or city…" autocomplete="off"><div id="suggest"></div></div>
   </div>
+  <div id="search"><input id="q" type="search" placeholder="🔍 Search school or city…" autocomplete="off"><div id="suggest"></div></div>
 </nav>
 <div id="shell">
  <aside id="sidebar">
