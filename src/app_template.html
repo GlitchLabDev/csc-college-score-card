@@ -51,17 +51,21 @@ header h1 span{color:var(--acc)}
 /* Top bar: school-type filters on the left, logo centred, nothing on the right. The three
    columns are a grid rather than flex so the logo stays optically centred on the page no matter
    how wide the button group gets. */
-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:var(--panel);
+/* The left group is sized to its content so the six type buttons are never clipped; the logo
+   centres in whatever is left over. Dead-centring the logo needs 2x695 + 186 = 1,576px of bar,
+   so below 1,600px the logo sits at the right end instead of being cut in half. */
+nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:var(--panel);
     padding:0 10px 8px;border-bottom:1px solid var(--line)}
 .navleft{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;min-width:0}
 .navleft::-webkit-scrollbar{display:none}
 nav button{flex:0 0 auto;padding:8px 11px;border:none;border-radius:10px;background:transparent;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 nav button:hover{color:var(--text);background:var(--panel2)}
 nav button.active{background:var(--acc);color:var(--onacc)}
-.navlogo{justify-self:center;font-size:17px;font-weight:800;letter-spacing:.3px;white-space:nowrap;
+.navlogo{justify-self:end;font-size:17px;font-weight:800;letter-spacing:.3px;white-space:nowrap;
          color:var(--text);text-decoration:none}
 .navlogo span{color:var(--acc)}
 .navlogo:hover{opacity:.82}
+@media(min-width:1600px){nav{grid-template-columns:1fr auto 1fr}.navlogo{justify-self:center}}
 .navright{min-width:0}
 @media(max-width:900px){
   /* No room for three columns on a phone: the logo drops out and the filters get the full width. */
@@ -405,7 +409,9 @@ a.schoollink:hover{color:var(--acc)}
 .oauthrow{display:flex;gap:8px}
 .oauthbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:#fff;color:#1f2937;font-size:13px;font-weight:600;cursor:pointer}
 .oauthbtn:active{transform:scale(.97)}
-@media(min-width:760px){nav{max-width:860px}nav button{font-size:14px}}
+/* The old pill nav was a centred 860px strip. The new bar holds six labelled type buttons on the
+   left and needs the full window: with the cap in place the left group was given 317px of the
+   695px it needs and everything past "Community Col" was clipped off the edge. */
 /* iOS safe areas (notch / home indicator) */
 @supports(padding:max(0px)){
   header{padding-top:max(10px,env(safe-area-inset-top))}
