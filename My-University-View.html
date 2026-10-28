@@ -93,10 +93,13 @@ nav button.active{background:var(--acc);color:var(--onacc)}
   /* The Filters button opens the drawer, so it cannot live in .navleft, which scrolls sideways:
      at 393px it sat at x=540, past the right edge of the screen and unreachable without one. */
   #filterBtn span{display:none}
-  /* Sized to its content, the type strip claimed a whole row and pushed the tool icons onto a
-     third one — 141px of toolbar. Letting it take only the space the icons leave (and scroll
-     within it) puts both groups back on one row and returns 46px to the map. */
-  .navleft{flex:1 1 0;min-width:0}
+  /* The five school-type buttons are gone from the phone toolbar: even scrolling they filled the
+     row and still had to be swiped. The same four type choices live in the filter panel's Type
+     dropdown, which is one tap away, so nothing is lost but the space. */
+  .navleft{display:none}
+  /* With the type strip gone the icon row owns the width, so spread it instead of bunching it
+     against the right edge — bigger gaps between targets on the smallest screens. */
+  .navright{flex:1 1 100%;margin-left:0;justify-content:space-between}
 }
 
 /* ---------- left sidebar = the filter panel ----------
@@ -512,6 +515,10 @@ a.schoollink:hover{color:var(--acc)}
   </div>
   <div class="navright">
     <button id="filterBtn" class="mobonly">⚙︎ <span>Filters</span></button>
+    <!-- Career Path is a view, not a filter, so it cannot ride along in the Type dropdown the way
+         the four school-type buttons do. It joins the icon row on a phone instead, or career
+         search would have no entry point there at all. -->
+    <button class="vbtn mobonly" data-go="careers" title="Career Path">🧰 <span>Career Path</span></button>
     <button class="vbtn" data-v="favs">⭐ <span>Favorites</span></button>
     <button class="vbtn" data-v="top5">✉️ <span>Communicate</span></button>
     <button class="vbtn" data-v="trip">🛣️ <span>Road Trip</span></button>
@@ -2556,7 +2563,9 @@ function switchView(v){
   // follows F.lvl while the sidebar's follows the current view.
   document.querySelectorAll('.navleft .tbtn[data-lvl]').forEach(b=>
     b.classList.toggle('active', v==='map' && (b.dataset.lvl||'')===(F.lvl||'')));
-  document.querySelectorAll('.navleft .tbtn[data-go]').forEach(b=>
+  // Career Path now appears in both groups — labelled on the left on a desktop, as an icon in
+  // the right-hand row on a phone. Scope to nav, not to one group, or the phone copy goes dead.
+  document.querySelectorAll('nav [data-go]').forEach(b=>
     b.classList.toggle('active', b.dataset.go===v));
   document.querySelectorAll('.navright .vbtn[data-v]').forEach(b=>
     b.classList.toggle('active', b.dataset.v===v));
@@ -2580,7 +2589,7 @@ document.querySelectorAll('.navleft .tbtn[data-lvl]').forEach(b=>b.onclick=()=>{
   switchView('map');
   refresh();
 });
-document.querySelectorAll('.navleft .tbtn[data-go]').forEach(b=>b.onclick=()=>switchView(b.dataset.go));
+document.querySelectorAll('nav [data-go]').forEach(b=>b.onclick=()=>switchView(b.dataset.go));
 // Right-hand group: the shortlist tools, each one its own view.
 document.querySelectorAll('.navright .vbtn[data-v]').forEach(b=>b.onclick=()=>switchView(b.dataset.v));
 function refreshLists(){
