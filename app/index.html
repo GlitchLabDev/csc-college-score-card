@@ -93,6 +93,10 @@ nav button.active{background:var(--acc);color:var(--onacc)}
   /* The Filters button opens the drawer, so it cannot live in .navleft, which scrolls sideways:
      at 393px it sat at x=540, past the right edge of the screen and unreachable without one. */
   #filterBtn span{display:none}
+  /* Sized to its content, the type strip claimed a whole row and pushed the tool icons onto a
+     third one — 141px of toolbar. Letting it take only the space the icons leave (and scroll
+     within it) puts both groups back on one row and returns 46px to the map. */
+  .navleft{flex:1 1 0;min-width:0}
 }
 
 /* ---------- left sidebar = the filter panel ----------
