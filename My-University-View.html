@@ -2723,7 +2723,7 @@ let CJ = null, CP = null;
 const carLoads = {};
 let carPending = null;   // SOC from a #career= deep link, applied after careers.js loads
 let deepLinked = false;  // a #hash chose the view; afterAuth() must not override it
-const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', near:0, sort:'auto', off:{}, show:60,
+const CAR = { q:'', soc:null, grp:null, path:'any', len:'any', cred:'any', cost:'any', st:'', ctrl:'any', lvl:'any', near:0, sort:'auto', off:{}, show:60,
               zip:'', zipLoc:null, zipBusy:false, zipErr:'' };
 
 // ---------- distance origin ----------
@@ -2776,6 +2776,7 @@ const CAR_LV = [ {b:1,lbl:'Certificate < 1 yr'}, {b:2,lbl:'Certificate 1+ yr'}, 
 const CAR_LEN  = [['any','Any',31],['lt1','Under 1 year',1],['1to2','1–2 years',6],['4','4 years',8],['grad','Graduate',16]];
 const CAR_CRED = [['any','Any',31],['cert','Certificate',3],['assoc','Associate',4],['bach',"Bachelor's",8],['grad','Graduate',16]];
 const CAR_COST = [['any','Any',0],['10','Under $10k/yr',10000],['20','Under $20k/yr',20000],['30','Under $30k/yr',30000]];
+const CAR_LVL  = [['any','Any'],['4-year','University'],['2-year','Community college'],['Certificate/trade','Trade school']];
 const CAR_CTRL = [['any','Any'],['Public','Public'],['Private nonprofit','Private nonprofit'],['Private for-profit','For-profit']];
 const CAR_NEAR = [[0,'Any distance'],[50,'50 mi'],[100,'100 mi'],[250,'250 mi']];
 const CAR_POPULAR = ['Welder','Electrician','Auto mechanic','Nurse','IT project manager','Software developer','HVAC technician','Dental hygienist','Paralegal','Graphic designer'];
@@ -2952,6 +2953,27 @@ function carDetail(k){
 // so the list has to deliver before it asks for anything. Free shows the top few by graduates;
 // Premium adds the rest plus the filters and sorting.
 const CAR_FREE = 10;
+// Share of a school's output, weighted by program size. Ranking on raw graduate counts buried
+// specialist schools behind big community colleges: "diesel mechanic" returned 71 trade schools
+// and showed none of them. Weighting by share alone over-corrects and promotes three-graduate
+// programs, so size is folded back in with a log and a small floor.
+let CAR_TOT = null;
+function carTotals(){
+  if(CAR_TOT) return CAR_TOT;
+  CAR_TOT = new Map();
+  for(const v of Object.values(CP)){
+    for(const e of v.split(';')){
+      const p = e.split(':'), i = +p[0];
+      CAR_TOT.set(i, (CAR_TOT.get(i) || 0) + (+p[2]));
+    }
+  }
+  return CAR_TOT;
+}
+const CAR_MIN_GRADS = 5;   // below this a "100% specialised" school is noise, not a signal
+function carScore(a){
+  if(a.n < CAR_MIN_GRADS) return -1;
+  return (a.n / Math.max(carTotals().get(a.i) || a.n, 1)) * Math.log10(a.n + 1);
+}
 function carResults(k){
   const pro = isPremium();
   const agg = new Map();
@@ -2960,7 +2982,7 @@ function carResults(k){
     for(const e of CP[cp].split(';')){
       const p = e.split(':'), i = +p[0];
       let a = agg.get(i);
-      if(!a){ a = {s:SCHOOLS[i], m:0, n:0, cps:[]}; agg.set(i, a); }
+      if(!a){ a = {s:SCHOOLS[i], i:i, m:0, n:0, cps:[]}; agg.set(i, a); }
       a.m |= +p[1]; a.n += +p[2]; a.cps.push(cp);
     }
   }
@@ -2974,28 +2996,33 @@ function carResults(k){
     if(cost && !(a.s.np!=null && a.s.np < cost)) return false;
     if(CAR.st && a.s.s!==CAR.st) return false;
     if(CAR.ctrl!=='any' && a.s.ctrl!==CAR.ctrl) return false;
+    if(CAR.lvl!=='any' && a.s.lvl!==CAR.lvl) return false;
     a.d = home ? carMiles(home, a.s) : null;
     if(CAR.near && home && a.d > CAR.near) return false;
     return true;
   });
   // Non-degree careers (certificate, apprenticeship, on the job) train locally, so with a saved
   // home address they default to closest first; degree careers default to most graduates.
-  let sort = CAR.sort==='auto' ? ((home && (k.p==='cert' || k.p==='appr' || k.p==='ojt')) ? 'near' : 'grads') : CAR.sort;
-  if(sort==='near' && !home) sort = 'grads';
-  if(!pro) sort = 'grads';   // the free list says "the N with the most graduates" — keep that true
-  rows.sort(sort==='near' ? (a,b)=>a.d-b.d : sort==='cost' ? (a,b)=>(a.s.np??1e9)-(b.s.np??1e9) : sort==='name' ? (a,b)=>a.s.n.localeCompare(b.s.n) : (a,b)=>b.n-a.n);
+  let sort = CAR.sort==='auto' ? ((home && (k.p==='cert' || k.p==='appr' || k.p==='ojt')) ? 'near' : 'best') : CAR.sort;
+  if(sort==='near' && !home) sort = 'best';
+  if(!pro) sort = 'best';   // free list is capped, so it has to be the most relevant ones
+  rows.sort(sort==='near' ? (a,b)=>a.d-b.d : sort==='cost' ? (a,b)=>(a.s.np??1e9)-(b.s.np??1e9)
+         : sort==='name' ? (a,b)=>a.s.n.localeCompare(b.s.n) : sort==='grads' ? (a,b)=>b.n-a.n
+         : (a,b)=>carScore(b)-carScore(a) || b.n-a.n);
   const filters = !pro ? '' : `<div class="carfilters">
     <div class="carsec">Filter schools</div>
     <div class="row"><span class="lbl">Program length</span>${carChips('len', CAR_LEN)}</div>
     <div class="row"><span class="lbl">Credential</span>${carChips('cred', CAR_CRED)}</div>
     <div class="row"><span class="lbl">Avg net price</span>${carChips('cost', CAR_COST)}</div>
-    <div class="row"><span class="lbl">School type</span>${carChips('ctrl', CAR_CTRL)}</div>
+    <div class="row"><span class="lbl">School level</span>${carChips('lvl', CAR_LVL)}</div>
+    <div class="row"><span class="lbl">Public / private</span>${carChips('ctrl', CAR_CTRL)}</div>
     <div class="row"><span class="lbl">Distance</span>${carNearRow(home)}</div>
     <div class="toolbar" style="margin-top:8px">
       <label class="muted" for="carst">State</label>
       <select id="carst" onchange="carSet('st',this.value)"><option value="">All states</option>${states.map(s=>`<option ${CAR.st===s?'selected':''}>${s}</option>`).join('')}</select>
       <label class="muted" for="carsort">Sort</label>
       <select id="carsort" onchange="carSet('sort',this.value)">
+        <option value="best" ${sort==='best'?'selected':''}>Best match</option>
         <option value="grads" ${sort==='grads'?'selected':''}>Most graduates</option>
         ${home?`<option value="near" ${sort==='near'?'selected':''}>${CAR.zipLoc?'Closest to '+esc(CAR.zipLoc.zip):'Closest to home'}</option>`:''}
         <option value="cost" ${sort==='cost'?'selected':''}>Lowest net price</option>
@@ -3017,7 +3044,7 @@ function carResults(k){
   }).join('');
   const heading = pro
     ? `${rows.length.toLocaleString()} school${rows.length===1?'':'s'}`
-    : `${rows.length.toLocaleString()} school${rows.length===1?'':'s'} offer this${rows.length>cap?` — showing the ${Math.min(cap,rows.length)} with the most graduates`:''}`;
+    : `${rows.length.toLocaleString()} school${rows.length===1?'':'s'} offer this${rows.length>cap?` — showing the ${Math.min(cap,rows.length)} best matches`:''}`;
   const rest = rows.length - cap;
   const tail = pro
     ? (rows.length > CAR.show ? `<button type="button" class="btn sec" style="width:100%" onclick="carMore()">Show more (${(rows.length-CAR.show).toLocaleString()} left)</button>` : '')
